@@ -165,7 +165,7 @@
                         <form method="post" action="UploadFile" enctype="multipart/form-data">
                             <input type="file" name="file" size="60"/><br/>
                             <p>Maximum file size is 1 MB.<br>Format: .JPEG, .PNG</p>
-                            <input id="submit_Input" style="margin-top:10px" type="submit" value="Upload"/>
+                            <input id="submit_Input" style="margin-top:10px" type="submit"  value="Upload"/>
                         </form>
 
                     </div>

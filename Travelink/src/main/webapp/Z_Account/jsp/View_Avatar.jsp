@@ -117,7 +117,7 @@
         <!-- Dùng để đăng xuất-->
 
         <div id="ImgAvatar">
-            <img src="../img_Avatar/logo.png" alt="alt"/>
+            <img src="../img_Avatar/avatar.jpg" alt="alt"/>
         </div>
 
 
@@ -125,7 +125,7 @@
             <div id="left">
                 <div id="header_left">
                     <div>
-                        <img src="../img_Avatar/logo.png" alt="alt"/>
+                        <img src="../img_Avatar/avatar.jpg" alt="alt"/>
                     </div>
                     <div style="margin-left: 10px">
                         <h1>Le Kim Hoang Nguyen(K17)</h1>
@@ -160,12 +160,12 @@
                         <h2>View Avatar</h2>
                     </div>
                     <div id="edit_img">
-                        <img src="../img_Avatar/logo.png" alt="alt"/><br>
+                        <img src="../img_Avatar/avatar.jpg" alt="123"/><br>
                         <button id="seeAvatar" onclick="hello()">View Avatar</button>
                         <form method="post" action="UploadFile" enctype="multipart/form-data">
                             <input type="file" name="file" size="60"/><br/>
                             <p>Maximum file size is 1 MB.<br>Format: .JPEG, .PNG</p>
-                            <input id="submit_Input" style="margin-top:10px" type="submit" value="Upload"/>
+                            <input id="submit_Input" style="margin-top:10px" type="submit"  value="Upload"/>
                         </form>
 
                     </div>

@@ -93,10 +93,16 @@ button:focus {
     outline: none;
 }
 
+.ghost:hover{
+    background-color: #FFFFFF;
+    color: black;
+    transition: 0.8s ease;
+}
+
 button.ghost {
     background-color: transparent;
     border-color: #FFFFFF;
-    border-radius: 15px;
+    border-radius: 5px;
     margin-top: 10px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -155,13 +161,24 @@ input {
   }
   
   
-  .form-input:focus + .form-label {
+  .form-input:focus + .form-label,
+  .form-input:not(:placeholder-shown) + .form-label {
+    top: 0;
+    font-size: 12px;
+    display: inline-block;
+    background-color: white;
+    color:#3c97bf;
+  }
+  
+
+  /* .form-input:focus + .form-label {
     top: 5px;
     padding: 0 10px;
     display: inline-block;
     background-color: white;
     color:#3c97bf;
-  }
+  } */
+
 
 
 .container {
@@ -173,12 +190,13 @@ input {
     overflow: hidden;
     width: 800px;
     max-width: 100%;
-    min-height: 500px;
     /* Mới thêm */
     transition: height 0.3s ease;
     /* Thêm transition cho height */
     z-index: 2;
     /* Đè lên overlay có z-index = 1 */
+    display: block;
+    height: 580px;
 }
 
 .form-container {
@@ -462,4 +480,55 @@ footer a {
     border: 3px solid white;
     transition: 0.8s ease;
 }
+/* Style for the missing-container */
+.missing-container {
+    margin-top: 10px; /* Adjust as needed */
+    text-align: center; /* Center align the content */
+    color: red; /* Set text color to red or any preferred color */
+}
 
+/* Style for the missing-msg paragraph */
+.missing-msg {
+    font-size: 14px; /* Adjust font size */
+    font-style: italic; /* Optionally italicize the text */
+    margin-bottom: 5px; /* Adjust spacing between paragraphs */
+}
+/* Mới Thêm */
+.contain-row {
+    display: flex;
+
+}
+.div-form-button {
+    margin-right: 20px;
+}
+.contain-p {
+    width: 900px;
+}
+.total-header {
+    margin-left: -300px;
+}
+.contain-a-button {
+    position: fixed; /* Vị trí cố định trên màn hình */
+    top: 20px; /* Khoảng cách từ đỉnh màn hình xuống */
+    left: 20px; /* Khoảng cách từ bên trái màn hình sang phải */
+    z-index: 1000; /* Độ sâu của phần tử trên màn hình */
+}
+
+.a-button {
+    text-decoration: none;
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    color: black;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+}
+
+.a-button:hover {
+    color: rgb(48, 48, 216);
+}
+
+.fa-arrow-left {
+    margin-right: 5px;
+}

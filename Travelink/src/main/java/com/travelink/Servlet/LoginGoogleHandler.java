@@ -50,7 +50,7 @@ public class LoginGoogleHandler extends HttpServlet {
         //If never sign in
         if (customer == null) {
             customer = new Customer(userGoogle.getEmail(),userGoogle.getName());
-            customer.setAvatarURL("../img_Avatar/avatar_default.jpg");
+            customer.setAvatarURL("/Travelink/img_Avatar/avatar_default.jpg");
             CustomerDB.insertCustomer(customer);
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(60*30);

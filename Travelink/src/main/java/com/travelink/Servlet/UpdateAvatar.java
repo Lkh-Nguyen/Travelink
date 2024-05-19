@@ -69,14 +69,18 @@ public class UpdateAvatar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /*
             String urlAvatar = request.getParameter("urlAvatar");
             HttpSession session = request.getSession();
-            Customer sessionCustomer = (Customer) session.getAttribute("customer");
-            CustomerDB.updateAvatarCustomer(sessionCustomer.getCustomer_ID(),urlAvatar);
-            request.setAttribute("updateStatus", "Change Avatar successfully !!!");
-            request.getRequestDispatcher("/jsp/View_Avatar.jsp").forward(request, response);
-        */
+//            Customer sessionCustomer = (Customer) session.getAttribute("customer");
+            
+            // Update the user's information
+        if (CustomerDB.updateAvatarCustomer(new Customer("nguyenlkhde170387@fpt.edu.vn","123","nguyen","09123") ,urlAvatar)) {
+//            sessionCustomer.setAvatarURL(urlAvatar);
+            request.setAttribute("updateStatus", "Change avatar successfully !!!");
+            // Update the session with the new user information
+//            session.setAttribute("customer", sessionCustomer);
+        }
+        request.getRequestDispatcher("/jsp/View_Avatar.jsp").forward(request, response);
     }
 
     /**

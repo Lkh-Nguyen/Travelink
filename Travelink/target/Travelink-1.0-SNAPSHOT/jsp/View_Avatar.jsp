@@ -198,9 +198,9 @@
                             <div id="error-message">Please select a file to upload.</div>
                         </form>
                         <form method="post" action="UpdateAvatar">
-                            <input type="hidden" name="urlAvatar" value="nameFile/${uploadedFilePath}"/>
+                            <input type="hidden" name="urlAvatar" value="/Travelink/img_Avatar/${uploadedFilePath}"/>
                             <div class="pd_button">
-                                <button onclick="cancel()">Cancel</button>
+                                <button><a href="/Travelink/jsp/View_Avatar.jsp">Cancel</a></button>
                                 <input type="submit" value="Save"/>
                             </div>  
                         </form>
@@ -210,10 +210,6 @@
             </div>
         </div>
         <script>
-            function cancel() {
-                location.reload();
-                event.preventDefault();
-            }
             document.getElementById("logoutButton").addEventListener("click", function () {
                 document.getElementById("overlay").style.display = "block";
                 var logoutConfirm = document.getElementById("logoutConfirm");

@@ -87,10 +87,13 @@
     font-weight: bold;
     cursor: pointer;
 }
-.pd_button button:hover{
+.pd_button button a{
+    color: rgb(1,148,243);
+}
+.pd_button button a:hover{
     background-color: rgb(242,243,243);
 }
-.pd_button button:active{
+.pd_button button a:active{
     border: 5px solid rgb(1,148,243);
 }
 .pd_button input{

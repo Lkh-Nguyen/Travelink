@@ -10,13 +10,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-<<<<<<< HEAD
-        <link rel="stylesheet" href="../css/Right_My_Account.css">
-        <link rel="stylesheet" href="../css/Left_My_Account.css">
-=======
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Right_My_Account.css">
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Left_My_Account.css">
->>>>>>> NguyenLKH
+
+        <link rel="stylesheet" href="/Travelink/css/Right_My_Account.css">
+        <link rel="stylesheet" href="/Travelink/css/Left_My_Account.css">
         
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <style>

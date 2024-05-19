@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html lang="en">
-
+    
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,15 +12,31 @@
 
     <body>
         <!--Sau thay bằng button Login của HomePage-->
-
-        <h1 style="color: white;">Travelink is the best choice</h1>
-        <div class="div-form-button">
-            <button class="ghost" id="showFormButton">Login</button>
+        <div class="contain-a-button">
+            <a class="a-button" href="../jsp/Home_Customer.jsp">
+                <i class="fa fa-arrow-left"></i> Back
+            </a>
         </div>
-        <div class="div-form-button">
-            <button class="ghost" id="showFormButton-register">Register</button>
-        </div>
+        
+        
 
+        <div class="total-header">
+            <div class="div-title">
+                <h1 style="color: white; font-size: 100px;">Fuel Mind Travel</h1>
+                <div class="contain-p">
+                    <p style="color: white; font-size: 20px;">Enthusiastically extend extensive customer service before best
+                        breed convergence completely</p>
+                </div>
+            </div>
+            <div class="contain-row">
+                <div class="div-form-button">
+                    <button class="ghost" id="showFormButton">Login</button>
+                </div>
+                <div class="div-form-button">
+                    <button class="ghost" id="showFormButton-register">Register</button>
+                </div>
+            </div>
+        </div>
 
         <div id="overlayBackground"></div>
 
@@ -30,7 +46,7 @@
                 <form action="../RegisterCustomerServlet" method="post">
                     <h1>Create Account</h1>
                     <div class="form-field">
-                        <input type="text" class="form-input" name="name" required>
+                        <input type="text" class="form-input" name="name"  required>
                         <label for="name" class="form-label">Name</label>
                     </div>
                     <div class="form-field">
@@ -61,7 +77,12 @@
                             <span class="text-login">Continue with Google</span>
                         </a>
                     </div>
-                    <button class="btn-login">Sign Up</button>
+                    <button class="btn-login" id="register">Sign Up</button>
+                    <div class="missing-container">
+                        <p class="missing-msg">
+                            Try again
+                        </p>
+                    </div>
                 </form>
                 <!-- Nút đóng form -->
                 <button class="close-form-button" id="closeButton">
@@ -72,11 +93,11 @@
                 <form action="#">
                     <h1>Login</h1>
                     <div class="form-field">
-                        <input type="email" class="form-input">
+                        <input type="email" class="form-input" autocomplete="off">
                         <label for="email" class="form-label">Email</label>
                     </div>
                     <div class="form-field">
-                        <input type="password" class="form-input">
+                        <input type="password" class="form-input" autocomplete="off">
                         <label for="password" class="form-label">Password</label>
                     </div>
                     <a class="forgot-pass" href="#">Forgot your password?</a>
@@ -96,22 +117,27 @@
                             <span class="text-login">Continue with Google</span>
                         </a>
                     </div>
-                    <button class="btn-login">Sign In</button>
+                    <button class="btn-login" id="login">Sign In</button>
+                    <div class="missing-container">
+                        <p class="missing-msg">
+                            Try again
+                        </p>
+                    </div>
                 </form>
             </div>
             <div class="overlay-container">
                 <div class="overlay">
                     <div class="overlay-panel overlay-left">
                         <h1>Login</h1>
-                        <p>By registering, you agree to our <a href="./rule1.html">Terms & Conditions</a> and
-                            that you have read our <a href="./rule2.html"> Privacy
+                        <p>By registering, you agree to our <a href="#">Terms & Conditions</a> and
+                            that you have read our <a href="#"> Privacy
                                 Notice.</a></p>
                         <button class="ghost" id="signIn">Sign In</button>
                     </div>
                     <div class="overlay-panel overlay-right">
                         <h1>Sign Up</h1>
-                        <p>By registering, you agree to our <a href="./rule1.html">Terms & Conditions</a> and
-                            that you have read our <a href="./rule2.html"> Privacy
+                        <p>By registering, you agree to our <a href="#">Terms & Conditions</a> and
+                            that you have read our <a href="#"> Privacy
                                 Notice.</a></p>
                         <button class="ghost" id="signUp">Sign Up</button>
                     </div>
@@ -120,11 +146,10 @@
 
         </div>
 
-
         <script>
             container.classList.add("left-panel-active");
 
-            //Khi nhấn vào button login => hiện container và hiện lớp overlay làm mờ
+//Khi nhấn vào button login => hiện container và hiện lớp overlay làm mờ
             document.getElementById('showFormButton').onclick = function () {
                 container.classList.add("left-panel-active");
                 container.classList.remove("right-panel-active");
@@ -145,7 +170,7 @@
                 }, 500); // Thời gian chờ cho animation hoàn thành
             }
 
-            // Để cho overlay trượt qua phải và trái
+// Để cho overlay trượt qua phải và trái
             document.getElementById('signUp').onclick = function () {
                 container.classList.add("right-panel-active");
             }
@@ -162,6 +187,7 @@
                 }, 500); // Thời gian chờ cho animation hoàn thành
             }
 
+
             document.getElementById('showFormButton-register').onclick = function () {
                 // Kiểm tra nếu container đã có lớp 'right-panel-active'
                 container.classList.add("right-panel-active");
@@ -173,6 +199,59 @@
                     container.classList.add('show');
                 }, 150);
             }
+
+//Phần login_fix input
+            document.addEventListener('DOMContentLoaded', function () {
+                const inputs = document.querySelectorAll('.form-input');
+
+                inputs.forEach(input => {
+                    const label = input.nextElementSibling;
+
+                    // Không nhập gì thì label về top = 50% là về giữa input nếu không thì lên trên
+                    if (input.value.trim() === '') {
+                        label.style.top = '50%';
+                        label.style.color = '#999';
+                    } else {
+                        label.style.top = '5px';
+                        label.style.color = '#999';
+                    }
+
+
+                    input.addEventListener('input', function () {
+                        if (this.value.trim() !== '') {
+                            label.style.top = '5px';
+                            label.style.color = '#999';
+                        } else {
+                            label.style.top = '50%';
+                            label.style.color = '#999';
+                        }
+                    });
+
+
+                    input.addEventListener('focus', function () {
+                        label.style.top = '5px';
+                        label.style.color = '#999';
+                    });
+
+                    //blur là khi không còn focus
+                    input.addEventListener('blur', function () {
+                        if (this.value.trim() === '') {
+                            label.style.top = '50%';
+                            label.style.color = '#999';
+                        }
+                    });
+                });
+            });
+
+            //Test Bấm login không nhập 5 lần 
+//            let count = 0;
+//            document.getElementById('login').onclick = function () {
+//                count++;
+//                if (count > 5) {
+//                    window.alert("Lỗi rồi");
+//                }
+//
+//            }
         </script>
     </body>
 

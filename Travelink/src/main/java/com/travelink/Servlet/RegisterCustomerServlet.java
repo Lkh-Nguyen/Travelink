@@ -81,7 +81,7 @@ public class RegisterCustomerServlet extends HttpServlet {
             request.setAttribute("errorMessage","Email existed!");
             request.getRequestDispatcher("jsp/Form_Login.jsp").forward(request, response);
         } else {
-            Customer customer = new Customer(email, password, name, phoneNumber, "../img_Avatar/avatar_default.jpg");
+            Customer customer = new Customer(email, password, name, phoneNumber, "/Travelink/img_Avatar/avatar_default.jpg");
             System.out.println(customer);
             CustomerDB.insertCustomer(customer);
             response.sendRedirect("jsp/Form_Login.jsp");

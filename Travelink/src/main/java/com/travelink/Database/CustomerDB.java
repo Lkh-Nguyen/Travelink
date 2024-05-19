@@ -6,6 +6,7 @@ package com.travelink.Database;
 
 import com.travelink.Model.Customer;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -14,6 +15,21 @@ import java.sql.SQLException;
  * @author ASUS
  */
 public class CustomerDB implements DatabaseInfo {
+    
+    public static Connection getConnect() {
+        try {
+            Class.forName(DRIVERNAME);
+        } catch (ClassNotFoundException e) {
+            System.out.println("Error loading driver" + e);
+        }
+        try {
+            Connection con = DriverManager.getConnection(DBURL, USERDB, PASSDB);
+            return con;
+        } catch (SQLException e) {
+            System.out.println("Error: " + e);
+        }
+        return null;
+    }
 
     public static boolean insertCustomer(Customer customer) {
         Connection con = DatabaseInfo.getConnect();
@@ -70,7 +86,7 @@ public class CustomerDB implements DatabaseInfo {
             if (rs.next()) {
                 customer = new Customer();
                 customer.setCustomer_ID(rs.getInt("Customer_ID"));
-customer.setEmail(rs.getString("Email"));
+                customer.setEmail(rs.getString("Email"));
                 customer.setPassword(rs.getString("Password"));
                 customer.setName(rs.getString("Name"));
                 // Handle potential null phone number
@@ -155,10 +171,49 @@ customer.setEmail(rs.getString("Email"));
             }
         }
     }
+    
+    public static boolean updateAvatarCustomer(Customer currentCustomer, String avatarURL) {
+        String sql = "UPDATE [Customer] SET AvatarURL = ? WHERE Email=?";
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            con = CustomerDB.getConnect();
+            pstmt = con.prepareStatement(sql);
+
+            // Set parameters for the prepared statement
+            pstmt.setString(1, avatarURL);
+
+
+
+            pstmt.setString(2, currentCustomer.getEmail()); // Assuming email is the unique identifier
+
+            // Execute the SQL statement
+            int rowsAffected = pstmt.executeUpdate();
+
+            return rowsAffected > 0;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+
+        } finally {
+            // Close resources in finally block to ensure they are always closed
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
     public static void main(String[] args) {
-Customer c = getCustomer("congminh23092004@gmail.com");
-        changePassword(c, "2345");
-        System.out.println(c);
+    Customer c = new Customer("nguyenlkhde170387@fpt.edu.vn","123","nguyen","09123");
+        updateAvatarCustomer(c, "123");
     }
 }

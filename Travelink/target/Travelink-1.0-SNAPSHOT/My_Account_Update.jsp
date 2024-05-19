@@ -131,9 +131,7 @@
                 <div id="list_right">
                     <ul>
                         <li id="li1">Account Information</li>
-                        <c:if test="${sessionScope.customer.password != null}">
                         <li id="li2"><a href="My_Account_Change.jsp">Password & Security</a></li>
-                        </c:if>
                     </ul>
                 </div>
 

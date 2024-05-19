@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Random;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
@@ -45,24 +46,33 @@ public class LoginGoogleHandler extends HttpServlet {
 
         //Search in database 
         Customer customer = CustomerDB.getCustomer(userGoogle.getEmail());
-        
-        
+
         //If never sign in
         if (customer == null) {
-            customer = new Customer(userGoogle.getEmail(),userGoogle.getName());
+            customer = new Customer(userGoogle.getEmail(), userGoogle.getName());
             customer.setAvatarURL("/Travelink/img_Avatar/avatar_default.jpg");
+            String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            StringBuilder text = new StringBuilder(8);
+            Random random = new Random();
+            for (int i = 0; i < 8; i++) {
+                text.append(characters.charAt(random.nextInt(characters.length())));
+            }
+            SendEmail mail = new SendEmail();
+            customer.setPassword(text.toString());
+            mail.sendForgotPassword(customer.getEmail(), text.toString());
+            System.out.println(customer);
             CustomerDB.insertCustomer(customer);
             HttpSession session = request.getSession();
-            session.setMaxInactiveInterval(60*30);
+            session.setMaxInactiveInterval(60 * 30);
             session.setAttribute("customer", customer);
             request.setAttribute("updateMessage", "Please update your information!");
             request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
-            
-        //If signed in before
+
+            //If signed in before
         } else {
             HttpSession session = request.getSession();
             session.setAttribute("customer", customer);
-            session.setMaxInactiveInterval(60*30);
+            session.setMaxInactiveInterval(60 * 30);
             request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
         }
     }

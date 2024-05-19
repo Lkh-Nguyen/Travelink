@@ -58,7 +58,7 @@ public class ChangeCustomerPasswordServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("jsp/My_Account_Change.jsp");
+        response.sendRedirect("My_Account_Change.jsp");
     }
 
     /**
@@ -80,21 +80,21 @@ public class ChangeCustomerPasswordServlet extends HttpServlet {
 
         if (!customer.getPassword().equals(pass)) {
             request.setAttribute("pass_error", "Mật khẩu cũ không đúng");
-            request.getRequestDispatcher("full_changePass.jsp").forward(request, response);
+            request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
         } else if (pass.equalsIgnoreCase(newpass)) {
             request.setAttribute("newpass_error", "Mật khẩu mới không được trùng với mật khẩu cũ");
-            request.getRequestDispatcher("full_changePass.jsp").forward(request, response);
+            request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
         } else if (!newpass.equalsIgnoreCase(re_newpass)) {
             request.setAttribute("re_newpass_error", "Mật khẩu mới không trùng khớp");
-            request.getRequestDispatcher("full_changePass.jsp").forward(request, response);
+            request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
         } else if (CustomerDB.changePassword(customer, newpass)) {
             request.setAttribute("updateStatus", "Cập nhật mật khẩu thành công!");
             customer.setPassword(newpass);
             session.setAttribute("customer", customer);
-            request.getRequestDispatcher("full_changePass.jsp").forward(request, response);
+            request.getRequestDispatcher("My_Account_Change.jspp").forward(request, response);
         } else {
             request.setAttribute("updateStatus", "Cập nhật mật khẩu không thành công!");
-            request.getRequestDispatcher("full_changePass.jsp").forward(request, response);
+            request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
         }
     }
 

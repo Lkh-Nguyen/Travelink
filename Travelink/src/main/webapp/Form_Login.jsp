@@ -43,7 +43,7 @@
         <div class="container" id="container">
             <div class="form-container sign-up-container">
 
-                <form action="RegisterCustomerServlet" method="post">
+                <form action="register" method="post">
                     <h1>Create Account</h1>
                     <div class="form-field">
                         <input type="text" class="form-input" name="name"  required>
@@ -100,7 +100,7 @@
                         <input type="password" name="password" class="form-input" autocomplete="off">
                         <label for="password" class="form-label">Password</label>
                     </div>
-                    <a class="forgot-pass" href="#">Forgot your password?</a>
+                    <a class="forgot-pass" href="Forgot_Password.jsp">Forgot your password?</a>
                     <p>--------- or login/register with ----------</p>
                     <div class="login-way">
                         <a href="https://www.facebook.com/?stype=lo&deoia=1&jlou=AfdibM459Jj0fHXyRGCbN67BSjzCcRXoOwcdxr2C5Nnq-zgmztRY-JtyHe_JO7uB1rTyY--yUuuaiSm38bnVzOTt0_gOTCNpPVh-dg_auVFy6w&smuh=6096&lh=Ac_9OgUQcQFatzL53wo"

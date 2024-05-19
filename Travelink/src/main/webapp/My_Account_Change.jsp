@@ -131,9 +131,7 @@
                 <div id="list_right">
                     <ul>
                         <li id="li2"><a href="My_Account_Update.jsp">Account Information</a></li>
-                        <c:if test="${sessionScope.customer.password != null}">
                         <li id="li1">Password & Security</li>
-                        </c:if>
                     </ul>
                 </div>
 
@@ -142,7 +140,7 @@
                         <h2>Change Password</h2>
                     </div>
                     <div id="pd_data">
-                        <form action="ChangeCustomerPassword" method="post">
+                        <form action="ChangeCustomerPasswordServlet" method="post">
                             <div class="pd_flex">
                                 <div class="flex1">
                                     <p>Old Password</p>

@@ -10,8 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="../css/Left_My_Account.css">
-        <link rel="stylesheet" href="../css/View_Avata.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Left_My_Account.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/View_Avata.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <!-- Dùng để đăng xuất-->
         <style>
@@ -91,6 +91,7 @@
                 transition: bottom 0.5s ease;
             }
             #ImgAvatar img{
+
                 width: 500px;
                 height: 500px;
                 cursor: pointer;
@@ -106,6 +107,9 @@
         <%@include file="Header.jsp" %>
         <!-- Dùng để đăng xuất-->
         <div id="overlay"></div>
+        <%
+            String uploadedFilePath = (String) request.getAttribute("uploadedFilePath");
+        %>
         <div id="logoutConfirm">
             <h2>Logging Out</h2>
             <p>Oh, no! You’ll miss a lot of things by logging out: Traveloka Points, 
@@ -117,15 +121,27 @@
         <!-- Dùng để đăng xuất-->
 
         <div id="ImgAvatar">
-            <img src="../img_Avatar/avatar.jpg" alt="alt"/>
+
+            <%
+                if (uploadedFilePath == null || uploadedFilePath.isEmpty()) {
+            %>
+            <img src="<%=request.getContextPath()%>/img_Avatar/avatar_default.jpg" alt="alt"/>
+            <%
+                }
+            %>
+            <%
+                if (uploadedFilePath != null && !uploadedFilePath.isEmpty()) {
+            %>
+            <img src="img_Avatar/<%= uploadedFilePath %>" alt="alt"/>
+            <%
+                }
+            %>
         </div>
-
-
         <div id="mid_container">
             <div id="left">
                 <div id="header_left">
                     <div>
-                        <img src="../img_Avatar/avatar.jpg" alt="alt"/>
+                        <img src="<%=request.getContextPath()%>/img_Avatar/avatar_default.jpg" alt="alt"/>
                     </div>
                     <div style="margin-left: 10px">
                         <h1>Le Kim Hoang Nguyen(K17)</h1>
@@ -134,7 +150,7 @@
                 </div>
                 <div id="header_list">
                     <div class="list0">
-                        <a href="My_Account_Update.jsp"><i class='bx bx-cog'></i> <b>My Account</b></a>
+                        <a href="<%=request.getContextPath()%>/jsp/My_Account_Update.jsp"><i class='bx bx-cog'></i> <b>My Account</b></a>
                     </div>
                     <div class="list1">
                         <a href="#"><i class='bx bx-image-add' ></i> <b>View Avatar</b></a>
@@ -159,13 +175,34 @@
                     <div id="pd_h2">
                         <h2>View Avatar</h2>
                     </div>
-                    <div id="edit_img">
-                        <img src="../img_Avatar/avatar.jpg" alt="123"/><br>
+                    <div id="edit_img" style="user-select: none; ">
+                        <%
+                            if (uploadedFilePath == null || uploadedFilePath.isEmpty()) {
+                        %>
+                        <img src="<%=request.getContextPath()%>/img_Avatar/avatar_default.jpg" alt="123"/><br>
+                        <%
+                            }
+                        %>
+                        <%
+                            if (uploadedFilePath != null && !uploadedFilePath.isEmpty()) {
+                        %>
+                        <img src="img_Avatar/<%= uploadedFilePath %>" alt="123"/><br>
+                        <%
+                            }
+                        %>
                         <button id="seeAvatar" onclick="hello()">View Avatar</button>
-                        <form method="post" action="UploadFile" enctype="multipart/form-data">
+                        <form method="post" action="<%=request.getContextPath()%>/UploadImageAvatar" enctype="multipart/form-data" onsubmit="return validateForm(event)">
                             <input type="file" name="file" size="60"/><br/>
                             <p>Maximum file size is 1 MB.<br>Format: .JPEG, .PNG</p>
                             <input id="submit_Input" style="margin-top:10px" type="submit"  value="Upload"/>
+                            <div id="error-message">Please select a file to upload.</div>
+                        </form>
+                        <form method="post" action="UpdateAvatar">
+                            <input type="hidden" name="urlAvatar" value="nameFile/${uploadedFilePath}"/>
+                            <div class="pd_button">
+                                <button onclick="cancel()">Cancel</button>
+                                <input type="submit" value="Save"/>
+                            </div>  
                         </form>
 
                     </div>
@@ -175,6 +212,7 @@
         <script>
             function cancel() {
                 location.reload();
+                event.preventDefault();
             }
             document.getElementById("logoutButton").addEventListener("click", function () {
                 document.getElementById("overlay").style.display = "block";
@@ -219,6 +257,16 @@
                 }, 50);
             });
 
+            function validateForm(event) {
+            var fileInput = document.querySelector('input[type="file"]');
+            var errorMessage = document.getElementById('error-message');
+            if (!fileInput.value) {
+                errorMessage.style.display = 'block';
+                return false;
+            }
+            errorMessage.style.display = 'none';
+            return true;
+        }
 
         </script>
     </body>

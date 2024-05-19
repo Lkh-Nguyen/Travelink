@@ -10,8 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="../css/Right_My_Account.css">
-        <link rel="stylesheet" href="../css/Left_My_Account.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Right_My_Account.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Left_My_Account.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <!-- Dùng để đăng xuất-->
         <style>
@@ -155,7 +155,7 @@
                             <div class="pd_flex">
                                 <div class="flex1"> 
                                     <p>Birthdate</p>
-                                    <input type="date" name="DOB" style="font-size: 15px" placeholder="Enter BirthDate In Here" required value="${param.DOB}">
+                                    <input type="date" name="DOB" style="font-size: 15px" placeholder="Enter BirthDate In Here" value="${param.DOB}" required >
                                 </div>
                                 <div class="flex1">
                                     <p>CMND</p>
@@ -191,6 +191,7 @@
         <script>
             function cancel() {
                 location.reload();
+                event.preventDefault();
             }
             document.getElementById("logoutButton").addEventListener("click", function () {
                 document.getElementById("overlay").style.display = "block";

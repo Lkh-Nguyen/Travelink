@@ -26,6 +26,7 @@
 
         <div class="container" id="container">
             <div class="form-container sign-up-container">
+<<<<<<< HEAD
                 <form action="#">
                     <h1>Create Account</h1>
                     <div class="form-field">
@@ -42,6 +43,24 @@
                     </div>
                     <div class="form-field">
                         <input type="password" class="form-input">
+=======
+                <form action="../RegisterCustomerServlet" method="post">
+                    <h1>Create Account</h1>
+                    <div class="form-field">
+                        <input type="text" class="form-input" name="name" required>
+                        <label for="name" class="form-label">Name</label>
+                    </div>
+                    <div class="form-field">
+                        <input type="text" class="form-input" name="phoneNumber" required>
+                        <label for="name" class="form-label">Phone number</label>
+                    </div>
+                    <div class="form-field">
+                        <input type="email" class="form-input" name="email" required>
+                        <label for="email" class="form-label">Email</label>
+                    </div>
+                    <div class="form-field">
+                        <input type="password" class="form-input" name="password" required minlength="8">
+>>>>>>> NguyenLKH
                         <label for="password" class="form-label">Password</label>
                     </div>
                     <p>--------- or login/register with ----------</p>
@@ -53,7 +72,11 @@
                         </a>
                     </div>
                     <div class="login-way">
+<<<<<<< HEAD
                         <a href="https://accounts.google.com/v3/signin/identifier?authuser=0&continue=https%3A%2F%2Fmail.google.com%2Fmail&ec=GAlAFw&hl=vi&service=mail&flowName=GlifWebSignIn&flowEntry=AddSession&dsh=S-469252538%3A1715791335646693&ddm=0"
+=======
+                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/Travelink/LoginGoogleHandler&response_type=code&client_id=753524792966-f76rldgp0a9n3ui96hg8e5pida66ho94.apps.googleusercontent.com&approval_prompt=force"
+>>>>>>> NguyenLKH
                            class="icon-text-container">
                             <!-- <i class="fab fa-google-plus-g"></i> -->
                             <img src="../img_Form/logo-gg.jpg" alt="Google Logo" class="login-logo">
@@ -88,7 +111,11 @@
                         </a>
                     </div>
                     <div class="login-way">
+<<<<<<< HEAD
                         <a href="https://accounts.google.com/v3/signin/identifier?authuser=0&continue=https%3A%2F%2Fmail.google.com%2Fmail&ec=GAlAFw&hl=vi&service=mail&flowName=GlifWebSignIn&flowEntry=AddSession&dsh=S-469252538%3A1715791335646693&ddm=0"
+=======
+                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/Travelink/LoginGoogleHandler&response_type=code&client_id=753524792966-f76rldgp0a9n3ui96hg8e5pida66ho94.apps.googleusercontent.com&approval_prompt=force"
+>>>>>>> NguyenLKH
                            class="icon-text-container">
                             <!-- <i class="fab fa-google-plus-g"></i> -->
                             <img src="../img_Form/logo-gg.jpg" alt="Google Logo" class="login-logo">

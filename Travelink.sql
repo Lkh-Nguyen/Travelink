@@ -3,11 +3,18 @@
 CREATE TABLE Customer (
     Customer_ID INT IDENTITY(1,1) PRIMARY KEY, -- Primary key with auto-increment
     Email VARCHAR(255) NOT NULL,               -- Email field with VARCHAR type
-    Password VARCHAR(255) NOT NULL,            -- Password field with VARCHAR type
-    CMND VARCHAR(20) NOT NULL,                 -- CMND field (previously IDCard) with VARCHAR type
+    Password VARCHAR(255),            -- Password field with VARCHAR type
+    CMND VARCHAR(20) ,							-- CMND field with VARCHAR type
     Name NVARCHAR(255) NOT NULL,               -- Name field with NVARCHAR type
-    Gender CHAR(1) NOT NULL                    -- Gender field with CHAR type
+    Gender CHAR(1),                    -- Gender field with CHAR type
+	DateOfBirth DATE,
+	PhoneNumber VARCHAR(20),
+	AvatarURL VARCHAR(255),
+	Address NVARCHAR(255)
 );
+
+INSERT INTO Customer (Email, Password, Name, Gender, DateOfBirth, PhoneNumber)
+VALUES ('example@email.com', '123', N'Nguyễn Văn Nam', 'M', '1990-01-01', '0912345678');
 
 --Create the Hotel table
 CREATE TABLE Hotel (
@@ -24,4 +31,3 @@ CREATE TABLE Hotel (
     Ward_ID INT NOT NULL,
     FOREIGN KEY (Ward_ID) REFERENCES Ward(Ward_ID)
 );
-

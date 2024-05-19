@@ -2,53 +2,52 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package com.travelink.Servlet;
 
 import com.travelink.Database.CustomerDB;
 import com.travelink.Model.Customer;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author ASUS
+ * @author MSI
  */
-public class RegisterCustomerServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+public class LoginCustomerServlet extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegisterCustomerServlet</title>");            
+            out.println("<title>Servlet LoginCustomerServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RegisterCustomerServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LoginCustomerServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -56,13 +55,12 @@ public class RegisterCustomerServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.sendRedirect("Form_Login.jsp");
-    }
+    throws ServletException, IOException {
+        processRequest(request, response);
+    } 
 
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -70,27 +68,31 @@ public class RegisterCustomerServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //Taking user input
-        String name = request.getParameter("name");
-        String phoneNumber = request.getParameter("phoneNumber");
+    throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        //Existed account
-        if (CustomerDB.getCustomer(email) != null) {
-            request.setAttribute("errorMessage","Email existed!");
+        Customer cu = CustomerDB.getCustomer(email);
+//        PrintWriter printWriter = response.getWriter();
+//        printWriter.println(email);
+//        printWriter.print(password);
+//        printWriter.print(cu);
+        if(cu == null){
+            request.setAttribute("status", "Email not exist!");
             request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
-        } else {
-            Customer customer = new Customer(email, password, name, phoneNumber, "/Travelink/img_Avatar/avatar_default.jpg");
-            System.out.println(customer);
-            CustomerDB.insertCustomer(customer);
-            response.sendRedirect("Form_Login.jsp");
+        }
+        else if(!password.equals(cu.getPassword())){
+            request.setAttribute("status", "Password is incorrect!");
+            request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
+        }
+        else{
+            HttpSession session = request.getSession();
+            session.setAttribute("customer", cu);
+            request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
         }
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

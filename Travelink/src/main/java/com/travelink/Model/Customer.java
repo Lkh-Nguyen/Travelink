@@ -157,7 +157,17 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.avatarURL = avatarURL;
     }
-
+    
+    public Customer(String email, String cmnd, String name, char gender, Date dateOfBirth, String phoneNumber, String address) {
+        this.email = email;
+        this.cmnd = cmnd;
+        this.name = name;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
+        
     @Override
     public String toString() {
         return "Customer{" + "customer_ID=" + customer_ID + ", email=" + email + ", password=" + password + ", cmnd=" + cmnd + ", name=" + name + ", gender=" + gender + ", dateOfBirth=" + dateOfBirth + ", phoneNumber=" + phoneNumber + ", avatarURL=" + avatarURL + ", address=" + address + '}';

@@ -71,16 +71,16 @@ public class UpdateAvatar extends HttpServlet {
             throws ServletException, IOException {
             String urlAvatar = request.getParameter("urlAvatar");
             HttpSession session = request.getSession();
-//            Customer sessionCustomer = (Customer) session.getAttribute("customer");
+            Customer sessionCustomer = (Customer) session.getAttribute("customer");
             
             // Update the user's information
-        if (CustomerDB.updateAvatarCustomer(new Customer("nguyenlkhde170387@fpt.edu.vn","123","nguyen","09123") ,urlAvatar)) {
-//            sessionCustomer.setAvatarURL(urlAvatar);
+        if (CustomerDB.updateAvatarCustomer(sessionCustomer,urlAvatar)) {
+            sessionCustomer.setAvatarURL(urlAvatar);
             request.setAttribute("updateStatus", "Change avatar successfully !!!");
             // Update the session with the new user information
-//            session.setAttribute("customer", sessionCustomer);
+            session.setAttribute("customer", sessionCustomer);
         }
-        request.getRequestDispatcher("/jsp/View_Avatar.jsp").forward(request, response);
+        request.getRequestDispatcher("View_Avatar.jsp").forward(request, response);
     }
 
     /**

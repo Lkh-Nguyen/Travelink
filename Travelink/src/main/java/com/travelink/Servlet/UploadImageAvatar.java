@@ -34,7 +34,7 @@ public class UploadImageAvatar extends HttpServlet {
             request.setAttribute("uploadedFilePath", fileName);
             break;
         }
-        getServletContext().getRequestDispatcher("/jsp/View_Avatar.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/View_Avatar.jsp").forward(request, response);
     }
     private String extractFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");

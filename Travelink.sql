@@ -16,6 +16,8 @@ CREATE TABLE Customer (
 INSERT INTO Customer (Email, Password, Name, Gender, DateOfBirth, PhoneNumber)
 VALUES ('example@email.com', '123', N'Nguyễn Văn Nam', 'M', '1990-01-01', '0912345678');
 
+select *
+from customer
 --Create the Hotel table
 CREATE TABLE Hotel (
     Hotel_ID INT IDENTITY(1,1) PRIMARY KEY,

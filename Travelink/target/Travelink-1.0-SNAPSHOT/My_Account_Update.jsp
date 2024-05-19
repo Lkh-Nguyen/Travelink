@@ -3,15 +3,15 @@
     Created on : May 15, 2024, 8:59:13 PM
     Author     : HELLO
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Left_My_Account.css">
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/View_Avata.css">
+        <link rel="stylesheet" href="css/Right_My_Account.css">
+        <link rel="stylesheet" href="css/Left_My_Account.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <!-- Dùng để đăng xuất-->
         <style>
@@ -74,42 +74,13 @@
                 transform: translate(-50%, 50%);
             }
 
-
-            /*Image*/
-            #ImgAvatar {
-                display: none; /* Ẩn mặc định */
-                border-radius: 10px;
-                position: fixed;
-                bottom: 250px;
-                left: 50%;
-                transform: translateX(-50%);
-                background-color: #fff;
-                padding: 20px;
-                border: 1px solid #ccc;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                z-index: 1000;
-                transition: bottom 0.5s ease;
-            }
-            #ImgAvatar img{
-
-                width: 500px;
-                height: 500px;
-                cursor: pointer;
-            }
-            #logoutConfirm.active {
-                bottom: 50%;
-                transform: translate(-50%, 50%);
-            }
         </style>
         <!-- Dùng để đăng xuất-->
     </head>
     <body>
-        <%@include file="Header.jsp" %>
+            <%@include file="Header.jsp" %>
         <!-- Dùng để đăng xuất-->
         <div id="overlay"></div>
-        <%
-            String uploadedFilePath = (String) request.getAttribute("uploadedFilePath");
-        %>
         <div id="logoutConfirm">
             <h2>Logging Out</h2>
             <p>Oh, no! You’ll miss a lot of things by logging out: Traveloka Points, 
@@ -120,40 +91,26 @@
         </div>
         <!-- Dùng để đăng xuất-->
 
-        <div id="ImgAvatar">
 
-            <%
-                if (uploadedFilePath == null || uploadedFilePath.isEmpty()) {
-            %>
-            <img src="<%=request.getContextPath()%>/img_Avatar/avatar_default.jpg" alt="alt"/>
-            <%
-                }
-            %>
-            <%
-                if (uploadedFilePath != null && !uploadedFilePath.isEmpty()) {
-            %>
-            <img src="img_Avatar/<%= uploadedFilePath %>" alt="alt"/>
-            <%
-                }
-            %>
-        </div>
+
+
         <div id="mid_container">
             <div id="left">
                 <div id="header_left">
                     <div>
-                        <img src="<%=request.getContextPath()%>/img_Avatar/avatar_default.jpg" alt="alt"/>
+                        <img src="${customer.avatarURL}" alt="alt"/>
                     </div>
                     <div style="margin-left: 10px">
-                        <h1>Le Kim Hoang Nguyen(K17)</h1>
+                        <h1>${customer.name}</h1>
                         <p>Google</p>
                     </div>
                 </div>
                 <div id="header_list">
-                    <div class="list0">
-                        <a href="<%=request.getContextPath()%>/jsp/My_Account_Update.jsp"><i class='bx bx-cog'></i> <b>My Account</b></a>
-                    </div>
                     <div class="list1">
-                        <a href="#"><i class='bx bx-image-add' ></i> <b>View Avatar</b></a>
+                        <a href="#"><i class='bx bx-cog'></i> <b>My Account</b></a>
+                    </div>
+                    <div class="list0">
+                        <a href="View_Avatar.jsp"><i class='bx bx-image-add' ></i> <b>View Avatar</b></a>
                     </div>
                     <div class="list0">
                         <a href="#"><i class='bx bx-calendar' ></i> <b>My Booking</b></a>
@@ -171,45 +128,74 @@
             </div>
             <div id="right">
                 <h1>Settings</h1>
-                <div id="data_img">
-                    <div id="pd_h2">
-                        <h2>View Avatar</h2>
-                    </div>
-                    <div id="edit_img" style="user-select: none; ">
-                        <%
-                            if (uploadedFilePath == null || uploadedFilePath.isEmpty()) {
-                        %>
-                        <img src="<%=request.getContextPath()%>/img_Avatar/avatar_default.jpg" alt="123"/><br>
-                        <%
-                            }
-                        %>
-                        <%
-                            if (uploadedFilePath != null && !uploadedFilePath.isEmpty()) {
-                        %>
-                        <img src="img_Avatar/<%= uploadedFilePath %>" alt="123"/><br>
-                        <%
-                            }
-                        %>
-                        <button id="seeAvatar" onclick="hello()">View Avatar</button>
-                        <form method="post" action="<%=request.getContextPath()%>/UploadImageAvatar" enctype="multipart/form-data" onsubmit="return validateForm(event)">
-                            <input type="file" name="file" size="60"/><br/>
-                            <p>Maximum file size is 1 MB.<br>Format: .JPEG, .PNG</p>
-                            <input id="submit_Input" style="margin-top:10px" type="submit"  value="Upload"/>
-                            <div id="error-message">Please select a file to upload.</div>
-                        </form>
-                        <form method="post" action="UpdateAvatar">
-                            <input type="hidden" name="urlAvatar" value="/Travelink/img_Avatar/${uploadedFilePath}"/>
-                            <div class="pd_button">
-                                <button><a href="/Travelink/jsp/View_Avatar.jsp">Cancel</a></button>
-                                <input type="submit" value="Save"/>
-                            </div>  
-                        </form>
+                <div id="list_right">
+                    <ul>
+                        <li id="li1">Account Information</li>
+                        <c:if test="${sessionScope.customer.password != null}">
+                        <li id="li2"><a href="My_Account_Change.jsp">Password & Security</a></li>
+                        </c:if>
+                    </ul>
+                </div>
 
-                    </div>
+                <div id="person_data">
+                    <form action="UpdateCustomerServlet" method="post">
+                        <div id="pd_h2">
+                            <h2>Personal Data</h2>
+                        </div>
+                        <div id="pd_data">
+                            <div class="pd_flex">
+                                <div class="flex1">
+                                    <p>Full Name</p>
+                                    <input type="text" name="name"  placeholder="Enter Full Name In Here" value="${customer.name}" required>
+                                </div>
+                                <div class="flex2">
+                                    <p>Gender</p>
+                                    <input type="radio" name="gender" value="Male" > Male 
+                                    <input type="radio" name="gender" value="Female" > Female
+                                </div>
+                            </div>
+                            <div class="pd_flex">
+                                <div class="flex1"> 
+                                    <p>Birthdate</p>
+                                    <input type="date" name="DOB" style="font-size: 15px" placeholder="Enter BirthDate In Here" value="${customer.dateOfBirth}" required>
+                                </div>
+                                <div class="flex1">
+                                    <p>CMND</p>
+                                    <input type="text" name="CMND" placeholder="Enter CMND In Here" value="${customer.cmnd}" pattern="[0-9]{12}" title="CMND number must consist of 12 digits.">
+                                </div>
+                            </div>
+                            <div class="pd_flex">
+                                <div class="flex1">
+                                    <p>Number Phone</p>
+                                    <input type="text" name="phone" placeholder="Enter Number Phone In Here" required value="${customer.phoneNumber}" pattern="[0-9]{10}" title="Phone number must contain 10 digits.">
+                                </div>
+                                <div class="flex1">
+                                    <p>Email</p>
+                                    <input type="email" name="email" placeholder="Enter Email In Here" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Please enter a valid email address. For example: example@example.com" value="${customer.email}" readonly>
+
+                                    <h5 style="color:red">${requestScope.emailError}</h5>
+                                </div>
+                            </div>
+                            <div class="pd_flex">
+                                <div class="flex1"  >
+                                    <p>Address</p>
+                                    <textarea id="address" name="address" rows="8" cols="37"  style="resize: none;font-size: 15px">${customer.address}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pd_button">
+                            <button onclick="cancel()">Cancel</button>
+                            <input type="submit" value="Save"/>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
         <script>
+            function cancel() {
+                location.reload();
+                event.preventDefault();
+            }
             document.getElementById("logoutButton").addEventListener("click", function () {
                 document.getElementById("overlay").style.display = "block";
                 var logoutConfirm = document.getElementById("logoutConfirm");
@@ -230,39 +216,12 @@
 
             document.getElementById("overlay").addEventListener("click", function () {
                 var logoutConfirm = document.getElementById("logoutConfirm");
-                var ImgAvatar = document.getElementById("ImgAvatar");
-                ImgAvatar.classList.remove("active");
                 logoutConfirm.classList.remove("active");
-                setTimeout(function () {
-                    ImgAvatar.style.display = "none"; // Ẩn khung xác nhận
-                    document.getElementById("overlay").style.display = "none";
-                }, 500);
                 setTimeout(function () {
                     logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
                     document.getElementById("overlay").style.display = "none";
                 }, 500);
             });
-
-
-            document.getElementById("seeAvatar").addEventListener("click", function () {
-                document.getElementById("overlay").style.display = "block";
-                var ImgAvatar = document.getElementById("ImgAvatar");
-                ImgAvatar.style.display = "block"; // Hiển thị khung xác nhận
-                setTimeout(function () {
-                    ImgAvatar.classList.add("active");
-                }, 50);
-            });
-
-            function validateForm(event) {
-            var fileInput = document.querySelector('input[type="file"]');
-            var errorMessage = document.getElementById('error-message');
-            if (!fileInput.value) {
-                errorMessage.style.display = 'block';
-                return false;
-            }
-            errorMessage.style.display = 'none';
-            return true;
-        }
 
         </script>
     </body>

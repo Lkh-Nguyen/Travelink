@@ -8,6 +8,7 @@ import com.travelink.Model.Customer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -15,7 +16,7 @@ import java.sql.SQLException;
  * @author ASUS
  */
 public class CustomerDB implements DatabaseInfo {
-    
+
     public static Connection getConnect() {
         try {
             Class.forName(DRIVERNAME);
@@ -171,7 +172,7 @@ public class CustomerDB implements DatabaseInfo {
             }
         }
     }
-    
+
     public static boolean updateAvatarCustomer(Customer currentCustomer, String avatarURL) {
         String sql = "UPDATE [Customer] SET AvatarURL = ? WHERE Email=?";
         Connection con = null;
@@ -183,8 +184,6 @@ public class CustomerDB implements DatabaseInfo {
 
             // Set parameters for the prepared statement
             pstmt.setString(1, avatarURL);
-
-
 
             pstmt.setString(2, currentCustomer.getEmail()); // Assuming email is the unique identifier
 
@@ -211,9 +210,74 @@ public class CustomerDB implements DatabaseInfo {
             }
         }
     }
+    
+
+
+    public static Customer updateCustomer(Customer oldCustomer, Customer newCustomer) {
+        Connection con = DatabaseInfo.getConnect();
+        if (con == null) {
+            return null;
+        }
+
+        try {
+            String query = "UPDATE Customer SET "
+                    + "Email = ?, Password = ?, CMND = ?, Name = ?, Gender = ?, DateOfBirth = ?, "
+                    + "PhoneNumber = ?, AvatarURL = ?, Address = ? "
+                    + "WHERE Customer_ID = ?";
+
+            PreparedStatement st = con.prepareStatement(query);
+            st.setString(1, newCustomer.getEmail());
+            st.setString(2, newCustomer.getPassword());
+            st.setString(3, newCustomer.getCmnd());
+            st.setNString(4, newCustomer.getName());
+            st.setString(5, String.valueOf(newCustomer.getGender()));
+            st.setDate(6, new java.sql.Date(newCustomer.getDateOfBirth().getTime()));
+            st.setString(7, newCustomer.getPhoneNumber());
+            st.setString(8, newCustomer.getAvatarURL());
+            st.setString(9, newCustomer.getAddress());
+            st.setInt(10, oldCustomer.getCustomer_ID());
+
+            int rowsUpdated = st.executeUpdate();
+            if (rowsUpdated > 0) {
+                // Nếu cập nhật thành công, truy xuất lại thông tin từ cơ sở dữ liệu
+                String retrieveQuery = "SELECT * FROM Customer WHERE Customer_ID = ?";
+                PreparedStatement retrieveSt = con.prepareStatement(retrieveQuery);
+                retrieveSt.setInt(1, oldCustomer.getCustomer_ID());
+                ResultSet rs = retrieveSt.executeQuery();
+
+                if (rs.next()) {
+                    Customer updatedCustomer = new Customer();
+                    updatedCustomer.setCustomer_ID(rs.getInt("Customer_ID"));
+                    updatedCustomer.setEmail(rs.getString("Email"));
+                    updatedCustomer.setPassword(rs.getString("Password"));
+                    updatedCustomer.setCmnd(rs.getString("CMND"));
+                    updatedCustomer.setName(rs.getNString("Name"));
+                    updatedCustomer.setGender(rs.getString("Gender").charAt(0));
+                    updatedCustomer.setDateOfBirth(rs.getDate("DateOfBirth"));
+                    updatedCustomer.setPhoneNumber(rs.getString("PhoneNumber"));
+                    updatedCustomer.setAvatarURL(rs.getString("AvatarURL"));
+                    updatedCustomer.setAddress(rs.getString("Address"));
+
+                    return updatedCustomer;
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return null;
+    }
 
     public static void main(String[] args) {
-    Customer c = new Customer("nguyenlkhde170387@fpt.edu.vn","123","nguyen","09123");
+        Customer c = new Customer("nguyenlkhde170387@fpt.edu.vn", "123", "nguyen", "09123");
         updateAvatarCustomer(c, "123");
     }
 }

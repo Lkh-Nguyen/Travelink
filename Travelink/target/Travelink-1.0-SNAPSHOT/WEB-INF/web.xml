@@ -20,6 +20,14 @@
         <servlet-name>LoginGoogleHandler</servlet-name>
         <servlet-class>com.travelink.Servlet.LoginGoogleHandler</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginCustomerServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.LoginCustomerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCustomerServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateCustomerServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -39,6 +47,14 @@
     <servlet-mapping>
         <servlet-name>LoginGoogleHandler</servlet-name>
         <url-pattern>/LoginGoogleHandler</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginCustomerServlet</servlet-name>
+        <url-pattern>/LoginCustomerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCustomerServlet</servlet-name>
+        <url-pattern>/UpdateCustomerServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

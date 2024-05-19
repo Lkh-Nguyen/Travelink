@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Home_Customer.css">
+        <link rel="stylesheet" href="css/Home_Customer.css">
         <title>JSP Page</title>
     </head>
     <body>
@@ -12,7 +12,7 @@
         <%@include file="Header.jsp" %>
         <header class="section__container header__container">
             <h1 class="section__header">Find And Book<br />A Great Experience</h1>
-            <img src="<%=request.getContextPath()%>/img_Home/header.jpg" alt="header" />
+            <img src="img_Home/header.jpg" alt="header" />
         </header>
 
         <section class="section__container booking__container">
@@ -103,9 +103,9 @@
                     </p>
                 </div>
                 <div class="plan__image">
-                    <img src="<%=request.getContextPath()%>/img_Home/plan-1.jpg" alt="plan" />
-                    <img src="<%=request.getContextPath()%>/img_Home/plan-2.jpg" alt="plan" />
-                    <img src="<%=request.getContextPath()%>/img_Home/plan-3.jpg" alt="plan" />
+                    <img src="img_Home/plan-1.jpg" alt="plan" />
+                    <img src="img_Home/plan-2.jpg" alt="plan" />
+                    <img src="img_Home/plan-3.jpg" alt="plan" />
                 </div>
             </div>
         </section>
@@ -149,8 +149,8 @@
 
         <section class="section__container lounge__container">
             <div class="lounge__image">
-                <img src="<%=request.getContextPath()%>/img_Home/lounge-1.jpg" alt="lounge" />
-                <img src="<%=request.getContextPath()%>/img_Home/lounge-2.jpg" alt="lounge" />
+                <img src="img_Home/lounge-1.jpg" alt="lounge" />
+                <img src="img_Home/lounge-2.jpg" alt="lounge" />
             </div>
             <div class="lounge__content">
                 <h2 class="section__header">Unaccompanied Minor Lounge</h2>
@@ -193,33 +193,33 @@
             <h2 class="section__header">Best hotels of the month</h2>
             <div class="travellers__grid">
                 <div class="travellers__card">
-                    <img src="<%=request.getContextPath()%>/img_Home/traveller-1.jpg" alt="traveller" />
+                    <img src="img_Home/traveller-1.jpg" alt="traveller" />
                     <div class="travellers__card__content">
-                        <img src="<%=request.getContextPath()%>/img_Home/client-1.jpg" alt="client" />
+                        <img src="img_Home/client-1.jpg" alt="client" />
                         <h4>Emily Johnson</h4>
                         <p>Dubai</p>
                     </div>
                 </div>
                 <div class="travellers__card">
-                    <img src="<%=request.getContextPath()%>/img_Home/traveller-2.jpg" alt="traveller" />
+                    <img src="img_Home/traveller-2.jpg" alt="traveller" />
                     <div class="travellers__card__content">
-                        <img src="<%=request.getContextPath()%>/img_Home/client-2.jpg" alt="client" />
+                        <img src="img_Home/client-2.jpg" alt="client" />
                         <h4>David Smith</h4>
                         <p>Paris</p>
                     </div>
                 </div>
                 <div class="travellers__card">
-                    <img src="<%=request.getContextPath()%>/img_Home/traveller-3.jpg" alt="traveller" />
+                    <img src="img_Home/traveller-3.jpg" alt="traveller" />
                     <div class="travellers__card__content">
-                        <img src="<%=request.getContextPath()%>/img_Home/client-3.jpg" alt="client" />
+                        <img src="img_Home/client-3.jpg" alt="client" />
                         <h4>Olivia Brown</h4>
                         <p>Singapore</p>
                     </div>
                 </div>
                 <div class="travellers__card">
-                    <img src="<%=request.getContextPath()%>/img_Home/traveller-4.jpg" alt="traveller" />
+                    <img src="img_Home/traveller-4.jpg" alt="traveller" />
                     <div class="travellers__card__content">
-                        <img src="<%=request.getContextPath()%>/img_Home/client-4.jpg" alt="client" />
+                        <img src="img_Home/client-4.jpg" alt="client" />
                         <h4>Daniel Taylor</h4>
                         <p>Malaysia</p>
                     </div>
@@ -276,10 +276,6 @@
                 </div>
             </div>
         </footer>
-<<<<<<< HEAD
-        <script src="../js/Home_Customer.js"></script>
-=======
-        <script src="<%=request.getContextPath()%>/js/Home_Customer.js"></script>
->>>>>>> NguyenLKH
+        <script src="js/Home_Customer.js"></script>
     </body>
 </html>

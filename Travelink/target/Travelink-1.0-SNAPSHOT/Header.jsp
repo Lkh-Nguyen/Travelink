@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -99,9 +100,18 @@
                     <li class="link"><a href="#">Transaction History</a></li>
                     <li class="link"><a href="#">Favorite Hotels</a></li>
                 </ul>
-                <div class="btns">
-                    <button class="btn loginBtn"><a href="Form_Login.jsp">GET STARTED</a></button>
-                </div>
+                <c:set var="customer" value="${sessionScope.customer}"></c:set>
+                <c:if test="${not empty customer}">
+                    <div class="btns">
+                        <button class="btn loginBtn"><a href="My_Account_Update.jsp">${customer.name}</a></button>
+                    </div>
+                </c:if>
+                <c:if test="${empty customer}">
+                    <div class="btns">
+                        <button class="btn loginBtn"><a href="Form_Login.jsp">GET STARTED</a></button>
+                    </div>
+                </c:if>
+
             </nav>
         </header>
     </body>

@@ -10,11 +10,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-
-        <link rel="stylesheet" href="/Travelink/css/Right_My_Account.css">
-        <link rel="stylesheet" href="/Travelink/css/Left_My_Account.css">
-        
+        <link rel="stylesheet" href="css/Left_My_Account.css">
+        <link rel="stylesheet" href="css/View_Avata.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <!-- Dùng để đăng xuất-->
         <style>
             #overlay {
                 position: fixed;
@@ -75,12 +74,42 @@
                 transform: translate(-50%, 50%);
             }
 
+
+            /*Image*/
+            #ImgAvatar {
+                display: none; /* Ẩn mặc định */
+                border-radius: 10px;
+                position: fixed;
+                bottom: 250px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: #fff;
+                padding: 20px;
+                border: 1px solid #ccc;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+                transition: bottom 0.5s ease;
+            }
+            #ImgAvatar img{
+
+                width: 500px;
+                height: 500px;
+                cursor: pointer;
+            }
+            #logoutConfirm.active {
+                bottom: 50%;
+                transform: translate(-50%, 50%);
+            }
         </style>
+        <!-- Dùng để đăng xuất-->
     </head>
     <body>
         <%@include file="Header.jsp" %>
         <!-- Dùng để đăng xuất-->
         <div id="overlay"></div>
+        <%
+            String uploadedFilePath = (String) request.getAttribute("uploadedFilePath");
+        %>
         <div id="logoutConfirm">
             <h2>Logging Out</h2>
             <p>Oh, no! You’ll miss a lot of things by logging out: Traveloka Points, 
@@ -91,26 +120,40 @@
         </div>
         <!-- Dùng để đăng xuất-->
 
+        <div id="ImgAvatar">
 
-
-
+            <%
+                if (uploadedFilePath == null || uploadedFilePath.isEmpty()) {
+            %>
+            <img src="${customer.avatarURL}" alt="alt"/>
+            <%
+                }
+            %>
+            <%
+                if (uploadedFilePath != null && !uploadedFilePath.isEmpty()) {
+            %>
+            <img src="img_Avatar/<%= uploadedFilePath %>" alt="alt"/>
+            <%
+                }
+            %>
+        </div>
         <div id="mid_container">
             <div id="left">
                 <div id="header_left">
                     <div>
-                        <img src="../img_Avatar/avatar.jpg" alt="alt"/>
+                        <img src="${customer.avatarURL}" alt="alt"/>
                     </div>
                     <div style="margin-left: 10px">
-                        <h1>Le Kim Hoang Nguyen(K17)</h1>
+                        <h1>${customer.name}</h1>
                         <p>Google</p>
                     </div>
-                </div>  
+                </div>
                 <div id="header_list">
-                    <div class="list1">
-                        <a href="#"><i class='bx bx-cog'></i> <b>My Account</b></a>
-                    </div>
                     <div class="list0">
-                        <a href="View_Avatar.jsp"><i class='bx bx-image-add' ></i> <b>View Avatar</b></a>
+                        <a href="My_Account_Update.jsp"><i class='bx bx-cog'></i> <b>My Account</b></a>
+                    </div>
+                    <div class="list1">
+                        <a href="#"><i class='bx bx-image-add' ></i> <b>View Avatar</b></a>
                     </div>
                     <div class="list0">
                         <a href="#"><i class='bx bx-calendar' ></i> <b>My Booking</b></a>
@@ -128,63 +171,45 @@
             </div>
             <div id="right">
                 <h1>Settings</h1>
-                <div id="list_right">
-                    <ul>
-                        <li id="li2"><a href="My_Account_Update.jsp">Account Information</a></li>
-                        <li id="li1">Password & Security</li>
-                    </ul>
-                </div>
-
-                <div id="person_data1">
+                <div id="data_img">
                     <div id="pd_h2">
-                        <h2>Change Password</h2>
+                        <h2>View Avatar</h2>
                     </div>
-                    <div id="pd_data">
-                        <form action="../ChangeCustomerPassword" method="post">
-                            <div class="pd_flex">
-                                <div class="flex1">
-                                    <p>Old Password</p>
-                                    <input type="password" name="password"  placeholder="Enter Old Password In Here" required minlength="8">
-                                    <h5 style="color: red">${requestScope.pass_error}</h5>
-                                </div>
-                            </div>
-                            <div class="pd_flex">
-                                <div class="flex1"> 
-                                    <p>New Password</p>
-                                    <input type="password" name="newpassword" placeholder="Enter New Password In Here" required minlength="8">
-                                    <h5 style="color: red">${requestScope.newpass_error}</h5>
-                                </div>
-                                <div class="flex1">
-                                    <p>Enter Again New Password</p>
-                                    <input type="password" name="re_newpassword" placeholder="Enter Again New Password In Here" required minlength="8">
-                                    <h5 style="color: red">${requestScope.re_newpass_error}</h5>
-                                </div>
-                            </div>
+                    <div id="edit_img" style="user-select: none; ">
+                        <%
+                            if (uploadedFilePath == null || uploadedFilePath.isEmpty()) {
+                        %>
+                        <img src="${customer.avatarURL}" alt="123"/><br>
+                        <%
+                            }
+                        %>
+                        <%
+                            if (uploadedFilePath != null && !uploadedFilePath.isEmpty()) {
+                        %>
+                        <img src="img_Avatar/<%= uploadedFilePath %>" alt="123"/><br>
+                        <%
+                            }
+                        %>
+                        <button id="seeAvatar" onclick="hello()">View Avatar</button>
+                        <form method="post" action="UploadImageAvatar" enctype="multipart/form-data" onsubmit="return validateForm(event)">
+                            <input type="file" name="file" size="60"/><br/>
+                            <p>Maximum file size is 1 MB.<br>Format: .JPEG, .PNG</p>
+                            <input id="submit_Input" style="margin-top:10px" type="submit"  value="Upload"/>
+                            <div id="error-message">Please select a file to upload.</div>
+                        </form>
+                        <form method="post" action="UpdateAvatar">
+                            <input type="hidden" name="urlAvatar" value="/Travelink/img_Avatar/${uploadedFilePath}"/>
                             <div class="pd_button">
-                                <button onclick="cancel()">Cancel</button>
+                                <button><a href="View_Avatar.jsp">Cancel</a></button>
                                 <input type="submit" value="Save"/>
-                            </div>
+                            </div>  
                         </form>
-                    </div>
-                </div>
-                <div id="person_data2" style="display: none">
-                    <div id="pd_h2">
-                        <h2>Delete Account</h2>             
-                    </div>
-                    <div id="pd_h2_content">
-                        <p>Once your account is deleted, you won't be able to get your data back. This operation cannot be undone.</p>
-                        <form>
-                            <input type="submit" value="Delete">
-                        </form>
+
                     </div>
                 </div>
             </div>
         </div>
         <script>
-            function cancel() {
-                location.reload();
-                event.preventDefault();
-            }
             document.getElementById("logoutButton").addEventListener("click", function () {
                 document.getElementById("overlay").style.display = "block";
                 var logoutConfirm = document.getElementById("logoutConfirm");
@@ -205,12 +230,39 @@
 
             document.getElementById("overlay").addEventListener("click", function () {
                 var logoutConfirm = document.getElementById("logoutConfirm");
+                var ImgAvatar = document.getElementById("ImgAvatar");
+                ImgAvatar.classList.remove("active");
                 logoutConfirm.classList.remove("active");
+                setTimeout(function () {
+                    ImgAvatar.style.display = "none"; // Ẩn khung xác nhận
+                    document.getElementById("overlay").style.display = "none";
+                }, 500);
                 setTimeout(function () {
                     logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
                     document.getElementById("overlay").style.display = "none";
                 }, 500);
             });
+
+
+            document.getElementById("seeAvatar").addEventListener("click", function () {
+                document.getElementById("overlay").style.display = "block";
+                var ImgAvatar = document.getElementById("ImgAvatar");
+                ImgAvatar.style.display = "block"; // Hiển thị khung xác nhận
+                setTimeout(function () {
+                    ImgAvatar.classList.add("active");
+                }, 50);
+            });
+
+            function validateForm(event) {
+            var fileInput = document.querySelector('input[type="file"]');
+            var errorMessage = document.getElementById('error-message');
+            if (!fileInput.value) {
+                errorMessage.style.display = 'block';
+                return false;
+            }
+            errorMessage.style.display = 'none';
+            return true;
+        }
 
         </script>
     </body>

@@ -10,10 +10,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Right_My_Account.css">
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Left_My_Account.css">
+
+        <link rel="stylesheet" href="css/Right_My_Account.css">
+        <link rel="stylesheet" href="css/Left_My_Account.css">
+
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-        <!-- Dùng để đăng xuất-->
         <style>
             #overlay {
                 position: fixed;
@@ -75,7 +76,6 @@
             }
 
         </style>
-        <!-- Dùng để đăng xuất-->
     </head>
     <body>
         <%@include file="Header.jsp" %>
@@ -98,13 +98,13 @@
             <div id="left">
                 <div id="header_left">
                     <div>
-                        <img src="../img_Avatar/avatar.jpg" alt="alt"/>
+                        <img src="${customer.avatarURL}" alt="alt"/>
                     </div>
                     <div style="margin-left: 10px">
-                        <h1>Le Kim Hoang Nguyen(K17)</h1>
+                        <h1>${customer.name}</h1>
                         <p>Google</p>
                     </div>
-                </div>
+                </div>  
                 <div id="header_list">
                     <div class="list1">
                         <a href="#"><i class='bx bx-cog'></i> <b>My Account</b></a>
@@ -130,61 +130,55 @@
                 <h1>Settings</h1>
                 <div id="list_right">
                     <ul>
-                        <li id="li1">Account Information</li>
-                        <li id="li2"><a href="My_Account_Change.jsp">Password & Security</a></li>
+                        <li id="li2"><a href="My_Account_Update.jsp">Account Information</a></li>
+                        <c:if test="${sessionScope.customer.password != null}">
+                        <li id="li1">Password & Security</li>
+                        </c:if>
                     </ul>
                 </div>
 
-                <div id="person_data">
-                    <form>
-                        <div id="pd_h2">
-                            <h2>Personal Data</h2>
-                        </div>
-                        <div id="pd_data">
+                <div id="person_data1">
+                    <div id="pd_h2">
+                        <h2>Change Password</h2>
+                    </div>
+                    <div id="pd_data">
+                        <form action="ChangeCustomerPassword" method="post">
                             <div class="pd_flex">
                                 <div class="flex1">
-                                    <p>Full Name</p>
-                                    <input type="text" name="name"  placeholder="Enter Full Name In Here" value="${param.name}" required>
-                                </div>
-                                <div class="flex2">
-                                    <p>Gender</p>
-                                    <input type="radio" name="gender" value="Male" ${param.gender == null || param.gender == 'Male' ? 'checked' : ''}> Male 
-                                    <input type="radio" name="gender" value="Female" ${param.gender == 'Female' ? 'checked' : ''}> Female
+                                    <p>Old Password</p>
+                                    <input type="password" name="password"  placeholder="Enter Old Password In Here" required minlength="8">
+                                    <h5 style="color: red">${requestScope.pass_error}</h5>
                                 </div>
                             </div>
                             <div class="pd_flex">
                                 <div class="flex1"> 
-                                    <p>Birthdate</p>
-                                    <input type="date" name="DOB" style="font-size: 15px" placeholder="Enter BirthDate In Here" value="${param.DOB}" required >
+                                    <p>New Password</p>
+                                    <input type="password" name="newpassword" placeholder="Enter New Password In Here" required minlength="8">
+                                    <h5 style="color: red">${requestScope.newpass_error}</h5>
                                 </div>
                                 <div class="flex1">
-                                    <p>CMND</p>
-                                    <input type="text" name="CMND" placeholder="Enter CMND In Here" value="${param.CMND}" pattern="[0-9]{12}" title="CMND number must consist of 12 digits.">
+                                    <p>Enter Again New Password</p>
+                                    <input type="password" name="re_newpassword" placeholder="Enter Again New Password In Here" required minlength="8">
+                                    <h5 style="color: red">${requestScope.re_newpass_error}</h5>
                                 </div>
                             </div>
-                            <div class="pd_flex">
-                                <div class="flex1">
-                                    <p>Number Phone</p>
-                                    <input type="text" name="phone" placeholder="Enter Number Phone In Here" required value="${param.phone}" pattern="[0-9]{10}" title="Phone number must contain 10 digits.">
-                                </div>
-                                <div class="flex1">
-                                    <p>Email</p>
-                                    <input type="email" name="email" placeholder="Enter Email In Here" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Please enter a valid email address. For example: example@example.com" value="${param.email}">
-                                    <h5 style="color:red">${requestScope.emailError}</h5>
-                                </div>
+                            <div class="pd_button">
+                                <button onclick="cancel()">Cancel</button>
+                                <input type="submit" value="Save"/>
                             </div>
-                            <div class="pd_flex">
-                                <div class="flex1"  >
-                                    <p>Address</p>
-                                    <textarea id="address" name="address" rows="8" cols="37" placeholder="Enter Address In Here" style="resize: none;font-size: 15px">${param.address}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pd_button">
-                            <button onclick="cancel()">Cancel</button>
-                            <input type="submit" value="Save"/>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                </div>
+                <div id="person_data2" style="display: none">
+                    <div id="pd_h2">
+                        <h2>Delete Account</h2>             
+                    </div>
+                    <div id="pd_h2_content">
+                        <p>Once your account is deleted, you won't be able to get your data back. This operation cannot be undone.</p>
+                        <form>
+                            <input type="submit" value="Delete">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

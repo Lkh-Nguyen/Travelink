@@ -56,14 +56,14 @@ public class LoginGoogleHandler extends HttpServlet {
             session.setMaxInactiveInterval(60*30);
             session.setAttribute("customer", customer);
             request.setAttribute("updateMessage", "Please update your information!");
-            request.getRequestDispatcher("jsp/My_Account_Change.jsp").forward(request, response);
+            request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
             
         //If signed in before
         } else {
             HttpSession session = request.getSession();
-            session.setAttribute("customerGoogle", customer);
+            session.setAttribute("customer", customer);
             session.setMaxInactiveInterval(60*30);
-            request.getRequestDispatcher("jsp/Home_Customer.jsp").forward(request, response);
+            request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
         }
     }
 

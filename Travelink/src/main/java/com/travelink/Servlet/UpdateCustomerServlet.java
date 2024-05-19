@@ -6,18 +6,21 @@ package com.travelink.Servlet;
 
 import com.travelink.Database.CustomerDB;
 import com.travelink.Model.Customer;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import jakarta.servlet.http.HttpSession;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  *
- * @author ASUS
+ * @author MSI
  */
-public class RegisterCustomerServlet extends HttpServlet {
+public class UpdateCustomerServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +39,10 @@ public class RegisterCustomerServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegisterCustomerServlet</title>");            
+            out.println("<title>Servlet UpdateCustomerServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RegisterCustomerServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateCustomerServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,7 +60,7 @@ public class RegisterCustomerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("Form_Login.jsp");
+        processRequest(request, response);
     }
 
     /**
@@ -71,21 +74,47 @@ public class RegisterCustomerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Taking user input
-        String name = request.getParameter("name");
-        String phoneNumber = request.getParameter("phoneNumber");
         String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        //Existed account
-        if (CustomerDB.getCustomer(email) != null) {
-            request.setAttribute("errorMessage","Email existed!");
-            request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
-        } else {
-            Customer customer = new Customer(email, password, name, phoneNumber, "/Travelink/img_Avatar/avatar_default.jpg");
-            System.out.println(customer);
-            CustomerDB.insertCustomer(customer);
-            response.sendRedirect("Form_Login.jsp");
+        String name = request.getParameter("name");
+        String dob = request.getParameter("DOB");
+        String cmnd = request.getParameter("CMND");
+        String phone = request.getParameter("phone");
+        String genderJsp = request.getParameter("gender");
+        System.out.println(genderJsp);
+        String address = request.getParameter("address");
+        java.sql.Date dateOfBirth = null;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            dateOfBirth = new java.sql.Date(dateFormat.parse(dob).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace(); // Handle parsing exception appropriately
         }
+        char gender = ' ';
+         if(genderJsp == null){
+            gender = ' ';
+        }else if (genderJsp.contains("Male")) {
+            gender = 'M';
+        }
+        else if (genderJsp.contains("Female")) {
+            gender = 'F';
+        }
+        Customer newCustomer = new Customer(email, cmnd, name, gender, dateOfBirth, phone, address);
+        Customer oldCustomer = CustomerDB.getCustomer(email);
+        newCustomer.setCustomer_ID(oldCustomer.getCustomer_ID());
+        newCustomer.setPassword(oldCustomer.getPassword());
+        newCustomer.setAvatarURL(oldCustomer.getAvatarURL());
+        newCustomer.setAddress(oldCustomer.getAddress());
+        newCustomer.setAddress(address);
+        Customer customerUpdate = CustomerDB.updateCustomer(oldCustomer, newCustomer);
+        HttpSession hs = request.getSession();
+        hs.setAttribute("customer", customerUpdate);
+        PrintWriter printWriter = response.getWriter();
+//             printWriter.println(customerUpdate);
+//             printWriter.println(newCustomer);
+//             printWriter.println(oldCustomer);
+//               printWriter.print(address);
+        request.getRequestDispatcher("My_Account_Update.jsp").forward(request, response);
+
     }
 
     /**

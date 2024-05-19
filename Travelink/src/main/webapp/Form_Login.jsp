@@ -5,7 +5,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../css/Form_Login.css">
+        <link rel="stylesheet" href="css/Form_Login.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <title>Login Form</title>
     </head>
@@ -13,7 +13,7 @@
     <body>
         <!--Sau thay bằng button Login của HomePage-->
         <div class="contain-a-button">
-            <a class="a-button" href="../jsp/Home_Customer.jsp">
+            <a class="a-button" href="Home_Customer.jsp">
                 <i class="fa fa-arrow-left"></i> Back
             </a>
         </div>
@@ -43,7 +43,7 @@
         <div class="container" id="container">
             <div class="form-container sign-up-container">
 
-                <form action="../RegisterCustomerServlet" method="post">
+                <form action="RegisterCustomerServlet" method="post">
                     <h1>Create Account</h1>
                     <div class="form-field">
                         <input type="text" class="form-input" name="name"  required>
@@ -65,7 +65,7 @@
                     <div class="login-way">
                         <a href="https://www.facebook.com/?stype=lo&deoia=1&jlou=AfdibM459Jj0fHXyRGCbN67BSjzCcRXoOwcdxr2C5Nnq-zgmztRY-JtyHe_JO7uB1rTyY--yUuuaiSm38bnVzOTt0_gOTCNpPVh-dg_auVFy6w&smuh=6096&lh=Ac_9OgUQcQFatzL53wo"
                            class="icon-text-container">
-                            <img src="../img_Form/logo-fb.jpg" alt="Facebook Logo" class="login-logo">
+                            <img src="img_Form/logo-fb.jpg" alt="Facebook Logo" class="login-logo">
                             <span class="text-login">Continue with Facebook</span>
                         </a>
                     </div>
@@ -73,14 +73,14 @@
                         <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/Travelink/LoginGoogleHandler&response_type=code&client_id=753524792966-f76rldgp0a9n3ui96hg8e5pida66ho94.apps.googleusercontent.com&approval_prompt=force"
                            class="icon-text-container">
                             <!-- <i class="fab fa-google-plus-g"></i> -->
-                            <img src="../img_Form/logo-gg.jpg" alt="Google Logo" class="login-logo">
+                            <img src="img_Form/logo-gg.jpg" alt="Google Logo" class="login-logo">
                             <span class="text-login">Continue with Google</span>
                         </a>
                     </div>
                     <button class="btn-login" id="register">Sign Up</button>
                     <div class="missing-container">
                         <p class="missing-msg">
-                            Try again
+                            ${requestScope.errorMessage}
                         </p>
                     </div>
                 </form>
@@ -90,14 +90,14 @@
                 </button>
             </div>
             <div class="form-container sign-in-container">
-                <form action="#">
+                <form action="LoginCustomerServlet" method="post">
                     <h1>Login</h1>
                     <div class="form-field">
-                        <input type="email" class="form-input" autocomplete="off">
+                        <input type="email" name="email" class="form-input" autocomplete="off">
                         <label for="email" class="form-label">Email</label>
                     </div>
                     <div class="form-field">
-                        <input type="password" class="form-input" autocomplete="off">
+                        <input type="password" name="password" class="form-input" autocomplete="off">
                         <label for="password" class="form-label">Password</label>
                     </div>
                     <a class="forgot-pass" href="#">Forgot your password?</a>
@@ -105,7 +105,7 @@
                     <div class="login-way">
                         <a href="https://www.facebook.com/?stype=lo&deoia=1&jlou=AfdibM459Jj0fHXyRGCbN67BSjzCcRXoOwcdxr2C5Nnq-zgmztRY-JtyHe_JO7uB1rTyY--yUuuaiSm38bnVzOTt0_gOTCNpPVh-dg_auVFy6w&smuh=6096&lh=Ac_9OgUQcQFatzL53wo"
                            class="icon-text-container">
-                            <img src="../img_Form/logo-fb.jpg" alt="Facebook Logo" class="login-logo">
+                            <img src="img_Form/logo-fb.jpg" alt="Facebook Logo" class="login-logo">
                             <span class="text-login">Continue with Facebook</span>
                         </a>
                     </div>
@@ -113,7 +113,7 @@
                         <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/Travelink/LoginGoogleHandler&response_type=code&client_id=753524792966-f76rldgp0a9n3ui96hg8e5pida66ho94.apps.googleusercontent.com&approval_prompt=force"
                            class="icon-text-container">
                             <!-- <i class="fab fa-google-plus-g"></i> -->
-                            <img src="../img_Form/logo-gg.jpg" alt="Google Logo" class="login-logo">
+                            <img src="img_Form/logo-gg.jpg" alt="Google Logo" class="login-logo">
                             <span class="text-login">Continue with Google</span>
                         </a>
                     </div>

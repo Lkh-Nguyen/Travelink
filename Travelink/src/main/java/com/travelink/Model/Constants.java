@@ -8,8 +8,6 @@ public class Constants {
 
 	public static String GOOGLE_CLIENT_ID = "753524792966-f76rldgp0a9n3ui96hg8e5pida66ho94.apps.googleusercontent.com";
 
-	public static String GOOGLE_CLIENT_SECRET = "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";
-
 	public static String GOOGLE_REDIRECT_URI = "http://localhost:8080/Travelink/LoginGoogleHandler";
 
 	public static String GOOGLE_LINK_GET_TOKEN = "https://accounts.google.com/o/oauth2/token";

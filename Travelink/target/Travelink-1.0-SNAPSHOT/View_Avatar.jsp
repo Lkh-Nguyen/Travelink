@@ -9,10 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Avatar</title>
+        <title>JSP Page</title>
         <link rel="stylesheet" href="css/Left_My_Account.css">
         <link rel="stylesheet" href="css/View_Avata.css">
-        <link rel="icon" href="img_Home/logo.png">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <!-- Dùng để đăng xuất-->
         <style>
@@ -31,7 +30,7 @@
                 display: none; /* Ẩn mặc định */
                 border-radius: 10px;
                 width: 280px;
-                height: 300px;
+                height: 320px;
                 position: fixed;
                 bottom: -300px;
                 left: 50%;
@@ -113,7 +112,7 @@
         %>
         <div id="logoutConfirm">
             <h2>Logging Out</h2>
-            <p>Oh, no! You’ll miss a lot of things by logging out: Traveloka Points, 
+            <p>Oh, no! You’ll miss a lot of things by logging out: Travelink Points, 
                 Passenger Quick Pick, Price Alerts, and other member-only benefits.
                 Are you sure want to log out?</p>
             <button id="confirmYes"><a href="logout">Yes</a></button>
@@ -126,14 +125,14 @@
             <%
                 if (uploadedFilePath == null || uploadedFilePath.isEmpty()) {
             %>
-            <img id="avatar" src="${customer.avatarURL}" alt="alt"/>
+            <img src="${customer.avatarURL}" alt="alt"/>
             <%
                 }
             %>
             <%
                 if (uploadedFilePath != null && !uploadedFilePath.isEmpty()) {
             %>
-            <img id="avatar" src="img_Avatar/<%= uploadedFilePath %>" alt="alt"/>
+            <img src="img_Avatar/<%= uploadedFilePath %>" alt="alt"/>
             <%
                 }
             %>
@@ -176,28 +175,21 @@
                     <div id="pd_h2">
                         <h2>View Avatar</h2>
                     </div>
-                    <div id="edit_img" style="user-select: none; ">
-                        <%
-                            if (uploadedFilePath == null || uploadedFilePath.isEmpty()) {
-                        %>
+                    <div id="edit_img" style="user-select: none;">
+                        <% if (uploadedFilePath == null || uploadedFilePath.isEmpty()) { %>
                         <img src="${customer.avatarURL}" alt="123"/><br>
-                        <%
-                            }
-                        %>
-                        <%
-                            if (uploadedFilePath != null && !uploadedFilePath.isEmpty()) {
-                        %>
+                        <% } else { %>
                         <img src="img_Avatar/<%= uploadedFilePath %>" alt="123"/><br>
-                        <%
-                            }
-                        %>
+                        <% } %>
                         <button id="seeAvatar" onclick="hello()">View Avatar</button>
                         <form method="post" action="UploadImageAvatar" enctype="multipart/form-data" onsubmit="return validateForm(event)">
                             <input type="file" name="file" size="60"/><br/>
                             <p>Maximum file size is 1 MB.<br>Format: .JPEG, .PNG</p>
-                            <input id="submit_Input" style="margin-top:10px" type="submit"  value="Upload"/>
+                            <input id="submit_Input" style="margin-top:10px" type="submit" value="Upload"/>
                             <div id="error-message">Please select a file to upload.</div>
                         </form>
+
+                        <% if (uploadedFilePath != null && !uploadedFilePath.isEmpty()) { %>
                         <form method="post" action="UpdateAvatar">
                             <input type="hidden" name="urlAvatar" value="/Travelink/img_Avatar/${uploadedFilePath}"/>
                             <div class="pd_button">
@@ -205,11 +197,13 @@
                                 <input type="submit" value="Save"/>
                             </div>  
                         </form>
-
+                        <% } %>
+                        <p style="margin-top: 20px;color: green;font-size: 20px">${updateStatus}</p>
                     </div>
                 </div>
             </div>
         </div>
+        <%@include file="Footer.jsp" %>
         <script>
             document.getElementById("logoutButton").addEventListener("click", function () {
                 document.getElementById("overlay").style.display = "block";
@@ -255,15 +249,16 @@
             });
 
             function validateForm(event) {
-            var fileInput = document.querySelector('input[type="file"]');
-            var errorMessage = document.getElementById('error-message');
-            if (!fileInput.value) {
-                errorMessage.style.display = 'block';
-                return false;
+                var fileInput = document.querySelector('input[type="file"]');
+                var errorMessage = document.getElementById('error-message');
+                if (!fileInput.value) {
+                    errorMessage.style.display = 'block';
+                    return false;
+                }
+                errorMessage.style.display = 'none';
+                return true;
             }
-            errorMessage.style.display = 'none';
-            return true;
-        }
+
         </script>
     </body>
 </html>

@@ -9,10 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Information</title>
+        <title>JSP Page</title>
         <link rel="stylesheet" href="css/Right_My_Account.css">
         <link rel="stylesheet" href="css/Left_My_Account.css">
-        <link rel="icon" href="img_Home/logo.png">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <!-- Dùng để đăng xuất-->
         <style>
@@ -31,7 +30,7 @@
                 display: none; /* Ẩn mặc định */
                 border-radius: 10px;
                 width: 280px;
-                height: 300px;
+                height: 320px;
                 position: fixed;
                 bottom: -300px;
                 left: 50%;
@@ -75,11 +74,28 @@
                 transform: translate(-50%, 50%);
             }
 
+
+
+            /*Change*/
+            .disabled {
+                pointer-events: none;
+                opacity: 0.6;
+            }
+            button, input[type="submit"] {
+                cursor: not-allowed;
+            }
+            .enabled {
+                pointer-events: auto;
+                opacity: 1;
+            }
+            button.enabled, input[type="submit"].enabled {
+                cursor: pointer;
+            }
         </style>
         <!-- Dùng để đăng xuất-->
     </head>
     <body>
-            <%@include file="Header.jsp" %>
+        <%@include file="Header.jsp" %>
         <!-- Dùng để đăng xuất-->
         <div id="overlay"></div>
         <div id="logoutConfirm">
@@ -99,7 +115,7 @@
             <div id="left">
                 <div id="header_left">
                     <div>
-                        <img id="avatar" src="${customer.avatarURL}" alt="alt"/>
+                        <img src="${customer.avatarURL}" alt="alt"/>
                     </div>
                     <div style="margin-left: 10px">
                         <h1>${customer.name}</h1>
@@ -132,15 +148,17 @@
                 <div id="list_right">
                     <ul>
                         <li id="li1">Account Information</li>
-                        <li id="li2"><a href="My_Account_Change.jsp">Password & Security</a></li>
+                            <c:if test="${sessionScope.customer.password != null}">
+                            <li id="li2"><a href="My_Account_Change.jsp">Password & Security</a></li>
+                            </c:if>
                     </ul>
                 </div>
-
+                <!-- Change -->
                 <div id="person_data">
-                    <form action="UpdateCustomerServlet" method="post">
+                    <form id="customerForm" action="UpdateCustomerServlet" method="post">
                         <div id="pd_h2">
                             <h2>Personal Data</h2>
-                        </div>
+                        </div>                    
                         <div id="pd_data">
                             <div class="pd_flex">
                                 <div class="flex1">
@@ -183,13 +201,15 @@
                             </div>
                         </div>
                         <div class="pd_button">
-                            <button onclick="cancel()">Cancel</button>
-                            <input type="submit" value="Save"/>
+                            <button type="button" id="cancelButton" class="disabled" onclick="cancel()">Cancel</button>
+                            <input  type="submit" id="saveButton" class="disabled" value="Save"/>
                         </div>
                     </form>
                 </div>
+                <!-- Change -->
             </div>
         </div>
+        <%@include file="Footer.jsp" %>
         <script>
             function cancel() {
                 location.reload();
@@ -221,7 +241,34 @@
                     document.getElementById("overlay").style.display = "none";
                 }, 500);
             });
-            
+
+
+
+            /*Change*/
+            document.addEventListener('DOMContentLoaded', function () {
+                const inputs = document.querySelectorAll('#customerForm input, #customerForm textarea');
+                const saveButton = document.getElementById('saveButton');
+                const cancelButton = document.getElementById('cancelButton');
+                let isChanged = false;
+
+                inputs.forEach(input => {
+                    input.addEventListener('input', () => {
+                        if (!isChanged) {
+                            saveButton.classList.remove('disabled');
+                            saveButton.classList.add('enabled');
+                            cancelButton.classList.remove('disabled');
+                            cancelButton.classList.add('enabled');
+                            isChanged = true;
+                        }
+                    });
+                });
+
+                cancelButton.addEventListener('click', function (event) {
+                    if (isChanged) {
+                        window.location.reload();
+                    }
+                });
+            })
         </script>
     </body>
 </html>

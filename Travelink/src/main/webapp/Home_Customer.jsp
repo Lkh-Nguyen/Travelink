@@ -232,45 +232,7 @@
                 </div>
             </div>
         </section>
-        <footer class="footer">
-            <div class="section__container footer__container">
-                <div class="footer__col">
-                    <h3>Travelink</h3>
-                    <p>
-                        Embark on a Journey of Excellence. With a steadfast dedication to 
-                        guest satisfaction and a love for hospitality, Travelink offers 
-                        remarkable services for memorable stays.
-                    </p>
-                    <p>
-                        From warm greetings to cutting-edge amenities, we link you to a world of comfort, 
-                        ensuring secure, cozy, and unforgettable accommodations.
-                    </p>
-                </div>
-                <div class="footer__col">
-                    <h4>INFORMATION</h4>
-                    <p>Home</p>
-                    <p>About</p>
-                    <p>Booking</p>
-                    <p>Transaction</p>
-                    <p>Favorite</p>
-                </div>
-                <div class="footer__col">
-                    <h4>CONTACT</h4>
-                    <p>Support</p>
-                    <p>Media</p>
-                    <p>Socials</p>
-                </div>
-            </div>
-            <div class="section__container footer__bar">
-                <p>Copyright © 2023 Web Design Mastery. All rights reserved.</p>
-                <div class="socials">
-                    <span><i class="ri-facebook-fill"></i></span>
-                    <span><i class="ri-twitter-fill"></i></span>
-                    <span><i class="ri-instagram-line"></i></span>
-                    <span><i class="ri-youtube-fill"></i></span>
-                </div>
-            </div>
-        </footer>
+        <%@include file="Footer.jsp" %>
         <script src="js/Home_Customer.js"></script>
     </body>
 </html>

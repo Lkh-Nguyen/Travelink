@@ -9,11 +9,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Information</title>
+        <title>JSP Page</title>
 
         <link rel="stylesheet" href="css/Right_My_Account.css">
         <link rel="stylesheet" href="css/Left_My_Account.css">
-        <link rel="icon" href="img_Home/logo.png">
 
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <style>
@@ -32,7 +31,7 @@
                 display: none; /* Ẩn mặc định */
                 border-radius: 10px;
                 width: 280px;
-                height: 300px;
+                height: 320px;
                 position: fixed;
                 bottom: -300px;
                 left: 50%;
@@ -76,6 +75,44 @@
                 transform: translate(-50%, 50%);
             }
 
+
+
+
+            /*Change password*/
+            .disabled {
+                pointer-events: none;
+                opacity: 0.6;
+            }
+            button, input[type="submit"] {
+                cursor: not-allowed;
+            }
+            .enabled {
+                pointer-events: auto;
+                opacity: 1;
+            }
+            button.enabled, input[type="submit"].enabled {
+                cursor: pointer;
+            }
+            .password-container {
+                position: relative;
+                display: inline-block;
+            }
+
+            .toggle-password {
+                user-select: none;
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                font-size: 18px;
+                color: #888;
+                transition: color 0.3s;
+            }
+
+            .toggle-password:hover {
+                color: #333;
+            }
         </style>
     </head>
     <body>
@@ -99,7 +136,7 @@
             <div id="left">
                 <div id="header_left">
                     <div>
-                        <img id="avatar" src="${customer.avatarURL}" alt="Customer Avatar"/>
+                        <img src="${customer.avatarURL}" alt="alt"/>
                     </div>
                     <div style="margin-left: 10px">
                         <h1>${customer.name}</h1>
@@ -132,7 +169,9 @@
                 <div id="list_right">
                     <ul>
                         <li id="li2"><a href="My_Account_Update.jsp">Account Information</a></li>
-                        <li id="li1">Password & Security</li>
+                            <c:if test="${sessionScope.customer.password != null}">
+                            <li id="li1">Password & Security</li>
+                            </c:if>
                     </ul>
                 </div>
 
@@ -140,33 +179,46 @@
                     <div id="pd_h2">
                         <h2>Change Password</h2>
                     </div>
+
+                    <!-- Change -->
                     <div id="pd_data">
-                        <form action="ChangeCustomerPasswordServlet" method="post">
+                        <form id="passwordForm" action="ChangeCustomerPasswordServlet" method="post">
                             <div class="pd_flex">
                                 <div class="flex1">
                                     <p>Old Password</p>
-                                    <input type="password" name="password"  placeholder="Enter Old Password In Here" required minlength="8">
+                                    <div class="password-container">
+                                        <input type="password" name="password" id="oldpassword"  placeholder="Enter Old Password In Here" required minlength="8">
+                                        <span id="toggleOldPassword" class="toggle-password" onclick="togglePasswordVisibility('oldpassword', 'toggleOldPassword')">&#128065;</span>
+                                    </div>
                                     <h5 style="color: red">${requestScope.pass_error}</h5>
                                 </div>
                             </div>
                             <div class="pd_flex">
                                 <div class="flex1"> 
                                     <p>New Password</p>
-                                    <input type="password" name="newpassword" placeholder="Enter New Password In Here" required minlength="8">
+                                    <div class="password-container">
+                                        <input type="password" name="newpassword" id="newpassword" placeholder="Enter New Password In Here" required minlength="8">
+                                        <span id="toggleNewPassword" class="toggle-password" onclick="togglePasswordVisibility('newpassword', 'toggleNewPassword')">&#128065;</span>
+                                    </div>
                                     <h5 style="color: red">${requestScope.newpass_error}</h5>
                                 </div>
                                 <div class="flex1">
                                     <p>Enter Again New Password</p>
-                                    <input type="password" name="re_newpassword" placeholder="Enter Again New Password In Here" required minlength="8">
+                                    <div class="password-container">
+                                        <input type="password" name="re_newpassword" id="re_newpassword" placeholder="Enter Again New Password In Here" required minlength="8">
+                                        <span id="toggleReNewPassword" class="toggle-password" onclick="togglePasswordVisibility('re_newpassword', 'toggleReNewPassword')">&#128065;</span>
+                                    </div>
                                     <h5 style="color: red">${requestScope.re_newpass_error}</h5>
                                 </div>
                             </div>
+                            <h5 style="color: green">${requestScope.updateStatus}</h5>
                             <div class="pd_button">
-                                <button onclick="cancel()">Cancel</button>
-                                <input type="submit" value="Save"/>
+                                <button type="button" id="cancelButton" class="disabled" onclick="cancel()">Cancel</button>
+                                <input type="submit" id="saveButton" class="disabled" value="Save"/>
                             </div>
                         </form>
                     </div>
+                    <!---->
                 </div>
                 <div id="person_data2" style="display: none">
                     <div id="pd_h2">
@@ -181,6 +233,7 @@
                 </div>
             </div>
         </div>
+        <%@include file="Footer.jsp" %>
         <script>
             function cancel() {
                 location.reload();
@@ -212,7 +265,51 @@
                     document.getElementById("overlay").style.display = "none";
                 }, 500);
             });
-            
+
+
+
+            /*Change password*/
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const form = document.getElementById('passwordForm');
+                const newPassword = document.getElementById('newpassword');
+                const reNewPassword = document.getElementById('re_newpassword');
+                const saveButton = document.getElementById('saveButton');
+                const cancelButton = document.getElementById('cancelButton');
+
+                function checkPasswords() {
+                    if (newPassword.value.trim() !== '' && reNewPassword.value.trim() !== '') {
+                        saveButton.classList.remove('disabled');
+                        saveButton.classList.add('enabled');
+                        cancelButton.classList.remove('disabled');
+                        cancelButton.classList.add('enabled');
+                    } else {
+                        saveButton.classList.remove('enabled');
+                        saveButton.classList.add('disabled');
+                        cancelButton.classList.remove('enabled');
+                        cancelButton.classList.add('disabled');
+                    }
+                }
+
+                newPassword.addEventListener('input', checkPasswords);
+                reNewPassword.addEventListener('input', checkPasswords);
+
+                // Initial check in case some fields are pre-filled
+                checkPasswords();
+            });
+
+            function togglePasswordVisibility(passwordFieldId, toggleButtonId) {
+                const passwordField = document.getElementById(passwordFieldId);
+                const toggleButton = document.getElementById(toggleButtonId);
+
+                if (passwordField.type === "password") {
+                    passwordField.type = "text";
+                    toggleButton.innerHTML = "&#128064;"; // change icon to an open eye
+                } else {
+                    passwordField.type = "password";
+                    toggleButton.innerHTML = "&#128065;"; // change icon back to a closed eye
+                }
+            }
         </script>
     </body>
 </html>

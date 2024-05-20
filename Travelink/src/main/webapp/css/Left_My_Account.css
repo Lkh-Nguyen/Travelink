@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+*{
+    font-family: 'Montserrat', sans-serif;
+}
 #mid_container{
     clear: both;
     background-color: white;

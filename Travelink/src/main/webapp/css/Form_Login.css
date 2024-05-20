@@ -500,15 +500,15 @@ footer a {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #f44336; /* Màu đỏ */
-    color: white;
+    color: red;
     padding: 10px 20px;
     border-radius: 5px;
     text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Hiệu ứng bóng đổ */
+    width: 1000px;
 }
 
 .missing-msg {
+    font-size: 20px;
     margin: 0;
 }
 /*Success Message*/

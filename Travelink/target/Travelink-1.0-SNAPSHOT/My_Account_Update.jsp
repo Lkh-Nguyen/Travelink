@@ -5,13 +5,15 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.travelink.Model.Customer" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Informtion Customer</title>
         <link rel="stylesheet" href="css/Right_My_Account.css">
         <link rel="stylesheet" href="css/Left_My_Account.css">
+        <link rel="icon" href="img_Home/logo.png">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <!-- Dùng để đăng xuất-->
         <style>
@@ -165,10 +167,31 @@
                                     <p>Full Name</p>
                                     <input type="text" name="name"  placeholder="Enter Full Name In Here" value="${customer.name}" required>
                                 </div>
+
                                 <div class="flex2">
                                     <p>Gender</p>
-                                    <input type="radio" name="gender" value="Male" > Male 
-                                    <input type="radio" name="gender" value="Female" > Female
+                                    <input type="radio" name="gender" value="Male"
+
+                                           <%
+                                               Customer customer = (Customer) session.getAttribute("customer");
+                                               if (customer.getGender() == 'M') {
+                                           %>
+                                           checked
+                                           <%
+                                               }
+                                           %>
+                                           > Male
+                                    <input type="radio" name="gender" value="Female"
+                                           <%
+                                               if (customer.getGender() == 'F') {
+                                           %>
+                                           checked
+                                           <%
+                                               }
+                                           %>
+                                           > Female
+
+
                                 </div>
                             </div>
                             <div class="pd_flex">
@@ -184,13 +207,12 @@
                             <div class="pd_flex">
                                 <div class="flex1">
                                     <p>Number Phone</p>
-                                    <input type="text" name="phone" placeholder="Enter Number Phone In Here" required value="${customer.phoneNumber}" pattern="[0-9]{10}" title="Phone number must contain 10 digits.">
+                                    <input type="text" name="phone" placeholder="Enter Number Phone In Here"  value="${customer.phoneNumber}" pattern="[0-9]{10}" title="Phone number must contain 10 digits.">
                                 </div>
                                 <div class="flex1">
                                     <p>Email</p>
                                     <input type="email" name="email" placeholder="Enter Email In Here" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Please enter a valid email address. For example: example@example.com" value="${customer.email}" readonly>
 
-                                    <h5 style="color:red">${requestScope.emailError}</h5>
                                 </div>
                             </div>
                             <div class="pd_flex">
@@ -200,6 +222,7 @@
                                 </div>
                             </div>
                         </div>
+                        <h5 style="color:green;margin-left:22px">${requestScope.statusUpdate}</h5>
                         <div class="pd_button">
                             <button type="button" id="cancelButton" class="disabled" onclick="cancel()">Cancel</button>
                             <input  type="submit" id="saveButton" class="disabled" value="Save"/>

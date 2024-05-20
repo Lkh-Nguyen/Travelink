@@ -6,6 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP 1</title>
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="icon" href="img_Home/logo.png">
         <style>
 
 
@@ -45,7 +46,7 @@
                 white-space: nowrap;         /* Prevent line breaks */
                 overflow: hidden;            /* Hide overflow content */
                 text-overflow: ellipsis;     /* Display "..." when content overflows */
-                max-width: 250px;            /* Set a maximum width */
+                max-width: 400px;            /* Set a maximum width */
             }
             .btn:hover {
                 background-color: #f0f0f0;
@@ -154,7 +155,7 @@
             #logoutConfirm1 {
                 display: none; /* Ẩn mặc định */
                 border-radius: 10px;
-                width: 280px;
+                width: 320px;
                 height: 320px;
                 position: fixed;
                 bottom: -300px;

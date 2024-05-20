@@ -18,7 +18,7 @@
                 <i class="fa fa-arrow-left"></i> Back
             </a>
         </div>
-<!--        Error Message-->
+        <!--        Error Message-->
         <%
             if (request.getAttribute("errorMessage") != null) {
         %>
@@ -30,18 +30,8 @@
         <%
             }
         %>
-<!--        Success Message-->
-        <%
-            if (request.getAttribute("successMessage") != null) {
-        %>
-        <div class="success-container">
-            <p class="success-msg">
-                <%= request.getAttribute("successMessage") %>
-            </p>
-        </div>
-        <%
-            }
-        %>
+        <!--        Success Message-->
+
         <div class="total-header">
             <div class="div-title">
                 <h1 style="color: white; font-size: 100px;">Fuel Mind Travel</h1>
@@ -84,6 +74,17 @@
                         <label for="password" class="form-label">Password</label>
                     </div>
                     <p>--------- or login/register with ----------</p>
+                    <%
+                        if (request.getAttribute("errorMessage") != null) {
+                    %>
+                    <div class="missing-container">
+                        <p class="missing-msg">
+                            <%= request.getAttribute("errorMessage") %>
+                        </p>
+                    </div>
+                    <%
+                        }
+                    %>
                     <div class="login-way">
                         <a href="https://www.facebook.com/?stype=lo&deoia=1&jlou=AfdibM459Jj0fHXyRGCbN67BSjzCcRXoOwcdxr2C5Nnq-zgmztRY-JtyHe_JO7uB1rTyY--yUuuaiSm38bnVzOTt0_gOTCNpPVh-dg_auVFy6w&smuh=6096&lh=Ac_9OgUQcQFatzL53wo"
                            class="icon-text-container">
@@ -137,7 +138,7 @@
                     <button class="btn-login" id="login">Sign In</button>
                     <div class="missing-container">
                         <p class="missing-msg">
-                            Try again
+                            ${requestScope.status}
                         </p>
                     </div>
                 </form>
@@ -275,7 +276,7 @@
                 if (errorMessage) {
                     setTimeout(() => {
                         errorMessage.style.display = 'none';
-                    }, 2000); // 2 giây
+                    }, 5000); // 2 giây
                 }
             });
 

@@ -89,16 +89,21 @@ public class UpdateCustomerServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace(); // Handle parsing exception appropriately
         }
-        char gender = ' ';
-         if(genderJsp == null){
-            gender = ' ';
-        }else if (genderJsp.contains("Male")) {
-            gender = 'M';
+        String phoneStr = null;
+        if (phone == null) {
+            phoneStr = null;
+        } else if (phone != null) {
+            phoneStr = phone;
         }
-        else if (genderJsp.contains("Female")) {
+        char gender = ' ';
+        if (genderJsp == null) {
+            gender = ' ';
+        } else if (genderJsp.contains("Male")) {
+            gender = 'M';
+        } else if (genderJsp.contains("Female")) {
             gender = 'F';
         }
-        Customer newCustomer = new Customer(email, cmnd, name, gender, dateOfBirth, phone, address);
+        Customer newCustomer = new Customer(email, cmnd, name, gender, dateOfBirth, phoneStr, address);
         Customer oldCustomer = CustomerDB.getCustomer(email);
         newCustomer.setCustomer_ID(oldCustomer.getCustomer_ID());
         newCustomer.setPassword(oldCustomer.getPassword());
@@ -108,11 +113,8 @@ public class UpdateCustomerServlet extends HttpServlet {
         Customer customerUpdate = CustomerDB.updateCustomer(oldCustomer, newCustomer);
         HttpSession hs = request.getSession();
         hs.setAttribute("customer", customerUpdate);
+        request.setAttribute("statusUpdate", "Update successfully customer !!!");
         PrintWriter printWriter = response.getWriter();
-//             printWriter.println(customerUpdate);
-//             printWriter.println(newCustomer);
-//             printWriter.println(oldCustomer);
-//               printWriter.print(address);
         request.getRequestDispatcher("My_Account_Update.jsp").forward(request, response);
 
     }

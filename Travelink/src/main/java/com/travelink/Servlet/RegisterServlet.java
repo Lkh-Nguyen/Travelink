@@ -86,6 +86,7 @@ public class RegisterServlet extends HttpServlet {
         }
         //Create customer
         c = new Customer(email, password, name, phone);
+        c.setAvatarURL("/Travelink/img_Avatar/avatar_default.jpg");
         //Random token
         Random rand = new Random();
         int token = rand.nextInt(900000) + 100000; 

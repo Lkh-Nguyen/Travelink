@@ -9,7 +9,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>View Avatar</title>
+        <link rel="icon" href="img_Home/logo.png">
         <link rel="stylesheet" href="css/Left_My_Account.css">
         <link rel="stylesheet" href="css/View_Avata.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>

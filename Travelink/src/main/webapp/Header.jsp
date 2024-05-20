@@ -87,6 +87,26 @@
                 color: var(--text-dark);
             }
 
+            /*            Profile*/
+            .profile {
+                position: relative;
+                display: flex;
+                align-items: center;
+                cursor: pointer; /* Hiển thị cursor pointer khi di chuột vào */
+            }
+
+            .profile img {
+                width: 2.5rem;
+                border-radius: 50%;
+                border: 1px solid black;
+            }
+
+            .profile-name {
+                color: var(--primary-color-dark);
+                line-height: 2.5;
+                padding: 0.75rem 2rem;
+            }
+
         </style>
     </head>
     <body>
@@ -102,8 +122,14 @@
                 </ul>
                 <c:set var="customer" value="${sessionScope.customer}"></c:set>
                 <c:if test="${not empty customer}">
-                    <div class="btns">
-                        <button class="btn loginBtn"><a href="My_Account_Update.jsp">${customer.name}</a></button>
+                    <!--                    <div class="btns">
+                                            <button class="btn loginBtn"></button>
+                                        </div>-->
+                    <div class="profile">
+                        <a href="My_Account_Update.jsp" target="_">
+                            <img id="avatar" src="${customer.avatarURL}" alt="Customer Avatar">
+                        </a>
+                        <div class="profile-name"><a href="My_Account_Update.jsp">${customer.name}</a></div>
                     </div>
                 </c:if>
                 <c:if test="${empty customer}">
@@ -114,5 +140,11 @@
 
             </nav>
         </header>
+        <script>
+            const defaultAvatarURL = 'img_Avatar/avatar_default.jpg';
+            const avatarElement = document.getElementById('avatar');
+            if (${customer.avatarURL} == null)
+                avatarElement.src = defaultAvatarURL;
+        </script>
     </body>
 </html>

@@ -91,10 +91,9 @@ public class VerifyCodeServlet extends HttpServlet {
         if (inputToken.equals(cToken)) {
             if ("registerCustomer".equals(action)) {
                 Customer c = (Customer) request.getSession().getAttribute("newCustomer");
-                System.out.println("Hello World");
-                System.out.println(c);
 //              Insert Customer to DB
                 boolean success = CustomerDB.insertCustomer(c);
+                if(success) request.setAttribute("successMessage", "Register successfully!!");
                 request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
             } else if ("forgetPassword".equals(action)) {
                 String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -113,7 +112,7 @@ public class VerifyCodeServlet extends HttpServlet {
 
         } //If inputToken wrong
         else {
-            request.setAttribute("errorMessage", "Wrong token code");
+            request.setAttribute("errorMessage", "Wrong verify code");
             request.getRequestDispatcher("Verify_Code.jsp").forward(request, response);
         }
     }

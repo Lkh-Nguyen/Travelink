@@ -9,9 +9,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Information</title>
         <link rel="stylesheet" href="css/Right_My_Account.css">
         <link rel="stylesheet" href="css/Left_My_Account.css">
+        <link rel="icon" href="img_Home/logo.png">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <!-- Dùng để đăng xuất-->
         <style>
@@ -98,7 +99,7 @@
             <div id="left">
                 <div id="header_left">
                     <div>
-                        <img src="${customer.avatarURL}" alt="alt"/>
+                        <img id="avatar" src="${customer.avatarURL}" alt="alt"/>
                     </div>
                     <div style="margin-left: 10px">
                         <h1>${customer.name}</h1>
@@ -220,7 +221,7 @@
                     document.getElementById("overlay").style.display = "none";
                 }, 500);
             });
-
+            
         </script>
     </body>
 </html>

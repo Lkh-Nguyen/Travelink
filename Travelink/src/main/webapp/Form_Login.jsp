@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html lang="en">
-    
+
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="img_Home/logo.png">
         <link rel="stylesheet" href="css/Form_Login.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <title>Login Form</title>
@@ -17,9 +18,30 @@
                 <i class="fa fa-arrow-left"></i> Back
             </a>
         </div>
-        
-        
-
+<!--        Error Message-->
+        <%
+            if (request.getAttribute("errorMessage") != null) {
+        %>
+        <div class="missing-container">
+            <p class="missing-msg">
+                <%= request.getAttribute("errorMessage") %>
+            </p>
+        </div>
+        <%
+            }
+        %>
+<!--        Success Message-->
+        <%
+            if (request.getAttribute("successMessage") != null) {
+        %>
+        <div class="success-container">
+            <p class="success-msg">
+                <%= request.getAttribute("successMessage") %>
+            </p>
+        </div>
+        <%
+            }
+        %>
         <div class="total-header">
             <div class="div-title">
                 <h1 style="color: white; font-size: 100px;">Fuel Mind Travel</h1>
@@ -50,8 +72,8 @@
                         <label for="name" class="form-label">Name</label>
                     </div>
                     <div class="form-field">
-                        <input type="text" class="form-input" name="phoneNumber" required>
-                        <label for="name" class="form-label">Phone number</label>
+                        <input type="text" class="form-input" name="phone" required>
+                        <label for="phone" class="form-label">Phone number</label>
                     </div>
                     <div class="form-field">
                         <input type="email" class="form-input" name="email" required>
@@ -78,11 +100,6 @@
                         </a>
                     </div>
                     <button class="btn-login" id="register">Sign Up</button>
-                    <div class="missing-container">
-                        <p class="missing-msg">
-                            ${requestScope.errorMessage}
-                        </p>
-                    </div>
                 </form>
                 <!-- Nút đóng form -->
                 <button class="close-form-button" id="closeButton">
@@ -252,6 +269,16 @@
 //                }
 //
 //            }
+            document.addEventListener('DOMContentLoaded', function () {
+                const errorMessage = document.querySelector('.missing-container');
+
+                if (errorMessage) {
+                    setTimeout(() => {
+                        errorMessage.style.display = 'none';
+                    }, 2000); // 2 giây
+                }
+            });
+
         </script>
     </body>
 

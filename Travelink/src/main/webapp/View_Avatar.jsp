@@ -9,9 +9,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Avatar</title>
         <link rel="stylesheet" href="css/Left_My_Account.css">
         <link rel="stylesheet" href="css/View_Avata.css">
+        <link rel="icon" href="img_Home/logo.png">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <!-- Dùng để đăng xuất-->
         <style>
@@ -125,14 +126,14 @@
             <%
                 if (uploadedFilePath == null || uploadedFilePath.isEmpty()) {
             %>
-            <img src="${customer.avatarURL}" alt="alt"/>
+            <img id="avatar" src="${customer.avatarURL}" alt="alt"/>
             <%
                 }
             %>
             <%
                 if (uploadedFilePath != null && !uploadedFilePath.isEmpty()) {
             %>
-            <img src="img_Avatar/<%= uploadedFilePath %>" alt="alt"/>
+            <img id="avatar" src="img_Avatar/<%= uploadedFilePath %>" alt="alt"/>
             <%
                 }
             %>
@@ -263,7 +264,6 @@
             errorMessage.style.display = 'none';
             return true;
         }
-
         </script>
     </body>
 </html>

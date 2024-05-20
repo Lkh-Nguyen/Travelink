@@ -480,18 +480,52 @@ footer a {
     border: 3px solid white;
     transition: 0.8s ease;
 }
-/* Style for the missing-container */
+/* Style for the missing-container 
 .missing-container {
-    margin-top: 10px; /* Adjust as needed */
-    text-align: center; /* Center align the content */
-    color: red; /* Set text color to red or any preferred color */
+    margin-top: 10px;  Adjust as needed 
+    text-align: center;  Center align the content 
+    color: red;  Set text color to red or any preferred color 
 }
 
-/* Style for the missing-msg paragraph */
+ Style for the missing-msg paragraph 
 .missing-msg {
-    font-size: 14px; /* Adjust font size */
-    font-style: italic; /* Optionally italicize the text */
-    margin-bottom: 5px; /* Adjust spacing between paragraphs */
+    font-size: 14px;  Adjust font size 
+    font-style: italic;  Optionally italicize the text 
+    margin-bottom: 5px;  Adjust spacing between paragraphs 
+}*/
+/*Error message*/
+.missing-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f44336; /* Màu đỏ */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Hiệu ứng bóng đổ */
+}
+
+.missing-msg {
+    margin: 0;
+}
+/*Success Message*/
+.success-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4caf50; /* Màu xanh lá */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Hiệu ứng bóng đổ */
+}
+
+.success-msg {
+    margin: 0;
 }
 /* Mới Thêm */
 .contain-row {

@@ -12,6 +12,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="icon" href="img_Home/logo.png">
         <title>Verify Code</title>
     </head>
     <style>
@@ -118,6 +119,15 @@
             margin: 0 1rem;
         }
     </style>
+     <script>
+            function hideErrorMessage() {
+                document.querySelector('.error').style.display = 'none';
+            }
+
+            window.onload = function() {
+                document.getElementById('token').addEventListener('focus', hideErrorMessage);
+            }
+        </script>
     <body>
         <main id="content" role="main">
             <div class="form-container">
@@ -133,12 +143,11 @@
                         <p class="hidden" id="token-error">Please enter the verification code sent to your email</p>
                     </div>
                     <button type="submit">Verify</button>
-                    <p>${sessionScope.action}</p>
-                    <p>${sessionScope.cToken}</p>
+
                 </form>
                 <%
                 if (request.getAttribute("errorMessage") != null) {
-                    out.println("<p style='color:red;'>" + request.getAttribute("errorMessage") + "</p>");
+                    out.println("<p class='error' style='color:red;'>" + request.getAttribute("errorMessage") + "</p>");
                 }
                 %>
             </div>

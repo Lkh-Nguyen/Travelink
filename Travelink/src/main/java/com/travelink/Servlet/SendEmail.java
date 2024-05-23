@@ -138,7 +138,7 @@ public class SendEmail {
 
             mgs.setFrom(new InternetAddress(fromEmail));
             mgs.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-            mgs.setSubject("Request to reset Password !!!");
+            mgs.setSubject("Request to reset Password.");
             mgs.setText("Your new Password is set default to: " + token);
             Transport.send(mgs);
             System.out.println("Sent Magess");

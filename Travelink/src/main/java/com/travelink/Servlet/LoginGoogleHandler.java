@@ -65,7 +65,7 @@ public class LoginGoogleHandler extends HttpServlet {
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(60 * 30);
             session.setAttribute("customer", customer);
-            request.setAttribute("updateMessage", "Your account has been created, your password has been sent to the email you just registered, please change your new password !!!");
+            request.setAttribute("updateMessage", "Your account has been created, your password has been sent to the email you just registered, please change your new password.");
             request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
 
             //If signed in before
@@ -73,7 +73,7 @@ public class LoginGoogleHandler extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("customer", customer);
             session.setMaxInactiveInterval(60 * 30);
-            request.setAttribute("succesLogin", "Login successfully !!!");
+            request.setAttribute("succesLogin", "Login successfully.");
             request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
         }
     }

@@ -56,7 +56,7 @@
                     </div>
                     <div class="form-field">
                         <input type="email" class="form-input" name="email" required>
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label">Gmail</label>
                     </div>
                     <div class="form-field">
                         <input type="password" class="form-input" name="password" required minlength="8" id="registerPassword">
@@ -91,7 +91,7 @@
                     <h1>Login</h1>
                     <div class="form-field">
                         <input type="email" name="email" class="form-input" autocomplete="off">
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label">Gmail</label>
                     </div>
                     <div class="form-field">
                         <input type="password" name="password" class="form-input" autocomplete="off" id="loginPassword">

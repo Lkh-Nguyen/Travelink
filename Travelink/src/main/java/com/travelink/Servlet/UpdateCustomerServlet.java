@@ -113,7 +113,7 @@ public class UpdateCustomerServlet extends HttpServlet {
         Customer customerUpdate = CustomerDB.updateCustomer(oldCustomer, newCustomer);
         HttpSession hs = request.getSession();
         hs.setAttribute("customer", customerUpdate);
-        request.setAttribute("statusUpdate", "Update successfully customer !!!");
+        request.setAttribute("statusUpdate", "Update successfully customer.");
         PrintWriter printWriter = response.getWriter();
         request.getRequestDispatcher("My_Account_Update.jsp").forward(request, response);
 

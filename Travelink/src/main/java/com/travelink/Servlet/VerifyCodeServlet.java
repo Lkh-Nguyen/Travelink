@@ -94,7 +94,7 @@ public class VerifyCodeServlet extends HttpServlet {
 //              Insert Customer to DB
                 boolean success = CustomerDB.insertCustomer(c);
                 if (success) {
-                    request.setAttribute("successMessage", "Register successfully! Please login account again. ");
+                    request.setAttribute("successMessage", "Register successfully! Please login account again.");
                 }
                 request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
             } else if ("forgetPassword".equals(action)) {
@@ -109,7 +109,7 @@ public class VerifyCodeServlet extends HttpServlet {
                 mail.sendForgotPassword(email, textString);
                 Customer customer = CustomerDB.getCustomer(email);
                 CustomerDB.changePassword(customer, textString);
-                request.setAttribute("updateMessage", "Your account has been created, your password has been sent to the email you just registered, please change your new password !!!");
+                request.setAttribute("updateMessage", "Your account has been created, your password has been sent to the email you just registered, please change your new password.");
                 request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
             }
 

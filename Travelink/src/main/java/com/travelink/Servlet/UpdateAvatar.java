@@ -76,7 +76,7 @@ public class UpdateAvatar extends HttpServlet {
             // Update the user's information
         if (CustomerDB.updateAvatarCustomer(sessionCustomer,urlAvatar)) {
             sessionCustomer.setAvatarURL(urlAvatar);
-            request.setAttribute("updateStatus", "Change avatar successfully !!!");
+            request.setAttribute("updateStatus", "Change avatar successfully.");
             // Update the session with the new user information
             session.setAttribute("customer", sessionCustomer);
         }

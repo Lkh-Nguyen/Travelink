@@ -59,7 +59,7 @@ public class LogoutServlet extends HttpServlet {
         if (session != null) {
             session.invalidate(); // Invalidate the session
         }
-        request.setAttribute("loggout", "Loggout account success successfully!!!");
+        request.setAttribute("loggout", "Loggout account success successfully.");
         request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
     } 
 

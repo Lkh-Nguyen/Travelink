@@ -79,13 +79,13 @@ public class ChangeCustomerPasswordServlet extends HttpServlet {
         Customer customer = (Customer) session.getAttribute("customer");
 
         if (!customer.getPassword().equals(pass)) {
-            request.setAttribute("pass_error", "The old password is incorrect !!!");
+            request.setAttribute("error", "The old password is incorrect.");
             request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
         } else if (pass.equalsIgnoreCase(newpass)) {
-            request.setAttribute("newpass_error", "The new password must not be the same as the old password !!!");
+            request.setAttribute("error", "The new password must not be the same as the old password.");
             request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
         } else if (!newpass.equalsIgnoreCase(re_newpass)) {
-            request.setAttribute("re_newpass_error", "The new password does not match !!!");
+            request.setAttribute("error", "The new password does not match.");
             request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
         } else if (CustomerDB.changePassword(customer, newpass)) {
             request.setAttribute("updateStatus", "Updated password successfully.");

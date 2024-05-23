@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="css/Right_My_Account.css">
         <link rel="stylesheet" href="css/Left_My_Account.css">
         <link rel="icon" href="img_Home/logo.png">
+        <link rel="stylesheet" href="css/Alter.css">
 
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <style>
@@ -191,7 +192,6 @@
                                         <input type="password" name="password" id="oldpassword"  placeholder="Enter Old Password In Here" required minlength="8">
                                         <span id="toggleOldPassword" class="toggle-password" onclick="togglePasswordVisibility('oldpassword', 'toggleOldPassword')">&#128065;</span>
                                     </div>
-                                    <h5 style="color: red">${requestScope.pass_error}</h5>
                                 </div>
                             </div>
                             <div class="pd_flex">
@@ -201,7 +201,7 @@
                                         <input type="password" name="newpassword" id="newpassword" placeholder="Enter New Password In Here" required minlength="8">
                                         <span id="toggleNewPassword" class="toggle-password" onclick="togglePasswordVisibility('newpassword', 'toggleNewPassword')">&#128065;</span>
                                     </div>
-                                    <h5 style="color: red">${requestScope.newpass_error}</h5>
+
                                 </div>
                                 <div class="flex1">
                                     <p>Enter Again New Password</p>
@@ -209,10 +209,47 @@
                                         <input type="password" name="re_newpassword" id="re_newpassword" placeholder="Enter Again New Password In Here" required minlength="8">
                                         <span id="toggleReNewPassword" class="toggle-password" onclick="togglePasswordVisibility('re_newpassword', 'toggleReNewPassword')">&#128065;</span>
                                     </div>
-                                    <h5 style="color: red">${requestScope.re_newpass_error}</h5>
                                 </div>
                             </div>
-                            <h5 style="color: green">${requestScope.updateStatus}</h5>
+                            <c:if test="${requestScope.error != null}">
+                                <div id="status-message" style="background-color: rgb(253,233,231);height: 70px;" class="hidden">
+                                    <div style="display: flex">
+                                        <div style="width: 20%">
+                                            <i class='bx bxs-error-circle' style="font-size: 50px;color: red;margin-top: 0px"></i>
+                                        </div>
+                                        <div style="width: 80%;text-align: start">
+                                            <h3 style="color: red;margin-top: 5px;font-weight: 550 ">Error</h3>
+                                            <p style="color: black;margin-top: -15px;font-size: 14px">${error}</p>
+                                        </div>
+                                    </div>           
+                                </div>
+                            </c:if>
+                            <c:if test="${requestScope.updateStatus != null}">
+                                <div id="status-message" style="background-color: rgb(233,251,233)" class="hidden">
+                                    <div style="display: flex">
+                                        <div style="width: 20%">
+                                            <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                                        </div>
+                                        <div style="width: 80%; text-align: start">
+                                            <h3 style="color:green;margin-top: 5px;font-weight: 550 ">Success</h3>
+                                            <p style="color: black;margin-top: -15px;font-size: 14px">${updateStatus}</p>
+                                        </div>
+                                    </div>           
+                                </div>
+                            </c:if>
+                            <c:if test="${requestScope.updateMessage != null}">
+                                <div id="status-message" style="background-color: rgb(233,251,233)" class="hidden">
+                                    <div style="display: flex">
+                                        <div style="width: 20%">
+                                            <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                                        </div>
+                                        <div style="width: 80%; text-align: start">
+                                            <h3 style="color:green;margin-top: 5px;font-weight: 550 ">Success</h3>
+                                            <p style="color: black;margin-top: -15px;font-size: 14px">${updateMessage}</p>
+                                        </div>
+                                    </div>           
+                                </div>
+                            </c:if>
                             <div class="pd_button">
                                 <button type="button" id="cancelButton" class="disabled" onclick="cancel()">Cancel</button>
                                 <input type="submit" id="saveButton" class="disabled" value="Save"/>
@@ -235,82 +272,83 @@
             </div>
         </div>
         <%@include file="Footer.jsp" %>
+        <script src="js/Alter.js"></script>
         <script>
-            function cancel() {
-                location.reload();
-                event.preventDefault();
-            }
-            document.getElementById("logoutButton").addEventListener("click", function () {
-                document.getElementById("overlay").style.display = "block";
-                var logoutConfirm = document.getElementById("logoutConfirm");
-                logoutConfirm.style.display = "block"; // Hiển thị khung xác nhận
-                setTimeout(function () {
-                    logoutConfirm.classList.add("active");
-                }, 50);
-            });
+                                    function cancel() {
+                                        location.reload();
+                                        event.preventDefault();
+                                    }
+                                    document.getElementById("logoutButton").addEventListener("click", function () {
+                                        document.getElementById("overlay").style.display = "block";
+                                        var logoutConfirm = document.getElementById("logoutConfirm");
+                                        logoutConfirm.style.display = "block"; // Hiển thị khung xác nhận
+                                        setTimeout(function () {
+                                            logoutConfirm.classList.add("active");
+                                        }, 50);
+                                    });
 
-            document.getElementById("confirmNo").addEventListener("click", function () {
-                var logoutConfirm = document.getElementById("logoutConfirm");
-                logoutConfirm.classList.remove("active");
-                setTimeout(function () {
-                    logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
-                    document.getElementById("overlay").style.display = "none";
-                }, 500);
-            });
+                                    document.getElementById("confirmNo").addEventListener("click", function () {
+                                        var logoutConfirm = document.getElementById("logoutConfirm");
+                                        logoutConfirm.classList.remove("active");
+                                        setTimeout(function () {
+                                            logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
+                                            document.getElementById("overlay").style.display = "none";
+                                        }, 500);
+                                    });
 
-            document.getElementById("overlay").addEventListener("click", function () {
-                var logoutConfirm = document.getElementById("logoutConfirm");
-                logoutConfirm.classList.remove("active");
-                setTimeout(function () {
-                    logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
-                    document.getElementById("overlay").style.display = "none";
-                }, 500);
-            });
+                                    document.getElementById("overlay").addEventListener("click", function () {
+                                        var logoutConfirm = document.getElementById("logoutConfirm");
+                                        logoutConfirm.classList.remove("active");
+                                        setTimeout(function () {
+                                            logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
+                                            document.getElementById("overlay").style.display = "none";
+                                        }, 500);
+                                    });
 
 
 
-            /*Change password*/
+                                    /*Change password*/
 
-            document.addEventListener('DOMContentLoaded', function () {
-                const form = document.getElementById('passwordForm');
-                const newPassword = document.getElementById('newpassword');
-                const reNewPassword = document.getElementById('re_newpassword');
-                const saveButton = document.getElementById('saveButton');
-                const cancelButton = document.getElementById('cancelButton');
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        const form = document.getElementById('passwordForm');
+                                        const newPassword = document.getElementById('newpassword');
+                                        const reNewPassword = document.getElementById('re_newpassword');
+                                        const saveButton = document.getElementById('saveButton');
+                                        const cancelButton = document.getElementById('cancelButton');
 
-                function checkPasswords() {
-                    if (newPassword.value.trim() !== '' && reNewPassword.value.trim() !== '') {
-                        saveButton.classList.remove('disabled');
-                        saveButton.classList.add('enabled');
-                        cancelButton.classList.remove('disabled');
-                        cancelButton.classList.add('enabled');
-                    } else {
-                        saveButton.classList.remove('enabled');
-                        saveButton.classList.add('disabled');
-                        cancelButton.classList.remove('enabled');
-                        cancelButton.classList.add('disabled');
-                    }
-                }
+                                        function checkPasswords() {
+                                            if (newPassword.value.trim() !== '' && reNewPassword.value.trim() !== '') {
+                                                saveButton.classList.remove('disabled');
+                                                saveButton.classList.add('enabled');
+                                                cancelButton.classList.remove('disabled');
+                                                cancelButton.classList.add('enabled');
+                                            } else {
+                                                saveButton.classList.remove('enabled');
+                                                saveButton.classList.add('disabled');
+                                                cancelButton.classList.remove('enabled');
+                                                cancelButton.classList.add('disabled');
+                                            }
+                                        }
 
-                newPassword.addEventListener('input', checkPasswords);
-                reNewPassword.addEventListener('input', checkPasswords);
+                                        newPassword.addEventListener('input', checkPasswords);
+                                        reNewPassword.addEventListener('input', checkPasswords);
 
-                // Initial check in case some fields are pre-filled
-                checkPasswords();
-            });
+                                        // Initial check in case some fields are pre-filled
+                                        checkPasswords();
+                                    });
 
-            function togglePasswordVisibility(passwordFieldId, toggleButtonId) {
-                const passwordField = document.getElementById(passwordFieldId);
-                const toggleButton = document.getElementById(toggleButtonId);
+                                    function togglePasswordVisibility(passwordFieldId, toggleButtonId) {
+                                        const passwordField = document.getElementById(passwordFieldId);
+                                        const toggleButton = document.getElementById(toggleButtonId);
 
-                if (passwordField.type === "password") {
-                    passwordField.type = "text";
-                    toggleButton.innerHTML = "&#128064;"; // change icon to an open eye
-                } else {
-                    passwordField.type = "password";
-                    toggleButton.innerHTML = "&#128065;"; // change icon back to a closed eye
-                }
-            }
+                                        if (passwordField.type === "password") {
+                                            passwordField.type = "text";
+                                            toggleButton.innerHTML = "&#128064;"; // change icon to an open eye
+                                        } else {
+                                            passwordField.type = "password";
+                                            toggleButton.innerHTML = "&#128065;"; // change icon back to a closed eye
+                                        }
+                                    }
         </script>
     </body>
 </html>

@@ -80,7 +80,7 @@ public class RegisterServlet extends HttpServlet {
         //Check customer existed
         Customer c = CustomerDB.getCustomer(email);
         if (c != null){
-            request.setAttribute("errorMessage", "Email existed!");
+            request.setAttribute("errorLogin", "Email existed! You can not create account.");
             request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
             return;
         }

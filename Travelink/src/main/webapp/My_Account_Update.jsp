@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="css/Right_My_Account.css">
         <link rel="stylesheet" href="css/Left_My_Account.css">
         <link rel="icon" href="img_Home/logo.png">
+        <link rel="stylesheet" href="css/Alter.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <!-- Dùng để đăng xuất-->
         <style>
@@ -222,7 +223,19 @@
                                 </div>
                             </div>
                         </div>
-                        <h5 style="color:green;margin-left:22px">${requestScope.statusUpdate}</h5>
+                        <c:if test="${requestScope.statusUpdate != null}">
+                            <div id="status-message" style="background-color: rgb(233,251,233)" class="hidden">
+                                <div style="display: flex">
+                                    <div style="width: 20%">
+                                        <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                                    </div>
+                                    <div style="width: 80%; text-align: start">
+                                        <h3 style="color:green;margin-top: 5px;font-weight: 550 ">Success</h3>
+                                        <p style="color: black;margin-top: -15px;font-size: 14px">${statusUpdate}</p>
+                                    </div>
+                                </div>           
+                            </div>
+                        </c:if>
                         <div class="pd_button">
                             <button type="button" id="cancelButton" class="disabled" onclick="cancel()">Cancel</button>
                             <input  type="submit" id="saveButton" class="disabled" value="Save"/>
@@ -233,65 +246,66 @@
             </div>
         </div>
         <%@include file="Footer.jsp" %>
+        <script src="js/Alter.js"></script>
         <script>
-            function cancel() {
-                location.reload();
-                event.preventDefault();
-            }
-            document.getElementById("logoutButton").addEventListener("click", function () {
-                document.getElementById("overlay").style.display = "block";
-                var logoutConfirm = document.getElementById("logoutConfirm");
-                logoutConfirm.style.display = "block"; // Hiển thị khung xác nhận
-                setTimeout(function () {
-                    logoutConfirm.classList.add("active");
-                }, 50);
-            });
+                                function cancel() {
+                                    location.reload();
+                                    event.preventDefault();
+                                }
+                                document.getElementById("logoutButton").addEventListener("click", function () {
+                                    document.getElementById("overlay").style.display = "block";
+                                    var logoutConfirm = document.getElementById("logoutConfirm");
+                                    logoutConfirm.style.display = "block"; // Hiển thị khung xác nhận
+                                    setTimeout(function () {
+                                        logoutConfirm.classList.add("active");
+                                    }, 50);
+                                });
 
-            document.getElementById("confirmNo").addEventListener("click", function () {
-                var logoutConfirm = document.getElementById("logoutConfirm");
-                logoutConfirm.classList.remove("active");
-                setTimeout(function () {
-                    logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
-                    document.getElementById("overlay").style.display = "none";
-                }, 500);
-            });
+                                document.getElementById("confirmNo").addEventListener("click", function () {
+                                    var logoutConfirm = document.getElementById("logoutConfirm");
+                                    logoutConfirm.classList.remove("active");
+                                    setTimeout(function () {
+                                        logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
+                                        document.getElementById("overlay").style.display = "none";
+                                    }, 500);
+                                });
 
-            document.getElementById("overlay").addEventListener("click", function () {
-                var logoutConfirm = document.getElementById("logoutConfirm");
-                logoutConfirm.classList.remove("active");
-                setTimeout(function () {
-                    logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
-                    document.getElementById("overlay").style.display = "none";
-                }, 500);
-            });
+                                document.getElementById("overlay").addEventListener("click", function () {
+                                    var logoutConfirm = document.getElementById("logoutConfirm");
+                                    logoutConfirm.classList.remove("active");
+                                    setTimeout(function () {
+                                        logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
+                                        document.getElementById("overlay").style.display = "none";
+                                    }, 500);
+                                });
 
 
 
-            /*Change*/
-            document.addEventListener('DOMContentLoaded', function () {
-                const inputs = document.querySelectorAll('#customerForm input, #customerForm textarea');
-                const saveButton = document.getElementById('saveButton');
-                const cancelButton = document.getElementById('cancelButton');
-                let isChanged = false;
+                                /*Change*/
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    const inputs = document.querySelectorAll('#customerForm input, #customerForm textarea');
+                                    const saveButton = document.getElementById('saveButton');
+                                    const cancelButton = document.getElementById('cancelButton');
+                                    let isChanged = false;
 
-                inputs.forEach(input => {
-                    input.addEventListener('input', () => {
-                        if (!isChanged) {
-                            saveButton.classList.remove('disabled');
-                            saveButton.classList.add('enabled');
-                            cancelButton.classList.remove('disabled');
-                            cancelButton.classList.add('enabled');
-                            isChanged = true;
-                        }
-                    });
-                });
+                                    inputs.forEach(input => {
+                                        input.addEventListener('input', () => {
+                                            if (!isChanged) {
+                                                saveButton.classList.remove('disabled');
+                                                saveButton.classList.add('enabled');
+                                                cancelButton.classList.remove('disabled');
+                                                cancelButton.classList.add('enabled');
+                                                isChanged = true;
+                                            }
+                                        });
+                                    });
 
-                cancelButton.addEventListener('click', function (event) {
-                    if (isChanged) {
-                        window.location.reload();
-                    }
-                });
-            })
+                                    cancelButton.addEventListener('click', function (event) {
+                                        if (isChanged) {
+                                            window.location.reload();
+                                        }
+                                    });
+                                })
         </script>
     </body>
 </html>

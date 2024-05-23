@@ -1,9 +1,9 @@
 <%-- 
-    Document   : account
-    Created on : May 15, 2024, 8:59:13 PM
-    Author     : HELLO
+Document   : account
+Created on : May 15, 2024, 8:59:13 PM
+Author     : HELLO
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,6 +13,7 @@
         <link rel="icon" href="img_Home/logo.png">
         <link rel="stylesheet" href="css/Left_My_Account.css">
         <link rel="stylesheet" href="css/View_Avata.css">
+        <link rel="stylesheet" href="css/Alter.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <!-- Dùng để đăng xuất-->
         <style>
@@ -101,6 +102,7 @@
                 bottom: 50%;
                 transform: translate(-50%, 50%);
             }
+
         </style>
         <!-- Dùng để đăng xuất-->
     </head>
@@ -184,22 +186,43 @@
                         <% } %>
                         <button id="seeAvatar" onclick="hello()">View Avatar</button>
                         <form method="post" action="UploadImageAvatar" enctype="multipart/form-data" onsubmit="return validateForm(event)">
-                            <input type="file" name="file" size="60"/><br/>
+                            <input type="file" name="file" size="60" accept=".jpeg,.jpg,.png"/><br/>
                             <p>Maximum file size is 1 MB.<br>Format: .JPEG, .PNG</p>
                             <input id="submit_Input" style="margin-top:10px" type="submit" value="Upload"/>
                             <div id="error-message">Please select a file to upload.</div>
                         </form>
 
-                        <% if (uploadedFilePath != null && !uploadedFilePath.isEmpty()) { %>
                         <form method="post" action="UpdateAvatar">
-                            <input type="hidden" name="urlAvatar" value="/Travelink/img_Avatar/${uploadedFilePath}"/>
-                            <div class="pd_button">
-                                <button><a href="View_Avatar.jsp">Cancel</a></button>
-                                <input type="submit" value="Save"/>
-                            </div>  
+                            <c:choose>
+                                <c:when test="${not empty uploadedFilePath}">
+                                    <input type="hidden" name="urlAvatar" value="/Travelink/img_Avatar/${uploadedFilePath}"/>
+                                    <div class="pd_button">
+                                        <button><a href="View_Avatar.jsp">Cancel</a></button>
+                                        <input type="submit" value="Save"/>
+                                    </div>  
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="hidden" name="urlAvatar" value=""/>
+                                    <div class="pd_button">
+                                        <button style="pointer-events: none;cursor: not-allowed;opacity: 0.6;">Cancel</button>
+                                        <input type="submit" value="Save" style="pointer-events: none;cursor: not-allowed;opacity: 0.6;"/>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
                         </form>
-                        <% } %>
-                        <p style="margin-top: 20px;color: green;font-size: 20px">${updateStatus}</p>
+                        <c:if test="${requestScope.updateStatus != null}">
+                            <div id="status-message" style="background-color: rgb(233,251,233)" class="hidden">
+                                <div style="display: flex">
+                                    <div style="width: 20%">
+                                        <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                                    </div>
+                                    <div style="width: 80%;text-align: start">
+                                        <h3 style="color:green;margin-top: 5px;font-weight: 550">Success</h3>
+                                        <p style="color: black;margin-top: -15px;font-size: 14px">${updateStatus}</p>
+                                    </div>
+                                </div>           
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>
@@ -261,5 +284,6 @@
             }
 
         </script>
+        <script src="js/Alter.js"></script>
     </body>
 </html>

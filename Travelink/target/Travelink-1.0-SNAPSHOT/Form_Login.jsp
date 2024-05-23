@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html lang="en">
-
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="img_Home/logo.png">
         <link rel="stylesheet" href="css/Form_Login.css">
+        <link rel="stylesheet" href="css/Alter.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <title>Login Form</title>
     </head>
 
@@ -18,19 +20,6 @@
                 <i class="fa fa-arrow-left"></i> Back
             </a>
         </div>
-        <!--        Error Message-->
-        <%
-            if (request.getAttribute("errorMessage") != null) {
-        %>
-        <div class="missing-container">
-            <p class="missing-msg">
-                <%= request.getAttribute("errorMessage") %>
-            </p>
-        </div>
-        <%
-            }
-        %>
-        <!--        Success Message-->
 
         <div class="total-header">
             <div class="div-title">
@@ -70,21 +59,11 @@
                         <label for="email" class="form-label">Email</label>
                     </div>
                     <div class="form-field">
-                        <input type="password" class="form-input" name="password" required minlength="8">
+                        <input type="password" class="form-input" name="password" required minlength="8" id="registerPassword">
                         <label for="password" class="form-label">Password</label>
+                        <span id="toggleRegisterPassword" class="toggle-password" style="font-size: 15px;user-select: none" onclick="togglePasswordVisibility('registerPassword', 'toggleRegisterPassword')">&#128065;</span>
                     </div>
                     <p>--------- or login/register with ----------</p>
-                    <%
-                        if (request.getAttribute("errorMessage") != null) {
-                    %>
-                    <div class="missing-container">
-                        <p class="missing-msg">
-                            <%= request.getAttribute("errorMessage") %>
-                        </p>
-                    </div>
-                    <%
-                        }
-                    %>
                     <div class="login-way">
                         <a href="https://www.facebook.com/?stype=lo&deoia=1&jlou=AfdibM459Jj0fHXyRGCbN67BSjzCcRXoOwcdxr2C5Nnq-zgmztRY-JtyHe_JO7uB1rTyY--yUuuaiSm38bnVzOTt0_gOTCNpPVh-dg_auVFy6w&smuh=6096&lh=Ac_9OgUQcQFatzL53wo"
                            class="icon-text-container">
@@ -115,8 +94,9 @@
                         <label for="email" class="form-label">Email</label>
                     </div>
                     <div class="form-field">
-                        <input type="password" name="password" class="form-input" autocomplete="off">
+                        <input type="password" name="password" class="form-input" autocomplete="off" id="loginPassword">
                         <label for="password" class="form-label">Password</label>
+                        <span id="toggleLoginPassword" class="toggle-password" style="font-size: 15px;user-select: none" onclick="togglePasswordVisibility('loginPassword', 'toggleLoginPassword')">&#128065;</span>
                     </div>
                     <a class="forgot-pass" href="Forgot_Password.jsp">Forgot your password?</a>
                     <p>--------- or login/register with ----------</p>
@@ -136,11 +116,7 @@
                         </a>
                     </div>
                     <button class="btn-login" id="login">Sign In</button>
-                    <div class="missing-container">
-                        <p class="missing-msg">
-                            ${requestScope.status}
-                        </p>
-                    </div>
+
                 </form>
             </div>
             <div class="overlay-container">
@@ -163,123 +139,157 @@
             </div>
 
         </div>
-
+        
+        <c:if test="${requestScope.errorLogin != null}">
+            <div id="status-message" style="background-color: rgb(253,233,231);height: 80px; margin-top: 0px;" class="hidden">
+                <div style="display: flex">
+                    <div style="width: 20%">
+                        <i class='bx bxs-error-circle' style="font-size: 50px;color: red;margin-top: 0px"></i>
+                    </div>
+                    <div style="width: 80%;text-align: start">
+                        <h3 style="color: red;margin-top: 5px;font-weight: 550 ">Error</h3>
+                        <p style="color: black;margin-top: -15px;font-size: 14px">${errorLogin}</p>
+                    </div>
+                </div>           
+            </div>
+        </c:if>
+        <c:if test="${requestScope.successMessage != null}">
+            <div id="status-message" style="background-color: rgb(233,251,233);height: 80px; margin-top: 0px;" class="hidden">
+                <div style="display: flex">
+                    <div style="width: 20%">
+                        <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                    </div>
+                    <div style="width: 80%; text-align: start">
+                        <h3 style="color:green;margin-top: 5px;font-weight: 550 ">Success</h3>
+                        <p style="color: black;margin-top: -15px;font-size: 14px">${successMessage}</p>
+                    </div>
+                </div>           
+            </div>
+        </c:if>
+        <c:if test="${requestScope.updateMessage != null}">
+            <div id="status-message" style="background-color: rgb(233,251,233); margin-top: 0px;" class="hidden">
+                <div style="display: flex">
+                    <div style="width: 20%">
+                        <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                    </div>
+                    <div style="width: 80%;text-align: start">
+                        <h3 style="color:green;margin-top: 5px;font-weight: 550 ">Success</h3>
+                        <p style="color: black;margin-top: -15px;font-size: 14px">${updateMessage}</p>
+                    </div>
+                </div>           
+            </div>
+        </c:if>
+        <script src="js/Alter.js"></script>
         <script>
-            container.classList.add("left-panel-active");
+                            container.classList.add("left-panel-active");
 
-//Khi nhấn vào button login => hiện container và hiện lớp overlay làm mờ
-            document.getElementById('showFormButton').onclick = function () {
-                container.classList.add("left-panel-active");
-                container.classList.remove("right-panel-active");
-                container.style.display = 'block';
-                overlayBackground.style.display = 'block';
-                // Thêm lớp 'show' để kích hoạt hiệu ứng trượt
-                setTimeout(() => {
-                    container.classList.add('show');
-                }, 150);
-            }
+                            //Khi nhấn vào button login => hiện container và hiện lớp overlay làm mờ
+                            document.getElementById('showFormButton').onclick = function () {
+                                container.classList.add("left-panel-active");
+                                container.classList.remove("right-panel-active");
+                                container.style.display = 'block';
+                                overlayBackground.style.display = 'block';
+                                // Thêm lớp 'show' để kích hoạt hiệu ứng trượt
+                                setTimeout(() => {
+                                    container.classList.add('show');
+                                }, 150);
+                            }
 
-            document.getElementById('overlayBackground').onclick = function () {
-                // Ẩn form và overlay
-                container.classList.remove('show');
-                setTimeout(() => {
-                    container.style.display = 'none';
-                    overlayBackground.style.display = 'none';
-                }, 500); // Thời gian chờ cho animation hoàn thành
-            }
+                            document.getElementById('overlayBackground').onclick = function () {
+                                // Ẩn form và overlay
+                                container.classList.remove('show');
+                                setTimeout(() => {
+                                    container.style.display = 'none';
+                                    overlayBackground.style.display = 'none';
+                                }, 500); // Thời gian chờ cho animation hoàn thành
+                            }
 
-// Để cho overlay trượt qua phải và trái
-            document.getElementById('signUp').onclick = function () {
-                container.classList.add("right-panel-active");
-            }
-            document.getElementById('signIn').onclick = function () {
-                container.classList.remove("right-panel-active");
-            }
+                            // Để cho overlay trượt qua phải và trái
+                            document.getElementById('signUp').onclick = function () {
+                                container.classList.add("right-panel-active");
+                            }
+                            document.getElementById('signIn').onclick = function () {
+                                container.classList.remove("right-panel-active");
+                            }
 
-            document.getElementById('closeButton').onclick = function () {
-                // Ẩn form và overlay
-                container.classList.remove('show');
-                setTimeout(() => {
-                    container.style.display = 'none';
-                    overlayBackground.style.display = 'none';
-                }, 500); // Thời gian chờ cho animation hoàn thành
-            }
-
-
-            document.getElementById('showFormButton-register').onclick = function () {
-                // Kiểm tra nếu container đã có lớp 'right-panel-active'
-                container.classList.add("right-panel-active");
-                container.classList.remove("left-panel-active");
-                container.style.display = 'block';
-                overlayBackground.style.display = 'block';
-                // Thêm lớp 'show' để kích hoạt hiệu ứng trượt
-                setTimeout(() => {
-                    container.classList.add('show');
-                }, 150);
-            }
-
-//Phần login_fix input
-            document.addEventListener('DOMContentLoaded', function () {
-                const inputs = document.querySelectorAll('.form-input');
-
-                inputs.forEach(input => {
-                    const label = input.nextElementSibling;
-
-                    // Không nhập gì thì label về top = 50% là về giữa input nếu không thì lên trên
-                    if (input.value.trim() === '') {
-                        label.style.top = '50%';
-                        label.style.color = '#999';
-                    } else {
-                        label.style.top = '5px';
-                        label.style.color = '#999';
-                    }
+                            document.getElementById('closeButton').onclick = function () {
+                                // Ẩn form và overlay
+                                container.classList.remove('show');
+                                setTimeout(() => {
+                                    container.style.display = 'none';
+                                    overlayBackground.style.display = 'none';
+                                }, 500); // Thời gian chờ cho animation hoàn thành
+                            }
 
 
-                    input.addEventListener('input', function () {
-                        if (this.value.trim() !== '') {
-                            label.style.top = '5px';
-                            label.style.color = '#999';
-                        } else {
-                            label.style.top = '50%';
-                            label.style.color = '#999';
-                        }
-                    });
+                            document.getElementById('showFormButton-register').onclick = function () {
+                                // Kiểm tra nếu container đã có lớp 'right-panel-active'
+                                container.classList.add("right-panel-active");
+                                container.classList.remove("left-panel-active");
+                                container.style.display = 'block';
+                                overlayBackground.style.display = 'block';
+                                // Thêm lớp 'show' để kích hoạt hiệu ứng trượt
+                                setTimeout(() => {
+                                    container.classList.add('show');
+                                }, 150);
+                            }
+
+                            //Phần login_fix input
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const inputs = document.querySelectorAll('.form-input');
+
+                                inputs.forEach(input => {
+                                    const label = input.nextElementSibling;
+
+                                    // Không nhập gì thì label về top = 50% là về giữa input nếu không thì lên trên
+                                    if (input.value.trim() === '') {
+                                        label.style.top = '50%';
+                                        label.style.color = '#999';
+                                    } else {
+                                        label.style.top = '5px';
+                                        label.style.color = '#999';
+                                    }
 
 
-                    input.addEventListener('focus', function () {
-                        label.style.top = '5px';
-                        label.style.color = '#999';
-                    });
+                                    input.addEventListener('input', function () {
+                                        if (this.value.trim() !== '') {
+                                            label.style.top = '5px';
+                                            label.style.color = '#999';
+                                        } else {
+                                            label.style.top = '50%';
+                                            label.style.color = '#999';
+                                        }
+                                    });
 
-                    //blur là khi không còn focus
-                    input.addEventListener('blur', function () {
-                        if (this.value.trim() === '') {
-                            label.style.top = '50%';
-                            label.style.color = '#999';
-                        }
-                    });
-                });
-            });
 
-            //Test Bấm login không nhập 5 lần 
-//            let count = 0;
-//            document.getElementById('login').onclick = function () {
-//                count++;
-//                if (count > 5) {
-//                    window.alert("Lỗi rồi");
-//                }
-//
-//            }
-            document.addEventListener('DOMContentLoaded', function () {
-                const errorMessage = document.querySelector('.missing-container');
+                                    input.addEventListener('focus', function () {
+                                        label.style.top = '5px';
+                                        label.style.color = '#999';
+                                    });
 
-                if (errorMessage) {
-                    setTimeout(() => {
-                        errorMessage.style.display = 'none';
-                    }, 5000); // 2 giây
-                }
-            });
+                                    //blur là khi không còn focus
+                                    input.addEventListener('blur', function () {
+                                        if (this.value.trim() === '') {
+                                            label.style.top = '50%';
+                                            label.style.color = '#999';
+                                        }
+                                    });
+                                });
+                            });
 
+
+                            function togglePasswordVisibility(passwordFieldId, toggleButtonId) {
+                                const passwordField = document.getElementById(passwordFieldId);
+                                const toggleButton = document.getElementById(toggleButtonId);
+
+                                if (passwordField.type === "password") {
+                                    passwordField.type = "text";
+                                    toggleButton.innerHTML = "&#128064;"; // change icon to an open eye
+                                } else {
+                                    passwordField.type = "password";
+                                    toggleButton.innerHTML = "&#128065;"; // change icon back to a closed eye
+                                }
+                            }
         </script>
     </body>
 

@@ -1,10 +1,13 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/Home_Customer.css">
+        <link rel="stylesheet" href="css/Alter.css">
         <link
               href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css"
               rel="stylesheet"
@@ -13,6 +16,33 @@
         <link rel="icon" href="img_Home/logo.png">
     </head>
     <body>
+        
+        <c:if test="${requestScope.succesLogin != null}">
+            <div id="status-message" style="background-color: rgb(233,251,233);height: 70px;" class="hidden">
+                <div style="display: flex">
+                    <div style="width: 20%">
+                        <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                    </div>
+                    <div style="width: 80%; text-align: start">
+                        <h3 style="color:green;margin-top: 5px;font-weight: 550 ">Success</h3>
+                        <p style="color: black;font-size: 14px">${succesLogin}</p>
+                    </div>
+                </div>           
+            </div>
+        </c:if>
+        <c:if test="${requestScope.loggout != null}">
+            <div id="status-message" style="background-color: rgb(233,251,233);height: 80px;" class="hidden">
+                <div style="display: flex">
+                    <div style="width: 20%">
+                        <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                    </div>
+                    <div style="width: 80%; text-align: start">
+                        <h3 style="color:green;margin-top: 5px;font-weight: 550 ">Success</h3>
+                        <p style="color: black;font-size: 14px">${loggout}</p>
+                    </div>
+                </div>           
+            </div>
+        </c:if>
         <div class="overlay"></div>
         <%@include file="Header.jsp" %>
         <header class="section__container header__container">
@@ -234,5 +264,6 @@
         </section>
         <%@include file="Footer.jsp" %>
         <script src="js/Home_Customer.js"></script>
+        <script src="js/Alter.js"></script>
     </body>
 </html>

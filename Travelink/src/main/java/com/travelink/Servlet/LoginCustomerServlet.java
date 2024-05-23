@@ -77,16 +77,17 @@ public class LoginCustomerServlet extends HttpServlet {
 //        printWriter.print(password);
 //        printWriter.print(cu);
         if(cu == null){
-            request.setAttribute("status", "Email not exist!");
+            request.setAttribute("errorLogin", "Email not exist!");
             request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
         }
         else if(!password.equals(cu.getPassword())){
-            request.setAttribute("status", "Password is incorrect!");
+            request.setAttribute("errorLogin", "Password is incorrect!");
             request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
         }
         else{
             HttpSession session = request.getSession();
             session.setAttribute("customer", cu);
+            request.setAttribute("succesLogin", "Login successfully !!!");
             request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
         }
     }

@@ -102,8 +102,7 @@ CREATE TABLE Room_Type (
   Room_Type_ID INT IDENTITY(1,1) PRIMARY KEY,
   Name NVARCHAR(255) NOT NULL,
   Room_Description NVARCHAR(255),
-  Adult TINYINT,
-  Children TINYINT,
+  Capacity TINYINT,
   Total_Rooms TINYINT,
   Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
 );

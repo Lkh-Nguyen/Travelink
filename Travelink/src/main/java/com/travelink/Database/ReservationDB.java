@@ -41,6 +41,7 @@ public class ReservationDB implements DatabaseInfo {
                     reservation.setCheckOutDate(resultSet.getDate("CheckOutDate").toLocalDate());
                     reservation.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
                     reservation.setPaymentMethod(resultSet.getString("Payment_Method"));
+                    reservation.setStatus(resultSet.getString("Status"));
                     reservation.setCustomerID(resultSet.getInt("Customer_ID"));
                 }
             }
@@ -73,6 +74,7 @@ public class ReservationDB implements DatabaseInfo {
                     reservation.setCheckOutDate(resultSet.getDate("CheckOutDate").toLocalDate());
                     reservation.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
                     reservation.setPaymentMethod(resultSet.getString("Payment_Method"));
+                    reservation.setStatus(resultSet.getString("Status"));
                     reservation.setCustomerID(resultSet.getInt("Customer_ID"));
                     reservations.add(reservation);
                 }

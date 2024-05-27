@@ -27,22 +27,33 @@ public class Reservation {
     private LocalDate checkOutDate;
     private BigDecimal totalPrice;
     private String paymentMethod;
+    private String status;
     private int customerID;
 
     // Default constructor
     public Reservation() {
     }
 
-    // Constructor with all member variables
-    public Reservation(LocalDate reservationDate, LocalDate checkInDate, LocalDate checkOutDate,
-            BigDecimal totalPrice, String paymentMethod, int customerID) {
+    //All attributes
+    public Reservation(LocalDate reservationDate, LocalDate checkInDate, LocalDate checkOutDate, BigDecimal totalPrice, String paymentMethod, String status, int customerID) {
         this.reservationDate = reservationDate;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.totalPrice = totalPrice;
         this.paymentMethod = paymentMethod;
+        this.status = status;
         this.customerID = customerID;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
 
     public int getReservationID() {
         return reservationID;
@@ -102,7 +113,9 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return "Reservation{" + "reservationID=" + reservationID + ", reservationDate=" + reservationDate + ", checkInDate=" + checkInDate + ", checkOutDate=" + checkOutDate + ", totalPrice=" + totalPrice + ", paymentMethod=" + paymentMethod + ", customerID=" + customerID + '}';
+        return "Reservation{" + "reservationID=" + reservationID + ", reservationDate=" + reservationDate + ", checkInDate=" + checkInDate + ", checkOutDate=" + checkOutDate + ", totalPrice=" + totalPrice + ", paymentMethod=" + paymentMethod + ", status=" + status + ", customerID=" + customerID + '}';
     }
+
+
 
 }

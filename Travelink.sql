@@ -187,6 +187,7 @@ CREATE TABLE Reservation (
   CheckOutDate DATE NOT NULL,  -- Check-out date for the reservation
   Total_Price DECIMAL(10,2) NOT NULL,  -- Use DECIMAL for currency with decimals
   Payment_Method NVARCHAR(50) NOT NULL,  -- Payment method used (e.g., credit card, cash)
+  Status NVARCHAR(50) NOT NULL, -- Paid / Canceled
   Customer_ID INT NOT NULL,
   FOREIGN KEY (Customer_ID) REFERENCES Customer(Customer_ID) ON DELETE CASCADE,  -- Foreign key to Customer table with cascading delete
   CONSTRAINT CheckInAfterResv CHECK (CheckInDate >= Reservation_Date),  -- Ensure check-in is after reservation date

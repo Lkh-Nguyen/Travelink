@@ -10,18 +10,18 @@ package com.travelink.Model;
  */
 public class RoomImage {
 
-    private int roomImageID;
+    private int room_Image_ID;
     private String name; // Optional: Name of the image
     private String url; // Not null, image URL
-    private int roomTypeID;
+    private int room_ID;
 
     // Getters and Setters
-    public int getRoomImageID() {
-        return roomImageID;
+    public int getRoom_Image_ID() {
+        return room_Image_ID;
     }
 
-    public void setRoomImageID(int roomImageID) {
-        this.roomImageID = roomImageID;
+    public void setRoom_Image_ID(int room_Image_ID) {
+        this.room_Image_ID = room_Image_ID;
     }
 
     public String getName() {
@@ -40,33 +40,33 @@ public class RoomImage {
         this.url = url;
     }
 
-    public int getRoomTypeID() {
-        return roomTypeID;
+    public int getRoom_ID() {
+        return room_ID;
     }
 
-    public void setRoomTypeID(int roomTypeID) {
-        this.roomTypeID = roomTypeID;
+    public void setRoom_ID(int room_ID) {
+        this.room_ID = room_ID;
     }
 
     public RoomImage() {
     }
 
     // Optional: Constructor
-    public RoomImage(int roomImageID, String name, String url, int roomTypeID) {
-        this.roomImageID = roomImageID;
+    public RoomImage(int room_Image_ID, String name, String url, int room_ID) {
+        this.room_Image_ID = room_Image_ID;
         this.name = name;
         this.url = url;
-        this.roomTypeID = roomTypeID;
+        this.room_ID = room_ID;
     }
 
     // Optional: Override toString() for better printing
     @Override
     public String toString() {
         return "RoomImage{"
-                + "roomImageID=" + roomImageID
+                + "room_Image_ID=" + room_Image_ID
                 + ", name='" + name + '\''
                 + ", url='" + url + '\''
-                + ", roomTypeID=" + roomTypeID
+                + ", room_ID=" + room_ID
                 + '}';
     }
 }

@@ -37,10 +37,12 @@ public class ReservationDB implements DatabaseInfo {
                     reservation = new Reservation();
                     reservation.setReservationID(resultSet.getInt("Reservation_ID"));
                     reservation.setReservationDate(resultSet.getDate("Reservation_Date").toLocalDate());
+                    reservation.setNumber_of_guests(resultSet.getInt("number_of_guests"));
                     reservation.setCheckInDate(resultSet.getDate("CheckInDate").toLocalDate());
                     reservation.setCheckOutDate(resultSet.getDate("CheckOutDate").toLocalDate());
                     reservation.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
                     reservation.setPaymentMethod(resultSet.getString("Payment_Method"));
+                    reservation.setStatus(resultSet.getString("Status"));
                     reservation.setCustomerID(resultSet.getInt("Customer_ID"));
                 }
             }
@@ -69,10 +71,12 @@ public class ReservationDB implements DatabaseInfo {
                     Reservation reservation = new Reservation();
                     reservation.setReservationID(resultSet.getInt("Reservation_ID"));
                     reservation.setReservationDate(resultSet.getDate("Reservation_Date").toLocalDate());
+                    reservation.setNumber_of_guests(resultSet.getInt("number_of_guests"));
                     reservation.setCheckInDate(resultSet.getDate("CheckInDate").toLocalDate());
                     reservation.setCheckOutDate(resultSet.getDate("CheckOutDate").toLocalDate());
                     reservation.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
                     reservation.setPaymentMethod(resultSet.getString("Payment_Method"));
+                    reservation.setStatus(resultSet.getString("Status"));
                     reservation.setCustomerID(resultSet.getInt("Customer_ID"));
                     reservations.add(reservation);
                 }

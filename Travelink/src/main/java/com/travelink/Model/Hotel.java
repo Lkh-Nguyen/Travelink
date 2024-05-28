@@ -11,18 +11,22 @@ import java.time.LocalTime;
  * @author ASUS
  */
 public class Hotel {
-
     private int hotel_ID;
     private String name;
     private String email;
-    private String password; // Consider using a secure hashing mechanism for password storage
+    private String password;
     private int star;
     private String phoneNumber;
     private String description;
-    private LocalTime checkInTime;
-    private LocalTime checkOutTime;
+    private LocalTime checkInTimeStart;
+    private LocalTime checkInTimeEnd;
+    private LocalTime checkOutTimeStart;
+    private LocalTime checkOutTimeEnd;
     private String address;
     private int ward_ID;
+
+    // Constructor
+    public Hotel() {}
 
     // Getters and Setters
     public int getHotel_ID() {
@@ -54,7 +58,6 @@ public class Hotel {
     }
 
     public void setPassword(String password) {
-        // Implement secure hashing mechanism before storing password
         this.password = password;
     }
 
@@ -82,20 +85,36 @@ public class Hotel {
         this.description = description;
     }
 
-    public LocalTime getCheckInTime() {
-        return checkInTime;
+    public LocalTime getCheckInTimeStart() {
+        return checkInTimeStart;
     }
 
-    public void setCheckInTime(LocalTime checkInTime) {
-        this.checkInTime = checkInTime;
+    public void setCheckInTimeStart(LocalTime checkInTimeStart) {
+        this.checkInTimeStart = checkInTimeStart;
     }
 
-    public LocalTime getCheckOutTime() {
-        return checkOutTime;
+    public LocalTime getCheckInTimeEnd() {
+        return checkInTimeEnd;
     }
 
-    public void setCheckOutTime(LocalTime checkOutTime) {
-        this.checkOutTime = checkOutTime;
+    public void setCheckInTimeEnd(LocalTime checkInTimeEnd) {
+        this.checkInTimeEnd = checkInTimeEnd;
+    }
+
+    public LocalTime getCheckOutTimeStart() {
+        return checkOutTimeStart;
+    }
+
+    public void setCheckOutTimeStart(LocalTime checkOutTimeStart) {
+        this.checkOutTimeStart = checkOutTimeStart;
+    }
+
+    public LocalTime getCheckOutTimeEnd() {
+        return checkOutTimeEnd;
+    }
+
+    public void setCheckOutTimeEnd(LocalTime checkOutTimeEnd) {
+        this.checkOutTimeEnd = checkOutTimeEnd;
     }
 
     public String getAddress() {
@@ -114,40 +133,25 @@ public class Hotel {
         this.ward_ID = ward_ID;
     }
 
-    public Hotel() {
-    }
-
-    // Optional: Constructor
-    public Hotel(int hotel_ID, String name, String email, String password, int star,
-            String phoneNumber, String description, LocalTime checkInTime, LocalTime checkOutTime,
-            String address, int ward_ID) {
-        this.hotel_ID = hotel_ID;
+    public Hotel(String name, String email, String password, int star, String phoneNumber, String description, LocalTime checkInTimeStart, LocalTime checkInTimeEnd, LocalTime checkOutTimeStart, LocalTime checkOutTimeEnd, String address, int ward_ID) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.star = star;
         this.phoneNumber = phoneNumber;
         this.description = description;
-        this.checkInTime = checkInTime;
-        this.checkOutTime = checkOutTime;
+        this.checkInTimeStart = checkInTimeStart;
+        this.checkInTimeEnd = checkInTimeEnd;
+        this.checkOutTimeStart = checkOutTimeStart;
+        this.checkOutTimeEnd = checkOutTimeEnd;
         this.address = address;
         this.ward_ID = ward_ID;
     }
 
-    // Optional: Override toString() for better printing
     @Override
     public String toString() {
-        return "Hotel{"
-                + "hotel_ID=" + hotel_ID
-                + ", name='" + name + '\''
-                + ", email='" + email + '\''
-                + ", star=" + star
-                + ", phoneNumber='" + phoneNumber + '\''
-                + ", description='" + description + '\''
-                + ", checkInTime=" + checkInTime
-                + ", checkOutTime=" + checkOutTime
-                + ", address='" + address + '\''
-                + ", ward_ID=" + ward_ID
-                + '}';
+        return "Hotel{" + "hotel_ID=" + hotel_ID + ", name=" + name + ", email=" + email + ", password=" + password + ", star=" + star + ", phoneNumber=" + phoneNumber + ", description=" + description + ", checkInTimeStart=" + checkInTimeStart + ", checkInTimeEnd=" + checkInTimeEnd + ", checkOutTimeStart=" + checkOutTimeStart + ", checkOutTimeEnd=" + checkOutTimeEnd + ", address=" + address + ", ward_ID=" + ward_ID + '}';
     }
+    
 }
+

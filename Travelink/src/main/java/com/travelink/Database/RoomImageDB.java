@@ -35,10 +35,10 @@ public class RoomImageDB implements DatabaseInfo {
 
                 while (resultSet.next()) {
                     RoomImage image = new RoomImage();
-                    image.setRoomImageID(resultSet.getInt("Room_Image_ID"));
+                    image.setRoom_Image_ID(resultSet.getInt("Room_Image_ID"));
                     image.setName(resultSet.getString("Name")); // Optional: Name of the image
                     image.setUrl(resultSet.getString("URL"));
-                    image.setRoomTypeID(resultSet.getInt("Room_Type_ID")); // Foreign key for Room_Type
+                    image.setRoom_ID(resultSet.getInt("Room_ID")); // Foreign key for Room_Type
                     images.add(image);
                 }
             }
@@ -65,10 +65,10 @@ public class RoomImageDB implements DatabaseInfo {
 
                 if (resultSet.next()) {
                     image = new RoomImage();
-                    image.setRoomImageID(resultSet.getInt("Room_Image_ID"));
+                    image.setRoom_Image_ID(resultSet.getInt("Room_Image_ID"));
                     image.setName(resultSet.getString("Name")); // Optional: Name of the image
                     image.setUrl(resultSet.getString("URL"));
-                    image.setRoomTypeID(resultSet.getInt("Room_Type_ID"));
+                    image.setRoom_ID(resultSet.getInt("Room_ID"));
                 }
             }
         } catch (SQLException e) {
@@ -77,7 +77,7 @@ public class RoomImageDB implements DatabaseInfo {
         return image;
     }
 
-    public static List<RoomImage> getRoomImagesByRoomTypeID(int roomTypeID) {
+    public static List<RoomImage> getRoomImagesByRoom_ID(int room_ID) {
         List<RoomImage> images = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -87,22 +87,22 @@ public class RoomImageDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM Room_Image WHERE Room_Type_ID = ?";
+                String query = "SELECT * FROM Room_Image WHERE Room_ID = ?";
                 statement = connection.prepareStatement(query);
-                statement.setInt(1, roomTypeID); // Set the room type ID parameter
+                statement.setInt(1, room_ID); // Set the room ID parameter
                 resultSet = statement.executeQuery();
 
                 while (resultSet.next()) {
                     RoomImage image = new RoomImage();
-                    image.setRoomImageID(resultSet.getInt("Room_Image_ID"));
+                    image.setRoom_Image_ID(resultSet.getInt("Room_Image_ID"));
                     image.setName(resultSet.getString("Name")); // Optional: Name of the image
                     image.setUrl(resultSet.getString("URL"));
-                    image.setRoomTypeID(resultSet.getInt("Room_Type_ID"));
+                    image.setRoom_ID(resultSet.getInt("Room_ID"));
                     images.add(image);
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error getting room images by room type ID: " + e);
+            System.out.println("Error getting room images by room ID: " + e);
         }
         return images;
     }
@@ -132,14 +132,14 @@ public class RoomImageDB implements DatabaseInfo {
             System.out.println("Room image with ID " + specificID + " not found.");
         }
 
-        // Test getRoomImagesByRoomTypeID
-        System.out.println("\n** Test getRoomImagesByRoomTypeID **");
-        int targetRoomTypeID = 1; // Replace with an existing room type ID
-        List<RoomImage> roomTypeImages = RoomImageDB.getRoomImagesByRoomTypeID(targetRoomTypeID);
+        // Test getRoomImagesByRoom_ID
+        System.out.println("\n** Test getRoomImagesByRoom_ID **");
+        int targetRoom_ID = 1; // Replace with an existing room ID
+        List<RoomImage> roomTypeImages = RoomImageDB.getRoomImagesByRoom_ID(targetRoom_ID);
         if (roomTypeImages.isEmpty()) {
-            System.out.println("No room images found for room type with ID " + targetRoomTypeID + ".");
+            System.out.println("No room images found for room with ID " + targetRoom_ID + ".");
         } else {
-            System.out.println("Room Images for Room Type (ID: " + targetRoomTypeID + "):");
+            System.out.println("Room Images for Room (ID: " + targetRoom_ID + "):");
             for (RoomImage image : roomTypeImages) {
                 System.out.println(image);
             }

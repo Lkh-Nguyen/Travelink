@@ -31,39 +31,35 @@ CREATE TABLE Hotel (
   Star TINYINT ,
   PhoneNumber VARCHAR(20) ,
   Description NTEXT ,
-  CheckInTime TIME(0) ,
-  CheckOutTime TIME(0) ,
+  CheckInTimeStart TIME(0) ,
+  CheckInTimeEnd TIME(0) ,
+  CheckOutTimeStart TIME(0) ,
+  CheckOutTimeEnd TIME(0) ,
   Address NVARCHAR(255) ,
   Ward_ID INT,
   FOREIGN KEY (Ward_ID) REFERENCES Ward(Ward_ID)
 );
 GO
 
-insert into Hotel values 
-(N'Khách sạn và căn hộ Seashore','email1@gmail.com',1234567890,4,'0123456789',
-N'Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Seashore Hotel & Apartment sẽ là lựa chọn lưu trú hoàn hảo,
-nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.',
-'12:00', '10:00',N'15-16 Hoàng Sa, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam',6372),
-(N'Davue Hotel Da Nang','email2@gmail.com',1234567890,3,'0123456789',
-N'Davue Hotel Da Nang là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền. 
-\nDành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Davue Hotel Da Nang sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
-\nKhách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Davue Hotel Da Nang',
-'12:00', '10:00',N'57-59 Đỗ Bí, Mỹ An, Ngũ Hành Sơn, Đà Nẵng, Việt Nam',6374),
-(N'Cicilia Danang Hotels & Spa Powered by ASTON','email3@gmail.com',1234567890,3,'0123456789',
-N'Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Cicilia Danang Hotels & Spa Powered by ASTON
-\nCicilia Danang Hotels & Spa Powered by ASTON là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.
-\nMột trong những đặc điểm chính của khách sạn này là các liệu pháp spa đa dạng. Hãy nâng niu bản thân bằng các liệu pháp thư giãn, phục hồi giúp quý khách tươi trẻ thân, tâm.',
-'12:00', '10:00',N'06-10 Đỗ Bá, Bãi Biển T20, Phường Mỹ An, Mỹ An, Ngũ Hành Sơn, Đà Nẵng, Việt Nam',6373),
-(N'Bay Capital Danang','email4@gmail.com',1234567890,1,'0123456789',
-N'Dù quý khách muốn tổ chức một sự kiện hay các dịp kỷ niệm đặc biệt khác, Bay Capital Danang là lựa chọn tuyệt vời cho quý khách với phòng chức năng rộng lớn, được trang bị đầy đủ để sẵn sàng đáp ứng mọi yêu cầu.
-\nKhách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Bay Capital Danang
-\nBay Capital Danang là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
-'12:00', '10:00',N'17 Quang Trung, Phường Hải Châu 1, Quận Hải Châu, Đà Nẵng, Việt Nam',6355),
-(N'Khu nghỉ dưỡng và Spa Mikazuki Nhật Bản','email5@gmail.com',1234567890,2,'0123456789',
-N'Từ sự kiện doanh nghiệp đến họp mặt công ty, Da Nang – Mikazuki JAPANESE RESORTS & SPA cung cấp đầy đủ các dịch vụ và tiện nghi đáp ứng mọi nhu cầu của quý khách và đồng nghiệp.
-\nDù quý khách muốn tổ chức một sự kiện hay các dịp kỷ niệm đặc biệt khác, Da Nang – Mikazuki JAPANESE RESORTS & SPA là lựa chọn tuyệt vời cho quý khách với phòng chức năng rộng lớn, được trang bị đầy đủ để sẵn sàng đáp ứng mọi yêu cầu.
-\nHãy tận hưởng thời gian vui vẻ cùng cả gia đình với hàng loạt tiện nghi giải trí tại Da Nang – Mikazuki JAPANESE RESORTS & SPA, một nơi nghỉ tuyệt vời phù hợp cho mọi kỳ nghỉ bên người thân.',
-'12:00', '10:00',N'Đường Nguyễn Tất Thành,Phường Hòa Hiệp Nam, Hòa Hiệp Nam, Liên Chiểu, Đà Nẵng, Việt Nam',6338);
+-- Insert into Hotel table
+INSERT INTO Hotel (
+  Name, Email, Password, Star, PhoneNumber, Description, CheckInTimeStart, CheckInTimeEnd, CheckOutTimeStart, CheckOutTimeEnd, Address, Ward_ID
+) VALUES 
+(N'Khách sạn và căn hộ Seashore', 'email1@gmail.com', '1234567890', 4, '0123456789',
+ N'Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Seashore Hotel & Apartment sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.',
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15-16 Hoàng Sa, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam', 6372),
+(N'Davue Hotel Da Nang', 'email2@gmail.com', '1234567890', 3, '0123456789',
+ N'Davue Hotel Da Nang là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền. \nDành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Davue Hotel Da Nang sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời. \nKhách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Davue Hotel Da Nang',
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'57-59 Đỗ Bí, Mỹ An, Ngũ Hành Sơn, Đà Nẵng, Việt Nam', 6374),
+(N'Cicilia Danang Hotels & Spa Powered by ASTON', 'email3@gmail.com', '1234567890', 3, '0123456789',
+ N'Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Cicilia Danang Hotels & Spa Powered by ASTON \nCicilia Danang Hotels & Spa Powered by ASTON là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ. \nMột trong những đặc điểm chính của khách sạn này là các liệu pháp spa đa dạng. Hãy nâng niu bản thân bằng các liệu pháp thư giãn, phục hồi giúp quý khách tươi trẻ thân, tâm.',
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'06-10 Đỗ Bá, Bãi Biển T20, Phường Mỹ An, Mỹ An, Ngũ Hành Sơn, Đà Nẵng, Việt Nam', 6373),
+(N'Bay Capital Danang', 'email4@gmail.com', '1234567890', 1, '0123456789',
+ N'Dù quý khách muốn tổ chức một sự kiện hay các dịp kỷ niệm đặc biệt khác, Bay Capital Danang là lựa chọn tuyệt vời cho quý khách với phòng chức năng rộng lớn, được trang bị đầy đủ để sẵn sàng đáp ứng mọi yêu cầu. \nKhách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Bay Capital Danang \nBay Capital Danang là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'17 Quang Trung, Phường Hải Châu 1, Quận Hải Châu, Đà Nẵng, Việt Nam', 6355),
+(N'Khu nghỉ dưỡng và Spa Mikazuki Nhật Bản', 'email5@gmail.com', '1234567890', 2, '0123456789',
+ N'Từ sự kiện doanh nghiệp đến họp mặt công ty, Da Nang – Mikazuki JAPANESE RESORTS & SPA cung cấp đầy đủ các dịch vụ và tiện nghi đáp ứng mọi nhu cầu của quý khách và đồng nghiệp. \nDù quý khách muốn tổ chức một sự kiện hay các dịp kỷ niệm đặc biệt khác, Da Nang – Mikazuki JAPANESE RESORTS & SPA là lựa chọn tuyệt vời cho quý khách với phòng chức năng rộng lớn, được trang bị đầy đủ để sẵn sàng đáp ứng mọi yêu cầu. \nHãy tận hưởng thời gian vui vẻ cùng cả gia đình với hàng loạt tiện nghi giải trí tại Da Nang – Mikazuki JAPANESE RESORTS & SPA, một nơi nghỉ tuyệt vời phù hợp cho mọi kỳ nghỉ bên người thân.',
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'Đường Nguyễn Tất Thành, Phường Hòa Hiệp Nam, Hòa Hiệp Nam, Liên Chiểu, Đà Nẵng, Việt Nam', 6338);
 
 --Create Favourite_Hotel table with ON DELETE CASCADE for foreign keys
 CREATE TABLE Favourite_Hotel (
@@ -97,13 +93,14 @@ CREATE TABLE Feedback (
   Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
 );
 
--- Create table Room_Type
-CREATE TABLE Room_Type (
-  Room_Type_ID INT IDENTITY(1,1) PRIMARY KEY,
+-- Create table Room
+CREATE TABLE Room (
+  Room_ID INT IDENTITY(1,1) PRIMARY KEY,
   Name NVARCHAR(255) NOT NULL,
   Room_Description NVARCHAR(255),
   Capacity TINYINT,
   Total_Rooms TINYINT,
+  Price INT,
   Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
 );
 GO
@@ -113,7 +110,7 @@ CREATE TABLE Room_Image (
   Room_Image_ID INT IDENTITY(1,1) PRIMARY KEY,
   Name NVARCHAR(255),  -- Optional: Name of the image
   URL VARCHAR(255) NOT NULL, -- Image URL
-  Room_Type_ID INT FOREIGN KEY REFERENCES Room_Type(Room_Type_ID) ON DELETE CASCADE
+  Room_ID INT FOREIGN KEY REFERENCES Room(Room_ID) ON DELETE CASCADE
 );
 GO
 
@@ -133,6 +130,34 @@ CREATE TABLE Facility (
   Name NVARCHAR(255) NOT NULL  -- Name of the facility
 );
 GO
+
+-- Create table Room_Facility
+CREATE TABLE Room_Facility (
+  Room_ID INT,
+  Facility_ID INT,
+  PRIMARY KEY (Room_ID, Facility_ID),
+  FOREIGN KEY (Room_ID) REFERENCES Room(Room_ID) ON DELETE CASCADE,
+  FOREIGN KEY (Facility_ID) REFERENCES Facility(Facility_ID) ON DELETE CASCADE 
+);
+
+-- Create table Bed
+CREATE TABLE Bed (
+  Bed_ID INT PRIMARY KEY,
+  Name NVARCHAR(255),
+  Description NVARCHAR(255),
+  URL VARCHAR(255)
+);
+
+-- Create table Room_Bed
+CREATE TABLE Room_Bed (
+  Room_Bed_ID INT PRIMARY KEY,
+  Amount TINYINT,
+  Bed_ID INT,
+  Room_ID INT,
+  FOREIGN KEY (Bed_ID) REFERENCES Bed(Bed_ID) ON DELETE CASCADE,
+  FOREIGN KEY (Room_ID) REFERENCES Room(Room_ID) ON DELETE CASCADE
+);
+
 
 -- Create table Hotel_Facility
 CREATE TABLE Hotel_Facility (
@@ -163,26 +188,11 @@ CREATE TABLE Hotel_Service (
 );	
 GO
 
-
-
--- Create table Package
-CREATE TABLE Package (
-  Package_ID INT IDENTITY(1,1) PRIMARY KEY,
-  Room_Type_ID INT NOT NULL,
-  Hotel_Service_ID INT NOT NULL,
-  Price DECIMAL(10,2) NOT NULL,  -- Use DECIMAL for currency
-  Price_Start_Date DATE NOT NULL,
-  Price_End_Date DATE NOT NULL,
-  FOREIGN KEY (Room_Type_ID) REFERENCES Room_Type(Room_Type_ID) ON DELETE CASCADE,
-  FOREIGN KEY (Hotel_Service_ID) REFERENCES Hotel_Service(Hotel_Service_ID) ON DELETE NO ACTION,
-  CONSTRAINT UniquePackage  UNIQUE (Room_Type_ID, Hotel_Service_ID),  -- Ensures unique combination of room type and service
-);
-GO
-
 -- Create Reservation table
 CREATE TABLE Reservation (
   Reservation_ID INT IDENTITY(1,1) PRIMARY KEY,  -- Auto-incrementing unique identifier
   Reservation_Date DATE NOT NULL,  -- Date reservation was made
+  Number_of_guests TINYINT NOT NULL,  -- Date reservation was made
   CheckInDate DATE NOT NULL,  -- Check-in date for the reservation
   CheckOutDate DATE NOT NULL,  -- Check-out date for the reservation
   Total_Price DECIMAL(10,2) NOT NULL,  -- Use DECIMAL for currency with decimals
@@ -195,17 +205,26 @@ CREATE TABLE Reservation (
 );
 GO
 
--- Create table Reserved_Package
-CREATE TABLE Reserved_Package (
-  Reserved_Package_ID INT IDENTITY(1,1) PRIMARY KEY,  -- Auto-incrementing unique identifier
-  Package_Amount TINYINT NOT NULL,  -- Number of packages reserved (positive integer)
-  Reservation_ID INT NOT NULL,
-  Package_ID INT NOT NULL,
+CREATE TABLE Reserved_Service (
+  Reserved_Service_ID INT IDENTITY(1,1) PRIMARY KEY,
+  AmountOfDays TINYINT,
+  Reservation_ID INT,
+  Hotel_Service_ID INT,
   FOREIGN KEY (Reservation_ID) REFERENCES Reservation(Reservation_ID) ON DELETE CASCADE,
-  FOREIGN KEY (Package_ID) REFERENCES Package(Package_ID) ON DELETE CASCADE,
-  CONSTRAINT CheckPackageAmount CHECK (Package_Amount > 0)  -- Ensure positive number of packages reserved
+  FOREIGN KEY (Hotel_Service_ID) REFERENCES Hotel_Service(Hotel_Service_ID) ON DELETE CASCADE
 );
 GO
+
+CREATE TABLE Reserved_Room (
+  Reserved_Room_ID INT IDENTITY(1,1) PRIMARY KEY,
+  Amount TINYINT,
+  Reservation_ID INT,
+  Room_ID INT,
+  FOREIGN KEY (Reservation_ID) REFERENCES Reservation(Reservation_ID) ON DELETE CASCADE,
+  FOREIGN KEY (Room_ID) REFERENCES Room(Room_ID) ON DELETE CASCADE
+);
+GO
+
 
 -- Create table Pending_Cancel_Reservation
 CREATE TABLE Pending_Cancel_Reservation (

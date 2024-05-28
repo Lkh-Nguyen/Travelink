@@ -8,22 +8,25 @@ package com.travelink.Model;
  *
  * @author ASUS
  */
-public class RoomType {
-
-    private int roomTypeID;
-    private String name; // Not null
+public class Room {
+    private int room_ID;
+    private String name;
     private String roomDescription;
     private int capacity;
     private int totalRooms;
-    private int hotelID;
+    private int price;
+    private int hotel_ID;
+
+    // Constructor
+    public Room() {}
 
     // Getters and Setters
-    public int getRoomTypeID() {
-        return roomTypeID;
+    public int getRoom_ID() {
+        return room_ID;
     }
 
-    public void setRoomTypeID(int roomTypeID) {
-        this.roomTypeID = roomTypeID;
+    public void setRoom_ID(int room_ID) {
+        this.room_ID = room_ID;
     }
 
     public String getName() {
@@ -58,37 +61,34 @@ public class RoomType {
         this.totalRooms = totalRooms;
     }
 
-    public int getHotelID() {
-        return hotelID;
+    public int getPrice() {
+        return price;
     }
 
-    public void setHotelID(int hotelID) {
-        this.hotelID = hotelID;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    // Optional: Constructor
-    public RoomType(int roomTypeID, String name, String roomDescription, int capacity, int totalRooms, int hotelID) {
-        this.roomTypeID = roomTypeID;
+    public int getHotel_ID() {
+        return hotel_ID;
+    }
+
+    public void setHotel_ID(int hotel_ID) {
+        this.hotel_ID = hotel_ID;
+    }
+
+    public Room(String name, String roomDescription, int capacity, int totalRooms, int price, int hotel_ID) {
         this.name = name;
         this.roomDescription = roomDescription;
         this.capacity = capacity;
         this.totalRooms = totalRooms;
-        this.hotelID = hotelID;
+        this.price = price;
+        this.hotel_ID = hotel_ID;
     }
 
-    public RoomType() {
-    }
-
-    // Optional: Override toString() for better printing
     @Override
     public String toString() {
-        return "RoomType{"
-                + "roomTypeID=" + roomTypeID
-                + ", name='" + name + '\''
-                + ", roomDescription='" + roomDescription + '\''
-                + ", capacity=" + capacity
-                + ", totalRooms=" + totalRooms
-                + ", hotelID=" + hotelID
-                + '}';
+        return "Room{" + "room_ID=" + room_ID + ", name=" + name + ", roomDescription=" + roomDescription + ", capacity=" + capacity + ", totalRooms=" + totalRooms + ", price=" + price + ", hotel_ID=" + hotel_ID + '}';
     }
 }
+

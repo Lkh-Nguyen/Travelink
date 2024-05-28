@@ -23,6 +23,7 @@ public class Reservation {
 
     private int reservationID;
     private LocalDate reservationDate;
+    private int number_of_guests;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private BigDecimal totalPrice;
@@ -35,14 +36,24 @@ public class Reservation {
     }
 
     //All attributes
-    public Reservation(LocalDate reservationDate, LocalDate checkInDate, LocalDate checkOutDate, BigDecimal totalPrice, String paymentMethod, String status, int customerID) {
+    public Reservation(LocalDate reservationDate, int number_of_guests, LocalDate checkInDate, LocalDate checkOutDate, BigDecimal totalPrice, String paymentMethod, String status, int customerID) {
         this.reservationDate = reservationDate;
+        this.number_of_guests = number_of_guests;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.totalPrice = totalPrice;
         this.paymentMethod = paymentMethod;
         this.status = status;
         this.customerID = customerID;
+    }
+
+
+    public int getNumber_of_guests() {
+        return number_of_guests;
+    }
+
+    public void setNumber_of_guests(int number_of_guests) {
+        this.number_of_guests = number_of_guests;
     }
 
     public String getStatus() {
@@ -113,9 +124,7 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return "Reservation{" + "reservationID=" + reservationID + ", reservationDate=" + reservationDate + ", checkInDate=" + checkInDate + ", checkOutDate=" + checkOutDate + ", totalPrice=" + totalPrice + ", paymentMethod=" + paymentMethod + ", status=" + status + ", customerID=" + customerID + '}';
+        return "Reservation{" + "reservationID=" + reservationID + ", reservationDate=" + reservationDate + ", number_of_guests=" + number_of_guests + ", checkInDate=" + checkInDate + ", checkOutDate=" + checkOutDate + ", totalPrice=" + totalPrice + ", paymentMethod=" + paymentMethod + ", status=" + status + ", customerID=" + customerID + '}';
     }
-
-
 
 }

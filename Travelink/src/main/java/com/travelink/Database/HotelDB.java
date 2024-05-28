@@ -43,8 +43,10 @@ public class HotelDB implements DatabaseInfo {
                     hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
                     hotel.setDescription(resultSet.getString("Description"));
                     // Convert SQL TIME to LocalTime (assuming database uses TIME datatype)
-                    hotel.setCheckInTime(resultSet.getTime("CheckInTime").toLocalTime());
-                    hotel.setCheckOutTime(resultSet.getTime("CheckOutTime").toLocalTime());
+                    hotel.setCheckInTimeStart(resultSet.getTime("CheckInTimeStart").toLocalTime());
+                    hotel.setCheckInTimeEnd(resultSet.getTime("CheckInTimeEnd").toLocalTime());
+                    hotel.setCheckOutTimeStart(resultSet.getTime("CheckOutTimeStart").toLocalTime());
+                    hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
                     hotel.setAddress(resultSet.getString("Address"));
                     hotel.setWard_ID(resultSet.getInt("Ward_ID"));
                     hotels.add(hotel);
@@ -81,8 +83,10 @@ public class HotelDB implements DatabaseInfo {
                     hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
                     hotel.setDescription(resultSet.getString("Description"));
                     // Convert SQL TIME to LocalTime
-                    hotel.setCheckInTime(resultSet.getTime("CheckInTime").toLocalTime());
-                    hotel.setCheckOutTime(resultSet.getTime("CheckOutTime").toLocalTime());
+                    hotel.setCheckInTimeStart(resultSet.getTime("CheckInTimeStart").toLocalTime());
+                    hotel.setCheckInTimeEnd(resultSet.getTime("CheckInTimeEnd").toLocalTime());
+                    hotel.setCheckOutTimeStart(resultSet.getTime("CheckOutTimeStart").toLocalTime());
+                    hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
                     hotel.setAddress(resultSet.getString("Address"));
                     hotel.setWard_ID(resultSet.getInt("Ward_ID"));
                 }
@@ -118,8 +122,10 @@ public class HotelDB implements DatabaseInfo {
                     hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
                     hotel.setDescription(resultSet.getString("Description"));
                     // Convert SQL TIME to LocalTime
-                    hotel.setCheckInTime(resultSet.getTime("CheckInTime").toLocalTime());
-                    hotel.setCheckOutTime(resultSet.getTime("CheckOutTime").toLocalTime());
+                    hotel.setCheckInTimeStart(resultSet.getTime("CheckInTimeStart").toLocalTime());
+                    hotel.setCheckInTimeEnd(resultSet.getTime("CheckInTimeEnd").toLocalTime());
+                    hotel.setCheckOutTimeStart(resultSet.getTime("CheckOutTimeStart").toLocalTime());
+                    hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
                     hotel.setAddress(resultSet.getString("Address"));
                     hotel.setWard_ID(resultSet.getInt("Ward_ID"));
                     hotels.add(hotel);

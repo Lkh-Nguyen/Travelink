@@ -44,6 +44,10 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewHotelServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.ViewHotelServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewHotelServlet</servlet-name>
+        <url-pattern>/viewHotelServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

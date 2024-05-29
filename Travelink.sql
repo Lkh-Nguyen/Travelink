@@ -104,6 +104,14 @@ CREATE TABLE Room (
   Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
 );
 GO
+INSERT INTO Room (Name, Room_Description, Capacity, Total_Rooms, Price, Hotel_ID)
+VALUES ('Standard Room', 'This is a cozy room with one king-size bed', 2, 10, 300000, 1);
+
+INSERT INTO Room (Name, Room_Description, Capacity, Total_Rooms, Price, Hotel_ID)
+VALUES ('Deluxe Suite', 'Spacious suite with a separate living area and a king-size bed', 4, 5, 500000, 1);
+
+INSERT INTO Room (Name, Room_Description, Capacity, Total_Rooms, Price, Hotel_ID)
+VALUES ('Family Room', 'Room with two queen-size beds, suitable for families', 4, 3, 2000000, 1);
 
 -- Create table Room_Image
 CREATE TABLE Room_Image (
@@ -113,6 +121,17 @@ CREATE TABLE Room_Image (
   Room_ID INT FOREIGN KEY REFERENCES Room(Room_ID) ON DELETE CASCADE
 );
 GO
+INSERT INTO Room_Image (Name, URL, Room_ID)
+VALUES 
+  ('Standard Room Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 1),  -- Link to Standard Room (ID 1)
+  ('Deluxe Suite Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 1), 
+  ('Family Room Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 1),
+  ('Standard Room Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 2), 
+  ('Deluxe Suite Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 2), 
+  ('Family Room Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 2), 
+  ('Standard Room Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.booking.com%2Fhotel%2Fvn%2Fseashore-amp-apartment.vi.html&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABBF', 3), 
+  ('Deluxe Suite Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.booking.com%2Fhotel%2Fvn%2Fseashore-amp-apartment.vi.html&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABBF', 3), 
+  ('Family Room Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.booking.com%2Fhotel%2Fvn%2Fseashore-amp-apartment.vi.html&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABBF', 3); 
 
 -- Create table Hotel_Image
 CREATE TABLE Hotel_Image (
@@ -122,6 +141,18 @@ CREATE TABLE Hotel_Image (
   Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
 );
 GO
+INSERT INTO Hotel_Image (Name, URL, Hotel_ID)
+VALUES ('SeashoreHotelImg1', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 1);
+INSERT INTO Hotel_Image (Name, URL, Hotel_ID)
+VALUES ('SeashoreHotelImg2', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 1);
+INSERT INTO Hotel_Image (Name, URL, Hotel_ID)
+VALUES ('SeashoreHotelImg3', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.booking.com%2Fhotel%2Fvn%2Fseashore-amp-apartment.vi.html&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABBF',1);
+INSERT INTO Hotel_Image (Name, URL, Hotel_ID)
+VALUES ('SeashoreHotelImg4', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.booking.com%2Fhotel%2Fvn%2Fseashore-amp-apartment.vi.html&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABBF', 1);
+INSERT INTO Hotel_Image (Name, URL, Hotel_ID)
+VALUES ('SeashoreHotelImg5', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.booking.com%2Fhotel%2Fvn%2Fseashore-amp-apartment.vi.html&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABBF', 1);
+
+
 
 -- Create table Facility
 CREATE TABLE Facility (
@@ -130,6 +161,15 @@ CREATE TABLE Facility (
   Name NVARCHAR(255) NOT NULL  -- Name of the facility
 );
 GO
+INSERT INTO Facility (URL, Name)
+VALUES (NULL, N'Hồ bơi ngoài trời'),
+       (NULL, N'Xe đưa đón sân bay'),
+	   (NULL, N'Phòng không hút thuốc'),
+	   (NULL, N'Chỗ đỗ xe miễn phí'),
+	   (NULL, N'WiFi miễn phí'),
+	   (NULL, N'Nhà hàng'),
+	   (NULL, N'Lễ tân 24 giờ'),
+	   (NULL, N'Sân thượng / hiên');
 
 -- Create table Room_Facility
 CREATE TABLE Room_Facility (
@@ -168,13 +208,25 @@ CREATE TABLE Hotel_Facility (
   FOREIGN KEY (Facility_ID) REFERENCES Facility(Facility_ID) ON DELETE CASCADE
 );
 GO
-
+INSERT INTO Hotel_Facility (Hotel_ID, Facility_ID)
+VALUES (1, 1),  
+       (1, 2),
+	   (1, 3),
+	   (1, 4),
+	   (1, 5),
+	   (1, 6),
+	   (1, 7),
+	   (1, 8);
 -- Create table Service
 CREATE TABLE Service (
   Service_ID INT IDENTITY(1,1) PRIMARY KEY,
   Name NVARCHAR(255) NOT NULL
 );
 GO
+INSERT INTO Service (Name)
+VALUES (N'Ăn sáng');
+INSERT INTO Service (Name)
+VALUES ('Buffet');
 
 -- Create table Hotel_Service
 CREATE TABLE Hotel_Service (

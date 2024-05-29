@@ -198,7 +198,7 @@
                             <div class="pd_flex">
                                 <div class="flex1"> 
                                     <p>Birthdate</p>
-                                    <input type="date" name="DOB" style="font-size: 15px" placeholder="Enter BirthDate In Here" value="${customer.dateOfBirth}" required>
+                                    <input type="date" name="DOB" style="font-size: 15px" placeholder="Enter BirthDate In Here" value="${customer.dateOfBirth}" >
                                 </div>
                                 <div class="flex1">
                                     <p>CMND</p>

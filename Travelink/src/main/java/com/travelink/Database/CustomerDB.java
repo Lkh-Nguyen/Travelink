@@ -106,6 +106,9 @@ public class CustomerDB implements DatabaseInfo {
                 if (dateOfBirth != null) {
                     customer.setDateOfBirth(dateOfBirth);
                 }
+                else{
+                    customer.setDateOfBirth(null);
+                }
 
                 String avatarURL = rs.getString("avatarURL");
                 if (avatarURL != null) {
@@ -231,7 +234,13 @@ public class CustomerDB implements DatabaseInfo {
             st.setString(3, newCustomer.getCmnd());
             st.setNString(4, newCustomer.getName());
             st.setString(5, String.valueOf(newCustomer.getGender()));
-            st.setDate(6, new java.sql.Date(newCustomer.getDateOfBirth().getTime()));
+            if(newCustomer.getDateOfBirth()== null){
+                st.setDate(6, null);
+            }
+            else {
+                st.setDate(6, new java.sql.Date(newCustomer.getDateOfBirth().getTime()));
+            }
+           
             st.setString(7, newCustomer.getPhoneNumber());
             st.setString(8, newCustomer.getAvatarURL());
             st.setString(9, newCustomer.getAddress());

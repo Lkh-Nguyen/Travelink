@@ -44,8 +44,6 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.LogoutServlet</servlet-class>
     </servlet>
-<<<<<<< Updated upstream
-=======
     <servlet>
 <<<<<<< Updated upstream
         <servlet-name>ViewHotelServlet</servlet-name>
@@ -55,7 +53,6 @@
         <servlet-class>com.travelink.Servlet.SearchHotelServlet</servlet-class>
 >>>>>>> Stashed changes
     </servlet>
->>>>>>> Stashed changes
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -100,8 +97,6 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
-<<<<<<< Updated upstream
-=======
     <servlet-mapping>
 <<<<<<< Updated upstream
         <servlet-name>ViewHotelServlet</servlet-name>
@@ -111,7 +106,6 @@
         <url-pattern>/search</url-pattern>
 >>>>>>> Stashed changes
     </servlet-mapping>
->>>>>>> Stashed changes
     <session-config>
         <session-timeout>
             30

@@ -19,13 +19,38 @@ import java.util.List;
 public class ReservedRoomDB implements DatabaseInfo {
 
     // Method to get reserved rooms by Reservation ID
-    public List<ReservedRoom> getReservedRoomsByReservationID(int reservationID) {
+    public static List<ReservedRoom> getReservedRoomsByReservationID(int reservationID) {
         List<ReservedRoom> reservedRooms = new ArrayList<>();
 
         try (Connection connection = DatabaseInfo.getConnect()) {
             String sql = "SELECT * FROM Reserved_Room WHERE Reservation_ID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1, reservationID);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        ReservedRoom reservedRoom = new ReservedRoom();
+                        reservedRoom.setReserved_Room_ID(resultSet.getInt("ReservedRoom_ID"));
+                        reservedRoom.setAmount(resultSet.getInt("Amount"));
+                        reservedRoom.setReservation_ID(resultSet.getInt("Reservation_ID"));
+                        reservedRoom.setRoom_ID(resultSet.getInt("Room_ID"));
+                        reservedRooms.add(reservedRoom);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return reservedRooms;
+    }
+    //Get reservation by RoomID
+        public static List<ReservedRoom> getReservedRoomsByRoomID(int roomID) {
+        List<ReservedRoom> reservedRooms = new ArrayList<>();
+
+        try (Connection connection = DatabaseInfo.getConnect()) {
+            String sql = "SELECT * FROM Reserved_Room WHERE Room_ID = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, roomID);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         ReservedRoom reservedRoom = new ReservedRoom();

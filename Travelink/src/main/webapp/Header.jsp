@@ -28,29 +28,12 @@
                 user-select: none;
                 position: relative;
             }
-
-            .btn {
-                display: flex;
-                align-items: center;
-                text-decoration: none;
-                color: #333;
-                background-color: #fff;
-                padding: 10px 15px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                transition: background-color 0.3s, box-shadow 0.3s;
-            }
             .loginBtn {
                 font-size: 17px;
                 white-space: nowrap;         /* Prevent line breaks */
                 overflow: hidden;            /* Hide overflow content */
                 text-overflow: ellipsis;     /* Display "..." when content overflows */
                 max-width: 400px;            /* Set a maximum width */
-            }
-            .btn:hover {
-                background-color: #f0f0f0;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             }
 
             .btn img {

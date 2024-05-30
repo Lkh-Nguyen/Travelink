@@ -15,7 +15,6 @@
         <link rel="stylesheet" href="css/listPage.css">
         <title>Hotel</title>
         <style>
-            <style>
             table {
                 width: 100%;
                 border-collapse: collapse;

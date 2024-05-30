@@ -49,6 +49,65 @@ public class FeedbackDB implements DatabaseInfo {
         return feedback;
     }
 
+    // Insert a new feedback
+    public static void insertFeedback(Feedback feedback) throws SQLException {
+        Connection connection = DatabaseInfo.getConnect();
+
+        if (connection != null) {
+            String query = "INSERT INTO Feedback (Description, Rating, Date, LikesCount, DislikesCount, Customer_ID, Hotel_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, feedback.getDescription());
+            statement.setByte(2, feedback.getRating());
+            statement.setDate(3, feedback.getDate());
+            statement.setInt(4, feedback.getLikesCount());
+            statement.setInt(5, feedback.getDislikesCount());
+            statement.setInt(6, feedback.getCustomerID());
+            statement.setInt(7, feedback.getHotelID());
+
+            statement.executeUpdate();
+            connection.close();
+        } else {
+            System.out.println("Error: Connection failed!");
+        }
+    }
+
+    // Update an existing feedback
+    public static void updateFeedback(Feedback feedback) throws SQLException {
+        Connection connection = DatabaseInfo.getConnect();
+
+        if (connection != null) {
+            String query = "UPDATE Feedback SET Description = ?, Rating = ?, Date = ?, LikesCount = ?, DislikesCount = ?  WHERE Feedback_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, feedback.getDescription());
+            statement.setByte(2, feedback.getRating());
+            statement.setDate(3, feedback.getDate());
+            statement.setInt(4, feedback.getLikesCount());
+            statement.setInt(5, feedback.getDislikesCount());
+            statement.setInt(6, feedback.getFeedbackID());
+
+            statement.executeUpdate();
+            connection.close();
+        } else {
+            System.out.println("Error: Connection failed!");
+        }
+    }
+
+    // Delete a feedback
+    public static void deleteFeedback(int feedbackID) throws SQLException {
+        Connection connection = DatabaseInfo.getConnect();
+
+        if (connection != null) {
+            String query = "DELETE FROM Feedback WHERE Feedback_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, feedbackID);
+
+            statement.executeUpdate();
+            connection.close();
+        } else {
+            System.out.println("Error: Connection failed!");
+        }
+    }
+
     // You can add more functions as needed, such as:
     // - Get all feedback for a specific hotel
     // - Create new feedback

@@ -86,15 +86,20 @@ CREATE TABLE Room_Image (
 );
 GO
 
+INSERT INTO Room_Image (Name, URL, Room_ID)
+VALUES 
+  ('Standard Room Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 1),  -- Link to Standard Room (ID 1)
+  ('Deluxe Suite Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 2), 
+  ('Family Room Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 3),
+  ('Standard Room Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 1), 
+  ('Deluxe Suite Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 2), 
+  ('Family Room Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fseashore-hotel-apartment-da-nang.hotelmix.vn%2F&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABAE', 3), 
+  ('Standard Room Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.booking.com%2Fhotel%2Fvn%2Fseashore-amp-apartment.vi.html&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABBF', 1), 
+  ('Deluxe Suite Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.booking.com%2Fhotel%2Fvn%2Fseashore-amp-apartment.vi.html&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABBF', 2), 
+  ('Family Room Image', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.booking.com%2Fhotel%2Fvn%2Fseashore-amp-apartment.vi.html&psig=AOvVaw2xNmNbltska2Lk5K-TAFD5&ust=1716947801704000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMj0zYqfr4YDFQAAAAAdAAAAABBF', 3); 
 
--- Create table Hotel_Image
-CREATE TABLE Hotel_Image (
-  Hotel_Image_ID INT IDENTITY(1,1) PRIMARY KEY,
-  Name NVARCHAR(255),  -- Optional: Name of the image
-  URL VARCHAR(255) NOT NULL, -- Image URL
-  Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
-);
-GO
+
+
 
 
 
@@ -109,7 +114,7 @@ GO
 
 -- Create table Room_Facility
 CREATE TABLE Room_Facility (
-  Room_ID INT,
+  Room_ID INT ,
   Facility_ID INT,
   PRIMARY KEY (Room_ID, Facility_ID),
   FOREIGN KEY (Room_ID) REFERENCES Room(Room_ID) ON DELETE CASCADE,
@@ -118,21 +123,35 @@ CREATE TABLE Room_Facility (
 
 -- Create table Bed
 CREATE TABLE Bed (
-  Bed_ID INT PRIMARY KEY,
+  Bed_ID INT IDENTITY(1,1) PRIMARY KEY,
   Name NVARCHAR(255),
   Description NVARCHAR(255),
   URL VARCHAR(255)
 );
+INSERT INTO Bed (Name, Description, URL) VALUES 
+(N'Giường đơn', 'Rộng 90 - 130 cm', 'URL_for_single_bed_image'),
+(N'Giường đôi', 'Rộng 131 - 150 cm', 'URL_for_double_bed_image'),
+(N'Giường lớn (cỡ King)', 'Rộng 151 - 180 cm', 'URL_for_king_bed_image'),
+(N'Giường cực lớn (cỡ Super-king)', 'Rộng 181 - 210 cm', 'URL_for_super_king_bed_image');
 
--- Create table Room_Bed
+
 CREATE TABLE Room_Bed (
-  Room_Bed_ID INT PRIMARY KEY,
+  Room_Bed_ID INT IDENTITY(1,1) PRIMARY KEY,
   Amount TINYINT,
   Bed_ID INT,
   Room_ID INT,
   FOREIGN KEY (Bed_ID) REFERENCES Bed(Bed_ID) ON DELETE CASCADE,
   FOREIGN KEY (Room_ID) REFERENCES Room(Room_ID) ON DELETE CASCADE
 );
+
+
+-- Inserting data into Room_Bed table
+INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (2, 1, 1);
+INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (1, 2, 1);
+INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (3, 3, 2);
+INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (2, 4, 1);
+INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (1, 2, 3);
+
 
 
 -- Create table Hotel_Facility

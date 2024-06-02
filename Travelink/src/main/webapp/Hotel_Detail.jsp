@@ -1,10 +1,9 @@
-<%-- 
-    Document   : Hotel_Detail.jsp
-    Created on : May 24, 2024, 3:27:14 PM
-    Author     : HELLO
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+<%@page import="com.travelink.Model.*" %>
+<%@page import="com.travelink.Database.*" %>
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -41,31 +40,21 @@
                 <button disabled>Hotel</button>
                 <c:if test="${requestScope.hotel_view.star eq 1}">
                     <i class='bx bxs-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 2}">
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 3}">
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 4}">
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
-                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 5}">
                     <i class='bx bxs-star'></i>
@@ -78,39 +67,53 @@
             <div id="detail_address">
                 <i class='bx bxs-location-plus' ></i> ${requestScope.hotel_view.address}
             </div>
-            <div class="row" style="margin-top: 2%">
+            <div class="row" style="margin-top: 2%" id="img_Hotel">
                 <div class="col-md-8" id="left_img">
-                    <img style="width: 102%" src="${requestScope.hotelImgCenter}" alt="alt"/>
+                    <img class="thumbnail1" style="width: 102%" src="${requestScope.hotelImgCenter}" alt="alt"/>
                 </div>
                 <div class="col-md-4" id="right_img">
                     <div class="row" style="margin-bottom: 10px;">
                         <div class="col-6">
-                            <img style="width: 108%; height: 195px; object-fit: cover;" src="https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/10022505-f6d75b3fcaf4409e7e815fa3fd7e6a52.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640" alt="image1"/>
+                            <img class="thumbnail1" style="width: 108%; height: 195px; object-fit: cover;" src="${requestScope.hotelImg1}" alt="image1"/>
                         </div>
                         <div class="col-6">
-                            <img style="width: 100%; height: 195px; object-fit: cover;" src="https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/10022505-0f0203f74f0849bd3204d8b16f7e88d5.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640" alt="image2"/>
+                            <img class="thumbnail1" style="width: 100%; height: 195px; object-fit: cover;" src="${requestScope.hotelImg2}" alt="image2"/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <img style="width: 108%; height: 195px; object-fit: cover;" src="https://ik.imagekit.io/tvlk/apr-asset/Ixf4aptF5N2Qdfmh4fGGYhTN274kJXuNMkUAzpL5HuD9jzSxIGG5kZNhhHY-p7nw/hotel/asset/10022505-496e33ca2a044d10467968ecc8c9419c.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640" alt="image3"/>
+                            <img class="thumbnail1" style="width: 108%; height: 195px; object-fit: cover;" src="${requestScope.hotelImg3}" alt="image3"/>
                         </div>
                         <div class="col-6" id="lastImg" style="position: relative;">
-                            <img style="width: 100%; height: 195px; object-fit: cover; filter: brightness(50%);" src="https://ik.imagekit.io/tvlk/apr-asset/Ixf4aptF5N2Qdfmh4fGGYhTN274kJXuNMkUAzpL5HuD9jzSxIGG5kZNhhHY-p7nw/hotel/asset/10022505-de994cc87a7bcf655d33847b2bc8614d.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640" alt="image4"/>
+                            <img style="width: 100%; height: 195px; object-fit: cover; filter: brightness(50%);" src="${requestScope.hotelImg4}" alt="image4"/>
                             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">
-                                <form action="ShowHotel_Images.jsp">
-                                    <button style="background-color: rgba(255, 255, 255, 0.5); padding: 10px 25px; border: none; border-radius: 5px">More images</button>
-                                    <input type="hidden" value="">
+                                <form action="viewHotelImageServlet" method="get">
+                                    <button id="btn_show_more" style="background-color: rgba(255, 255, 255, 0.5); padding: 10px 25px; border: none; border-radius: 5px">More images</button>
+                                    <input type="hidden" value="${requestScope.hotel_view.hotel_ID}">
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div id="myModal1" class="modal1">
+                <span class="close1">&times;</span>
+                <img class="modal-content1" id="img01">
+            </div>
             <div class="row" style="margin-top:1%;padding-bottom: 3%;border-bottom: 1px solid grey" id="content">
                 <div class="col-md-8" id="left_content" >
                     <h5 style="font-weight: 550">Introducing the accommodation</h5>
-                    <p>${requestScope.hotel_view.description}</p>
+                    <c:set var="description" value="${requestScope.hotel_view.description}" />
+                    <%
+                    String description = (String) pageContext.getAttribute("description");
+                    if (description != null) {
+                        description = description.replace("\n", "<br><br>");
+                        // Set the modified description back to the page context
+                        pageContext.setAttribute("description", description);
+                    }
+                    %>
+                    <p><%= description %></p>
                     <h5 style="font-weight: 550">Favorite amenities</h5>
                     <div style="width: 100%; display: flex; flex-wrap: wrap;" id="amenities">
                         <c:forEach items="${requestScope.hotelFacilityList}" var="facility">
@@ -126,7 +129,7 @@
                         <div class="card-body">
                             <h5 class="card-title" style="font-weight: bold">Highlights of the property</h5>
                             <h6>Perfect for a 1 night stay!</h6>
-                            <p class="card-text">Located in the top-rated area in Hoi An, this property has an excellent location score of 9.1</p>
+                            <p class="card-text">Located in the top-rated area in VietNam. This is the best choice for you in holiday. Try it !!!</p>
                             <a href="#" class="btn btn-primary" style="background-color: blue;  color:white">Booking Now</a><br>
                             <form>
                                 <h6>Add to favorites hotel</h6>
@@ -142,126 +145,94 @@
             </div>
 
             <div class="row" style="margin-top:2%;padding-bottom: 2%;border-bottom: 1px solid grey">
-                <h5 style="font-weight: 550">Introducing the accommodation</h5>
+                <h5 style="font-weight: 550">Introducing the accommodation</h5>              
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card mb-3">
-                            <div class="row g-0" id="images_rom">
-                                <div class="col-md-3" >
-                                    <img src="https://ik.imagekit.io/tvlk/generic-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20006877-955b6ed67da99e790391970f2771b15a.jpeg?_src=imagekit&tr=c-at_max,fo-auto,h-222,q-40,w-296" class="img-fluid rounded-start" alt="...">
-                                    <div id="show_detail">
-                                        <form action="ShowRoom_Images.jsp">
-                                            <i class='bx bx-folder-plus'></i>
-                                            <button>Xem chi tiết phòng</button>
-                                        </form>
+                        <c:forEach var="roomHotel" items="${requestScope.roomList}" varStatus="status">
+                            <div class="card mb-3">
+                                <div class="row g-0" id="images_rom">
+                                    <div class="col-md-3">
+                                        <img src="${requestScope.roomImgList[status.index].url}" class="img-fluid rounded-start" alt="...">
+                                        <div id="show_detail">
+                                            <form action="ShowRoom_Images.jsp">
+                                                <button><i class='bx bx-folder-plus' style="margin-right:5px"></i>Xem chi tiết phòng</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="card-body1">
-                                        <h4 class="card-title">Superior Double</h4>
-                                        <table id="roomTable">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 250px;">Choose Type Room</th>
-                                                    <th>Number people</th>
-                                                    <th>Price/Room/Night</th>
-                                                    <th>Price</th>
-                                                    <th style="width: 250px;">Amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td style="width: 250px;">
-                                                        <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 20px;" ></i> 1 Giường Đôi</p>
-                                                        <a id="numberRoom">Only 4 rooms left on our site</a>
-                                                    </td>
-                                                    <td>
-                                                        <div id="amount_People">
-                                                            <i class='bx bxs-user'></i>
-                                                            <i class='bx bxs-user'></i>
-                                                            <i class='bx bxs-user'></i>
-                                                            <i class='bx bxs-user'></i>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p id="save">Tiết kiệm 3,5%</p><br>
-                                                        <a id="price_real"><s>62.540 VND</s></a>
-                                                        <h4 id="price_save">603.163 VND</h4>
-                                                    </td>
-                                                    <td>
-                                                        <select style="width:50px">
-                                                            <option value="0">0</option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                        </select>
-                                                    </td>
-                                                    <td rowspan="3" style="width: 300px;" id="message">No room selected</td> <!-- Gộp 3 hàng lại thành một ô -->
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 250px;">
-                                                        <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 20px;" ></i> 1 Giường Đôi</p>
-                                                        <a id="numberRoom">Only 4 rooms left on our site</a>
-                                                    </td>
-                                                    <td>
-                                                        <div id="amount_People">
-                                                            <i class='bx bxs-user'></i>
-                                                            <i class='bx bxs-user'></i>
-                                                            <i class='bx bxs-user'></i>
-                                                            <i class='bx bxs-user'></i>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p id="save">Tiết kiệm 3,5%</p><br>
-                                                        <a id="price_real"><s>62.540 VND</s></a>
-                                                        <h4 id="price_save">603.163 VND</h4>
-                                                    </td>
-                                                    <td>
-                                                        <select style="width:50px">
-                                                            <option value="0">0</option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 250px;">
-                                                        <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 20px;" ></i> 1 Giường Đôi</p>
-                                                        <a id="numberRoom">Only 4 rooms left on our site</a>
-                                                    </td>
-                                                    <td>
-                                                        <div id="amount_People">
-                                                            <i class='bx bxs-user'></i>
-                                                            <i class='bx bxs-user'></i>
-                                                            <i class='bx bxs-user'></i>
-                                                            <i class='bx bxs-user'></i>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p id="save">Tiết kiệm 3,5%</p><br>
-                                                        <a id="price_real"><s>62.540 VND</s></a>
-                                                        <h4 id="price_save">603.163 VND</h4>
-                                                    </td>
-                                                    <td>
-                                                        <select style="width:50px">
-                                                            <option value="0">0</option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                    <div class="col-md-9">
+                                        <div class="card-body1">
+                                            <h4 class="card-title">Superior Double 1</h4>
+                                            <table id="roomTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 250px;">Choose Type Room</th>
+                                                        <th>Number people</th>
+                                                        <th>Price/Room/Night</th>
+                                                        <th>Amount</th>
+                                                        <th style="width: 250px;">Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr data-price="603163" data-room-name="Superior Double 1" data-id-hotel="1">
+                                                        <td style="width: 250px;">
+                                                            <%
+                                                                Room roomHotel = (Room)pageContext.getAttribute("roomHotel");
+                                                                for(RoomBed roomBed : RoomBedDB.getRoomBedsByRoomID(roomHotel.getRoom_ID())){
+                                                                   Bed bed = BedDB.getBedByRoomBedID(roomBed.getRoom_Bed_ID()); 
+                                                                %>
+                                                             <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 20px;"></i><%= roomBed.getAmount()%> <%=bed.getName() %></p>
+                                                            <%
+                                                                }
+                                                            %>
+                                                            
+                                                           <% 
+                                                                
+                                                           %> 
+                                                            
+                                                            <a id="numberRoom">Only 4 rooms left on our site</a>
+                                                        </td>
+                                                        <td>
+                                                            <div id="amount_People">
+                                                                <i class='bx bxs-user'></i>
+                                                                <i class='bx bxs-user'></i>
+                                                                <i class='bx bxs-user'></i>
+                                                                <i class='bx bxs-user'></i>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p id="save">Tiết kiệm 3,5%</p><br>
+                                                            <a id="price_real"><s>62.540 VND</s></a>
+                                                            <h4 id="price_save">603.163 VND</h4>
+                                                        </td>
+                                                        <td>
+                                                            <select style="width:50px">
+                                                                <option value="0">0</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                            </select>
+                                                            <input type="hidden" id="infor" value=""/>
+                                                        </td>
+                                                        <td rowspan="3" style="width: 300px;" id="message">No room selected</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <input type="hidden" id="infor" value=""/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                         </c:forEach>
+
+
+
+
                     </div>
+                    <form action="#" method="post">
+                        <input type="text" value="" name="total" id="Sum_Total">
+                        <input type="submit" value="Continue" id="continue">
+                    </form>
                 </div>
             </div>
 
@@ -303,8 +274,7 @@
                 </div>
             </div>
         </div>
-        <ul class="listPage">
-        </ul>
+        <ul class="listPage"></ul>
         <%@include file="Footer.jsp" %>
         <script src="js/Hotel_Detail.js"></script>
     </body>

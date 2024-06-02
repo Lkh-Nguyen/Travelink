@@ -20,6 +20,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -195,7 +197,22 @@ public class SearchHotelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String location = request.getParameter("location");
+        int numberOfPeople = Integer.parseInt(request.getParameter("number_of_people"));
+        String start_date = request.getParameter("check_in_date");
+        String end_date = request.getParameter("check_out_date");
+        java.sql.Date checkInDate = null;
+        java.sql.Date checkOutDate = null;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            checkInDate = new java.sql.Date(dateFormat.parse(start_date).getTime());
+            checkOutDate = new java.sql.Date(dateFormat.parse(end_date).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace(); // Handle parsing exception appropriately
+        }
+        List<Hotel> hotelList = HotelDB.getHotelsByProvince(location);
+        List<Room> roomHoltelList = RoomDB.getAllRooms();
+        
     }
 
     /**

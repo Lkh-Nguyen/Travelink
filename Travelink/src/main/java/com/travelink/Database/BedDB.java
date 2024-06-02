@@ -16,7 +16,7 @@ import java.util.List;
 public class BedDB implements DatabaseInfo {
 
     // Method to retrieve all beds
-    public List<Bed> getAllBeds() {
+    public static List<Bed> getAllBeds() {
         List<Bed> beds = new ArrayList<>();
 
         try (Connection connection = DatabaseInfo.getConnect()) {
@@ -39,7 +39,7 @@ public class BedDB implements DatabaseInfo {
     }
 
     // Method to retrieve a bed by ID
-    public Bed getBedByID(int bedID) {
+    public static Bed getBedByID(int bedID) {
         Bed bed = null;
 
         try (Connection connection = DatabaseInfo.getConnect()) {
@@ -53,6 +53,34 @@ public class BedDB implements DatabaseInfo {
                         bed.setName(resultSet.getString("Name"));
                         bed.setDescription(resultSet.getString("Description"));
                         bed.setUrl(resultSet.getString("URL"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return bed;
+    }
+
+    public static Bed getBedByRoomBedID(int roomBedID) {
+        Bed bed = null;
+
+        try (Connection connection = DatabaseInfo.getConnect()) {
+            String sql = "SELECT b.* "
+                    + "FROM Bed b "
+                    + "JOIN Room_Bed rb ON b.Bed_ID = rb.Bed_ID "
+                    + "WHERE rb.Room_Bed_ID = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, roomBedID);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        bed = new Bed();
+                        bed.setBed_ID(resultSet.getInt("Bed_ID"));
+                        bed.setName(resultSet.getString("Name"));
+                        bed.setDescription(resultSet.getString("Description"));
+                        bed.setUrl(resultSet.getString("URL"));
+                        // You can add more attributes as needed
                     }
                 }
             }

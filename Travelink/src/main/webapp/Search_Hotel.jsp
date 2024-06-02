@@ -25,7 +25,7 @@
         <%@include file="Header.jsp" %>
         <div class="container mt-2">
             <section class="section__container booking__container">
-                <form method="get" action="search">
+                <form method="post" action="search">
                     <form>
                         <div class="form__group">
                             <span><i class="ri-map-pin-line"></i></span>

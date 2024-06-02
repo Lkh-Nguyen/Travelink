@@ -1,6 +1,3 @@
-
-
-
 /*phan trang*/
 let thisPage = 1;
 let limit = 4;
@@ -56,6 +53,7 @@ function changePage(i) {
 document.addEventListener('DOMContentLoaded', (event) => {
     const selects = document.querySelectorAll('select');
     const messageCells = document.querySelectorAll('#message');
+    const Sum_Total = document.getElementById("Sum_Total");
 
     selects.forEach(select => {
         select.addEventListener('change', checkSelectValues);
@@ -64,10 +62,104 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function checkSelectValues() {
         let allZero = Array.from(selects).every(select => select.value === '0');
         messageCells.forEach(cell => {
-            cell.textContent = allZero ? 'No room selected' : 'A room has been selected';
+            cell.textContent = allZero ? 'No room selected' : '';
         });
+        Sum_Total.value = "";
+        selects.forEach(select => {
+            
+            let row = select.closest('tr');
+            let priceCell = row.querySelector('#message');
+            let infor = row.querySelector('#infor');
+            let basePrice = parseInt(row.getAttribute('data-price'), 10);
+            let amount = parseInt(select.value, 10);
+            let roomName = row.getAttribute('data-room-name');
+            let idHotel = row.getAttribute('data-id-hotel');
+            let totalPrice = basePrice * amount;
+
+            if (amount > 0) {
+                priceCell.innerHTML = `Room: ${roomName}<br> Quantity: ${amount}<br> Total Price: ${totalPrice.toLocaleString()} VND`;
+                infor.value = `IDRoom = ${idHotel}, Quantity = ${amount}`;
+if(Sum_Total.value == ""){
+                    Sum_Total.value = Sum_Total.value + infor.value;
+                }else{
+                    Sum_Total.value = Sum_Total.value + " / " + infor.value;
+                }
+            } else {
+                priceCell.textContent = 'No room selected';
+            }
+            
+        });
+        
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Get the modal
+var modal = document.getElementById("myModal1");
+
+// Get the image and insert it inside the modal
+var imgs = document.getElementsByClassName("thumbnail1");
+var modalImg = document.getElementById("img01");
+for (var i = 0; i < imgs.length; i++) {
+    imgs[i].onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        document.body.style.overflow = "hidden"; // Disable scrolling
+    }
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close1")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+    document.body.style.overflow = "auto"; // Enable scrolling
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto"; // Enable scrolling
+    }
+}
 /*select số lượng phòng nếu lớn hơn 0*/
 
 

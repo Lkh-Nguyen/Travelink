@@ -238,11 +238,11 @@
             <nav>
                 <div class="nav__logo"><a href="Home_Customer.jsp">Trave<span>link</span></a></div>
                 <ul class="nav__links">
-                    <li class="link"><a href="#">Home</a></li>
+                    <li class="link"><a href="Home_Customer.jsp">Home</a></li>
                     <li class="link"><a href="#">About</a></li>
                     <li class="link"><a href="#">My booking</a></li>
-                    <li class="link"><a href="#">Transaction History</a></li>
-                    <li class="link"><a href="#">Favorite Hotels</a></li>
+                    <li class="link"><a href="My_Card_Payment_History.jsp">Transaction History</a></li>
+                    <li class="link"><a href="ListFavoriteHotel">Favorite Hotels</a></li>
                 </ul>
                 <c:set var="customer" value="${sessionScope.customer}"></c:set>
                 <c:if test="${not empty customer}">

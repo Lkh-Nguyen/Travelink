@@ -98,75 +98,6 @@
                 transform: scale(1.1);
                 transition: transform 0.5s ease;
             }
-
-            #overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-                display: none;
-                z-index: 999;
-            }
-
-            #logoutConfirm {
-                display: none;
-                /* Ẩn mặc định */
-                border-radius: 10px;
-                width: 280px;
-                height: 320px;
-                position: fixed;
-                bottom: -300px;
-                left: 50%;
-                transform: translateX(-50%);
-                background-color: #fff;
-                padding: 20px;
-                border: 1px solid #ccc;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                z-index: 1000;
-                transition: bottom 0.5s ease;
-            }
-
-            #logoutConfirm h2 {
-                margin-top: -10px;
-            }
-
-            #logoutConfirm p {
-                font-size: 20px;
-                color: grey;
-            }
-
-            #logoutConfirm button {
-                background-color: rgb(247, 249, 250);
-                border: 0px;
-                margin-bottom: 15px;
-                width: 280px;
-                height: 40px;
-            }
-
-            #logoutConfirm button:hover {
-                background-color: rgb(242, 243, 243);
-            }
-
-            #logoutConfirm button:active {
-                border: 3px solid rgb(1, 148, 243);
-            }
-
-            #logoutConfirm button a {
-                font-size: 17px;
-                user-select: none;
-                color: rgb(1, 148, 243);
-                text-decoration: none;
-            }
-
-            #logoutConfirm.active {
-                bottom: 50%;
-                transform: translate(-50%, 50%);
-            }
-
-
-
             /*Change*/
             .disabled {
                 pointer-events: none;
@@ -314,11 +245,10 @@
                         <a href="#"><i class='bx bx-calendar'></i> <b>Process Booking</b></a>
                     </div>
                     <div class="list1">
-                        <a href="My_Card_Payment_History.jsp"><i class='bx bx-money-withdraw'></i>
-                            <b>Booking History</b></a>
+                        <a href="My_Card_Payment_History.jsp"><i class='bx bx-money-withdraw'></i>  <b>Booking History</b></a>
                     </div>
                     <div class="list0">
-                        <a href="#"><i class='bx bx-heart-circle'></i> <b>Favorite Hotel</b></a>
+                        <a href="ListFavoriteHotel"><i class='bx bx-heart-circle' ></i> <b>Favorite Hotel</b></a>
                     </div>
                     <div class="list0">
                         <a href="#"><i class='bx bx-log-out'></i><b id="logoutButton">Logging

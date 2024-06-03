@@ -356,7 +356,7 @@
                             <b>Booking History</b></a>
                     </div>
                     <div class="list0">
-                        <a href="#"><i class='bx bx-heart-circle'></i> <b>Favorite Hotel</b></a>
+                        <a href="ListFavoriteHotel"><i class='bx bx-heart-circle'></i> <b>Favorite Hotel</b></a>
                     </div>
                     <div class="list0">
                         <a href="#"><i class='bx bx-log-out'></i><b id="logoutButton">Logging

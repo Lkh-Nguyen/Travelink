@@ -93,15 +93,59 @@
                             <h5 class="card-title" style="font-weight: bold">Highlights of the property</h5>
                             <h6>Perfect for a 1 night stay!</h6>
                             <p class="card-text">Located in the top-rated area in Hoi An, this property has an excellent location score of 9.1</p>
-                            <a href="#" class="btn btn-primary" style="background-color: blue;  color:white">Booking Now</a><br>
-                            <form>
-                                <h6>Add to favorites hotel</h6>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                                    <label class="form-check-label" for="flexSwitchCheckDefault">Add to favorites hotel</label>
+                            <a href="viewHotelDetailServlet?hotelId=${requestScope.hotel_view.hotel_ID}#idBooking" class="btn btn-primary" style="background-color: blue;  color:white">Booking Now</a><br>
+                            <!-- Favorite Hotel -->
+                            <c:if test="${requestScope.checkFavorite eq 'true'}">
+                                <form action="viewHotelDetailServlet" method="post">
+                                    <h6>Add to favorites hotel</h6>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="checkedFavorite" checked>
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">Add to favorites hotel</label>
+                                        <input type="hidden" name="statusFav" value="yes">
+                                    </div>
+                                    <button class="btn btn-success w-100 favorButton">Save</button>
+                                    <input type="hidden" name="idHotelFavor" value="${requestScope.hotel_view.hotel_ID}"/>
+                                </form>
+                            </c:if>
+                            <c:if test="${requestScope.checkFavorite eq 'false'}">
+                                <form action="viewHotelDetailServlet" method="post">
+                                    <h6>Add to favorites hotel</h6>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="checkedFavorite">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">Add to favorites hotel</label>
+                                        <input type="hidden" name="statusFav" value="no">
+                                    </div>
+                                    <button class="btn btn-success w-100 favorButton">Save</button>
+                                    <input type="hidden" name="idHotelFavor" value="${requestScope.hotel_view.hotel_ID}"/>
+                                </form>
+                            </c:if>
+                            <c:if test="${requestScope.alterDeleteSuccess != null}">
+                                <div id="status-message" style="background-color: rgb(233,251,233);height: 70px;" class="hidden">
+                                    <div style="display: flex">
+                                        <div style="width: 20%">
+                                            <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                                        </div>
+                                        <div style="width: 80%; text-align: start">
+                                            <h3 style="color:green;margin-top: 5px; margin-bottom: -2px;font-weight:550">Success</h3>
+                                            <p style="color: black;font-size: 14px">${alterDeleteSuccess}</p>
+                                        </div>
+                                    </div>           
                                 </div>
-                                <a href="#" class="btn btn-success">Save</a>
-                            </form>
+                            </c:if>
+                            <c:if test="${requestScope.alterDeleteUnSuccess != null}">
+                                <div id="status-message" style="background-color: rgb(253,233,231);height: 70px;" class="hidden">
+                                    <div style="display: flex">
+                                        <div style="width: 20%">
+                                            <i class='bx bxs-error-circle' style="font-size: 50px;color: red;margin-top: 0px"></i>
+                                        </div>
+                                        <div style="width: 80%;text-align: start">
+                                            <h3 style="color: red;margin-top: 5px;font-weight: 550 ">Error</h3>
+                                            <p style="color: black;margin-top: -10px;font-size: 14px">${alterDeleteUnSuccess}</p>
+                                        </div>
+                                    </div>           
+                                </div>
+                            </c:if>
+                            <!-- Favorite Hotel -->
                         </div>
                     </div>
                 </div>

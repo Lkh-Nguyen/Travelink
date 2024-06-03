@@ -5,9 +5,11 @@
 
 package com.travelink.Servlet;
 
+import com.travelink.Database.FavouriteHotelDB;
 import com.travelink.Database.HotelDB;
 import com.travelink.Database.HotelFacilityDB;
 import com.travelink.Database.HotelImageDB;
+import com.travelink.Model.Customer;
 import com.travelink.Model.Facility;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
@@ -17,6 +19,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -67,6 +70,12 @@ public class ViewHotel extends HttpServlet {
         request.setAttribute("hotelImgList", hotelImgList);
         List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotelId);
         request.setAttribute("hotelFacilityList", hotelFacilityList);
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        if (customer != null) {
+            boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, customer.getCustomer_ID());
+            request.setAttribute("checkFavorite", checkFavorite);
+        }
         request.getRequestDispatcher("ShowHotel_Images.jsp").forward(request, response);
     } 
 

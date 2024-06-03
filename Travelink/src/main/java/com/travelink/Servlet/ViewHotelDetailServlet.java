@@ -5,6 +5,7 @@
 
 package com.travelink.Servlet;
 
+import com.travelink.Database.FavouriteHotelDB;
 import com.travelink.Database.HotelDB;
 import com.travelink.Database.HotelFacilityDB;
 import com.travelink.Database.HotelImageDB;
@@ -12,6 +13,7 @@ import com.travelink.Database.RoomBedDB;
 import com.travelink.Database.RoomDB;
 import com.travelink.Database.RoomImageDB;
 import com.travelink.Model.Bed;
+import com.travelink.Model.Customer;
 import com.travelink.Model.Facility;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
@@ -23,6 +25,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +70,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        //        int hotelId = Integer.parseInt(request.getParameter("hotelId"));
-        int hotelId = 1;
+        int hotelId = Integer.parseInt(request.getParameter("hotelId"));
         
         Hotel hotel = HotelDB.getHotelByID(hotelId);
         request.setAttribute("hotel_view", hotel);
@@ -101,6 +103,14 @@ public class ViewHotelDetailServlet extends HttpServlet {
         // request jsp
         List<Bed> bedList = new ArrayList<>();
         RoomBedDB.getRoomBedsByBedID(hotelId);
+        //checkFavorite
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        if (customer != null) {
+            boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, customer.getCustomer_ID());
+            request.setAttribute("checkFavorite", checkFavorite);
+        }
+        //checkFavorite
         request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
     } 
 
@@ -114,7 +124,68 @@ public class ViewHotelDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        String statusFav = request.getParameter("statusFav");
+        String idHotelFavor = request.getParameter("idHotelFavor");
+        int hotelId = Integer.parseInt(idHotelFavor);
+        String checkedFavorite = request.getParameter("checkedFavorite");
+        if (statusFav.equalsIgnoreCase("yes")) {
+            if (checkedFavorite != null) {
+                request.setAttribute("alterDeleteUnSuccess", "Favourite hotel is already existing !");
+            } else {
+                if (FavouriteHotelDB.deleteFavouriteHotel(Integer.parseInt(idHotelFavor), customer.getCustomer_ID())) {
+                    request.setAttribute("alterDeleteSuccess", "Delete favorite hotel succesfully.");
+                }
+            }
+        } else if (statusFav.equalsIgnoreCase("no")) {
+            if(checkedFavorite == null){
+                request.setAttribute("alterDeleteUnSuccess", "Delete favorite hotel unsuccesfully.");
+            }else{
+                if (FavouriteHotelDB.addFavouriteHotel(Integer.parseInt(idHotelFavor), customer.getCustomer_ID())) {
+                    request.setAttribute("alterDeleteSuccess", "Add favorite hotel succesfully.");
+                }
+            }
+        }
+        Hotel hotel = HotelDB.getHotelByID(hotelId);
+        request.setAttribute("hotel_view", hotel);
+        List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(hotelId);
+        // image center
+        String urlHotelImgCenter = hotelImgList.get(0).getUrl();
+        request.setAttribute("hotelImgCenter", urlHotelImgCenter);
+        // image 4 image
+        String urlHotelImg1 = hotelImgList.get(1).getUrl();
+        String urlHotelImg2 = hotelImgList.get(2).getUrl();
+        String urlHotelImg3 = hotelImgList.get(3).getUrl();
+        String urlHotelImg4 = hotelImgList.get(4).getUrl();
+        request.setAttribute("hotelImg1", urlHotelImg1);
+        request.setAttribute("hotelImg2", urlHotelImg2);
+        request.setAttribute("hotelImg3", urlHotelImg3);
+        request.setAttribute("hotelImg4", urlHotelImg4);
+        // list facibility 
+        List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotelId);
+        request.setAttribute("hotelFacilityList", hotelFacilityList);
+        // list room hotel
+        List<Room> listRoom = RoomDB.getRoomsByHotel_ID(hotelId);
+        request.setAttribute("roomList", listRoom);
+        // list img room hotel 
+        List<RoomImage> roomImgList = new ArrayList<>();
+        for(Room room : listRoom){
+            roomImgList.add(RoomImageDB.getRoomImagesByRoom_ID(room.getRoom_ID()).get(0));
+        }
+        request.setAttribute("roomImgList", roomImgList);
+        // List bed number      
+        // request jsp
+        List<Bed> bedList = new ArrayList<>();
+        RoomBedDB.getRoomBedsByBedID(hotelId);
+        //checkFavorite
+        if (customer != null) {
+            boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, customer.getCustomer_ID());
+            request.setAttribute("checkFavorite", checkFavorite);
+        }
+        //checkFavorite
+        request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
+        request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
     }
 
     /** 

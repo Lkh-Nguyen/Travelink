@@ -80,6 +80,10 @@
         <servlet-name>All_Hotel_Service</servlet-name>
         <servlet-class>com.travelink.Servlet.All_Hotel_Service</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListFavoriteHotel</servlet-name>
+        <servlet-class>com.travelink.Servlet.ListFavoriteHotel</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -155,6 +159,10 @@
     <servlet-mapping>
         <servlet-name>All_Hotel_Service</servlet-name>
         <url-pattern>/All_Hotel_Service</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListFavoriteHotel</servlet-name>
+        <url-pattern>/ListFavoriteHotel</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

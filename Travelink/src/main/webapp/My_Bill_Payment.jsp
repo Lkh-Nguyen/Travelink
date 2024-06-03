@@ -188,7 +188,7 @@
                                             </div>
                                             <div class="col-md-6"></div>
                                         </div>
-                                        
+
                                     </div>
                                 </div> 
                             </div>
@@ -197,7 +197,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <script src="/bootstrap_js/js/bootstrap.bundle.js"></script>
-</body>
+        <script src="/bootstrap_js/js/bootstrap.bundle.js"></script>
+    </body>
 </html>

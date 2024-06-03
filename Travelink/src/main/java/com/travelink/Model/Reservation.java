@@ -35,13 +35,8 @@ public class Reservation {
     public Reservation() {
     }
 
-<<<<<<< HEAD
-    //All attributes
-    public Reservation(LocalDate reservationDate, int number_of_guests, LocalDate checkInDate, LocalDate checkOutDate, BigDecimal totalPrice, String paymentMethod, String status, int customerID) {
-=======
     public Reservation(int reservationID, LocalDate reservationDate, int number_of_guests, LocalDate checkInDate, LocalDate checkOutDate, BigDecimal totalPrice, String paymentMethod, String status, int customerID) {
         this.reservationID = reservationID;
->>>>>>> HungPT
         this.reservationDate = reservationDate;
         this.number_of_guests = number_of_guests;
         this.checkInDate = checkInDate;
@@ -52,28 +47,6 @@ public class Reservation {
         this.customerID = customerID;
     }
 
-<<<<<<< HEAD
-
-    public int getNumber_of_guests() {
-        return number_of_guests;
-    }
-
-    public void setNumber_of_guests(int number_of_guests) {
-        this.number_of_guests = number_of_guests;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-
-
-=======
->>>>>>> HungPT
     public int getReservationID() {
         return reservationID;
     }
@@ -90,8 +63,6 @@ public class Reservation {
         this.reservationDate = reservationDate;
     }
 
-<<<<<<< HEAD
-=======
     public int getNumber_of_guests() {
         return number_of_guests;
     }
@@ -100,7 +71,6 @@ public class Reservation {
         this.number_of_guests = number_of_guests;
     }
 
->>>>>>> HungPT
     public LocalDate getCheckInDate() {
         return checkInDate;
     }
@@ -133,8 +103,6 @@ public class Reservation {
         this.paymentMethod = paymentMethod;
     }
 
-<<<<<<< HEAD
-=======
     public String getStatus() {
         return status;
     }
@@ -143,7 +111,6 @@ public class Reservation {
         this.status = status;
     }
 
->>>>>>> HungPT
     public int getCustomerID() {
         return customerID;
     }
@@ -151,14 +118,4 @@ public class Reservation {
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
-
-<<<<<<< HEAD
-    @Override
-    public String toString() {
-        return "Reservation{" + "reservationID=" + reservationID + ", reservationDate=" + reservationDate + ", number_of_guests=" + number_of_guests + ", checkInDate=" + checkInDate + ", checkOutDate=" + checkOutDate + ", totalPrice=" + totalPrice + ", paymentMethod=" + paymentMethod + ", status=" + status + ", customerID=" + customerID + '}';
-    }
-
-=======
-    
->>>>>>> HungPT
 }

@@ -6,11 +6,8 @@ package com.travelink.Database;
 
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelService;
-<<<<<<< HEAD
-=======
 import com.travelink.Model.Reservation;
 import com.travelink.Model.ReservedService;
->>>>>>> HungPT
 import com.travelink.Model.Service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,8 +22,6 @@ import java.util.List;
  */
 public class HotelServiceDB implements DatabaseInfo {
 
-<<<<<<< HEAD
-=======
     public static List<HotelService> getAllHotelServicesByCustomerID(int customerID) {
         List<HotelService> hotelServiceList = new ArrayList<>();
         Connection conn = null;
@@ -147,7 +142,6 @@ public class HotelServiceDB implements DatabaseInfo {
         return hotelServiceList;
     }
 
->>>>>>> HungPT
     public static HotelService getHotelServiceByID(int hotelServiceID) {
         HotelService service = null;
         Connection connection = null;
@@ -235,42 +229,6 @@ public class HotelServiceDB implements DatabaseInfo {
 
     public static void main(String[] args) throws SQLException {
 
-<<<<<<< HEAD
-        // Test getServiceByHotelServiceID
-        System.out.println("\n** Test getServiceByHotelServiceID **");
-        int testHotelServiceID = 3; // Replace with an existing HotelService ID
-        HotelService service = HotelServiceDB.getHotelServiceByID(testHotelServiceID);
-        if (service == null) {
-            System.out.println("Hotel service with ID " + testHotelServiceID + " not found.");
-        } else {
-            System.out.println("Details of Hotel Service (ID: " + testHotelServiceID + "):");
-            System.out.println(service); // Assuming your HotelService model has a toString() method
-        }
-
-        // Test getServicesByHotelID
-        System.out.println("\n** Test getServicesByHotelID **");
-        int testHotelID = 1; // Replace with an existing hotel ID
-        List<Service> services = HotelServiceDB.getServicesByHotelID(testHotelID);
-        if (services.isEmpty()) {
-            System.out.println("No services found for hotel (ID: " + testHotelID + ").");
-        } else {
-            System.out.println("Services offered by Hotel (ID: " + testHotelID + "):");
-            for (Service service1 : services) {
-                System.out.println(service1);
-            }
-        }
-
-        // Test getHotelsByServiceID
-        System.out.println("\n** Test getHotelsByServiceID **");
-        int testServiceID = 2; // Replace with an existing service ID
-        List<Hotel> hotels = HotelServiceDB.getHotelsByServiceID(testServiceID);
-        if (hotels.isEmpty()) {
-            System.out.println("No hotels found offering service (ID: " + testServiceID + ").");
-        } else {
-            System.out.println("Hotels offering Service (ID: " + testServiceID + "):");
-            for (Hotel hotel : hotels) {
-                System.out.println("Hotel ID: " + hotel.getHotel_ID()); // Assuming your Hotel model has a getHotelID() method
-=======
 //        // Test getServiceByHotelServiceID
 //        System.out.println("\n** Test getServiceByHotelServiceID **");
 //        int testHotelServiceID = 3; // Replace with an existing HotelService ID
@@ -322,7 +280,6 @@ public class HotelServiceDB implements DatabaseInfo {
                 System.out.println("Check-out Date: " + hotelService.getReservation().getCheckOutDate());
                 System.out.println("Total Price: " + hotelService.getReservation().getTotalPrice());
                 System.out.println("-----------------------------------------");
->>>>>>> HungPT
             }
         }
     }

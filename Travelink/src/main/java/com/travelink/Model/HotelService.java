@@ -10,68 +10,6 @@ package com.travelink.Model;
  */
 public class HotelService {
 
-<<<<<<< HEAD
-  private int hotelServiceID;
-  private int hotelID;
-  private int serviceID;
-  private Integer price; // Can be null for services without a price
-
-  public HotelService() {
-    // Default constructor
-  }
-
-  public HotelService(int hotelID, int serviceID, Integer price) {
-    this.hotelID = hotelID;
-    this.serviceID = serviceID;
-    this.price = price;
-  }
-
-  // Getters and Setters for member variables
-
-  public int getHotelServiceID() {
-    return hotelServiceID;
-  }
-
-  public void setHotelServiceID(int hotelServiceID) {
-    this.hotelServiceID = hotelServiceID;
-  }
-
-  public int getHotelID() {
-    return hotelID;
-  }
-
-  public void setHotelID(int hotelID) {
-    this.hotelID = hotelID;
-  }
-
-  public int getServiceID() {
-    return serviceID;
-  }
-
-  public void setServiceID(int serviceID) {
-    this.serviceID = serviceID;
-  }
-
-  public Integer getPrice() {
-    return price;
-  }
-
-  public void setPrice(Integer price) {
-    this.price = price;
-  }
-
-  @Override
-  public String toString() {
-    return "HotelService{" +
-        "hotelServiceID=" + hotelServiceID +
-        ", hotelID=" + hotelID +
-        ", serviceID=" + serviceID +
-        ", price=" + price +
-        '}';
-  }
-}
-
-=======
     private int hotelServiceID;
     private int hotelID;
     private int serviceID;
@@ -167,4 +105,3 @@ public class HotelService {
                 + '}';
     }
 }
->>>>>>> HungPT

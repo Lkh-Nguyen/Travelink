@@ -46,15 +46,23 @@
     </servlet>
     <servlet>
         <servlet-name>ViewHotelServlet</servlet-name>
-        <servlet-class>com.travelink.Servlet.ViewHotelServlet</servlet-class>
+        <servlet-class>com.travelink.Servlet.ViewHotelDetailServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SearchHotelServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.SearchHotelServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ViewHotelImageServlet</servlet-name>
-        <servlet-class>com.travelink.Servlet.ViewHotelImageServlet</servlet-class>
+        <servlet-name>ViewHotelDetailServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.ViewHotelDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewHotel</servlet-name>
+        <servlet-class>com.travelink.Servlet.ViewHotel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewRoom</servlet-name>
+        <servlet-class>com.travelink.Servlet.ViewRoom</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -101,16 +109,20 @@
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ViewHotelServlet</servlet-name>
-        <url-pattern>/viewHotelServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>SearchHotelServlet</servlet-name>
         <url-pattern>/search</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ViewHotelImageServlet</servlet-name>
-        <url-pattern>/viewHotelImageServlet</url-pattern>
+        <servlet-name>ViewHotelDetailServlet</servlet-name>
+        <url-pattern>/viewHotelDetailServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewHotel</servlet-name>
+        <url-pattern>/viewHotel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewRoom</servlet-name>
+        <url-pattern>/viewRoom</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

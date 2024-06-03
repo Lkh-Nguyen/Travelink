@@ -173,3 +173,18 @@ from Service
 INSERT INTO Service (Name) VALUES 
 (N'Ăn sáng'),
 ('Buffet');
+
+
+-- Insert Bed
+INSERT INTO Bed (Name, Description, URL) VALUES 
+(N'Giường đơn', 'Rộng 90 - 130 cm', 'URL_for_single_bed_image'),
+(N'Giường đôi', 'Rộng 131 - 150 cm', 'URL_for_double_bed_image'),
+(N'Giường lớn (cỡ King)', 'Rộng 151 - 180 cm', 'URL_for_king_bed_image'),
+(N'Giường cực lớn (cỡ Super-king)', 'Rộng 181 - 210 cm', 'URL_for_super_king_bed_image');
+
+-- Inserting data into Room_Bed table
+INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (2, 1, 1);
+INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (1, 2, 1);
+INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (3, 3, 2);
+INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (2, 4, 1);
+INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (1, 2, 3);

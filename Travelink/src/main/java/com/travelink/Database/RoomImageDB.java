@@ -4,6 +4,7 @@
  */
 package com.travelink.Database;
 
+import com.travelink.Model.Room;
 import com.travelink.Model.RoomImage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -144,6 +145,10 @@ public class RoomImageDB implements DatabaseInfo {
                 System.out.println(image);
             }
         }
+        
+        
+        
+         
     }
 
 }

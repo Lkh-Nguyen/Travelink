@@ -87,9 +87,9 @@
                         <div class="col-6" id="lastImg" style="position: relative;">
                             <img style="width: 100%; height: 195px; object-fit: cover; filter: brightness(50%);" src="${requestScope.hotelImg4}" alt="image4"/>
                             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">
-                                <form action="viewHotelImageServlet" method="get">
+                                <form action="viewHotel" method="get">
                                     <button id="btn_show_more" style="background-color: rgba(255, 255, 255, 0.5); padding: 10px 25px; border: none; border-radius: 5px">More images</button>
-                                    <input type="hidden" value="${requestScope.hotel_view.hotel_ID}">
+                                    <input type="hidden" name="hotelId"value="${requestScope.hotel_view.hotel_ID}">
                                 </form>
                             </div>
                         </div>
@@ -154,14 +154,16 @@
                                     <div class="col-md-3">
                                         <img src="${requestScope.roomImgList[status.index].url}" class="img-fluid rounded-start" alt="...">
                                         <div id="show_detail">
-                                            <form action="ShowRoom_Images.jsp">
+                                            <form action="viewRoom" method="get">
                                                 <button><i class='bx bx-folder-plus' style="margin-right:5px"></i>Xem chi tiết phòng</button>
+                                                <input type="hidden" name="roomId"value="${roomHotel.room_ID}">
+                                                <input type="hidden" name="hotelId"value="${requestScope.hotel_view.hotel_ID}">
                                             </form>
                                         </div>
                                     </div>
                                     <div class="col-md-9">
                                         <div class="card-body1">
-                                            <h4 class="card-title">Superior Double 1</h4>
+                                            <h4 class="card-title">${roomHotel.name}</h4>
                                             <table id="roomTable">
                                                 <thead>
                                                     <tr>
@@ -173,36 +175,42 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr data-price="603163" data-room-name="Superior Double 1" data-id-hotel="1">
+                                                    <tr data-price="${roomHotel.price}" data-room-name="${roomHotel.name    }" data-id-hotel="${roomHotel.room_ID}">
                                                         <td style="width: 250px;">
                                                             <%
                                                                 Room roomHotel = (Room)pageContext.getAttribute("roomHotel");
                                                                 for(RoomBed roomBed : RoomBedDB.getRoomBedsByRoomID(roomHotel.getRoom_ID())){
                                                                    Bed bed = BedDB.getBedByRoomBedID(roomBed.getRoom_Bed_ID()); 
-                                                                %>
-                                                             <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 20px;"></i><%= roomBed.getAmount()%> <%=bed.getName() %></p>
+                                                            %>
+                                                            <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 20px;"></i><%= roomBed.getAmount()%> <%=bed.getName() %></p>
                                                             <%
                                                                 }
                                                             %>
-                                                            
-                                                           <% 
+
+                                                            <% 
                                                                 
-                                                           %> 
-                                                            
+                                                            %> 
+
                                                             <a id="numberRoom">Only 4 rooms left on our site</a>
                                                         </td>
                                                         <td>
                                                             <div id="amount_People">
+                                                                <%
+                                                                     int n = roomHotel.getCapacity();
+                                                                     for (int i = 0; i < n; i++) {
+                                                                %>
                                                                 <i class='bx bxs-user'></i>
-                                                                <i class='bx bxs-user'></i>
-                                                                <i class='bx bxs-user'></i>
-                                                                <i class='bx bxs-user'></i>
+                                                                <%
+                                                                    }
+                                                                %>
+
+
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <p id="save">Tiết kiệm 3,5%</p><br>
                                                             <a id="price_real"><s>62.540 VND</s></a>
-                                                            <h4 id="price_save">603.163 VND</h4>
+                                                            <h4 id="price_save">${roomHotel.price}</h4>
                                                         </td>
                                                         <td>
                                                             <select style="width:50px">
@@ -223,11 +231,7 @@
                                     </div>
                                 </div>
                             </div>
-                         </c:forEach>
-
-
-
-
+                        </c:forEach>
                     </div>
                     <form action="#" method="post">
                         <input type="text" value="" name="total" id="Sum_Total">

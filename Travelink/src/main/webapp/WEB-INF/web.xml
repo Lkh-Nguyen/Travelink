@@ -64,6 +64,25 @@
         <servlet-name>ViewRoom</servlet-name>
         <servlet-class>com.travelink.Servlet.ViewRoom</servlet-class>
     </servlet>
+<<<<<<< HEAD
+=======
+    <servlet>
+        <servlet-name>Cancel_Hotel_Service</servlet-name>
+        <servlet-class>com.travelink.Servlet.Cancel_Hotel_Service</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NotPaid_Hotel_Service</servlet-name>
+        <servlet-class>com.travelink.Servlet.NotPaid_Hotel_Service</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Paid_Hotel_Service</servlet-name>
+        <servlet-class>com.travelink.Servlet.Paid_Hotel_Service</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>All_Hotel_Service</servlet-name>
+        <servlet-class>com.travelink.Servlet.All_Hotel_Service</servlet-class>
+    </servlet>
+>>>>>>> HungPT
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -124,6 +143,25 @@
         <servlet-name>ViewRoom</servlet-name>
         <url-pattern>/viewRoom</url-pattern>
     </servlet-mapping>
+<<<<<<< HEAD
+=======
+    <servlet-mapping>
+        <servlet-name>Cancel_Hotel_Service</servlet-name>
+        <url-pattern>/Cancel_Hotel_Service</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotPaid_Hotel_Service</servlet-name>
+        <url-pattern>/NotPaid_Hotel_Service</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Paid_Hotel_Service</servlet-name>
+        <url-pattern>/Paid_Hotel_Service</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>All_Hotel_Service</servlet-name>
+        <url-pattern>/All_Hotel_Service</url-pattern>
+    </servlet-mapping>
+>>>>>>> HungPT
     <session-config>
         <session-timeout>
             30

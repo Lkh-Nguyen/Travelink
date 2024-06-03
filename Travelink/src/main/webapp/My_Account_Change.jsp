@@ -156,7 +156,11 @@
                         <a href="#"><i class='bx bx-calendar' ></i> <b>My Booking</b></a>
                     </div>
                     <div class="list0">
+<<<<<<< HEAD
                         <a href="#"><i class='bx bx-money-withdraw'></i> <b>Purchase List</b></a>
+=======
+                        <a href="My_Card_Payment_History.jsp"><i class='bx bx-money-withdraw'></i> <b>Purchase List</b></a>
+>>>>>>> HungPT
                     </div>
                     <div class="list0">
                         <a href="#"><i class='bx bx-heart-circle' ></i> <b>Favorite Hotel</b></a>

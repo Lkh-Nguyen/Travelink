@@ -15,10 +15,17 @@ public interface DatabaseInfo {
 //    
     
 //    Hai
+<<<<<<< HEAD
     public static String DRIVERNAME="com.microsoft.sqlserver.jdbc.SQLServerDriver";
     public static String DBURL="jdbc:sqlserver://HOANGHAI;databaseName=Travelink;encrypt=false;trustServerCertificate=false;loginTimeout=30;";
     public static String USERDB="sa";
     public static String PASSDB="123";
+=======
+//    public static String DRIVERNAME="com.microsoft.sqlserver.jdbc.SQLServerDriver";
+//    public static String DBURL="jdbc:sqlserver://HOANGHAI;databaseName=Travelink;encrypt=false;trustServerCertificate=false;loginTimeout=30;";
+//    public static String USERDB="sa";
+//    public static String PASSDB="123";
+>>>>>>> HungPT
     
 ////    Nguyen: 
 //    public static String DRIVERNAME="com.microsoft.sqlserver.jdbc.SQLServerDriver";
@@ -31,6 +38,16 @@ public interface DatabaseInfo {
 //        public static String USERDB="sa";
 //        public static String PASSDB="123";
         
+<<<<<<< HEAD
+=======
+    
+    //    Hung
+    public static String DRIVERNAME="com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    public static String DBURL="jdbc:sqlserver://Nitro5cuaHung;databaseName=Travelink;encrypt=false;trustServerCertificate=false;loginTimeout=30;";
+    public static String USERDB="sa";
+    public static String PASSDB="1234";
+    
+>>>>>>> HungPT
     public static Connection getConnect() {
         try {
             Class.forName(DRIVERNAME);

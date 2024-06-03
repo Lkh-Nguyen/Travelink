@@ -5,8 +5,8 @@
  */
 package com.travelink.Servlet;
 
-import com.travelink.Database.CustomerDB;
-import com.travelink.Model.Customer;
+import com.travelink.Database.AccountDB;
+import com.travelink.Model.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -62,11 +62,11 @@ public class VerifyCodeServlet extends HttpServlet {
         Random rand = new Random();
         int token = rand.nextInt(900000) + 100000;
         String cToken = ((Integer) token).toString();
-        //Store info of customer and token on session
+        //Store info of Account and token on session
         request.getSession().setAttribute("cToken", cToken);
         //Send email token
         SendEmail mail = new SendEmail();
-        String email = ((Customer) request.getSession().getAttribute("newCustomer")).getEmail();
+        String email = ((Account) request.getSession().getAttribute("newAccount")).getEmail();
         mail.sendRegisterToken(email, token);
         request.setAttribute("errorMessage", "New token has been sent");
         request.getRequestDispatcher("Verify_Code.jsp").forward(request, response);
@@ -89,10 +89,10 @@ public class VerifyCodeServlet extends HttpServlet {
         String email = (String) request.getSession().getAttribute("email");
         //If inputToken right
         if (inputToken.equals(cToken)) {
-            if ("registerCustomer".equals(action)) {
-                Customer c = (Customer) request.getSession().getAttribute("newCustomer");
-//              Insert Customer to DB
-                boolean success = CustomerDB.insertCustomer(c);
+            if ("registerAccount".equals(action)) {
+                Account c = (Account) request.getSession().getAttribute("newAccount");
+//              Insert Account to DB
+                boolean success = AccountDB.insertAccount(c);
                 if (success) {
                     request.setAttribute("successMessage", "Register successfully! Please login account again.");
                 }
@@ -107,8 +107,8 @@ public class VerifyCodeServlet extends HttpServlet {
                 SendEmail mail = new SendEmail();
                 String textString = text.toString();
                 mail.sendForgotPassword(email, textString);
-                Customer customer = CustomerDB.getCustomer(email);
-                CustomerDB.changePassword(customer, textString);
+                Account Account = AccountDB.getAccount(email);
+                AccountDB.changePassword(Account, textString);
                 request.setAttribute("updateMessage", "Your account has been created, your password has been sent to the email you just registered, please change your new password.");
                 request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
             }

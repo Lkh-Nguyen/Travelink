@@ -4,8 +4,8 @@
  */
 package com.travelink.Servlet;
 
-import com.travelink.Database.CustomerDB;
-import com.travelink.Model.Customer;
+import com.travelink.Database.AccountDB;
+import com.travelink.Model.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat;
  *
  * @author MSI
  */
-public class UpdateCustomerServlet extends HttpServlet {
+public class UpdateAccountServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +39,10 @@ public class UpdateCustomerServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateCustomerServlet</title>");
+            out.println("<title>Servlet UpdateAccountServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateCustomerServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateAccountServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -103,17 +103,18 @@ public class UpdateCustomerServlet extends HttpServlet {
         } else if (genderJsp.contains("Female")) {
             gender = 'F';
         }
-        Customer newCustomer = new Customer(email, cmnd, name, gender, dateOfBirth, phoneStr, address);
-        Customer oldCustomer = CustomerDB.getCustomer(email);
-        newCustomer.setCustomer_ID(oldCustomer.getCustomer_ID());
-        newCustomer.setPassword(oldCustomer.getPassword());
-        newCustomer.setAvatarURL(oldCustomer.getAvatarURL());
-        newCustomer.setAddress(oldCustomer.getAddress());
-        newCustomer.setAddress(address);
-        Customer customerUpdate = CustomerDB.updateCustomer(oldCustomer, newCustomer);
+        Account oldAccount = AccountDB.getAccount(email);
+        Account newAccount = new Account(email, cmnd, name, gender, dateOfBirth, phoneStr, address,oldAccount.getRole());
+        
+        newAccount.setAccount_ID(oldAccount.getAccount_ID());
+        newAccount.setPassword(oldAccount.getPassword());
+        newAccount.setAvatarURL(oldAccount.getAvatarURL());
+        newAccount.setAddress(oldAccount.getAddress());
+        newAccount.setAddress(address);
+        Account AccountUpdate = AccountDB.updateAccount(oldAccount, newAccount);
         HttpSession hs = request.getSession();
-        hs.setAttribute("customer", customerUpdate);
-        request.setAttribute("statusUpdate", "Update successfully customer.");
+        hs.setAttribute("account", AccountUpdate);
+        request.setAttribute("statusUpdate", "Update successfully Account.");
         PrintWriter printWriter = response.getWriter();
         request.getRequestDispatcher("My_Account_Update.jsp").forward(request, response);
 

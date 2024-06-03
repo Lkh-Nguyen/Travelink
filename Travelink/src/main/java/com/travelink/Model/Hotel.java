@@ -14,7 +14,6 @@ public class Hotel {
     private int hotel_ID;
     private String name;
     private String email;
-    private String password;
     private int star;
     private String phoneNumber;
     private String description;
@@ -51,14 +50,6 @@ public class Hotel {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public int getStar() {
@@ -133,10 +124,9 @@ public class Hotel {
         this.ward_ID = ward_ID;
     }
 
-    public Hotel(String name, String email, String password, int star, String phoneNumber, String description, LocalTime checkInTimeStart, LocalTime checkInTimeEnd, LocalTime checkOutTimeStart, LocalTime checkOutTimeEnd, String address, int ward_ID) {
+    public Hotel(String name, String email, int star, String phoneNumber, String description, LocalTime checkInTimeStart, LocalTime checkInTimeEnd, LocalTime checkOutTimeStart, LocalTime checkOutTimeEnd, String address, int ward_ID) {
         this.name = name;
         this.email = email;
-        this.password = password;
         this.star = star;
         this.phoneNumber = phoneNumber;
         this.description = description;
@@ -150,7 +140,7 @@ public class Hotel {
 
     @Override
     public String toString() {
-        return "Hotel{" + "hotel_ID=" + hotel_ID + ", name=" + name + ", email=" + email + ", password=" + password + ", star=" + star + ", phoneNumber=" + phoneNumber + ", description=" + description + ", checkInTimeStart=" + checkInTimeStart + ", checkInTimeEnd=" + checkInTimeEnd + ", checkOutTimeStart=" + checkOutTimeStart + ", checkOutTimeEnd=" + checkOutTimeEnd + ", address=" + address + ", ward_ID=" + ward_ID + '}';
+        return "Hotel{" + "hotel_ID=" + hotel_ID + ", name=" + name + ", email=" + email + ", star=" + star + ", phoneNumber=" + phoneNumber + ", description=" + description + ", checkInTimeStart=" + checkInTimeStart + ", checkInTimeEnd=" + checkInTimeEnd + ", checkOutTimeStart=" + checkOutTimeStart + ", checkOutTimeEnd=" + checkOutTimeEnd + ", address=" + address + ", ward_ID=" + ward_ID + '}';
     }
     
 }

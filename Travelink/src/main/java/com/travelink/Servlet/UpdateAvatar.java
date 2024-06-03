@@ -1,7 +1,7 @@
 package com.travelink.Servlet;
 
-import com.travelink.Database.CustomerDB;
-import com.travelink.Model.Customer;
+import com.travelink.Database.AccountDB;
+import com.travelink.Model.Account;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -71,14 +71,14 @@ public class UpdateAvatar extends HttpServlet {
             throws ServletException, IOException {
             String urlAvatar = request.getParameter("urlAvatar");
             HttpSession session = request.getSession();
-            Customer sessionCustomer = (Customer) session.getAttribute("customer");
+            Account sessionAccount = (Account) session.getAttribute("account");
             
             // Update the user's information
-        if (CustomerDB.updateAvatarCustomer(sessionCustomer,urlAvatar)) {
-            sessionCustomer.setAvatarURL(urlAvatar);
+        if (AccountDB.updateAvatarAccount(sessionAccount,urlAvatar)) {
+            sessionAccount.setAvatarURL(urlAvatar);
             request.setAttribute("updateStatus", "Change avatar successfully.");
             // Update the session with the new user information
-            session.setAttribute("customer", sessionCustomer);
+            session.setAttribute("account", sessionAccount);
         }
         request.getRequestDispatcher("View_Avatar.jsp").forward(request, response);
     }

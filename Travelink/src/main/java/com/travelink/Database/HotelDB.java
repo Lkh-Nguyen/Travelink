@@ -41,7 +41,6 @@ public class HotelDB implements DatabaseInfo {
                     hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
                     hotel.setName(resultSet.getString("Name"));
                     hotel.setEmail(resultSet.getString("Email"));
-                    hotel.setPassword(resultSet.getString("Password")); // Remember to handle password securely
                     hotel.setStar(resultSet.getInt("Star"));
                     hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
                     hotel.setDescription(resultSet.getString("Description"));
@@ -81,7 +80,6 @@ public class HotelDB implements DatabaseInfo {
                     hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
                     hotel.setName(resultSet.getString("Name"));
                     hotel.setEmail(resultSet.getString("Email"));
-                    hotel.setPassword(resultSet.getString("Password")); // Remember to handle password securely
                     hotel.setStar(resultSet.getInt("Star"));
                     hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
                     hotel.setDescription(resultSet.getString("Description"));
@@ -120,7 +118,6 @@ public class HotelDB implements DatabaseInfo {
                     hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
                     hotel.setName(resultSet.getString("Name"));
                     hotel.setEmail(resultSet.getString("Email"));
-                    hotel.setPassword(resultSet.getString("Password")); // Remember to handle password securely
                     hotel.setStar(resultSet.getInt("Star"));
                     hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
                     hotel.setDescription(resultSet.getString("Description"));
@@ -160,7 +157,6 @@ public class HotelDB implements DatabaseInfo {
                     hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
                     hotel.setName(resultSet.getString("Name"));
                     hotel.setEmail(resultSet.getString("Email"));
-                    hotel.setPassword(resultSet.getString("Password")); // Remember to handle password securely
                     hotel.setStar(resultSet.getInt("Star"));
                     hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
                     hotel.setDescription(resultSet.getString("Description"));

@@ -4,8 +4,8 @@
  */
 package com.travelink.Servlet;
 
-import com.travelink.Database.CustomerDB;
-import com.travelink.Model.Customer;
+import com.travelink.Database.AccountDB;
+import com.travelink.Model.Account;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ import java.io.PrintWriter;
  *
  * @author ASUS
  */
-public class ChangeCustomerPasswordServlet extends HttpServlet {
+public class ChangeAccountPasswordServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +37,10 @@ public class ChangeCustomerPasswordServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ChangeCustomerPasswordServlet</title>");
+            out.println("<title>Servlet ChangeAccountPasswordServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ChangeCustomerPasswordServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ChangeAccountPasswordServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -76,9 +76,9 @@ public class ChangeCustomerPasswordServlet extends HttpServlet {
         String newpass = request.getParameter("newpassword");
         String re_newpass = request.getParameter("re_newpassword");
         HttpSession session = request.getSession();
-        Customer customer = (Customer) session.getAttribute("customer");
+        Account Account = (Account) session.getAttribute("account");
 
-        if (!customer.getPassword().equals(pass)) {
+        if (!Account.getPassword().equals(pass)) {
             request.setAttribute("error", "The old password is incorrect.");
             request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
         } else if (pass.equalsIgnoreCase(newpass)) {
@@ -87,10 +87,10 @@ public class ChangeCustomerPasswordServlet extends HttpServlet {
         } else if (!newpass.equalsIgnoreCase(re_newpass)) {
             request.setAttribute("error", "The new password does not match.");
             request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
-        } else if (CustomerDB.changePassword(customer, newpass)) {
+        } else if (AccountDB.changePassword(Account, newpass)) {
             request.setAttribute("updateStatus", "Updated password successfully.");
-            customer.setPassword(newpass);
-            session.setAttribute("customer", customer);
+            Account.setPassword(newpass);
+            session.setAttribute("account", Account);
             request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
         } else {
             request.setAttribute("updateStatus", "Cập nhật mật khẩu không thành công!");

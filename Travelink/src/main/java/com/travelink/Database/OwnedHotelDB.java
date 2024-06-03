@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author ASUS
  */
-public class FavouriteHotelDB implements DatabaseInfo {
+public class OwnedHotelDB implements DatabaseInfo {
 
     public static List<Hotel> getHotelsByAccountID(int AccountID) {
         List<Hotel> hotels = new ArrayList<>();
@@ -30,9 +30,9 @@ public class FavouriteHotelDB implements DatabaseInfo {
 
             if (connection != null) {
                 String query = "SELECT h.* "
-                        + "FROM Favourite_Hotel fh "
-                        + "INNER JOIN Hotel h ON fh.Hotel_ID = h.Hotel_ID "
-                        + "WHERE fh.Account_ID = ?";
+                        + "FROM Owned_Hotel oh "
+                        + "INNER JOIN Hotel h ON oh.Hotel_ID = h.Hotel_ID "
+                        + "WHERE oh.Account_ID = ?";
                 statement = connection.prepareStatement(query);
                 statement.setInt(1, AccountID); // Set the Account ID parameter
                 resultSet = statement.executeQuery();
@@ -61,9 +61,9 @@ public class FavouriteHotelDB implements DatabaseInfo {
 
             if (connection != null) {
                 String query = "SELECT c.* "
-                        + "FROM Favourite_Hotel fh "
-                        + "INNER JOIN Account c ON fh.Account_ID = c.Account_ID "
-                        + "WHERE fh.Hotel_ID = ?";
+                        + "FROM Favourite_Hotel oh "
+                        + "INNER JOIN Account c ON oh.Account_ID = c.Account_ID "
+                        + "WHERE oh.Hotel_ID = ?";
                 statement = connection.prepareStatement(query);
                 statement.setInt(1, hotelID); // Set the hotel ID parameter
                 resultSet = statement.executeQuery();
@@ -80,34 +80,4 @@ public class FavouriteHotelDB implements DatabaseInfo {
         }
         return Accounts;
     }
-
-    public static void main(String[] args) throws SQLException {
-
-        // Test getHotelsByAccountID
-        System.out.println("\n** Test getHotelsByAccountID **");
-        int testAccountID = 1; // Replace with an existing Account ID
-        List<Hotel> hotels = FavouriteHotelDB.getHotelsByAccountID(testAccountID);
-        if (hotels.isEmpty()) {
-            System.out.println("Account with ID " + testAccountID + " has no favourite hotels.");
-        } else {
-            System.out.println("Favourite Hotels for Account (ID: " + testAccountID + "):");
-            for (Hotel hotel : hotels) {
-                System.out.println(hotel); // Assuming your Hotel model has a toString() method
-            }
-        }
-
-        // Test getAccountsByHotelID
-        System.out.println("\n** Test getAccountsByHotelID **");
-        int testHotelID = 2; // Replace with an existing hotel ID
-        List<Account> Accounts = FavouriteHotelDB.getAccountsByHotelID(testHotelID);
-        if (Accounts.isEmpty()) {
-            System.out.println("Hotel with ID " + testHotelID + " has no favourite Accounts.");
-        } else {
-            System.out.println("Accounts with Favourite Hotel (ID: " + testHotelID + "):");
-            for (Account Account : Accounts) {
-                System.out.println(Account); // Assuming your Account model has a toString() method
-            }
-        }
-    }
-
 }

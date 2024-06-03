@@ -29,14 +29,13 @@ public class Reservation {
     private BigDecimal totalPrice;
     private String paymentMethod;
     private String status;
-    private int customerID;
+    private int account_ID;
 
     // Default constructor
     public Reservation() {
     }
 
-    //All attributes
-    public Reservation(LocalDate reservationDate, int number_of_guests, LocalDate checkInDate, LocalDate checkOutDate, BigDecimal totalPrice, String paymentMethod, String status, int customerID) {
+    public Reservation(LocalDate reservationDate, int number_of_guests, LocalDate checkInDate, LocalDate checkOutDate, BigDecimal totalPrice, String paymentMethod, String status, int account_ID) {
         this.reservationDate = reservationDate;
         this.number_of_guests = number_of_guests;
         this.checkInDate = checkInDate;
@@ -44,27 +43,8 @@ public class Reservation {
         this.totalPrice = totalPrice;
         this.paymentMethod = paymentMethod;
         this.status = status;
-        this.customerID = customerID;
+        this.account_ID = account_ID;
     }
-
-
-    public int getNumber_of_guests() {
-        return number_of_guests;
-    }
-
-    public void setNumber_of_guests(int number_of_guests) {
-        this.number_of_guests = number_of_guests;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-
 
     public int getReservationID() {
         return reservationID;
@@ -80,6 +60,14 @@ public class Reservation {
 
     public void setReservationDate(LocalDate reservationDate) {
         this.reservationDate = reservationDate;
+    }
+
+    public int getNumber_of_guests() {
+        return number_of_guests;
+    }
+
+    public void setNumber_of_guests(int number_of_guests) {
+        this.number_of_guests = number_of_guests;
     }
 
     public LocalDate getCheckInDate() {
@@ -114,17 +102,28 @@ public class Reservation {
         this.paymentMethod = paymentMethod;
     }
 
-    public int getCustomerID() {
-        return customerID;
+    public String getStatus() {
+        return status;
     }
 
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getAccount_ID() {
+        return account_ID;
+    }
+
+    public void setAccount_ID(int account_ID) {
+        this.account_ID = account_ID;
     }
 
     @Override
     public String toString() {
-        return "Reservation{" + "reservationID=" + reservationID + ", reservationDate=" + reservationDate + ", number_of_guests=" + number_of_guests + ", checkInDate=" + checkInDate + ", checkOutDate=" + checkOutDate + ", totalPrice=" + totalPrice + ", paymentMethod=" + paymentMethod + ", status=" + status + ", customerID=" + customerID + '}';
+        return "Reservation{" + "reservationID=" + reservationID + ", reservationDate=" + reservationDate + ", number_of_guests=" + number_of_guests + ", checkInDate=" + checkInDate + ", checkOutDate=" + checkOutDate + ", totalPrice=" + totalPrice + ", paymentMethod=" + paymentMethod + ", status=" + status + ", account_ID=" + account_ID + '}';
     }
+
+
+
 
 }

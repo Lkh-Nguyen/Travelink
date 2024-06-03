@@ -43,7 +43,7 @@ public class ReservationDB implements DatabaseInfo {
                     reservation.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
                     reservation.setPaymentMethod(resultSet.getString("Payment_Method"));
                     reservation.setStatus(resultSet.getString("Status"));
-                    reservation.setCustomerID(resultSet.getInt("Customer_ID"));
+                    reservation.setAccount_ID(resultSet.getInt("Account_ID"));
                 }
             }
         } catch (SQLException e) {
@@ -52,7 +52,7 @@ public class ReservationDB implements DatabaseInfo {
         return reservation;
     }
 
-    public static List<Reservation> getReservationsByCustomerID(int customerID) {
+    public static List<Reservation> getReservationsByAccountID(int AccountID) {
         List<Reservation> reservations = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -62,9 +62,9 @@ public class ReservationDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM Reservation WHERE Customer_ID = ?";
+                String query = "SELECT * FROM Reservation WHERE Account_ID = ?";
                 statement = connection.prepareStatement(query);
-                statement.setInt(1, customerID);
+                statement.setInt(1, AccountID);
                 resultSet = statement.executeQuery();
 
                 while (resultSet.next()) {
@@ -77,12 +77,12 @@ public class ReservationDB implements DatabaseInfo {
                     reservation.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
                     reservation.setPaymentMethod(resultSet.getString("Payment_Method"));
                     reservation.setStatus(resultSet.getString("Status"));
-                    reservation.setCustomerID(resultSet.getInt("Customer_ID"));
+                    reservation.setAccount_ID(resultSet.getInt("Account_ID"));
                     reservations.add(reservation);
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error getting reservations by customer ID: " + e);
+            System.out.println("Error getting reservations by Account ID: " + e);
         }
         return reservations;
     }
@@ -100,14 +100,14 @@ public class ReservationDB implements DatabaseInfo {
             System.out.println(reservation); // Assuming your Reservation model has a toString() method
         }
 
-        // Test getReservationsByCustomerID
-        System.out.println("\n** Test getReservationsByCustomerID **");
-        int testCustomerID = 2; // Replace with an existing customer ID
-        List<Reservation> reservations = ReservationDB.getReservationsByCustomerID(testCustomerID);
+        // Test getReservationsByAccountID
+        System.out.println("\n** Test getReservationsByAccountID **");
+        int testAccountID = 2; // Replace with an existing Account ID
+        List<Reservation> reservations = ReservationDB.getReservationsByAccountID(testAccountID);
         if (reservations.isEmpty()) {
-            System.out.println("No reservations found for customer (ID: " + testCustomerID + ").");
+            System.out.println("No reservations found for Account (ID: " + testAccountID + ").");
         } else {
-            System.out.println("Reservations for Customer (ID: " + testCustomerID + "):");
+            System.out.println("Reservations for Account (ID: " + testAccountID + "):");
             for (Reservation aReservation : reservations) {
                 System.out.println(aReservation);
             }

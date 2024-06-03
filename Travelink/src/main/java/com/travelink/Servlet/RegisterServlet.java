@@ -6,8 +6,8 @@
 
 package com.travelink.Servlet;
 
-import com.travelink.Database.CustomerDB;
-import com.travelink.Model.Customer;
+import com.travelink.Database.AccountDB;
+import com.travelink.Model.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -77,29 +77,29 @@ public class RegisterServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        //Check customer existed
-        Customer c = CustomerDB.getCustomer(email);
+        //Check Account existed
+        Account c = AccountDB.getAccount(email);
         if (c != null){
             request.setAttribute("errorLogin", "Email existed! You can not create account.");
             request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
             return;
         }
-        //Create customer
-        c = new Customer(email, password, name, phone);
+        //Create Account
+        c = new Account(email, password, name, phone,1);
         c.setAvatarURL("/Travelink/img_Avatar/avatar_default.jpg");
         //Random token
         Random rand = new Random();
         int token = rand.nextInt(900000) + 100000; 
         String cToken = ((Integer) token).toString();
-        //Store info of customer and token on session
+        //Store info of Account and token on session
         request.getSession().setAttribute("cToken", cToken);
-        request.getSession().setAttribute("newCustomer", c);
+        request.getSession().setAttribute("newAccount", c);
         //Send email token
         SendEmail mail = new SendEmail();
         mail.sendRegisterToken(email, token);
         //Request to verify code jsp
         HttpSession session = request.getSession();
-        session.setAttribute("action", "registerCustomer");        
+        session.setAttribute("action", "registerAccount");        
         response.sendRedirect("Verify_Code.jsp");
     }
 

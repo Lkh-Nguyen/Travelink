@@ -5,8 +5,8 @@
 
 package com.travelink.Servlet;
 
-import com.travelink.Database.CustomerDB;
-import com.travelink.Model.Customer;
+import com.travelink.Database.AccountDB;
+import com.travelink.Model.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author MSI
  */
-public class LoginCustomerServlet extends HttpServlet {
+public class LoginAccountServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +36,10 @@ public class LoginCustomerServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginCustomerServlet</title>");  
+            out.println("<title>Servlet LoginAccountServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginCustomerServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet LoginAccountServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -71,7 +71,7 @@ public class LoginCustomerServlet extends HttpServlet {
     throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        Customer cu = CustomerDB.getCustomer(email);
+        Account cu = AccountDB.getAccount(email);
 //        PrintWriter printWriter = response.getWriter();
 //        printWriter.println(email);
 //        printWriter.print(password);
@@ -86,7 +86,7 @@ public class LoginCustomerServlet extends HttpServlet {
         }
         else{
             HttpSession session = request.getSession();
-            session.setAttribute("customer", cu);
+            session.setAttribute("account", cu);
             request.setAttribute("succesLogin", "Login successfully.");
             request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
         }

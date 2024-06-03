@@ -4,7 +4,7 @@
  */
 package com.travelink.Database;
 
-import com.travelink.Model.Customer;
+import com.travelink.Model.Account;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
  *
  * @author ASUS
  */
-public class CustomerDB implements DatabaseInfo {
+public class AccountDB implements DatabaseInfo {
 
     public static Connection getConnect() {
         try {
@@ -32,26 +32,26 @@ public class CustomerDB implements DatabaseInfo {
         return null;
     }
 
-    public static boolean insertCustomer(Customer customer) {
+    public static boolean insertAccount(Account Account) {
         Connection con = DatabaseInfo.getConnect();
         try {
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Customer (Name, Email, Password, PhoneNumber, CMND, Gender, DateOfBirth, AvatarURL, Address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Account (Name, Email, Password, PhoneNumber, CMND, Gender, DateOfBirth, AvatarURL, Address, Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             // Set parameters
-            pstmt.setString(1, customer.getName());
-            pstmt.setString(2, customer.getEmail());
+            pstmt.setString(1, Account.getName());
+            pstmt.setString(2, Account.getEmail());
             // Handle potential null password (already included)
-            pstmt.setString(3, customer.getPassword() != null ? customer.getPassword() : null);
+            pstmt.setString(3, Account.getPassword() != null ? Account.getPassword() : null);
             // Handle potential null phone number
-            pstmt.setString(4, customer.getPhoneNumber() != null ? customer.getPhoneNumber() : null);
+            pstmt.setString(4, Account.getPhoneNumber() != null ? Account.getPhoneNumber() : null);
 
             // Set nullable fields with null checks (unchanged)
-            pstmt.setString(5, customer.getCmnd() != null ? customer.getCmnd() : null);
-            pstmt.setString(6, Character.toString(customer.getGender() != '\u0000' ? customer.getGender() : ' ')); // handle default character for gender
-            pstmt.setDate(7, customer.getDateOfBirth());
-            pstmt.setString(8, customer.getAvatarURL() != null ? customer.getAvatarURL() : null);
-            pstmt.setString(9, customer.getAddress() != null ? customer.getAddress() : null);
-
+            pstmt.setString(5, Account.getCmnd() != null ? Account.getCmnd() : null);
+            pstmt.setString(6, Character.toString(Account.getGender() != '\u0000' ? Account.getGender() : ' ')); // handle default character for gender
+            pstmt.setDate(7, Account.getDateOfBirth());
+            pstmt.setString(8, Account.getAvatarURL() != null ? Account.getAvatarURL() : null);
+            pstmt.setString(9, Account.getAddress() != null ? Account.getAddress() : null);
+            pstmt.setInt(10, Account.getRole());
             // Execute the SQL statement
             int rowsInserted = pstmt.executeUpdate();
 
@@ -76,52 +76,54 @@ public class CustomerDB implements DatabaseInfo {
         return false;
     }
 
-    public static Customer getCustomer(String email) {
+    public static Account getAccount(String email) {
         Connection con = DatabaseInfo.getConnect();
         try {
-            Customer customer = null;
-            PreparedStatement st = con.prepareStatement("SELECT * FROM Customer WHERE Email = ?");
+            Account Account = null;
+            PreparedStatement st = con.prepareStatement("SELECT * FROM Account WHERE Email = ?");
             st.setString(1, email);
             java.sql.ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
-                customer = new Customer();
-                customer.setCustomer_ID(rs.getInt("Customer_ID"));
-                customer.setEmail(rs.getString("Email"));
-                customer.setPassword(rs.getString("Password"));
-                customer.setName(rs.getString("Name"));
+                Account = new Account();
+                Account.setAccount_ID(rs.getInt("Account_ID"));
+                Account.setEmail(rs.getString("Email"));
+                Account.setPassword(rs.getString("Password"));
+                Account.setName(rs.getString("Name"));
                 // Handle potential null phone number
-                customer.setPhoneNumber(rs.getString("PhoneNumber"));
+                Account.setPhoneNumber(rs.getString("PhoneNumber"));
 
                 // Handle optional attributes with null checks (unchanged)
                 String cmnd = rs.getString("CMND");
                 if (cmnd != null) {
-                    customer.setCmnd(cmnd);
+                    Account.setCmnd(cmnd);
                 }
 
                 Character gender = rs.getString("Gender") != null ? rs.getString("Gender").charAt(0) : ' ';
-                customer.setGender(gender);
+                Account.setGender(gender);
 
                 java.sql.Date dateOfBirth = rs.getDate("DateOfBirth");
                 if (dateOfBirth != null) {
-                    customer.setDateOfBirth(dateOfBirth);
-                }
-                else{
-                    customer.setDateOfBirth(null);
+                    Account.setDateOfBirth(dateOfBirth);
+                } else {
+                    Account.setDateOfBirth(null);
                 }
 
                 String avatarURL = rs.getString("avatarURL");
                 if (avatarURL != null) {
-                    customer.setAvatarURL(avatarURL);
+                    Account.setAvatarURL(avatarURL);
                 }
 
                 String address = rs.getString("Address");
                 if (address != null) {
-                    customer.setAddress(address);
+                    Account.setAddress(address);
                 }
+
+                int role = rs.getInt("Role");
+                Account.setRole(role);
             }
 
-            return customer;
+            return Account;
         } catch (SQLException ex) {
             // Handle exceptions appropriately (log or throw)
             ex.printStackTrace();
@@ -140,18 +142,18 @@ public class CustomerDB implements DatabaseInfo {
         return null;
     }
 
-    public static boolean changePassword(Customer currentCustomer, String newPassword) {
-        String sql = "UPDATE Customer SET Password=? WHERE Email=?";
+    public static boolean changePassword(Account currentAccount, String newPassword) {
+        String sql = "UPDATE Account SET Password=? WHERE Email=?";
         Connection con = null;
         PreparedStatement pstmt = null;
 
         try {
-            con = DatabaseInfo.getConnect(); // Assuming CustomerDB has a getConnect method
+            con = DatabaseInfo.getConnect(); // Assuming AccountDB has a getConnect method
             pstmt = con.prepareStatement(sql);
 
             // Set parameters for the prepared statement
             pstmt.setString(1, newPassword);
-            pstmt.setString(2, currentCustomer.getEmail()); // Assuming email is the identifier for the customer
+            pstmt.setString(2, currentAccount.getEmail()); // Assuming email is the identifier for the Account
 
             int rowsAffected = pstmt.executeUpdate();
 
@@ -176,19 +178,19 @@ public class CustomerDB implements DatabaseInfo {
         }
     }
 
-    public static boolean updateAvatarCustomer(Customer currentCustomer, String avatarURL) {
-        String sql = "UPDATE [Customer] SET AvatarURL = ? WHERE Email=?";
+    public static boolean updateAvatarAccount(Account currentAccount, String avatarURL) {
+        String sql = "UPDATE [Account] SET AvatarURL = ? WHERE Email=?";
         Connection con = null;
         PreparedStatement pstmt = null;
 
         try {
-            con = CustomerDB.getConnect();
+            con = AccountDB.getConnect();
             pstmt = con.prepareStatement(sql);
 
             // Set parameters for the prepared statement
             pstmt.setString(1, avatarURL);
 
-            pstmt.setString(2, currentCustomer.getEmail()); // Assuming email is the unique identifier
+            pstmt.setString(2, currentAccount.getEmail()); // Assuming email is the unique identifier
 
             // Execute the SQL statement
             int rowsAffected = pstmt.executeUpdate();
@@ -213,61 +215,58 @@ public class CustomerDB implements DatabaseInfo {
             }
         }
     }
-    
 
-
-    public static Customer updateCustomer(Customer oldCustomer, Customer newCustomer) {
+    public static Account updateAccount(Account oldAccount, Account newAccount) {
         Connection con = DatabaseInfo.getConnect();
         if (con == null) {
             return null;
         }
 
         try {
-            String query = "UPDATE Customer SET "
+            String query = "UPDATE Account SET "
                     + "Email = ?, Password = ?, CMND = ?, Name = ?, Gender = ?, DateOfBirth = ?, "
                     + "PhoneNumber = ?, AvatarURL = ?, Address = ? "
-                    + "WHERE Customer_ID = ?";
+                    + "WHERE Account_ID = ?";
 
             PreparedStatement st = con.prepareStatement(query);
-            st.setString(1, newCustomer.getEmail());
-            st.setString(2, newCustomer.getPassword());
-            st.setString(3, newCustomer.getCmnd());
-            st.setNString(4, newCustomer.getName());
-            st.setString(5, String.valueOf(newCustomer.getGender()));
-            if(newCustomer.getDateOfBirth()== null){
+            st.setString(1, newAccount.getEmail());
+            st.setString(2, newAccount.getPassword());
+            st.setString(3, newAccount.getCmnd());
+            st.setNString(4, newAccount.getName());
+            st.setString(5, String.valueOf(newAccount.getGender()));
+            if (newAccount.getDateOfBirth() == null) {
                 st.setDate(6, null);
+            } else {
+                st.setDate(6, new java.sql.Date(newAccount.getDateOfBirth().getTime()));
             }
-            else {
-                st.setDate(6, new java.sql.Date(newCustomer.getDateOfBirth().getTime()));
-            }
-           
-            st.setString(7, newCustomer.getPhoneNumber());
-            st.setString(8, newCustomer.getAvatarURL());
-            st.setString(9, newCustomer.getAddress());
-            st.setInt(10, oldCustomer.getCustomer_ID());
+
+            st.setString(7, newAccount.getPhoneNumber());
+            st.setString(8, newAccount.getAvatarURL());
+            st.setString(9, newAccount.getAddress());
+            st.setInt(10, oldAccount.getAccount_ID());
 
             int rowsUpdated = st.executeUpdate();
             if (rowsUpdated > 0) {
                 // Nếu cập nhật thành công, truy xuất lại thông tin từ cơ sở dữ liệu
-                String retrieveQuery = "SELECT * FROM Customer WHERE Customer_ID = ?";
+                String retrieveQuery = "SELECT * FROM Account WHERE Account_ID = ?";
                 PreparedStatement retrieveSt = con.prepareStatement(retrieveQuery);
-                retrieveSt.setInt(1, oldCustomer.getCustomer_ID());
+                retrieveSt.setInt(1, oldAccount.getAccount_ID());
                 ResultSet rs = retrieveSt.executeQuery();
 
                 if (rs.next()) {
-                    Customer updatedCustomer = new Customer();
-                    updatedCustomer.setCustomer_ID(rs.getInt("Customer_ID"));
-                    updatedCustomer.setEmail(rs.getString("Email"));
-                    updatedCustomer.setPassword(rs.getString("Password"));
-                    updatedCustomer.setCmnd(rs.getString("CMND"));
-                    updatedCustomer.setName(rs.getNString("Name"));
-                    updatedCustomer.setGender(rs.getString("Gender").charAt(0));
-                    updatedCustomer.setDateOfBirth(rs.getDate("DateOfBirth"));
-                    updatedCustomer.setPhoneNumber(rs.getString("PhoneNumber"));
-                    updatedCustomer.setAvatarURL(rs.getString("AvatarURL"));
-                    updatedCustomer.setAddress(rs.getString("Address"));
-
-                    return updatedCustomer;
+                    Account updatedAccount = new Account();
+                    updatedAccount.setAccount_ID(rs.getInt("Account_ID"));
+                    updatedAccount.setEmail(rs.getString("Email"));
+                    updatedAccount.setPassword(rs.getString("Password"));
+                    updatedAccount.setCmnd(rs.getString("CMND"));
+                    updatedAccount.setName(rs.getNString("Name"));
+                    updatedAccount.setGender(rs.getString("Gender").charAt(0));
+                    updatedAccount.setDateOfBirth(rs.getDate("DateOfBirth"));
+                    updatedAccount.setPhoneNumber(rs.getString("PhoneNumber"));
+                    updatedAccount.setAvatarURL(rs.getString("AvatarURL"));
+                    updatedAccount.setAddress(rs.getString("Address"));
+                    updatedAccount.setRole(rs.getInt("Role"));
+                    return updatedAccount;
                 }
             }
         } catch (SQLException ex) {
@@ -286,7 +285,6 @@ public class CustomerDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) {
-        Customer c = new Customer("nguyenlkhde170387@fpt.edu.vn", "123", "nguyen", "09123");
-        updateAvatarCustomer(c, "123");
+
     }
 }

@@ -87,7 +87,7 @@
                 </button>
             </div>
             <div class="form-container sign-in-container">
-                <form action="LoginCustomerServlet" method="post">
+                <form action="LoginAccountServlet" method="post">
                     <h1>Login</h1>
                     <div class="form-field">
                         <input type="email" name="email" class="form-input" autocomplete="off">

@@ -5,14 +5,14 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<%@page import="com.travelink.Model.Customer" %>
+<%@page import="com.travelink.Model.Account" %>
 <%@page import="java.util.List" %>
 <%@page import="com.travelink.Model.HotelService" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Booking Customer</title>
+        <title>Booking Account</title>
         <link rel="stylesheet" href="css/Right_My_Account.css">
         <link rel="stylesheet" href="css/Left_My_Account.css">
         <link rel="icon" href="img_Home/logo.png">
@@ -76,12 +76,12 @@
                                 <div class="col-md-5">
                                     <div class="card border-0">
                                         <div class="card-body">
-                                            <p class="fw-bold lh-1">${customer.name}</p>
-                                            <p class="fw-bold lh-1">Invoice # <span class="fw-normal text-muted lh-1"> getCustomerID</span></p>
+                                            <p class="fw-bold lh-1">${account.name}</p>
+                                            <p class="fw-bold lh-1">Invoice # <span class="fw-normal text-muted lh-1"> getAccountID</span></p>
                                             <p class="text-muted">BILLING TO</p>
                                             <p class="fw-bold border-bottom">NAME COMPANY</p>
                                             <p class="fw-bold lh-1">Contact: <span class="fw-normal text-muted lh-1"> getPhoneNumber</span></p>
-                                            <p class="fw-bold lh-1">Email: <span class="fw-normal text-muted lh-1"> getCustomerEmail</span></p>
+                                            <p class="fw-bold lh-1">Email: <span class="fw-normal text-muted lh-1"> getAccountEmail</span></p>
                                             <p class="fw-bold lh-1">Address: <span class="fw-normal text-muted lh-1"> getAddress</span></p>
                                         </div>
                                     </div>
@@ -115,9 +115,9 @@
                                                 <tbody>
                                                     <tr>
                                                         <th scope="row">1</th>
-                                                        <td>${customer.name}</td>
-                                                        <td>${customer.email}</td>
-                                                        <td>${customer.phoneNumber}</td>
+                                                        <td>${account.name}</td>
+                                                        <td>${account.email}</td>
+                                                        <td>${account.phoneNumber}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">2</th>

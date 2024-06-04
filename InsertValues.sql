@@ -39,73 +39,73 @@ INSERT INTO Hotel (
  Dù quý khách muốn tổ chức một sự kiện hay các dịp kỷ niệm đặc biệt khác, Da Nang – Mikazuki JAPANESE RESORTS & SPA là lựa chọn tuyệt vời cho quý khách với phòng chức năng rộng lớn, được trang bị đầy đủ để sẵn sàng đáp ứng mọi yêu cầu.
  Hãy tận hưởng thời gian vui vẻ cùng cả gia đình với hàng loạt tiện nghi giải trí tại Da Nang – Mikazuki JAPANESE RESORTS & SPA, một nơi nghỉ tuyệt vời phù hợp cho mọi kỳ nghỉ bên người thân.',
  '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'Đường Nguyễn Tất Thành, Phường Hòa Hiệp Nam, Hòa Hiệp Nam, Liên Chiểu, Đà Nẵng, Việt Nam', 6338),
-(N'Da Nang Bay', 'email6@gmail.com', '1234567890', 5, '0123456789',
+(N'Da Nang Bay', 'email6@gmail.com', 5, '0123456789',
 N'Không chỉ sở hữu vị trí giúp quý khách dễ dàng ghé thăm những địa điểm lý thú trong chuyến hành trình, Da Nang Bay cũng sẽ mang đến cho quý khách trải nghiệm lưu trú mỹ mãn.
 Da Nang Bay là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
 Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Da Nang Bay sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
 Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Da Nang Bay.
 Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
  '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'52 Võ Nguyên Giáp, Phường Mân Thái, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam.', 6341),
- (N'Sel de Mer Hotel & Suites', 'email7@gmail.com', '1234567890', 1, '0123456789',
+ (N'Sel de Mer Hotel & Suites', 'email7@gmail.com', 1, '0123456789',
 N'Không chỉ sở hữu vị trí giúp quý khách dễ dàng ghé thăm những địa điểm lý thú trong chuyến hành trình, Da Nang Bay cũng sẽ mang đến cho quý khách trải nghiệm lưu trú mỹ mãn.
 Da Nang Bay là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
 Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Da Nang Bay sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
 Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Da Nang Bay.
 Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
  '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'92 Võ Nguyên Giáp, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam.', 6345),
-(N'Dolphin Hotel and Apartment', 'email8@gmail.com', '1234567890', 3, '0123456789',
+(N'Dolphin Hotel and Apartment', 'email8@gmail.com', 3, '0123456789',
 N'Không chỉ sở hữu vị trí giúp quý khách dễ dàng ghé thăm những địa điểm lý thú trong chuyến hành trình, Da Nang Bay cũng sẽ mang đến cho quý khách trải nghiệm lưu trú mỹ mãn.
 Da Nang Bay là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
 Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Da Nang Bay sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
 Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Da Nang Bay.
 Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
 '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'09 Tân Thuận, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam.', 6350),
-(N'Le Sands Oceanfront Danang Hotel', 'email9@gmail.com', '1234567890', 2, '0123456789',
+(N'Le Sands Oceanfront Danang Hotel', 'email9@gmail.com', 2, '0123456789',
 N'Không chỉ sở hữu vị trí giúp quý khách dễ dàng ghé thăm những địa điểm lý thú trong chuyến hành trình, Da Nang Bay cũng sẽ mang đến cho quý khách trải nghiệm lưu trú mỹ mãn.
 Da Nang Bay là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
 Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Da Nang Bay sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
 Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Da Nang Bay.
 Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
 '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'28 Vo Nguyen Giap, Man Thai, Son Tra, Danang, Mân Thái, Sơn Trà, Đà Nẵng.', 6351),
-(N'The Leaf Boutique', 'email10@gmail.com', '1234567890', 5, '0123456789',
+(N'The Leaf Boutique', 'email10@gmail.com', 5, '0123456789',
 N'Không chỉ sở hữu vị trí giúp quý khách dễ dàng ghé thăm những địa điểm lý thú trong chuyến hành trình, Da Nang Bay cũng sẽ mang đến cho quý khách trải nghiệm lưu trú mỹ mãn.
 Da Nang Bay là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
 Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Da Nang Bay sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
 Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Da Nang Bay.
 Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
 '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'38 Võ Nguyên Giáp, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam.', 6335),
-(N'Hotel Brilliant', 'email11@gmail.com', '1234567890', 4, '0123456789',
+(N'Hotel Brilliant', 'email11@gmail.com', 4, '0123456789',
  N'Tọa lạc tại khu vực sầm uất của Đà Nẵng, Hotel Brilliant mang đến cho du khách trải nghiệm lưu trú tuyệt vời với dịch vụ chuyên nghiệp và không gian sang trọng.',
  '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'162 Bạch Đằng, Hải Châu, Đà Nẵng, Việt Nam', 6356),
-(N'Sofia Boutique Hotel', 'email12@gmail.com', '1234567890', 3, '0123456789',
+(N'Sofia Boutique Hotel', 'email12@gmail.com', 3, '0123456789',
  N'Sofia Boutique Hotel là lựa chọn lý tưởng cho những du khách muốn tận hưởng kỳ nghỉ thoải mái với ngân sách tiết kiệm. Với các dịch vụ chất lượng và tiện nghi hiện đại, khách sạn này hứa hẹn mang đến cho du khách những trải nghiệm đáng nhớ.',
  '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'63 Hà Bổng, Phước Mỹ, Sơn Trà, Đà Nẵng, Việt Nam', 6371),
-(N'Balcona Hotel Da Nang', 'email13@gmail.com', '1234567890', 5, '0123456789',
+(N'Balcona Hotel Da Nang', 'email13@gmail.com', 5, '0123456789',
  N'Balcona Hotel Da Nang là khách sạn 5 sao sang trọng, mang đến cho du khách những trải nghiệm xa hoa với dịch vụ xuất sắc và không gian đẳng cấp. Hãy tận hưởng những giây phút thư giãn tuyệt vời tại đây.',
  '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'288 Võ Nguyên Giáp, Phước Mỹ, Sơn Trà, Đà Nẵng, Việt Nam', 6360),
-(N'Diamond Sea Hotel', 'email14@gmail.com', '1234567890', 4, '0123456789',
+(N'Diamond Sea Hotel', 'email14@gmail.com', 4, '0123456789',
  N'Diamond Sea Hotel là lựa chọn lý tưởng cho du khách muốn tận hưởng không gian nghỉ dưỡng thoải mái với tầm nhìn tuyệt đẹp ra biển. Khách sạn cung cấp các tiện nghi cao cấp và dịch vụ chuyên nghiệp.',
  '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'232 Võ Nguyên Giáp, Phước Mỹ, Sơn Trà, Đà Nẵng, Việt Nam', 6361),
-(N'Thanh Lich Hotel', 'email15@gmail.com', '1234567890', 3, '0123456789',
+(N'Thanh Lich Hotel', 'email15@gmail.com', 3, '0123456789',
 N'Không chỉ sở hữu vị trí giúp quý khách dễ dàng ghé thăm những địa điểm lý thú trong chuyến hành trình, Da Nang Bay cũng sẽ mang đến cho quý khách trải nghiệm lưu trú mỹ mãn.
 Da Nang Bay là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
 Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Da Nang Bay sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
 Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Da Nang Bay.
 Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
 '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'09 Tân Thuận, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam.', 6350),
-(N'Orange Hotel Da Nang', 'email16@gmail.com', '1234567890', 2, '0123456789',
+(N'Orange Hotel Da Nang', 'email16@gmail.com', 2, '0123456789',
  N'Orange Hotel Da Nang là lựa chọn phổ biến của du khách muốn khám phá Đà Nẵng với ngân sách tiết kiệm. Khách sạn cung cấp các phòng nghỉ thoải mái và dịch vụ đáng giá, giúp du khách có những trải nghiệm tuyệt vời.',
  '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'105 Hoàng Diệu, Hải Châu, Đà Nẵng, Việt Nam', 6358),
-(N'Hanoi Golden Hotel', 'email17@gmail.com', '1234567890', 1, '0123456789',
+(N'Hanoi Golden Hotel', 'email17@gmail.com', 1, '0123456789',
  N'Với vị trí thuận lợi và dịch vụ tận tâm, Hanoi Golden Hotel là lựa chọn phổ biến của du khách khi đến Đà Nẵng. Khách sạn cung cấp các tiện nghi cơ bản nhưng đảm bảo sự thoải mái và tiện lợi cho du khách.',
  '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'83 Phạm Văn Đồng, An Hải Bắc, Sơn Trà, Đà Nẵng, Việt Nam', 6362),
-(N'Pearl Sea Hotel', 'email18@gmail.com', '1234567890', 3, '0123456789',
+(N'Pearl Sea Hotel', 'email18@gmail.com', 3, '0123456789',
  N'Với vị trí tuyệt vời ngay trung tâm thành phố, Pearl Sea Hotel là lựa chọn lý tưởng cho du khách muốn khám phá Đà Nẵng dễ dàng. Khách sạn cung cấp không gian nghỉ ngơi thoải mái và các tiện nghi tiện lợi.',
  '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'09 Phan Bội Châu, Hải Châu, Đà Nẵng, Việt Nam', 6359),
-(N'New Moon Hotel', 'email19@gmail.com', '1234567890', 2, '0123456789',
+(N'New Moon Hotel', 'email19@gmail.com', 2, '0123456789',
  N'New Moon Hotel là lựa chọn phù hợp cho du khách muốn khám phá Đà Nẵng với ngân sách tiết kiệm. Khách sạn cung cấp các phòng nghỉ thoải mái và dịch vụ tận tâm, đem lại cho du khách những trải nghiệm thú vị.',
  '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'76-78 Bạch Đằng, Hải Châu, Đà Nẵng, Việt Nam', 6363),
-(N'Nhu Minh Plaza Hotel Da Nang', 'email20@gmail.com', '1234567890', 4, '0123456789',
+(N'Nhu Minh Plaza Hotel Da Nang', 'email20@gmail.com', 4, '0123456789',
  N'Nhu Minh Plaza Hotel Da Nang mang đến cho du khách trải nghiệm lưu trú sang trọng và đẳng cấp với không gian hiện đại và dịch vụ chuyên nghiệp. Hãy khám phá Đà Nẵng và tận hưởng kỳ nghỉ tuyệt vời tại đây.',
  '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'75 Hà Bổng, Phước Mỹ, Sơn Trà, Đà Nẵng, Việt Nam', 6364);
  -----------------------------------------------------------------------------------------------------------------
@@ -165,7 +165,22 @@ Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm m
 ('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-17539952ac6a32cd01069e7168957c07.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640',5),
 ('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-81ea48bfa3734c1df86250647fa1ac35.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640',4),
 ('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-20983969df0ca0525a15f20af9488f4c.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640',3),
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-052ed0915412c18f22667341c5c33c8d.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640',2);
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-052ed0915412c18f22667341c5c33c8d.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640',2),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-20983969df0ca0525a15f20af9488f4c.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 1),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-ca79c5cfc41762e1963c20b8336afb05.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 1),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-8f5a52e0864d04a9277c4e66e4743f7a.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 2),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-f5552e5aaa82d9d1b8263b741ea12957.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 2),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-a184757c040c218aa85aed6644735011.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 2),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-ff546280a8f0c3c0b2ad804aac4c43ed.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 3),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-17539952ac6a32cd01069e7168957c07.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 3),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-81ea48bfa3734c1df86250647fa1ac35.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 4),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-20983969df0ca0525a15f20af9488f4c.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 4),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-052ed0915412c18f22667341c5c33c8d.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 5),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-20983969df0ca0525a15f20af9488f4c.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 6),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-ca79c5cfc41762e1963c20b8336afb05.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 7),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-8f5a52e0864d04a9277c4e66e4743f7a.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 8),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-f5552e5aaa82d9d1b8263b741ea12957.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 9),
+('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-a184757c040c218aa85aed6644735011.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640', 10);
  -----------------------------------------------------------------------------------------------------------------
  --insert table Feedback--
  select *
@@ -258,7 +273,6 @@ insert into Favourite_Hotel values
 --insert table Room--
 select *
 from Room
-
 INSERT INTO Room (Name, Room_Description, Capacity, Total_Rooms, Price, Hotel_ID) VALUES
 -- Hotel_ID 1
 ('Standard Room', 'This is a cozy room with one king-size bed', 2, 10, 300000, 1),
@@ -625,21 +639,21 @@ INSERT INTO Service (Name) VALUES
 
 ----------------------------------------------------------------------------------------------------------------
 -- Insert Bed
-INSERT INTO Bed (Bed_ID,Name, Description, URL) VALUES 
-(1,N'Giường đơn', 'Rộng 90 - 130 cm', 'URL_for_single_bed_image'),
-(2,N'Giường đôi', 'Rộng 131 - 150 cm', 'URL_for_double_bed_image'),
-(3,N'Giường lớn (cỡ King)', 'Rộng 151 - 180 cm', 'URL_for_king_bed_image'),
-(4,N'Giường cực lớn (cỡ Super-king)', 'Rộng 181 - 210 cm', 'URL_for_super_king_bed_image');
+INSERT INTO Bed (Name, Description, URL) VALUES 
+(N'Giường đơn', 'Rộng 90 - 130 cm', 'URL_for_single_bed_image'),
+(N'Giường đôi', 'Rộng 131 - 150 cm', 'URL_for_double_bed_image'),
+(N'Giường lớn (cỡ King)', 'Rộng 151 - 180 cm', 'URL_for_king_bed_image'),
+(N'Giường cực lớn (cỡ Super-king)', 'Rộng 181 - 210 cm', 'URL_for_super_king_bed_image');
 select *
 from Bed
 ----------------------------------------------------------------------------------------------------------------
 -- Inserting data into Room_Bed table
-INSERT INTO Room_Bed (Room_Bed_ID,Amount, Bed_ID, Room_ID) VALUES 
-(1,2, 1, 1),
-(2,1, 2, 1),
-(3,3, 3, 2),
-(4,2, 4, 1),
-(5,1, 2, 3);
+INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES 
+(2, 1, 1),
+(1, 2, 1),
+(3, 3, 2),
+(2, 4, 1),
+(1, 2, 3);
 
 ----------------------------------------------------------------------------------------------------------------
 
@@ -652,7 +666,7 @@ VALUES
 ----------------------------------------------------------------------------------------------------------------
 select *
 from Reservation
-INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Customer_ID)
+INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
 VALUES
 ('2024-06-01', 2, '2024-06-10', '2024-06-15', 3500.00, 'Credit Card', 'Paid', 1),
 ('2024-06-02', 1, '2024-06-12', '2024-06-14', 1250.00, 'Cash', 'Not Paid', 1),

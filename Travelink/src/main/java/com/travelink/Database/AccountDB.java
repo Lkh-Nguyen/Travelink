@@ -6,7 +6,6 @@ package com.travelink.Database;
 
 import com.travelink.Model.Account;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -169,7 +168,7 @@ public class AccountDB implements DatabaseInfo {
         PreparedStatement pstmt = null;
 
         try {
-            con = AccountDB.getConnect();
+            con = DatabaseInfo.getConnect();
             pstmt = con.prepareStatement(sql);
 
             // Set parameters for the prepared statement

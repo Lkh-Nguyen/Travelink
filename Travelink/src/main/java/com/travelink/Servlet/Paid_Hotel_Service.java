@@ -5,7 +5,7 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.HotelServiceDB;
-import com.travelink.Model.Customer;
+import com.travelink.Model.Account;
 import com.travelink.Model.HotelService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -62,14 +62,14 @@ public class Paid_Hotel_Service extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 HttpSession session = request.getSession();
-        Customer customer = (Customer) session.getAttribute("customer");
+        Account account = (Account) session.getAttribute("account");
 
-        if (customer == null) {
+        if (account == null) {
             response.sendRedirect("Form_Login.jsp");
             return;
         }
 
-        List<HotelService> mainList = HotelServiceDB.getAllHotelServicesByCustomerID(customer.getCustomer_ID());
+        List<HotelService> mainList = HotelServiceDB.getAllHotelServicesByAccountID(account.getAccount_ID());
         List<HotelService> paid_List = new ArrayList<>(); // Khởi tạo all_List với ArrayList
 
         for (HotelService hotel : mainList) {

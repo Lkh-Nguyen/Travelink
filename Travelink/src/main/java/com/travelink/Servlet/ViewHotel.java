@@ -9,7 +9,7 @@ import com.travelink.Database.FavouriteHotelDB;
 import com.travelink.Database.HotelDB;
 import com.travelink.Database.HotelFacilityDB;
 import com.travelink.Database.HotelImageDB;
-import com.travelink.Model.Customer;
+import com.travelink.Model.Account;
 import com.travelink.Model.Facility;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
@@ -71,9 +71,9 @@ public class ViewHotel extends HttpServlet {
         List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotelId);
         request.setAttribute("hotelFacilityList", hotelFacilityList);
         HttpSession session = request.getSession();
-        Customer customer = (Customer) session.getAttribute("customer");
-        if (customer != null) {
-            boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, customer.getCustomer_ID());
+        Account account = (Account) session.getAttribute("account");
+        if (account != null) {
+            boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, account.getAccount_ID());
             request.setAttribute("checkFavorite", checkFavorite);
         }
         request.getRequestDispatcher("ShowHotel_Images.jsp").forward(request, response);

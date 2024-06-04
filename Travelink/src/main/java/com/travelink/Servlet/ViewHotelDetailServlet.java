@@ -13,7 +13,7 @@ import com.travelink.Database.RoomBedDB;
 import com.travelink.Database.RoomDB;
 import com.travelink.Database.RoomImageDB;
 import com.travelink.Model.Bed;
-import com.travelink.Model.Customer;
+import com.travelink.Model.Account;
 import com.travelink.Model.Facility;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
@@ -105,9 +105,9 @@ public class ViewHotelDetailServlet extends HttpServlet {
         RoomBedDB.getRoomBedsByBedID(hotelId);
         //checkFavorite
         HttpSession session = request.getSession();
-        Customer customer = (Customer) session.getAttribute("customer");
-        if (customer != null) {
-            boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, customer.getCustomer_ID());
+        Account account = (Account) session.getAttribute("account");
+        if (account != null) {
+            boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, account.getAccount_ID());
             request.setAttribute("checkFavorite", checkFavorite);
         }
         //checkFavorite
@@ -125,7 +125,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Customer customer = (Customer) session.getAttribute("customer");
+        Account account = (Account) session.getAttribute("account");
         String statusFav = request.getParameter("statusFav");
         String idHotelFavor = request.getParameter("idHotelFavor");
         int hotelId = Integer.parseInt(idHotelFavor);
@@ -134,7 +134,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
             if (checkedFavorite != null) {
                 request.setAttribute("alterDeleteUnSuccess", "Favourite hotel is already existing !");
             } else {
-                if (FavouriteHotelDB.deleteFavouriteHotel(Integer.parseInt(idHotelFavor), customer.getCustomer_ID())) {
+                if (FavouriteHotelDB.deleteFavouriteHotel(Integer.parseInt(idHotelFavor), account.getAccount_ID())) {
                     request.setAttribute("alterDeleteSuccess", "Delete favorite hotel succesfully.");
                 }
             }
@@ -142,7 +142,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
             if(checkedFavorite == null){
                 request.setAttribute("alterDeleteUnSuccess", "Delete favorite hotel unsuccesfully.");
             }else{
-                if (FavouriteHotelDB.addFavouriteHotel(Integer.parseInt(idHotelFavor), customer.getCustomer_ID())) {
+                if (FavouriteHotelDB.addFavouriteHotel(Integer.parseInt(idHotelFavor), account.getAccount_ID())) {
                     request.setAttribute("alterDeleteSuccess", "Add favorite hotel succesfully.");
                 }
             }
@@ -179,8 +179,8 @@ public class ViewHotelDetailServlet extends HttpServlet {
         List<Bed> bedList = new ArrayList<>();
         RoomBedDB.getRoomBedsByBedID(hotelId);
         //checkFavorite
-        if (customer != null) {
-            boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, customer.getCustomer_ID());
+        if (account != null) {
+            boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, account.getAccount_ID());
             request.setAttribute("checkFavorite", checkFavorite);
         }
         //checkFavorite

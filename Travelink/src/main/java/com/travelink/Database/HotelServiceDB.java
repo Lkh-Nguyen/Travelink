@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class HotelServiceDB implements DatabaseInfo {
 
-    public static List<HotelService> getAllHotelServicesByCustomerID(int customerID) {
+    public static List<HotelService> getAllHotelServicesByAccountID(int accountID) {
         List<HotelService> hotelServiceList = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -32,23 +32,23 @@ public class HotelServiceDB implements DatabaseInfo {
             conn = DatabaseInfo.getConnect();
             if (conn != null) {
                 String sql = "SELECT hs.Hotel_Service_ID AS Hotel_Service_ID, hs.Hotel_ID AS HS_Hotel_ID, hs.Service_ID AS HS_Service_ID, hs.Price AS HS_Price, "
-                        + "h.Hotel_ID AS H_Hotel_ID, h.Name AS HotelName, h.Email AS HotelEmail, h.Password AS HotelPassword, h.Star AS HotelStar, "
+                        + "h.Hotel_ID AS H_Hotel_ID, h.Name AS HotelName, h.Email AS HotelEmail, h.Star AS HotelStar, "
                         + "h.PhoneNumber AS HotelPhoneNumber, h.Description AS HotelDescription, h.CheckInTimeStart AS HotelCheckInTimeStart, "
                         + "h.CheckInTimeEnd AS HotelCheckInTimeEnd, h.CheckOutTimeStart AS HotelCheckOutTimeStart, h.CheckOutTimeEnd AS HotelCheckOutTimeEnd, "
                         + "h.Address AS HotelAddress, h.Ward_ID AS HotelWardID, "
                         + "s.Service_ID AS S_Service_ID, s.Name AS ServiceName, "
                         + "rs.Reserved_Service_ID AS RS_Reserved_Service_ID, rs.AmountOfDays AS RS_AmountOfDays, rs.Reservation_ID AS RS_Reservation_ID, rs.Hotel_Service_ID AS RS_Hotel_Service_ID, "
                         + "r.Reservation_ID AS R_Reservation_ID, r.Reservation_Date AS R_Reservation_Date, r.CheckInDate AS R_CheckInDate, "
-                        + "r.CheckOutDate AS R_CheckOutDate, r.Total_Price AS R_Total_Price, r.Payment_Method AS R_Payment_Method, r.Customer_ID AS R_Customer_ID, r.Status AS R_Status "
+                        + "r.CheckOutDate AS R_CheckOutDate, r.Total_Price AS R_Total_Price, r.Payment_Method AS R_Payment_Method, r.Account_ID AS R_Account_ID, r.Status AS R_Status "
                         + "FROM Hotel_Service hs "
                         + "JOIN Hotel h ON hs.Hotel_ID = h.Hotel_ID "
                         + "JOIN Service s ON hs.Service_ID = s.Service_ID "
                         + "JOIN Reserved_Service rs ON hs.Hotel_Service_ID = rs.Hotel_Service_ID "
                         + "JOIN Reservation r ON rs.Reservation_ID = r.Reservation_ID "
-                        + "WHERE r.Customer_ID = ?";
+                        + "WHERE r.Account_ID = ?";
 
                 ps = conn.prepareStatement(sql);
-                ps.setInt(1, customerID);
+                ps.setInt(1, accountID);
                 rs = ps.executeQuery();
 
                 while (rs.next()) {
@@ -62,7 +62,6 @@ public class HotelServiceDB implements DatabaseInfo {
                     hotel.setHotel_ID(rs.getInt("H_Hotel_ID"));
                     hotel.setName(rs.getString("HotelName"));
                     hotel.setEmail(rs.getString("HotelEmail"));
-                    hotel.setPassword(rs.getString("HotelPassword"));
                     hotel.setStar(rs.getInt("HotelStar"));
                     hotel.setPhoneNumber(rs.getString("HotelPhoneNumber"));
                     hotel.setDescription(rs.getString("HotelDescription"));
@@ -90,7 +89,6 @@ public class HotelServiceDB implements DatabaseInfo {
                     reservation.setCheckOutDate(rs.getDate("R_CheckOutDate").toLocalDate());
                     reservation.setTotalPrice(rs.getBigDecimal("R_Total_Price"));
                     reservation.setPaymentMethod(rs.getString("R_Payment_Method"));
-                    reservation.setCustomerID(rs.getInt("R_Customer_ID"));
                     reservation.setStatus(rs.getString("R_Status"));
 
                     hotelService.setHotel(hotel);
@@ -267,8 +265,8 @@ public class HotelServiceDB implements DatabaseInfo {
 //        }
 //        
         //Test getAllHotelService
-        int customerID = 3; // Thay đổi customerID tùy vào dữ liệu thực tế
-        List<HotelService> hotelServiceList = getAllHotelServicesByCustomerID(customerID);
+        int accountID = 3; // Thay đổi accountID tùy vào dữ liệu thực tế
+        List<HotelService> hotelServiceList = getAllHotelServicesByAccountID(accountID);
 
         for (HotelService hotelService : hotelServiceList) {
             if (hotelService.getReservation().getStatus().equalsIgnoreCase("Paid")) {

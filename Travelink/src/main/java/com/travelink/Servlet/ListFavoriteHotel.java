@@ -5,7 +5,7 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.FavouriteHotelDB;
-import com.travelink.Model.Customer;
+import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
 import jakarta.servlet.ServletException;
@@ -62,12 +62,12 @@ public class ListFavoriteHotel extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Customer customer = (Customer) session.getAttribute("customer");
+        Account account = (Account) session.getAttribute("account");
         
-        List<Hotel> list_Hotel = FavouriteHotelDB.getHotelFavourite(customer.getCustomer_ID());
-        List<HotelImage> list_HotelImage = FavouriteHotelDB.getHotelImageFavourite(customer.getCustomer_ID());
-        List<Integer> list_RatingCount = FavouriteHotelDB.getRatingCountFavourite(customer.getCustomer_ID());
-        List<Float> list_Average = FavouriteHotelDB.getAverageFavourite(customer.getCustomer_ID());
+        List<Hotel> list_Hotel = FavouriteHotelDB.getHotelFavourite(account.getAccount_ID());
+        List<HotelImage> list_HotelImage = FavouriteHotelDB.getHotelImageFavourite(account.getAccount_ID());
+        List<Integer> list_RatingCount = FavouriteHotelDB.getRatingCountFavourite(account.getAccount_ID());
+        List<Float> list_Average = FavouriteHotelDB.getAverageFavourite(account.getAccount_ID());
         request.setAttribute("list_Hotel", list_Hotel);
         request.setAttribute("list_HotelImage", list_HotelImage);
         request.setAttribute("list_RatingCount", list_RatingCount);
@@ -89,17 +89,17 @@ public class ListFavoriteHotel extends HttpServlet {
             throws ServletException, IOException {
         int idHotelDelete = Integer.parseInt(request.getParameter("idHotelDelete"));
          HttpSession session = request.getSession();
-        Customer customer = (Customer) session.getAttribute("customer");
-        if(FavouriteHotelDB.deleteFavouriteHotel(idHotelDelete, customer.getCustomer_ID())){
+        Account account = (Account) session.getAttribute("account");
+        if(FavouriteHotelDB.deleteFavouriteHotel(idHotelDelete, account.getAccount_ID())){
             request.setAttribute("alterDeleteSuccess", "Delete favorite hotel succesfully.");
         }else{
             request.setAttribute("alterDeleteUnSuccess", "Delete favorite hotel unsuccesfully.");
         }
         
-        List<Hotel> list_Hotel = FavouriteHotelDB.getHotelFavourite(customer.getCustomer_ID());
-        List<HotelImage> list_HotelImage = FavouriteHotelDB.getHotelImageFavourite(customer.getCustomer_ID());
-        List<Integer> list_RatingCount = FavouriteHotelDB.getRatingCountFavourite(customer.getCustomer_ID());
-        List<Float> list_Average = FavouriteHotelDB.getAverageFavourite(customer.getCustomer_ID());
+        List<Hotel> list_Hotel = FavouriteHotelDB.getHotelFavourite(account.getAccount_ID());
+        List<HotelImage> list_HotelImage = FavouriteHotelDB.getHotelImageFavourite(account.getAccount_ID());
+        List<Integer> list_RatingCount = FavouriteHotelDB.getRatingCountFavourite(account.getAccount_ID());
+        List<Float> list_Average = FavouriteHotelDB.getAverageFavourite(account.getAccount_ID());
         request.setAttribute("list_Hotel", list_Hotel);
         request.setAttribute("list_HotelImage", list_HotelImage);
         request.setAttribute("list_RatingCount", list_RatingCount);

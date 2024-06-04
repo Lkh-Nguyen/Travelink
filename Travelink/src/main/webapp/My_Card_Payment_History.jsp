@@ -5,7 +5,7 @@
     }
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<%@page import="com.travelink.Model.Customer" %>
+<%@page import="com.travelink.Model.Account" %>
 <%@page import="java.util.List" %>
 <%@page import="com.travelink.Model.HotelService" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Booking Customer</title>
+        <title>Booking Account</title>
         <link rel="stylesheet" href="css/Right_My_Account.css">
         <link rel="stylesheet" href="css/Left_My_Account.css">
         <link rel="icon" href="img_Home/logo.png">
@@ -227,10 +227,10 @@
             <div id="left">
                 <div id="header_left">
                     <div>
-                        <img src="${customer.avatarURL}" alt="alt" />
+                        <img src="${account.avatarURL}" alt="alt" />
                     </div>
                     <div style="margin-left: 10px">
-                        <h1>${customer.name}</h1>
+                        <h1>${account.name}</h1>
                         <p>Google</p>
                     </div>
                 </div>

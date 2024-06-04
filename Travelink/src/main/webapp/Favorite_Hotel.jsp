@@ -78,10 +78,10 @@
                 <div id="left">
                     <div id="header_left">
                         <div>
-                            <img src="${customer.avatarURL}" alt="alt"/>
+                            <img src="${account.avatarURL}" alt="alt"/>
                         </div>
                         <div style="margin-left: 10px">
-                            <h1>${customer.name}</h1>
+                            <h1>${account.name}</h1>
                             <p>Google</p>
                         </div>
                     </div>

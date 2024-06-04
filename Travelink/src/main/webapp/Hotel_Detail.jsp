@@ -279,6 +279,7 @@
                     </div>
                     <form action="#" method="post">
                         <input type="text" value="" name="total" id="Sum_Total">
+                        <input type="text" value="${hotel_ID}" name="hotel_ID">
                         <input type="submit" value="Continue" id="continue">
                     </form>
                 </div>

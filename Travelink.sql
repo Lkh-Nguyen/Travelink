@@ -2,8 +2,8 @@
 USE Travelink;
 GO
 
-CREATE TABLE Customer (
-  Customer_ID INT IDENTITY(1,1) PRIMARY KEY, -- Primary key with auto-increment
+CREATE TABLE Account (
+  Account_ID INT IDENTITY(1,1) PRIMARY KEY, -- Primary key with auto-increment
   Email VARCHAR(255) NOT NULL,        -- Email field with VARCHAR type
   Password VARCHAR(255),      -- Password field with VARCHAR type
   CMND VARCHAR(20),							-- CMND field with VARCHAR type
@@ -12,7 +12,8 @@ CREATE TABLE Customer (
   DateOfBirth DATE,
   PhoneNumber VARCHAR(20),
   AvatarURL VARCHAR(255),
-  Address NVARCHAR(255)
+  Address NVARCHAR(255),
+  Role INT NOT NULL
 );
 
 --Create the Hotel table
@@ -20,7 +21,6 @@ CREATE TABLE Hotel (
   Hotel_ID INT IDENTITY(1,1) PRIMARY KEY,
   Name NVARCHAR(255) ,
   Email VARCHAR(255) NOT NULL UNIQUE ,
-  Password VARCHAR(255) ,
   Star TINYINT ,
   PhoneNumber VARCHAR(20) ,
   Description NTEXT ,
@@ -37,8 +37,16 @@ GO
 --Create Favourite_Hotel table with ON DELETE CASCADE for foreign keys
 CREATE TABLE Favourite_Hotel (
   Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE,
-  Customer_ID INT FOREIGN KEY REFERENCES Customer(Customer_ID) ON DELETE CASCADE,
-  PRIMARY KEY (Hotel_ID, Customer_ID)
+  Account_ID INT FOREIGN KEY REFERENCES Account(Account_ID) ON DELETE CASCADE,
+  PRIMARY KEY (Hotel_ID, Account_ID)
+);
+GO
+
+--Create Owned_Hotel table with ON DELETE CASCADE for foreign keys
+CREATE TABLE Owned_Hotel (
+  Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE,
+  Account_ID INT FOREIGN KEY REFERENCES Account(Account_ID) ON DELETE CASCADE,
+  PRIMARY KEY (Hotel_ID, Account_ID)
 );
 GO
 
@@ -62,7 +70,7 @@ CREATE TABLE Feedback (
   Date DATE,
   LikesCount INT,
   DislikesCount INT,
-  Customer_ID INT FOREIGN KEY REFERENCES Customer(Customer_ID) ON DELETE CASCADE,
+  Account_ID INT FOREIGN KEY REFERENCES Account(Account_ID) ON DELETE CASCADE,
   Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
 );
 
@@ -120,11 +128,6 @@ CREATE TABLE Bed (
   Description NVARCHAR(255),
   URL VARCHAR(255)
 );
-INSERT INTO Bed (Name, Description, URL) VALUES 
-(N'Giường đơn', 'Rộng 90 - 130 cm', 'URL_for_single_bed_image'),
-(N'Giường đôi', 'Rộng 131 - 150 cm', 'URL_for_double_bed_image'),
-(N'Giường lớn (cỡ King)', 'Rộng 151 - 180 cm', 'URL_for_king_bed_image'),
-(N'Giường cực lớn (cỡ Super-king)', 'Rộng 181 - 210 cm', 'URL_for_super_king_bed_image');
 
 
 CREATE TABLE Room_Bed (
@@ -135,15 +138,6 @@ CREATE TABLE Room_Bed (
   FOREIGN KEY (Bed_ID) REFERENCES Bed(Bed_ID) ON DELETE CASCADE,
   FOREIGN KEY (Room_ID) REFERENCES Room(Room_ID) ON DELETE CASCADE
 );
-
-
--- Inserting data into Room_Bed table
-INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (2, 1, 1);
-INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (1, 2, 1);
-INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (3, 3, 2);
-INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (2, 4, 1);
-INSERT INTO Room_Bed (Amount, Bed_ID, Room_ID) VALUES (1, 2, 3);
-
 
 
 -- Create table Hotel_Facility
@@ -185,8 +179,8 @@ CREATE TABLE Reservation (
   Total_Price DECIMAL(10,2) NOT NULL,  -- Use DECIMAL for currency with decimals
   Payment_Method NVARCHAR(50) NOT NULL,  -- Payment method used (e.g., credit card, cash)
   Status NVARCHAR(50) NOT NULL, -- Paid / Canceled
-  Customer_ID INT NOT NULL,
-  FOREIGN KEY (Customer_ID) REFERENCES Customer(Customer_ID) ON DELETE CASCADE,  -- Foreign key to Customer table with cascading delete
+  Account_ID INT NOT NULL,
+  FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID) ON DELETE CASCADE,  -- Foreign key to Account table with cascading delete
   CONSTRAINT CheckInAfterResv CHECK (CheckInDate >= Reservation_Date),  -- Ensure check-in is after reservation date
   CONSTRAINT CheckOutAfterCheckIn CHECK (CheckOutDate > CheckInDate),
 );

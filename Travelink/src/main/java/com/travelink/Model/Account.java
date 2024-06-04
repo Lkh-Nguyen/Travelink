@@ -6,9 +6,9 @@ package com.travelink.Model;
 
 import java.sql.Date;
 
-public class Customer {
+public class Account {
 
-    private int customer_ID;
+    private int account_ID;
     private String email;
     private String password;
     private String cmnd;
@@ -18,13 +18,14 @@ public class Customer {
     private String phoneNumber;
     private String avatarURL;
     private String address;
+    private int role;
 
-    public int getCustomer_ID() {
-        return customer_ID;
+    public int getAccount_ID() {
+        return account_ID;
     }
 
-    public void setCustomer_ID(int customer_ID) {
-        this.customer_ID = customer_ID;
+    public void setAccount_ID(int account_ID) {
+        this.account_ID = account_ID;
     }
 
     public String getEmail() {
@@ -99,8 +100,19 @@ public class Customer {
         this.address = address;
     }
 
-    // Getters and Setters (omitted for brevity)
-    public Customer(String email, String password, String cmnd, String name, char gender, java.sql.Date dateOfBirth, String phoneNumber, String avatarURL, String address) {
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
+    public Account() {
+    }
+
+    //All
+    public Account(String email, String password, String cmnd, String name, char gender, Date dateOfBirth, String phoneNumber, String avatarURL, String address, int role) {
         this.email = email;
         this.password = password;
         this.cmnd = cmnd;
@@ -110,55 +122,31 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.avatarURL = avatarURL;
         this.address = address;
+        this.role = role;
     }
 
+    //Email,name, role
     
-    // Additional methods (optional)
-    // - toString() method for printing object details
-    // - Validation methods for specific fields (e.g., email format)
+    public Account(String email, String name, int role) {
+        this.email = email;
+        this.name = name;
+        this.role = role;
+    }
 
-    public Customer(String email, String password, String name, String phoneNumber) {
+    //Email, pass,name,phone,role
+    
+    public Account(String email, String password, String name, String phoneNumber, int role) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
-    }
-   public Customer() {
-    }
-
-    public Customer(int customer_ID, String email, String password, String cmnd, String name, char gender, Date dateOfBirth, String phoneNumber, String avatarURL, String address) {
-        this.customer_ID = customer_ID;
-        this.email = email;
-        this.password = password;
-        this.cmnd = cmnd;
-        this.name = name;
-        this.gender = gender;
-        this.dateOfBirth = dateOfBirth;
-        this.phoneNumber = phoneNumber;
-        this.avatarURL = avatarURL;
-        this.address = address;
-    }
-
-    public Customer(String email, String name, String phoneNumber) {
-        this.email = email;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Customer(String email, String name) {
-        this.email = email;
-        this.name = name;
-    }
-
-    public Customer(String email, String password, String name, String phoneNumber, String avatarURL) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.avatarURL = avatarURL;
+        this.role = role;
     }
     
-    public Customer(String email, String cmnd, String name, char gender, Date dateOfBirth, String phoneNumber, String address) {
+    
+//    Account newAccount = new Account(email, cmnd, name, gender, dateOfBirth, phoneStr, address,oldAccount.getRole());
+
+    public Account(String email, String cmnd, String name, char gender, Date dateOfBirth, String phoneNumber, String address, int role) {
         this.email = email;
         this.cmnd = cmnd;
         this.name = name;
@@ -166,12 +154,17 @@ public class Customer {
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.role = role;
     }
-        
+    
+    
+
     @Override
     public String toString() {
-        return "Customer{" + "customer_ID=" + customer_ID + ", email=" + email + ", password=" + password + ", cmnd=" + cmnd + ", name=" + name + ", gender=" + gender + ", dateOfBirth=" + dateOfBirth + ", phoneNumber=" + phoneNumber + ", avatarURL=" + avatarURL + ", address=" + address + '}';
+        return "Account{" + "account_ID=" + account_ID + ", email=" + email + ", password=" + password + ", cmnd=" + cmnd + ", name=" + name + ", gender=" + gender + ", dateOfBirth=" + dateOfBirth + ", phoneNumber=" + phoneNumber + ", avatarURL=" + avatarURL + ", address=" + address + ", role=" + role + '}';
     }
+
+
     
     
 }

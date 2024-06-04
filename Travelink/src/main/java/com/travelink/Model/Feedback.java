@@ -4,6 +4,8 @@
  */
 package com.travelink.Model;
 
+import java.sql.Date;
+
 /**
  *
  * @author ASUS
@@ -16,102 +18,91 @@ public class Feedback {
   private java.sql.Date date;
   private int likesCount;
   private int dislikesCount;
-  private int customerID;
+  private int account_ID;
   private int hotelID;
 
   public Feedback() {
     // Default constructor
   }
 
-  public Feedback(int feedbackID, String description, byte rating, java.sql.Date date, 
-                     int likesCount, int dislikesCount, int customerID, int hotelID) {
-    this.feedbackID = feedbackID;
-    this.description = description;
-    this.rating = rating;
-    this.date = date;
-    this.likesCount = likesCount;
-    this.dislikesCount = dislikesCount;
-    this.customerID = customerID;
-    this.hotelID = hotelID;
-  }
+    public Feedback(String description, byte rating, Date date, int likesCount, int dislikesCount, int account_ID, int hotelID) {
+        this.description = description;
+        this.rating = rating;
+        this.date = date;
+        this.likesCount = likesCount;
+        this.dislikesCount = dislikesCount;
+        this.account_ID = account_ID;
+        this.hotelID = hotelID;
+    }
 
-  // Getters and Setters for all member variables
+    public int getFeedbackID() {
+        return feedbackID;
+    }
 
-  public int getFeedbackID() {
-    return feedbackID;
-  }
+    public void setFeedbackID(int feedbackID) {
+        this.feedbackID = feedbackID;
+    }
 
-  public void setFeedbackID(int feedbackID) {
-    this.feedbackID = feedbackID;
-  }
+    public String getDescription() {
+        return description;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    public byte getRating() {
+        return rating;
+    }
 
-  public byte getRating() {
-    return rating;
-  }
+    public void setRating(byte rating) {
+        this.rating = rating;
+    }
 
-  public void setRating(byte rating) {
-    this.rating = rating;
-  }
+    public Date getDate() {
+        return date;
+    }
 
-  public java.sql.Date getDate() {
-    return date;
-  }
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-  public void setDate(java.sql.Date date) {
-    this.date = date;
-  }
+    public int getLikesCount() {
+        return likesCount;
+    }
 
-  public int getLikesCount() {
-    return likesCount;
-  }
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
+    }
 
-  public void setLikesCount(int likesCount) {
-    this.likesCount = likesCount;
-  }
+    public int getDislikesCount() {
+        return dislikesCount;
+    }
 
-  public int getDislikesCount() {
-    return dislikesCount;
-  }
+    public void setDislikesCount(int dislikesCount) {
+        this.dislikesCount = dislikesCount;
+    }
 
-  public void setDislikesCount(int dislikesCount) {
-    this.dislikesCount = dislikesCount;
-  }
+    public int getAccount_ID() {
+        return account_ID;
+    }
 
-  public int getCustomerID() {
-    return customerID;
-  }
+    public void setAccount_ID(int account_ID) {
+        this.account_ID = account_ID;
+    }
 
-  public void setCustomerID(int customerID) {
-    this.customerID = customerID;
-  }
+    public int getHotelID() {
+        return hotelID;
+    }
 
-  public int getHotelID() {
-    return hotelID;
-  }
+    public void setHotelID(int hotelID) {
+        this.hotelID = hotelID;
+    }
 
-  public void setHotelID(int hotelID) {
-    this.hotelID = hotelID;
-  }
+    @Override
+    public String toString() {
+        return "Feedback{" + "feedbackID=" + feedbackID + ", description=" + description + ", rating=" + rating + ", date=" + date + ", likesCount=" + likesCount + ", dislikesCount=" + dislikesCount + ", account_ID=" + account_ID + ", hotelID=" + hotelID + '}';
+    }
 
-  @Override
-  public String toString() {
-    return "Feedback{" +
-        "feedbackID=" + feedbackID +
-        ", description='" + description + '\'' +
-        ", rating=" + rating +
-        ", date=" + date +
-        ", likesCount=" + likesCount +
-        ", dislikesCount=" + dislikesCount +
-        ", customerID=" + customerID +
-        ", hotelID=" + hotelID +
-        '}';
-  }
+
 }

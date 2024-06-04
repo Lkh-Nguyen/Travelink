@@ -4,8 +4,7 @@
  */
 package com.travelink.Database;
 
-import com.travelink.Model.Customer;
-import com.travelink.Model.FavouriteHotel;
+import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
 import java.sql.Connection;
@@ -21,7 +20,7 @@ import java.util.List;
  */
 public class FavouriteHotelDB implements DatabaseInfo {
 
-    public static List<Hotel> getHotelsByCustomerID(int customerID) {
+    public static List<Hotel> getHotelsByAccountID(int AccountID) {
         List<Hotel> hotels = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -35,9 +34,9 @@ public class FavouriteHotelDB implements DatabaseInfo {
                         = "SELECT h.* "
                         + "FROM Favourite_Hotel fh "
                         + "INNER JOIN Hotel h ON fh.Hotel_ID = h.Hotel_ID "
-                        + "WHERE fh.Customer_ID = ?";
+                        + "WHERE fh.Account_ID = ?";
                 statement = connection.prepareStatement(query);
-                statement.setInt(1, customerID); // Set the customer ID parameter
+                statement.setInt(1, AccountID); // Set the Account ID parameter
                 resultSet = statement.executeQuery();
 
                 while (resultSet.next()) {
@@ -48,7 +47,7 @@ public class FavouriteHotelDB implements DatabaseInfo {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error getting hotels by customer ID: " + e);
+            System.out.println("Error getting hotels by Account ID: " + e);
         }
         return hotels;
     }
@@ -308,6 +307,8 @@ public class FavouriteHotelDB implements DatabaseInfo {
 
     public static List<Customer> getCustomersByHotelID(int hotelID) {
         List<Customer> customers = new ArrayList<>();
+    public static List<Account> getAccountsByHotelID(int hotelID) {
+        List<Account> Accounts = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -318,23 +319,23 @@ public class FavouriteHotelDB implements DatabaseInfo {
             if (connection != null) {
                 String query = "SELECT c.* "
                         + "FROM Favourite_Hotel fh "
-                        + "INNER JOIN Customer c ON fh.Customer_ID = c.Customer_ID "
+                        + "INNER JOIN Account c ON fh.Account_ID = c.Account_ID "
                         + "WHERE fh.Hotel_ID = ?";
                 statement = connection.prepareStatement(query);
                 statement.setInt(1, hotelID); // Set the hotel ID parameter
                 resultSet = statement.executeQuery();
 
                 while (resultSet.next()) {
-                    Customer customer = new Customer(); // Assuming you have a Customer model class
-                    customer.setCustomer_ID(resultSet.getInt("Customer_ID"));
-                    // Set other customer attributes from the result set (refer to your Customer model)
-                    customers.add(customer);
+                    Account Account = new Account(); // Assuming you have a Account model class
+                    Account.setAccount_ID(resultSet.getInt("Account_ID"));
+                    // Set other Account attributes from the result set (refer to your Account model)
+                    Accounts.add(Account);
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error getting customers by hotel ID: " + e);
+            System.out.println("Error getting Accounts by hotel ID: " + e);
         }
-        return customers;
+        return Accounts;
     }
     public static boolean getFavoriteHotel(int Hotel_ID,int Customer_ID) {
         List<FavouriteHotel> list = new ArrayList<>();
@@ -374,6 +375,30 @@ public class FavouriteHotelDB implements DatabaseInfo {
         List<Integer> hotels =  getRatingCountFavourite(1);
         for(int hotel : hotels){
             System.out.println(hotel);
+        // Test getHotelsByAccountID
+        System.out.println("\n** Test getHotelsByAccountID **");
+        int testAccountID = 1; // Replace with an existing Account ID
+        List<Hotel> hotels = FavouriteHotelDB.getHotelsByAccountID(testAccountID);
+        if (hotels.isEmpty()) {
+            System.out.println("Account with ID " + testAccountID + " has no favourite hotels.");
+        } else {
+            System.out.println("Favourite Hotels for Account (ID: " + testAccountID + "):");
+            for (Hotel hotel : hotels) {
+                System.out.println(hotel); // Assuming your Hotel model has a toString() method
+            }
+        }
+
+        // Test getAccountsByHotelID
+        System.out.println("\n** Test getAccountsByHotelID **");
+        int testHotelID = 2; // Replace with an existing hotel ID
+        List<Account> Accounts = FavouriteHotelDB.getAccountsByHotelID(testHotelID);
+        if (Accounts.isEmpty()) {
+            System.out.println("Hotel with ID " + testHotelID + " has no favourite Accounts.");
+        } else {
+            System.out.println("Accounts with Favourite Hotel (ID: " + testHotelID + "):");
+            for (Account Account : Accounts) {
+                System.out.println(Account); // Assuming your Account model has a toString() method
+            }
         }
     }
 

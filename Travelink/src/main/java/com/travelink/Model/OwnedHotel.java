@@ -8,25 +8,23 @@ package com.travelink.Model;
  *
  * @author ASUS
  */
-public class FavouriteHotel {
+public class OwnedHotel {
+    private int hotel_ID;
+    private int account_ID;
 
-  private int hotelID;
-  private int account_ID;
-
-    public FavouriteHotel() {
-    }
-
-    public FavouriteHotel(int hotelID, int account_ID) {
-        this.hotelID = hotelID;
+    // Constructor
+    public OwnedHotel(int hotel_ID, int account_ID) {
+        this.hotel_ID = hotel_ID;
         this.account_ID = account_ID;
     }
 
-    public int getHotelID() {
-        return hotelID;
+    // Getters and Setters
+    public int getHotel_ID() {
+        return hotel_ID;
     }
 
-    public void setHotelID(int hotelID) {
-        this.hotelID = hotelID;
+    public void setHotel_ID(int hotel_ID) {
+        this.hotel_ID = hotel_ID;
     }
 
     public int getAccount_ID() {
@@ -37,11 +35,13 @@ public class FavouriteHotel {
         this.account_ID = account_ID;
     }
 
+    // toString method for easy printing
     @Override
     public String toString() {
-        return "FavouriteHotel{" + "hotelID=" + hotelID + ", account_ID=" + account_ID + '}';
+        return "OwnedHotel{" +
+                "hotel_ID=" + hotel_ID +
+                ", account_ID=" + account_ID +
+                '}';
     }
-
-
 }
 

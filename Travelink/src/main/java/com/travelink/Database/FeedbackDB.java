@@ -39,7 +39,7 @@ public class FeedbackDB implements DatabaseInfo {
                     feedback.setDate(resultSet.getDate("Date"));
                     feedback.setLikesCount(resultSet.getInt("LikesCount"));
                     feedback.setDislikesCount(resultSet.getInt("DislikesCount"));
-                    feedback.setCustomerID(resultSet.getInt("Customer_ID"));
+                    feedback.setAccount_ID(resultSet.getInt("Account_ID"));
                     feedback.setHotelID(resultSet.getInt("Hotel_ID"));
                 }
             }
@@ -54,14 +54,14 @@ public class FeedbackDB implements DatabaseInfo {
         Connection connection = DatabaseInfo.getConnect();
 
         if (connection != null) {
-            String query = "INSERT INTO Feedback (Description, Rating, Date, LikesCount, DislikesCount, Customer_ID, Hotel_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Feedback (Description, Rating, Date, LikesCount, DislikesCount, Account_ID, Hotel_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, feedback.getDescription());
             statement.setByte(2, feedback.getRating());
             statement.setDate(3, feedback.getDate());
             statement.setInt(4, feedback.getLikesCount());
             statement.setInt(5, feedback.getDislikesCount());
-            statement.setInt(6, feedback.getCustomerID());
+            statement.setInt(6, feedback.getAccount_ID());
             statement.setInt(7, feedback.getHotelID());
 
             statement.executeUpdate();

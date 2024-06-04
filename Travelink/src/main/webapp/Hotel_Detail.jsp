@@ -303,7 +303,7 @@
                         <div class="card w-100 mb-3">
                             <div class="card-body" style="border-bottom: 1px solid grey">
                                 <h5 class="card-title">
-                                    <img src="${customer.avatarURL}" alt="alt"/><label style="font-size: 16px">${customer.name}</label>
+                                    <img src="${account.avatarURL}" alt="alt"/><label style="font-size: 16px">${account.name}</label>
                                 </h5>
                                 <div>
                                     <i class='bx bxs-star'></i>

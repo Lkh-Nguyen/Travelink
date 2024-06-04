@@ -244,17 +244,17 @@
                     <li class="link"><a href="My_Card_Payment_History.jsp">Transaction History</a></li>
                     <li class="link"><a href="ListFavoriteHotel">Favorite Hotels</a></li>
                 </ul>
-                <c:set var="customer" value="${sessionScope.customer}"></c:set>
-                <c:if test="${not empty customer}">
+                <c:set var="account" value="${sessionScope.account}"></c:set>
+                <c:if test="${not empty account}">
                     <div class="btns">
-                        <a class="btn loginBtn" style="margin-right: 40px;" onclick="toggleDropdown()"><img src="${customer.avatarURL}" alt="alt"/>${customer.name}</a>
+                        <a class="btn loginBtn" style="margin-right: 40px;" onclick="toggleDropdown()"><img src="${account.avatarURL}" alt="alt"/>${account.name}</a>
                         <div id="dropdownMenu" class="dropdown" >
                             <a href="My_Account_Update.jsp"><i class='bx bx-user'></i>Edit Profile</a>
                             <a href="#" id="logoutButton1"><i class='bx bx-log-out' ></i>Logging Out</a>
                         </div>
                     </div>
                 </c:if>
-                <c:if test="${empty customer}">
+                <c:if test="${empty account}">
                     <div class="btns">
                         <button class="btn1 loginBtn1"><a href="Form_Login.jsp">GET STARTED</a></button>
 

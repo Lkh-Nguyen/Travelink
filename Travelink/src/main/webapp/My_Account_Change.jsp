@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Password Customer</title>
+        <title>Password Account</title>
 
         <link rel="stylesheet" href="css/Right_My_Account.css">
         <link rel="stylesheet" href="css/Left_My_Account.css">
@@ -76,10 +76,10 @@
             <div id="left">
                 <div id="header_left">
                     <div>
-                        <img src="${customer.avatarURL}" alt="alt"/>
+                        <img src="${account.avatarURL}" alt="alt"/>
                     </div>
                     <div style="margin-left: 10px">
-                        <h1>${customer.name}</h1>
+                        <h1>${account.name}</h1>
                         <p>Google</p>
                     </div>
                 </div>  
@@ -109,7 +109,7 @@
                 <div id="list_right">
                     <ul>
                         <li id="li2"><a href="My_Account_Update.jsp">Account Information</a></li>
-                            <c:if test="${sessionScope.customer.password != null}">
+                            <c:if test="${sessionScope.account.password != null}">
                             <li id="li1">Password & Security</li>
                             </c:if>
                     </ul>
@@ -122,7 +122,7 @@
 
                     <!-- Change -->
                     <div id="pd_data">
-                        <form id="passwordForm" action="ChangeCustomerPasswordServlet" method="post">
+                        <form id="passwordForm" action="ChangeAccountPasswordServlet" method="post">
                             <div class="pd_flex">
                                 <div class="flex1">
                                     <p>Old Password</p>

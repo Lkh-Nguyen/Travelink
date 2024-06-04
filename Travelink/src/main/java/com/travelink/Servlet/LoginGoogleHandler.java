@@ -6,9 +6,9 @@ package com.travelink.Servlet;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.travelink.Database.CustomerDB;
+import com.travelink.Database.AccountDB;
 import com.travelink.Model.Constants;
-import com.travelink.Model.Customer;
+import com.travelink.Model.Account;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,17 +40,17 @@ public class LoginGoogleHandler extends HttpServlet {
         String code = request.getParameter("code");
         String accessToken = getToken(code);
 
-        //Get customer info from google
-        Customer userGoogle = getCustomerInfo(accessToken);
+        //Get Account info from google
+        Account userGoogle = getAccountInfo(accessToken);
         System.out.println(userGoogle);
 
         //Search in database 
-        Customer customer = CustomerDB.getCustomer(userGoogle.getEmail());
+        Account Account = AccountDB.getAccount(userGoogle.getEmail());
 
         //If never sign in
-        if (customer == null) {
-            customer = new Customer(userGoogle.getEmail(), userGoogle.getName());
-            customer.setAvatarURL("/Travelink/img_Avatar/avatar_default.jpg");
+        if (Account == null) {
+            Account = new Account(userGoogle.getEmail(), userGoogle.getName(),1);
+            Account.setAvatarURL("/Travelink/img_Avatar/avatar_default.jpg");
             String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             StringBuilder text = new StringBuilder(8);
             Random random = new Random();
@@ -58,23 +58,24 @@ public class LoginGoogleHandler extends HttpServlet {
                 text.append(characters.charAt(random.nextInt(characters.length())));
             }
             SendEmail mail = new SendEmail();
-            customer.setPassword(text.toString());
-            mail.sendForgotPassword(customer.getEmail(), text.toString());
-            System.out.println(customer);
-            CustomerDB.insertCustomer(customer);
+            Account.setPassword(text.toString());
+            mail.sendForgotPassword(Account.getEmail(), text.toString());
+            System.out.println(Account);
+            AccountDB.insertAccount(Account);
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(60 * 30);
-            session.setAttribute("customer", customer);
+            session.setAttribute("account", Account);
             request.setAttribute("updateMessage", "Your account has been created, your password has been sent to the email you just registered, please change your new password.");
             request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
 
             //If signed in before
         } else {
             HttpSession session = request.getSession();
-            session.setAttribute("customer", customer);
+            session.setAttribute("account", Account);
             session.setMaxInactiveInterval(60 * 30);
             request.setAttribute("succesLogin", "Login successfully.");
-            request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
+            request.getRequestDispatcher("Home_Customer"
+                    + ".jsp").forward(request, response);
         }
     }
 
@@ -92,11 +93,11 @@ public class LoginGoogleHandler extends HttpServlet {
         return accessToken;
     }
 
-    public static Customer getCustomerInfo(final String accessToken) throws ClientProtocolException, IOException {
+    public static Account getAccountInfo(final String accessToken) throws ClientProtocolException, IOException {
         String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();
 
-        Customer googlePojo = new Gson().fromJson(response, Customer.class);
+        Account googlePojo = new Gson().fromJson(response, Account.class);
 
         return googlePojo;
     }

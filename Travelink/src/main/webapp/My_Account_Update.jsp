@@ -5,12 +5,12 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="com.travelink.Model.Customer" %>
+<%@page import="com.travelink.Model.Account" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Informtion Customer</title>
+        <title>Information Account</title>
         <link rel="stylesheet" href="css/Right_My_Account.css">
         <link rel="stylesheet" href="css/Left_My_Account.css">
         <link rel="icon" href="img_Home/logo.png">
@@ -57,10 +57,10 @@
             <div id="left">
                 <div id="header_left">
                     <div>
-                        <img src="${customer.avatarURL}" alt="alt"/>
+                        <img src="${account.avatarURL}" alt="alt"/>
                     </div>
                     <div style="margin-left: 10px">
-                        <h1>${customer.name}</h1>
+                        <h1>${account.name}</h1>
                         <p>Google</p>
                     </div>
                 </div>
@@ -90,14 +90,14 @@
                 <div id="list_right">
                     <ul>
                         <li id="li1">Account Information</li>
-                            <c:if test="${sessionScope.customer.password != null}">
+                            <c:if test="${sessionScope.account.password != null}">
                             <li id="li2"><a href="My_Account_Change.jsp">Password & Security</a></li>
                             </c:if>
                     </ul>
                 </div>
                 <!-- Change -->
                 <div id="person_data">
-                    <form id="customerForm" action="UpdateCustomerServlet" method="post">
+                    <form id="accountForm" action="UpdateAccountServlet" method="post">
                         <div id="pd_h2">
                             <h2>Personal Data</h2>
                         </div>                    
@@ -105,7 +105,7 @@
                             <div class="pd_flex">
                                 <div class="flex1">
                                     <p>Full Name</p>
-                                    <input type="text" name="name"  placeholder="Enter Full Name In Here" value="${customer.name}" required>
+                                    <input type="text" name="name"  placeholder="Enter Full Name In Here" value="${account.name}" required>
                                 </div>
 
                                 <div class="flex2">
@@ -113,8 +113,8 @@
                                     <input type="radio" name="gender" value="Male"
 
                                            <%
-                                               Customer customer = (Customer) session.getAttribute("customer");
-                                               if (customer.getGender() == 'M') {
+                                               Account account = (Account) session.getAttribute("account");
+                                               if (account.getGender() == 'M') {
                                            %>
                                            checked
                                            <%
@@ -123,7 +123,7 @@
                                            > Male
                                     <input type="radio" name="gender" value="Female"
                                            <%
-                                               if (customer.getGender() == 'F') {
+                                               if (account.getGender() == 'F') {
                                            %>
                                            checked
                                            <%
@@ -137,28 +137,28 @@
                             <div class="pd_flex">
                                 <div class="flex1"> 
                                     <p>Birthdate</p>
-                                    <input type="date" name="DOB" style="font-size: 15px" placeholder="Enter BirthDate In Here" value="${customer.dateOfBirth}" >
+                                    <input type="date" name="DOB" style="font-size: 15px" placeholder="Enter BirthDate In Here" value="${account.dateOfBirth}" >
                                 </div>
                                 <div class="flex1">
                                     <p>CMND</p>
-                                    <input type="text" name="CMND" placeholder="Enter CMND In Here" value="${customer.cmnd}" pattern="[0-9]{12}" title="CMND number must consist of 12 digits.">
+                                    <input type="text" name="CMND" placeholder="Enter CMND In Here" value="${account.cmnd}" pattern="[0-9]{12}" title="CMND number must consist of 12 digits.">
                                 </div>
                             </div>
                             <div class="pd_flex">
                                 <div class="flex1">
                                     <p>Number Phone</p>
-                                    <input type="text" name="phone" placeholder="Enter Number Phone In Here"  value="${customer.phoneNumber}" pattern="[0-9]{10}" title="Phone number must contain 10 digits.">
+                                    <input type="text" name="phone" placeholder="Enter Number Phone In Here"  value="${account.phoneNumber}" pattern="[0-9]{10}" title="Phone number must contain 10 digits.">
                                 </div>
                                 <div class="flex1">
                                     <p>Email</p>
-                                    <input type="email" name="email" placeholder="Enter Email In Here" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Please enter a valid email address. For example: example@example.com" value="${customer.email}" readonly>
+                                    <input type="email" name="email" placeholder="Enter Email In Here" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Please enter a valid email address. For example: example@example.com" value="${account.email}" readonly>
 
                                 </div>
                             </div>
                             <div class="pd_flex">
                                 <div class="flex1"  >
                                     <p>Address</p>
-                                    <textarea id="address" name="address" rows="8" cols="37"  style="resize: none;font-size: 15px">${customer.address}</textarea>
+                                    <textarea id="address" name="address" rows="8" cols="37"  style="resize: none;font-size: 15px">${account.address}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -222,7 +222,7 @@
 
                                 /*Change*/
                                 document.addEventListener('DOMContentLoaded', function () {
-                                    const inputs = document.querySelectorAll('#customerForm input, #customerForm textarea');
+                                    const inputs = document.querySelectorAll('#accountForm input, #accountForm textarea');
                                     const saveButton = document.getElementById('saveButton');
                                     const cancelButton = document.getElementById('cancelButton');
                                     let isChanged = false;

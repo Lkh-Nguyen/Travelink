@@ -68,7 +68,7 @@ Author     : HELLO
             <%
                 if (uploadedFilePath == null || uploadedFilePath.isEmpty()) {
             %>
-            <img src="${customer.avatarURL}" alt="alt"/>
+            <img src="${account.avatarURL}" alt="alt"/>
             <%
                 }
             %>
@@ -84,10 +84,10 @@ Author     : HELLO
             <div id="left">
                 <div id="header_left">
                     <div>
-                        <img src="${customer.avatarURL}" alt="alt"/>
+                        <img src="${account.avatarURL}" alt="alt"/>
                     </div>
                     <div style="margin-left: 10px">
-                        <h1>${customer.name}</h1>
+                        <h1>${account.name}</h1>
                         <p>Google</p>
                     </div>
                 </div>
@@ -120,7 +120,7 @@ Author     : HELLO
                     </div>
                     <div id="edit_img" style="user-select: none;">
                         <% if (uploadedFilePath == null || uploadedFilePath.isEmpty()) { %>
-                        <img src="${customer.avatarURL}" alt="123"/><br>
+                        <img src="${account.avatarURL}" alt="123"/><br>
                         <% } else { %>
                         <img src="img_Avatar/<%= uploadedFilePath %>" alt="123"/><br>
                         <% } %>

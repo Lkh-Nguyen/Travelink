@@ -5,6 +5,7 @@
 package com.travelink.Model;
 
 import com.travelink.Database.FeedbackDB;
+import com.travelink.Database.HotelDB;
 import java.sql.Date;
 
 /**
@@ -101,6 +102,9 @@ public class Feedback {
     }
     public Account getAccount(int id){
         return FeedbackDB.getAccountByFeedbackID(id);
+    }
+    public Hotel getHotel(int id){
+        return HotelDB.getHotelByID(id);
     }
     @Override
     public String toString() {

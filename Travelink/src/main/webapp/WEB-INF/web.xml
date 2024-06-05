@@ -88,6 +88,18 @@
         <servlet-name>PromotionServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.PromotionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MyFeedbackServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.MyFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateFeedbackServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteFeedbackServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.DeleteFeedbackServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -171,6 +183,18 @@
     <servlet-mapping>
         <servlet-name>PromotionServlet</servlet-name>
         <url-pattern>/PromotionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyFeedbackServlet</servlet-name>
+        <url-pattern>/MyFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateFeedbackServlet</servlet-name>
+        <url-pattern>/UpdateFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteFeedbackServlet</servlet-name>
+        <url-pattern>/DeleteFeedbackServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

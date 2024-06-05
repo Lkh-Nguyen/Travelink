@@ -1,4 +1,4 @@
-    <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@page import="com.travelink.Model.*" %>
 <%@page import="com.travelink.Database.*" %>
@@ -287,43 +287,95 @@
 
             <div class="row" style="margin-top:2%">
                 <h5 style="font-weight: bold">Other reviews from travelers about My Villa Airport Hotel</h5>
+                <!--            Overall rating-->
+                <%
+                    double totalRating = 0;
+                    int feedbackCount = 0;
+
+
+                    for (Feedback f : (List<Feedback>) request.getAttribute("feedbacks")) {
+                    totalRating += f.getRating();
+                    feedbackCount++;
+                }
+                double overallRating = (feedbackCount > 0) ? (totalRating / feedbackCount) : 0;
+                %>
                 <h6>Rating & Overall Review Score</h6>
                 <div class="row">
                     <div class="col-md-3" id="left_rate">
-                        <p id="rating">4.2</p>
+                        <p id="rating"><%= String.format("%.1f", overallRating) %></p>
                         <div style="display: flex" id="rate">
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bx-star' ></i>
-                            <i class='bx bx-star' ></i>
+                            <% for (int i = 1; i <= 5; i++) { %>
+                            <i class="bx <%= (i <= overallRating) ? "bxs-star" : "bx-star" %>"></i>
+                            <% } %>
                         </div>
                     </div>
-
+                    <!--                    Feedback-->
                     <div class="col-md-9">
-                        <div class="card w-100 mb-3">
-                            <div class="card-body" style="border-bottom: 1px solid grey">
-                                <h5 class="card-title">
-                                    <img src="${account.avatarURL}" alt="alt"/><label style="font-size: 16px">${account.name}</label>
-                                </h5>
-                                <div>
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bx-star' ></i>
-                                    <i class='bx bx-star' ></i>
-                                </div>
-                                <p class="card-text">Phòng mới nhân viên Ok mà vệ sinh bẩn. Ly trà bẩn,ấm siêu tốc bụi dơ. Phòng tắm bẩn, nói chung vệ sinh khá bẩn</p>                         
-                                <!-- <i id="likeButton" class='bx bx-like' onclick="toggleLike()"></i><span id="sumLike">4 likes this comment</span>-->
-                            </div>
-
+                        <div class="my-feedback-button d-flex justify-content-end">
+                            <a href="MyFeedbackServlet" class="btn btn-primary mb-2">Show all my feedback</a>
                         </div>
-
+                        <c:forEach var="f" items="${requestScope.feedbacks}">
+                            <div class="w-100 mb-3">
+                                <div class="card card-body "  data-customer-id="${f.account_ID}">
+                                    <!--                                     style="border-bottom: 1px solid grey"-->
+                                    <h5 class="card-title">
+                                        <img src="${f.getAccount(f.feedbackID).avatarURL}" alt="alt"/><label style="font-size: 16px">${f.getAccount(f.feedbackID).name}</label>
+                                    </h5>
+                                    <div>
+                                        <c:if test="${f.rating eq 1}">
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bx-star'></i>
+                                            <i class='bx bx-star'></i>
+                                            <i class='bx bx-star'></i>
+                                            <i class='bx bx-star'></i>
+                                        </c:if>
+                                        <c:if test="${f.rating eq 2}">
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bx-star'></i>
+                                            <i class='bx bx-star'></i>
+                                            <i class='bx bx-star'></i>
+                                        </c:if>
+                                        <c:if test="${f.rating eq 3}">
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bx-star'></i>
+                                            <i class='bx bx-star'></i>
+                                        </c:if>
+                                        <c:if test="${f.rating eq 4}">
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bx-star'></i>
+                                        </c:if>
+                                        <c:if test="${f.rating eq 5}">
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                        </c:if>
+                                    </div>
+                                    <p class="card-text">${f.description}</p> 
+                                    <div class="d-flex justify-content-end m-2">
+                                        <!-- Like icon with count -->
+                                        <i class="bx bx-like mx-2"></i>
+                                        <span class="mx-2">${f.likesCount}</span>
+                                        <i class="bx bx-dislike mx-2"></i>
+                                        <span class="mx-2">${f.dislikesCount}</span>
+                                    </div>   
+                                    <!-- <i id="likeButton" class='bx bx-like' onclick="toggleLike()"></i><span id="sumLike">4 likes this comment</span>-->
+                                </div>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
         </div>
-        <ul class="listPage"></ul>
+        <ul class="listPage">
+        </ul>
         <%@include file="Footer.jsp" %>
         <script src="js/Hotel_Detail.js"></script>
     </body>

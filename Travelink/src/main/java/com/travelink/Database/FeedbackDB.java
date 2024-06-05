@@ -4,11 +4,14 @@
  */
 package com.travelink.Database;
 
+import com.travelink.Model.Account;
 import com.travelink.Model.Feedback;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -48,7 +51,86 @@ public class FeedbackDB implements DatabaseInfo {
         }
         return feedback;
     }
+    // Get feedbacks by Hotel ID
+    public static List<Feedback> getFeedbacksByHotelID(int hotelID) {
+        List<Feedback> feedbacks = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
 
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT * FROM Feedback WHERE Hotel_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, hotelID); // Set the ID parameter
+                resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Feedback feedback = new Feedback();
+                    feedback.setFeedbackID(resultSet.getInt("Feedback_ID"));
+                    feedback.setDescription(resultSet.getString("Description"));
+                    feedback.setRating(resultSet.getByte("Rating"));
+                    feedback.setDate(resultSet.getDate("Date"));
+                    feedback.setLikesCount(resultSet.getInt("LikesCount"));
+                    feedback.setDislikesCount(resultSet.getInt("DislikesCount"));
+                    feedback.setAccount_ID(resultSet.getInt("Account_ID"));
+                    feedback.setHotelID(resultSet.getInt("Hotel_ID"));
+                    feedbacks.add(feedback);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting feedbacks by Hotel ID: " + e);
+        } finally {
+            try { if (resultSet != null) resultSet.close(); } catch (SQLException e) { /* Ignored */ }
+            try { if (statement != null) statement.close(); } catch (SQLException e) { /* Ignored */ }
+            try { if (connection != null) connection.close(); } catch (SQLException e) { /* Ignored */ }
+        }
+        return feedbacks;
+    }
+    //Get Account By Feedback ID
+    public static Account getAccountByFeedbackID(int feedbackID) {
+        Account account = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT a.* FROM Account a " +
+                        "JOIN Feedback f ON a.Account_ID = f.Account_ID " +
+                        "WHERE f.Feedback_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, feedbackID);
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    account = new Account();
+                    account.setAccount_ID(resultSet.getInt("Account_ID"));
+                    account.setEmail(resultSet.getString("Email"));
+                    account.setPassword(resultSet.getString("Password"));
+                    account.setCmnd(resultSet.getString("CMND"));
+                    account.setName(resultSet.getString("Name"));
+                    account.setGender(resultSet.getString("Gender").charAt(0));
+                    account.setDateOfBirth(resultSet.getDate("DateOfBirth"));
+                    account.setPhoneNumber(resultSet.getString("PhoneNumber"));
+                    account.setAvatarURL(resultSet.getString("AvatarURL"));
+                    account.setAddress(resultSet.getString("Address"));
+                    account.setRole(resultSet.getInt("Role"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting account by feedback ID: " + e);
+        } finally {
+            try { if (resultSet != null) resultSet.close(); } catch (SQLException e) { /* Ignored */ }
+            try { if (statement != null) statement.close(); } catch (SQLException e) { /* Ignored */ }
+            try { if (connection != null) connection.close(); } catch (SQLException e) { /* Ignored */ }
+        }
+        return account;
+    }
     // Insert a new feedback
     public static void insertFeedback(Feedback feedback) throws SQLException {
         Connection connection = DatabaseInfo.getConnect();

@@ -274,6 +274,53 @@ public class FeedbackDB implements DatabaseInfo {
         return feedbacks;
     }
 
+    public static void incrementLikesCount(int feedbackID) throws SQLException {
+    Connection connection = DatabaseInfo.getConnect();
+
+    if (connection != null) {
+        String query = "UPDATE Feedback SET LikesCount = LikesCount + 1 WHERE Feedback_ID = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, feedbackID);
+
+        statement.executeUpdate();
+        connection.close();
+    } else {
+        System.out.println("Error: Connection failed!");
+        }
+    }
+    public static void decrementLikesCount(int feedbackID) throws SQLException {
+    Connection connection = DatabaseInfo.getConnect();
+
+    if (connection != null) {
+        String query = "UPDATE Feedback SET DislikesCount = DislikesCount + 1 WHERE Feedback_ID = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, feedbackID);
+
+        statement.executeUpdate();
+        connection.close();
+    } else {
+        System.out.println("Error: Connection failed!");
+        }
+    }
+    public static boolean isFeedbackOwner(int feedbackID, int userID) throws SQLException {
+        Connection connection = DatabaseInfo.getConnect();
+
+        if (connection != null) {
+            String query = "SELECT COUNT(*) FROM Feedback WHERE feedbackID = ? AND account_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, feedbackID);
+            statement.setInt(2,userID);
+             try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+             }
+        } else {
+            System.out.println("Error: Connection failed!");
+        }
+        return false;
+    }
+
     // You can add more functions as needed, such as:
     // - Get all feedback for a specific hotel
     // - Create new feedback

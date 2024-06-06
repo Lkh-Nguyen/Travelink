@@ -194,7 +194,6 @@ public class ViewHotelDetailServlet extends HttpServlet {
         }
         //checkFavorite
         request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
-        request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
     }
 
     /** 

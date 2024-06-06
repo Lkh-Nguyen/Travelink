@@ -100,6 +100,10 @@
         <servlet-name>DeleteFeedbackServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.DeleteFeedbackServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReactFeedbackServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.ReactFeedbackServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -195,6 +199,10 @@
     <servlet-mapping>
         <servlet-name>DeleteFeedbackServlet</servlet-name>
         <url-pattern>/DeleteFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReactFeedbackServlet</servlet-name>
+        <url-pattern>/ReactFeedbackServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -17,7 +17,6 @@ public class HotelService {
     private Hotel hotel;
     private Service service;
     private Reservation reservation;
-    private ReservedService reservedservice;
 
     public HotelService() {
         // Default constructor
@@ -72,14 +71,6 @@ public class HotelService {
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
-    }
-
-    public ReservedService getReservedservice() {
-        return reservedservice;
-    }
-
-    public void setReservedservice(ReservedService reservedservice) {
-        this.reservedservice = reservedservice;
     }
 
     public void setHotel(Hotel hotel) {

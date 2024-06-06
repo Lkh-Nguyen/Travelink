@@ -43,8 +43,9 @@ public class ReservedRoomDB implements DatabaseInfo {
 
         return reservedRooms;
     }
+
     //Get reservation by RoomID
-        public static List<ReservedRoom> getReservedRoomsByRoomID(int roomID) {
+    public static List<ReservedRoom> getReservedRoomsByRoomID(int roomID) {
         List<ReservedRoom> reservedRooms = new ArrayList<>();
 
         try (Connection connection = DatabaseInfo.getConnect()) {
@@ -68,12 +69,12 @@ public class ReservedRoomDB implements DatabaseInfo {
 
         return reservedRooms;
     }
-    
+
     public static void main(String[] args) {
         ReservedRoomDB reservedRoomDB = new ReservedRoomDB();
         int reservationID = 456; // Replace with the actual reservation ID you want to query
         List<ReservedRoom> reservedRooms = reservedRoomDB.getReservedRoomsByReservationID(reservationID);
-        
+
         if (reservedRooms.isEmpty()) {
             System.out.println("No reserved rooms found for reservation ID: " + reservationID);
         } else {
@@ -82,5 +83,27 @@ public class ReservedRoomDB implements DatabaseInfo {
                 System.out.println(reservedRoom);
             }
         }
-    }    
+    }
+
+    public static void insertReservedRoom(ReservedRoom reservedRoom) {
+        try (Connection connection = DatabaseInfo.getConnect()) {
+            String sql = "INSERT INTO Reserved_Room (Amount, Reservation_ID, Room_ID) VALUES (?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, reservedRoom.getAmount());
+                preparedStatement.setInt(2, reservedRoom.getReservation_ID());
+                preparedStatement.setInt(3, reservedRoom.getRoom_ID());
+
+                // Print the SQL query and parameter values
+                System.out.println("Executing query: " + sql);
+                System.out.println("Amount: " + reservedRoom.getAmount());
+                System.out.println("Reservation ID: " + reservedRoom.getReservation_ID());
+                System.out.println("Room ID: " + reservedRoom.getRoom_ID());
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

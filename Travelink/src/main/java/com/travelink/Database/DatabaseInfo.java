@@ -8,10 +8,10 @@ import java.sql.SQLException;
 public interface DatabaseInfo {
     
 //    Minh
-//    public static String DRIVERNAME="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-//    public static String DBURL="jdbc:sqlserver://LAPTOP-O852JI22;databaseName=Travelink;encrypt=false;trustServerCertificate=false;loginTimeout=30;";
-//    public static String USERDB="sa";
-//    public static String PASSDB="admin";
+    public static String DRIVERNAME="com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    public static String DBURL="jdbc:sqlserver://LAPTOP-O852JI22;databaseName=Travelink;encrypt=false;trustServerCertificate=false;loginTimeout=30;";
+    public static String USERDB="sa";
+    public static String PASSDB="admin";
 //    
     
 //    Hai

@@ -172,7 +172,7 @@ GO
 -- Create Reservation table
 CREATE TABLE Reservation (
   Reservation_ID INT IDENTITY(1,1) PRIMARY KEY,  -- Auto-incrementing unique identifier
-  Reservation_Date DATE NOT NULL,  -- Date reservation was made
+  Reservation_Date DATETIME NOT NULL,  -- Date reservation was made
   Number_of_guests TINYINT NOT NULL,  -- Date reservation was made
   CheckInDate DATE NOT NULL,  -- Check-in date for the reservation
   CheckOutDate DATE NOT NULL,  -- Check-out date for the reservation
@@ -226,3 +226,14 @@ CREATE TABLE Promotion (
   EndDate DATE NOT NULL
 );
 GO
+
+--Auto delete temporary reservation
+CREATE PROCEDURE DeleteExpiredReservations
+AS
+BEGIN
+    DELETE FROM Reservation
+    WHERE Status = 'NOT PAID'
+      AND Payment_Method = 'VIETQR'
+      AND Reservation_Date < DATEADD(MINUTE, -5, GETDATE());
+END
+

@@ -72,11 +72,11 @@ public class ViewHotelDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        int hotelId = Integer.parseInt(request.getParameter("hotelId"));
+        int hotel_ID = Integer.parseInt(request.getParameter("hotel_ID"));
         
-        Hotel hotel = HotelDB.getHotelByID(hotelId);
+        Hotel hotel = HotelDB.getHotelByID(hotel_ID);
         request.setAttribute("hotel_view", hotel);
-        List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(hotelId);
+        List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(hotel_ID);
         // image center
         String urlHotelImgCenter = hotelImgList.get(0).getUrl();
         request.setAttribute("hotelImgCenter", urlHotelImgCenter);
@@ -90,10 +90,10 @@ public class ViewHotelDetailServlet extends HttpServlet {
         request.setAttribute("hotelImg3", urlHotelImg3);
         request.setAttribute("hotelImg4", urlHotelImg4);
         // list facibility 
-        List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotelId);
+        List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotel_ID);
         request.setAttribute("hotelFacilityList", hotelFacilityList);
         // list room hotel
-        List<Room> listRoom = RoomDB.getRoomsByHotel_ID(hotelId);
+        List<Room> listRoom = RoomDB.getRoomsByHotel_ID(hotel_ID);
         request.setAttribute("roomList", listRoom);
         // list img room hotel 
         List<RoomImage> roomImgList = new ArrayList<>();
@@ -104,12 +104,12 @@ public class ViewHotelDetailServlet extends HttpServlet {
         // List bed number      
         // request jsp
         List<Bed> bedList = new ArrayList<>();
-        RoomBedDB.getRoomBedsByBedID(hotelId);
+        RoomBedDB.getRoomBedsByBedID(hotel_ID);
         //checkFavorite
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         if (account != null) {
-            boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, account.getAccount_ID());
+            boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotel_ID, account.getAccount_ID());
             request.setAttribute("checkFavorite", checkFavorite);
         }
         List<Feedback> feedbacks = new ArrayList<>();

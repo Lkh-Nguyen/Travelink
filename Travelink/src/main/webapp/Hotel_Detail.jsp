@@ -277,9 +277,9 @@
                             </div>
                         </c:forEach>
                     </div>
-                    <form action="#" method="post">
-                        <input type="text" value="" name="total" id="Sum_Total">
-                        <input type="text" value="${hotel_ID}" name="hotel_ID">
+                    <form action="CheckoutServlet" method="post">
+                        <input type="text" value="" name="bookingStr" id="bookingStr">
+                        <input type="text" value="${param.hotel_ID}" name="hotel_ID">
                         <input type="submit" value="Continue" id="continue">
                     </form>
                 </div>

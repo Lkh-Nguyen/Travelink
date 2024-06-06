@@ -99,6 +99,24 @@
     <servlet>
         <servlet-name>ReturnPaymentServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.ReturnPaymentServlet</servlet-class>
+        <servlet-name>PromotionServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.PromotionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MyFeedbackServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.MyFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateFeedbackServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteFeedbackServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.DeleteFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReactFeedbackServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.ReactFeedbackServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -195,6 +213,24 @@
     <servlet-mapping>
         <servlet-name>ReturnPaymentServlet</servlet-name>
         <url-pattern>/ReturnPaymentServlet</url-pattern>
+        <servlet-name>PromotionServlet</servlet-name>
+        <url-pattern>/PromotionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyFeedbackServlet</servlet-name>
+        <url-pattern>/MyFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateFeedbackServlet</servlet-name>
+        <url-pattern>/UpdateFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteFeedbackServlet</servlet-name>
+        <url-pattern>/DeleteFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReactFeedbackServlet</servlet-name>
+        <url-pattern>/ReactFeedbackServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -6,6 +6,7 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.FavouriteHotelDB;
+import com.travelink.Database.FeedbackDB;
 import com.travelink.Database.HotelDB;
 import com.travelink.Database.HotelFacilityDB;
 import com.travelink.Database.HotelImageDB;
@@ -15,6 +16,7 @@ import com.travelink.Database.RoomImageDB;
 import com.travelink.Model.Bed;
 import com.travelink.Model.Account;
 import com.travelink.Model.Facility;
+import com.travelink.Model.Feedback;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
 import com.travelink.Model.Room;
@@ -110,6 +112,13 @@ public class ViewHotelDetailServlet extends HttpServlet {
             boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotel_ID, account.getAccount_ID());
             request.setAttribute("checkFavorite", checkFavorite);
         }
+        List<Feedback> feedbacks = new ArrayList<>();
+        try {
+            feedbacks =FeedbackDB.getFeedbacksByHotelID(hotelId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        request.setAttribute("feedbacks", feedbacks);
         //checkFavorite
         request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
     } 

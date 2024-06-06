@@ -58,7 +58,7 @@ public class HotelImage {
         this.url = url;
         this.hotelID = hotelID;
     }
-
+    
     // Optional: Override toString() for better printing
     @Override
     public String toString() {

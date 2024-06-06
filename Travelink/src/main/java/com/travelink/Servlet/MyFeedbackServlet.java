@@ -67,7 +67,7 @@ public class MyFeedbackServlet extends HttpServlet {
             request.setAttribute("feedbacks", feedbacks);
             request.getRequestDispatcher("MyFeedback.jsp").forward(request, response);
         } else {
-            response.sendRedirect("Form_Login.jsp"); // Redirect to login if not logged in
+            response.sendRedirect("Form_Login.jsp"); 
         }
     } 
 

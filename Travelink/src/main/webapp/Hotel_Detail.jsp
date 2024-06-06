@@ -365,35 +365,35 @@
                                                     <c:choose>
                                                         <c:when test="${sessionScope.account.account_ID != f.getAccount(f.feedbackID).account_ID}">
                                                             <!-- Like icon with count -->
-                                                            <button class="btn btn-primary" onclick="likeFeedback(${f.feedbackID})">
+                                                            <button class="btn btn-primary mx-2" onclick="likeFeedback(${f.feedbackID})">
                                                                 <i class="bx bx-like mx-2"></i>
-                                                                <span id="likesCount-${f.feedbackID}" class="mx-2">${f.likesCount}</span>
+                                                                <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
                                                             </button>
                                                             <button class="btn btn-danger" onclick="dislikeFeedback(${f.feedbackID})">
                                                                 <i class="bx bx-dislike mx-2"></i>
-                                                                <span id="dislikesCount-${f.feedbackID}" class="mx-2">${f.dislikesCount}</span>
+                                                                <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
                                                             </button>
                                                         </c:when>  
                                                         <c:otherwise>
-                                                            <button class="btn btn-primary" onclick="error()">
+                                                            <button class="btn btn-primary mx-2" onclick="error()">
                                                                 <i class="bx bx-like mx-2"></i>
-                                                                <span id="likesCount-${f.feedbackID}" class="mx-2">${f.likesCount}</span>
+                                                                <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
                                                             </button>
                                                             <button class="btn btn-danger" onclick="error()">
                                                                 <i class="bx bx-dislike mx-2"></i>
-                                                                <span id="dislikesCount-${f.feedbackID}" class="mx-2">${f.dislikesCount}</span>
+                                                                <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
                                                             </button>
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <button class="btn btn-primary" onclick="errorLogin()">
+                                                    <button class="btn btn-primary  mx-2" onclick="errorLogin()">
                                                         <i class="bx bx-like mx-2"></i>
-                                                        <span id="likesCount-${f.feedbackID}" class="mx-2">${f.likesCount}</span>
+                                                        <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
                                                     </button>
                                                     <button class="btn btn-danger" onclick="errorLogin()">
                                                         <i class="bx bx-dislike mx-2"></i>
-                                                        <span id="dislikesCount-${f.feedbackID}" class="mx-2">${f.dislikesCount}</span>
+                                                        <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
                                                     </button>
                                                 </c:otherwise>
                                             </c:choose> 

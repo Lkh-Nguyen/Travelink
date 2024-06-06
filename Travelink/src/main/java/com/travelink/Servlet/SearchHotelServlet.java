@@ -19,10 +19,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,22 +91,22 @@ public class SearchHotelServlet extends HttpServlet {
         }
 
         // Handle potential null values for date parameters
-        LocalDate checkInDateLocalDate = null;
+        java.sql.Date checkInDateDate = null;
         if (checkInDate != null) {
             try {
-                checkInDateLocalDate = LocalDate.parse(checkInDate);
-            } catch (Exception e) {
+                checkInDateDate = java.sql.Date.valueOf(checkInDate);
+            } catch (IllegalArgumentException e) {
                 // Handle parsing error (e.g., invalid date format)
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid check-in date!");
                 return;
             }
         }
 
-        LocalDate checkOutDateLocalDate = null;
+        java.sql.Date checkOutDateDate = null;
         if (checkOutDate != null) {
             try {
-                checkOutDateLocalDate = LocalDate.parse(checkOutDate);
-            } catch (Exception e) {
+                checkOutDateDate = java.sql.Date.valueOf(checkOutDate);
+            } catch (IllegalArgumentException e) {
                 // Handle parsing error (e.g., invalid date format)
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid check-out date!");
                 return;
@@ -116,7 +115,7 @@ public class SearchHotelServlet extends HttpServlet {
 
         // Perform hotel search with proper date handling
         List<Hotel> hotelFirstFilter = filterHotelByLocation(location);
-        List<Hotel> hotels = filterHotelByNumber(hotelFirstFilter, numberOfPeople, numberOfRooms, checkInDateLocalDate, checkOutDateLocalDate);
+        List<Hotel> hotels = filterHotelByNumber(hotelFirstFilter, numberOfPeople, numberOfRooms, checkInDateDate, checkOutDateDate);
         // Lưu danh sách khách sạn vào request
         request.setAttribute("hotels", hotels);
         // Chuyển hướng đến trang Search_Hotel.jsp
@@ -129,16 +128,15 @@ public class SearchHotelServlet extends HttpServlet {
         List<Hotel> filteredHotels = new ArrayList<>();
 
         // 1. Filter hotels by location
-            List<Hotel> hotels = HotelDB.getHotelsByProvince(location);
-            filteredHotels.addAll(hotels);
+        List<Hotel> hotels = HotelDB.getHotelsByProvince(location);
+        filteredHotels.addAll(hotels);
 
         // 2. Filter hotels by number of rooms and capacity
-
         return filteredHotels;
     }
 
     //Filter by number
-    private List<Hotel> filterHotelByNumber(List<Hotel> filteredHotels, int numberOfGuests, int numberOfRooms, LocalDate checkInDate, LocalDate checkOutDate) {
+    private List<Hotel> filterHotelByNumber(List<Hotel> filteredHotels, int numberOfGuests, int numberOfRooms, Date checkInDate, Date checkOutDate) {
         List<Hotel> filteredHotels2 = new ArrayList<>();
         //Case 1: Find only 1 room
         if (numberOfRooms == 1) {
@@ -151,15 +149,15 @@ public class SearchHotelServlet extends HttpServlet {
                     // If the room capacity == required guest
                     if (room.getCapacity() == numberOfGuests) {
                         // Check amount of available room of that room type each day
-                        for (LocalDate date = checkInDate; date.isBefore(checkOutDate) || date.equals(checkOutDate); date = date.plusDays(1)) {
+                        for (java.sql.Date date = checkInDate; !date.after(checkOutDate); date = java.sql.Date.valueOf(date.toLocalDate().plusDays(1))) {
                             if (amoutOfRoomsByDate(date, room.getRoom_ID()) >= 1) {
-                                //Add suitable hotel to filter2 list
+                                // Add suitable hotel to filteredHotels2 list
                                 filteredHotels2.add(hotel);
                             }
                         }
-                    }
-                    else if (room.getCapacity() > numberOfGuests){
-                        
+
+                    } else if (room.getCapacity() > numberOfGuests) {
+
                     }
                 }
             }
@@ -168,7 +166,7 @@ public class SearchHotelServlet extends HttpServlet {
     }
 
     //Calculate amount of rooms
-    private int amoutOfRoomsByDate(LocalDate date, int room_ID) {
+    private int amoutOfRoomsByDate(Date date, int room_ID) {
         List<ReservedRoom> reservedRooms = ReservedRoomDB.getReservedRoomsByRoomID(room_ID);
         Room room = RoomDB.getRoomByID(room_ID);
         int availableRooms = room.getTotalRooms();
@@ -181,9 +179,9 @@ public class SearchHotelServlet extends HttpServlet {
         return availableRooms;
     }
 
-    //Check between reserved date
-    private boolean checkBetweenReservedDate(LocalDate checkinDate, LocalDate checkoutDate, LocalDate date) {
-        return (date.isAfter(checkinDate) || date.equals(checkinDate)) && date.isBefore(checkoutDate) || date.equals(checkoutDate);
+// Check if the given date is between check-in and check-out dates (inclusive)
+    private boolean checkBetweenReservedDate(java.sql.Date checkinDate, java.sql.Date checkoutDate, java.sql.Date date) {
+        return (date.equals(checkinDate) || date.after(checkinDate)) && (date.equals(checkoutDate) || date.before(checkoutDate));
     }
 
     /**
@@ -212,7 +210,7 @@ public class SearchHotelServlet extends HttpServlet {
         }
         List<Hotel> hotelList = HotelDB.getHotelsByProvince(location);
         List<Room> roomHoltelList = RoomDB.getAllRooms();
-        
+
     }
 
     /**

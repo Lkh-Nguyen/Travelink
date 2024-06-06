@@ -61,25 +61,7 @@ public class NotPaid_Hotel_Service extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
 
-        if (account == null) {
-            response.sendRedirect("Form_Login.jsp");
-            return;
-        }
-
-        List<HotelService> mainList = HotelServiceDB.getAllHotelServicesByAccountID(account.getAccount_ID());
-        List<HotelService> notpaid_List = new ArrayList<>(); // Khởi tạo all_List với ArrayList
-
-        for (HotelService hotel : mainList) {
-            if (hotel.getReservation().getStatus().toUpperCase().equals("NOT PAID")) {
-                notpaid_List.add(hotel);
-            }
-        }
-
-        request.setAttribute("NotPaid_Transaction", notpaid_List);
-        request.getRequestDispatcher("NotPaid_Transaction.jsp").forward(request, response);
     }
 
     /**

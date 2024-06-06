@@ -84,6 +84,22 @@
         <servlet-name>ListFavoriteHotel</servlet-name>
         <servlet-class>com.travelink.Servlet.ListFavoriteHotel</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.CheckoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PaymentServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.PaymentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CancelPaymentServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.CancelPaymentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReturnPaymentServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.ReturnPaymentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -163,6 +179,22 @@
     <servlet-mapping>
         <servlet-name>ListFavoriteHotel</servlet-name>
         <url-pattern>/ListFavoriteHotel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <url-pattern>/CheckoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PaymentServlet</servlet-name>
+        <url-pattern>/PaymentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CancelPaymentServlet</servlet-name>
+        <url-pattern>/CancelPaymentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReturnPaymentServlet</servlet-name>
+        <url-pattern>/ReturnPaymentServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

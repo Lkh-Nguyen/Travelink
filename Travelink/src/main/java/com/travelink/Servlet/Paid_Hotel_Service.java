@@ -62,24 +62,7 @@ public class Paid_Hotel_Service extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
 
-        if (account == null) {
-            response.sendRedirect("Form_Login.jsp");
-            return;
-        }
-
-        List<HotelService> mainList = HotelServiceDB.getAllHotelServicesByAccountID(account.getAccount_ID());
-        List<HotelService> paid_List = new ArrayList<>(); // Khởi tạo all_List với ArrayList
-
-        for (HotelService hotel : mainList) {
-            if (hotel.getReservation().getStatus().toUpperCase().equals("PAID")) {
-                paid_List.add(hotel);
-            }
-        }
-
-        request.setAttribute("Paid_Transaction", paid_List);
-        request.getRequestDispatcher("Paid_Transaction.jsp").forward(request, response);
     }
 
     /**

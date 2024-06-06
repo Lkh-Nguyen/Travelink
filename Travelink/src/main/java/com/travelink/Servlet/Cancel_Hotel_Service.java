@@ -61,25 +61,7 @@ public class Cancel_Hotel_Service extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
 
-        if (account == null) {
-            response.sendRedirect("Form_Login.jsp");
-            return;
-        }
-
-        List<HotelService> mainList = HotelServiceDB.getAllHotelServicesByAccountID(account.getAccount_ID());
-        List<HotelService> cancel_List = new ArrayList<>(); // Khởi tạo all_List với ArrayList
-
-        for (HotelService hotel : mainList) {
-            if (hotel.getReservation().getStatus().toUpperCase().equals("CANCEL")) {
-                cancel_List.add(hotel);
-            }
-        }
-
-        request.setAttribute("Cancel_Transaction", cancel_List);
-        request.getRequestDispatcher("Cancel_Transaction.jsp").forward(request, response);
     }
 
     /**

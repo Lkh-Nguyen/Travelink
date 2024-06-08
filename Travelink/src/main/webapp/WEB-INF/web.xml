@@ -131,8 +131,8 @@
     <servlet>
         <servlet-name>CancelBookingServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.CancelBookingServlet</servlet-class>
-        </servlet>
-        <servlet>
+    </servlet>
+    <servlet>
         <servlet-name>MyBillPaymentServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.MyBillPaymentServlet</servlet-class>
     </servlet>
@@ -255,8 +255,8 @@
     <servlet-mapping>
         <servlet-name>CancelBookingServlet</servlet-name>
         <url-pattern>/CancelBookingServlet</url-pattern>
-        </servlet-mapping>
-         <servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>MyBillPaymentServlet</servlet-name>
         <url-pattern>/MyBillPaymentServlet</url-pattern>
     </servlet-mapping>

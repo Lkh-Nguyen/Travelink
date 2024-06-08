@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.travelink.Database.ReservationDB;
 import com.travelink.Database.ReservedRoomDB;
+import com.travelink.Database.RoomDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.Reservation;
@@ -30,6 +31,7 @@ import java.time.Instant;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Formatter;
+import java.util.List;
 import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -61,15 +63,20 @@ public class PaymentServlet extends HttpServlet {
         //Else check again available room
         Date checkInDate = (Date) session.getAttribute("checkInDate");
         Date checkOutDate = (Date) session.getAttribute("checkOutDate");
+        List<Reservation> check1 = RoomDB.reservationCoincide(checkInDate, checkOutDate);
         Map<Room, Integer> bookingMap = (Map<Room, Integer>) session.getAttribute("bookingMap");
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
+        for (Map.Entry<Room, Integer> entry : bookingMap.entrySet()) {
+            Room room = entry.getKey();
+            int amount = entry.getValue();
+            int availableRoom = RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), checkInDate, checkOutDate, check1);
+            if (availableRoom >= amount) continue;
+            else {
+                response.sendRedirect("Error.jsp");
+                return;
+            }
+            
+        }
+        
         //Get booking details from session
         Hotel hotel = (Hotel) session.getAttribute("bookingHotel");
         Account account = (Account) session.getAttribute("account");

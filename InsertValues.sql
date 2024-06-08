@@ -677,3 +677,26 @@ VALUES
 (5, 1, 1), -- Reservation 1 includes Room Cleaning at Hotel A
 (3, 2, 2), -- Reservation 2 includes Breakfast at Hotel A
 (6, 3, 4); -- Reservation 3 includes Airport Shuttle at Hotel B
+-- Reservation table
+INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID) VALUES 
+('2023-01-01', 2, '2023-01-10', '2023-01-15', 500.00, 'Credit Card', 'Paid', 1),
+('2023-02-01', 1, '2023-02-10', '2023-02-12', 200.00, 'Credit Card', 'Paid', 2),
+('2023-03-01', 3, '2023-03-15', '2023-03-20', 750.00, 'Cash', 'Paid', 1),
+('2023-04-01', 2, '2023-04-10', '2023-04-13', 300.00, 'Credit Card', 'Paid', 2),
+('2023-05-01', 1, '2023-05-12', '2023-05-14', 250.00, 'Cash', 'Paid', 2),
+('2023-06-01', 2, '2023-06-10', '2023-06-15', 500.00, 'Credit Card', 'Paid', 2),
+('2023-07-01', 1, '2023-07-10', '2023-07-12', 200.00, 'Cash', 'Paid', 1);
+
+
+-- Reserved_Room table
+INSERT INTO Reserved_Room (Amount, Reservation_ID, Room_ID) VALUES 
+(2, 1, 1),
+(1, 2, 1),
+(3, 3, 1),
+(2, 7, 2),
+(1, 8, 2),
+(2, 9, 3),
+(1, 10, 4),
+(3,11, 5),
+(2, 12, 6),
+(1, 13, 7);

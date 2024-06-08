@@ -1,4 +1,4 @@
-    <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@page import="com.travelink.Model.*" %>
 <%@page import="com.travelink.Database.*" %>
@@ -40,21 +40,31 @@
                 <button disabled>Hotel</button>
                 <c:if test="${requestScope.hotel_view.star eq 1}">
                     <i class='bx bxs-star'></i>
+                    <i class='bx bx-star'></i>
+                    <i class='bx bx-star'></i>
+                    <i class='bx bx-star'></i>
+                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 2}">
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
+                    <i class='bx bx-star'></i>
+                    <i class='bx bx-star'></i>
+                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 3}">
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
+                    <i class='bx bx-star'></i>
+                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 4}">
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
+                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 5}">
                     <i class='bx bxs-star'></i>
@@ -235,7 +245,7 @@
                                                                 
                                                             %> 
                                                             <h4 id="service">Breakfast Included</h4>
-                                                            <a id="numberRoom">Only 4 rooms left on our site</a>
+                                                            <a id="numberRoom">Only ${requestScope.numberOfRoomList[status.index]} rooms left on our site</a>
                                                         </td>
                                                         <td>
                                                             <div id="amount_People">

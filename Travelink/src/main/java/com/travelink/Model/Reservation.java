@@ -13,6 +13,7 @@ package com.travelink.Model;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDate;
 
 /**
@@ -22,10 +23,10 @@ import java.time.LocalDate;
 public class Reservation {
 
     private int reservationID;
-    private LocalDate reservationDate;
+    private Date reservationDate;
     private int number_of_guests;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
+    private Date checkInDate;
+    private Date checkOutDate;
     private BigDecimal totalPrice;
     private String paymentMethod;
     private String status;
@@ -35,7 +36,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(LocalDate reservationDate, int number_of_guests, LocalDate checkInDate, LocalDate checkOutDate, BigDecimal totalPrice, String paymentMethod, String status, int account_ID) {
+    public Reservation(Date reservationDate, int number_of_guests, Date checkInDate, Date checkOutDate, BigDecimal totalPrice, String paymentMethod, String status, int account_ID) {
         this.reservationDate = reservationDate;
         this.number_of_guests = number_of_guests;
         this.checkInDate = checkInDate;
@@ -54,11 +55,11 @@ public class Reservation {
         this.reservationID = reservationID;
     }
 
-    public LocalDate getReservationDate() {
+    public Date getReservationDate() {
         return reservationDate;
     }
 
-    public void setReservationDate(LocalDate reservationDate) {
+    public void setReservationDate(Date reservationDate) {
         this.reservationDate = reservationDate;
     }
 
@@ -70,19 +71,19 @@ public class Reservation {
         this.number_of_guests = number_of_guests;
     }
 
-    public LocalDate getCheckInDate() {
+    public Date getCheckInDate() {
         return checkInDate;
     }
 
-    public void setCheckInDate(LocalDate checkInDate) {
+    public void setCheckInDate(Date checkInDate) {
         this.checkInDate = checkInDate;
     }
 
-    public LocalDate getCheckOutDate() {
+    public Date getCheckOutDate() {
         return checkOutDate;
     }
 
-    public void setCheckOutDate(LocalDate checkOutDate) {
+    public void setCheckOutDate(Date checkOutDate) {
         this.checkOutDate = checkOutDate;
     }
 

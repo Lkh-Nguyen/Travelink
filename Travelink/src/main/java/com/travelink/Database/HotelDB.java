@@ -4,7 +4,10 @@
  */
 package com.travelink.Database;
 
+import com.travelink.Model.District;
 import com.travelink.Model.Hotel;
+import com.travelink.Model.Province;
+import com.travelink.Model.Ward;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -136,7 +139,7 @@ public class HotelDB implements DatabaseInfo {
         }
         return hotels;
     }
-    
+
     public static List<Hotel> getHotelsByProvince(String provinceName) {
         List<Hotel> hotels = new ArrayList<>();
         Connection connection = null;
@@ -175,19 +178,18 @@ public class HotelDB implements DatabaseInfo {
         }
         return hotels;
     }
-    
+
     // Method to filter hotels by province
     public static List<Integer> filterHotelsByProvince(String provinceName) {
         List<Integer> hotelIds = new ArrayList<>();
-        String sqlQuery = "SELECT h.Hotel_ID " +
-                          "FROM Hotel h " +
-                          "INNER JOIN Ward w ON h.Ward_ID = w.Ward_ID " +
-                          "INNER JOIN District d ON w.District_ID = d.District_ID " +
-                          "INNER JOIN Province p ON d.Province_ID = p.Province_ID " +
-                          "WHERE p.Name = ?";
+        String sqlQuery = "SELECT h.Hotel_ID "
+                + "FROM Hotel h "
+                + "INNER JOIN Ward w ON h.Ward_ID = w.Ward_ID "
+                + "INNER JOIN District d ON w.District_ID = d.District_ID "
+                + "INNER JOIN Province p ON d.Province_ID = p.Province_ID "
+                + "WHERE p.Name = ?";
 
-        try (Connection conn = DatabaseInfo.getConnect();
-             PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+        try (Connection conn = DatabaseInfo.getConnect(); PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
 
             pstmt.setString(1, provinceName);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -201,6 +203,7 @@ public class HotelDB implements DatabaseInfo {
 
         return hotelIds;
     }
+
     // Method to filter reservations by some criteria
     public static List<Integer> filterReservations(/* Your criteria parameters */) {
         List<Integer> reservationIds = new ArrayList<>();
@@ -208,9 +211,7 @@ public class HotelDB implements DatabaseInfo {
         // For demonstration, assuming some dummy logic:
         String sqlQuery = "SELECT r.Reservation_ID FROM Reservation r WHERE /* your reservation filtering criteria */";
 
-        try (Connection conn = DatabaseInfo.getConnect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sqlQuery)) {
+        try (Connection conn = DatabaseInfo.getConnect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sqlQuery)) {
 
             while (rs.next()) {
                 reservationIds.add(rs.getInt("Reservation_ID"));
@@ -221,9 +222,9 @@ public class HotelDB implements DatabaseInfo {
 
         return reservationIds;
     }
-    
+
     // Method to perform the joins and get the final results
-    public static List<Map <String, Object> > getFilteredResults(String provinceName) {
+    public static List<Map<String, Object>> getFilteredResults(String provinceName) {
         List<Map<String, Object>> results = new ArrayList<>();
 
         // Get filtered hotel IDs
@@ -240,17 +241,15 @@ public class HotelDB implements DatabaseInfo {
         String hotelIdsString = convertListToCommaSeparatedString(filteredHotelIds);
         String reservationIdsString = convertListToCommaSeparatedString(filteredReservationIds);
 
-        String sqlQuery = "SELECT rr.id AS ReservedRoomID, r.id AS RoomID, h.id AS HotelID, res.id AS ReservationID " +
-                          "FROM ReservedRoom rr " +
-                          "INNER JOIN Room r ON rr.roomId = r.id " +
-                          "INNER JOIN Hotel h ON r.hotelId = h.id " +
-                          "INNER JOIN Reservation res ON rr.reservationId = res.id " +
-                          "WHERE h.id IN (" + hotelIdsString + ") " +
-                          "AND res.id IN (" + reservationIdsString + ")";
+        String sqlQuery = "SELECT rr.id AS ReservedRoomID, r.id AS RoomID, h.id AS HotelID, res.id AS ReservationID "
+                + "FROM ReservedRoom rr "
+                + "INNER JOIN Room r ON rr.roomId = r.id "
+                + "INNER JOIN Hotel h ON r.hotelId = h.id "
+                + "INNER JOIN Reservation res ON rr.reservationId = res.id "
+                + "WHERE h.id IN (" + hotelIdsString + ") "
+                + "AND res.id IN (" + reservationIdsString + ")";
 
-        try (Connection conn = DatabaseInfo.getConnect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sqlQuery)) {
+        try (Connection conn = DatabaseInfo.getConnect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sqlQuery)) {
 
             while (rs.next()) {
                 Map<String, Object> row = new HashMap<>();
@@ -266,7 +265,7 @@ public class HotelDB implements DatabaseInfo {
 
         return results;
     }
-    
+
     // Utility method to convert a list of integers to a comma-separated string
     public static String convertListToCommaSeparatedString(List<Integer> list) {
         StringBuilder sb = new StringBuilder();
@@ -278,7 +277,43 @@ public class HotelDB implements DatabaseInfo {
         }
         return sb.toString();
     }
-    
+    public static List<Hotel> filterProvince(String location) throws SQLException {
+        List<Integer> wardIDList = new ArrayList<>();
+        List<Integer> districtIDList = new ArrayList<>();
+        List<Province> proviceList = ProvinceDB.getAllProvince();
+        List<Ward> wardList = WardDB.getAllWards();
+        List<Hotel> hotelList = HotelDB.getAllHotels();
+        List<Hotel> newHotelList = new ArrayList<>();
+        int proviceId = 0;
+        int districtId = 0;
+        for (Province pro : proviceList) {
+            if (pro.getName().equals(location)) {
+                proviceId = pro.getProvince_ID();
+            }
+        }
+        for (District district : DistrictDB.getAllDistricts()) {
+            if (district.getProvince_ID() == proviceId) {
+                districtId = district.getDistrict_ID();
+                districtIDList.add(districtId);
+            }
+        }
+        for (Ward ward : wardList) {
+            for (Integer id : districtIDList) {
+                if (ward.getDistrict_ID() == id) {
+                    wardIDList.add(ward.getWard_ID());
+                }
+            }
+        }
+        for (Hotel hotel : hotelList) {
+            for (Integer id : wardIDList) {
+                if (hotel.getWard_ID() == id) {
+                    newHotelList.add(hotel);
+                }
+            }
+        }
+        return newHotelList;
+    }
+
     public static void main(String[] args) throws SQLException {
 
         // Test getAllHotels

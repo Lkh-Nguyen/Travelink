@@ -4,6 +4,8 @@
  */
 package com.travelink.Database;
 
+import com.travelink.Model.Reservation;
+import com.travelink.Model.ReservedRoom;
 import com.travelink.Model.Room;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +13,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -116,6 +122,121 @@ public class RoomDB implements DatabaseInfo {
         return Rooms;
     }
 
+    public static boolean checkOverlap(Date reservationDate, Date userCheckIn, Date userCheckOut) {
+        return !userCheckIn.after(reservationDate) && !userCheckOut.before(reservationDate);
+    }
+
+    public static boolean checkOverlap(Date reservationCheckIn, Date reservationCheckOut, Date userCheckIn, Date userCheckOut) {
+        return (userCheckIn.before(addDays(reservationCheckOut, 1)) && userCheckIn.after(addDays(reservationCheckIn, -1)))
+                || (userCheckOut.before(addDays(reservationCheckOut, 1)) && userCheckOut.after(addDays(reservationCheckIn, -1)));
+    }
+
+    public static Date addDays(Date date, int days) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, days);
+        return calendar.getTime();
+    }
+
+    public static List<Reservation> reservationCoincide(Date userCheck_in_date, Date userCheck_out_date) {
+        List<Reservation> reservationList = ReservationDB.getAllReservations();
+        List<Reservation> reservationCoincideList = new ArrayList<>();
+        for (Reservation reservation : reservationList) {
+            if (checkOverlap(reservation.getCheckInDate(), getDateBefore(reservation.getCheckOutDate(), 1), userCheck_in_date, userCheck_out_date)) {
+                reservationCoincideList.add(reservation);
+            }
+        }
+        return reservationCoincideList;
+    }
+
+    public static int numberOfRoomAvailableByDate(int RoomID, Date date, List<Reservation> reservationList, Map<Integer, List<ReservedRoom>> reservedRoomsByReservation) {
+        List<ReservedRoom> reservedRooms = ReservedRoomDB.getReservedRoomsByRoomID(RoomID);
+        boolean check = true;
+        for (ReservedRoom reservedRoom : reservedRooms) {
+            if (reservedRoom.getRoom_ID() == RoomID) {
+                check = false;
+                break;
+            }
+        }
+        if (check) {
+            return RoomDB.getRoomByID(RoomID).getTotalRooms();
+        } else {
+            int roomAvalable = RoomDB.getRoomByID(RoomID).getTotalRooms();
+            for (Reservation reservation : reservationList) {
+                if (checkOverlap(date, reservation.getCheckInDate(), getDateBefore(reservation.getCheckOutDate(), 1))) {
+                    List<ReservedRoom> reservedRoomList = reservedRoomsByReservation.get(reservation.getReservationID());
+                    for (ReservedRoom reservedRoom : reservedRoomList) {
+                        if (reservedRoom.getRoom_ID() == RoomID) {
+                            roomAvalable -= reservedRoom.getAmount();
+                        }
+                    }
+                }
+            }
+            return roomAvalable;
+        }
+    }
+
+    public static int numberOfRoomAvailableByDate(int RoomID, Date date, List<Reservation> reservationList) {
+        // duyet reservationList lan 2 
+        List<ReservedRoom> reservedRooms = ReservedRoomDB.getAllReservedRoom();
+        boolean check = true;
+        for (ReservedRoom reservedRoom : reservedRooms) {
+            if (reservedRoom.getRoom_ID() == RoomID) {
+                check = false;
+                break;
+            }
+        }
+        if (check == true) {
+            return RoomDB.getRoomByID(RoomID).getTotalRooms();
+        } else {
+            int roomAvalable = RoomDB.getRoomByID(RoomID).getTotalRooms();
+            for (Reservation reservation : reservationList) {
+                if (checkOverlap(date, reservation.getCheckInDate(), reservation.getCheckOutDate())) {
+                    int reservationID = reservation.getReservationID();
+                    List<ReservedRoom> reservedRoomList = ReservedRoomDB.getReservedRoomsByReservationID(reservationID);
+                    for (ReservedRoom reservedRoom : reservedRoomList) {
+                        if (reservedRoom.getRoom_ID() == RoomID) {
+                            roomAvalable = roomAvalable - reservedRoom.getAmount();
+                        }
+                    }
+                }
+            }
+            return roomAvalable;
+        }
+    }
+
+    public static int numberOfRoomAvailableByTime(int RoomID, Date beginDate, Date endDate, List<Reservation> reservationList) {
+        Room room = RoomDB.getRoomByID(RoomID);
+        List<Date> dateList = getDateRange(beginDate, endDate);
+        List<Integer> numberRoomList = new ArrayList<>();
+        for (Date date : dateList) {
+            int numberOfRoom = numberOfRoomAvailableByDate(RoomID, date, reservationList);
+            numberRoomList.add(numberOfRoom);
+        }
+        Collections.sort(numberRoomList);
+        return numberRoomList.get(0);
+    }
+
+    public static List<Date> getDateRange(Date beginDate, Date endDate) {
+        List<Date> dateList = new ArrayList<>();
+        if (beginDate != null && endDate != null && !beginDate.after(endDate)) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(beginDate);
+            while (!calendar.getTime().after(endDate)) {
+                dateList.add(calendar.getTime());
+                calendar.add(Calendar.DATE, 1);
+            }
+        }
+        return dateList;
+    }
+        public static Date getDateBefore(Date date, int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_MONTH, -days);
+        return cal.getTime();
+    }
+
+
     public static void main(String[] args) throws SQLException {
 
         // Test getAllRooms
@@ -153,10 +274,7 @@ public class RoomDB implements DatabaseInfo {
                 System.out.println(Room);
             }
         }
-        
-        
-        
-       
+
     }
 
 }

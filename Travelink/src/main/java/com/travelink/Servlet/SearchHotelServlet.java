@@ -4,14 +4,23 @@
  */
 package com.travelink.Servlet;
 
+import com.travelink.Database.DistrictDB;
 import com.travelink.Database.HotelDB;
+import com.travelink.Database.HotelImageDB;
+import com.travelink.Database.ProvinceDB;
 import com.travelink.Database.ReservationDB;
 import com.travelink.Database.ReservedRoomDB;
 import com.travelink.Database.RoomDB;
+import com.travelink.Database.WardDB;
+import com.travelink.Model.District;
 import com.travelink.Model.Hotel;
+import com.travelink.Model.HotelImage;
+import com.travelink.Model.Province;
 import com.travelink.Model.Reservation;
 import com.travelink.Model.ReservedRoom;
 import com.travelink.Model.Room;
+import com.travelink.Model.Ward;
+import com.travelink.View.RoomHotelAvailable;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,12 +28,21 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -70,120 +88,9 @@ public class SearchHotelServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String location = request.getParameter("location");
-        int numberOfPeople;
-        try {
-            numberOfPeople = Integer.parseInt(request.getParameter("number_of_people"));
-        } catch (NumberFormatException e) {
-            // Handle parsing error (e.g., invalid number format)
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid number of people!");
-            return;
-        }
-
-        String checkInDate = request.getParameter("check_in_date");
-        String checkOutDate = request.getParameter("check_out_date");
-        int numberOfRooms;
-        try {
-            numberOfRooms = Integer.parseInt(request.getParameter("number_of_rooms"));
-        } catch (NumberFormatException e) {
-            // Handle parsing error (e.g., invalid number format)
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid number of rooms!");
-            return;
-        }
-
-        // Handle potential null values for date parameters
-        LocalDate checkInDateLocalDate = null;
-        if (checkInDate != null) {
-            try {
-                checkInDateLocalDate = LocalDate.parse(checkInDate);
-            } catch (Exception e) {
-                // Handle parsing error (e.g., invalid date format)
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid check-in date!");
-                return;
-            }
-        }
-
-        LocalDate checkOutDateLocalDate = null;
-        if (checkOutDate != null) {
-            try {
-                checkOutDateLocalDate = LocalDate.parse(checkOutDate);
-            } catch (Exception e) {
-                // Handle parsing error (e.g., invalid date format)
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid check-out date!");
-                return;
-            }
-        }
-
-        // Perform hotel search with proper date handling
-        List<Hotel> hotelFirstFilter = filterHotelByLocation(location);
-        List<Hotel> hotels = filterHotelByNumber(hotelFirstFilter, numberOfPeople, numberOfRooms, checkInDateLocalDate, checkOutDateLocalDate);
-        // Lưu danh sách khách sạn vào request
-        request.setAttribute("hotels", hotels);
-        // Chuyển hướng đến trang Search_Hotel.jsp
-        RequestDispatcher dispatcher = request.getRequestDispatcher("Search_Hotel.jsp");
-        dispatcher.forward(request, response);
-    }
-
-    //Filter by Location
-    private List<Hotel> filterHotelByLocation(String location) {
-        List<Hotel> filteredHotels = new ArrayList<>();
-
-        // 1. Filter hotels by location
-            List<Hotel> hotels = HotelDB.getHotelsByProvince(location);
-            filteredHotels.addAll(hotels);
-
-        // 2. Filter hotels by number of rooms and capacity
-
-        return filteredHotels;
-    }
-
-    //Filter by number
-    private List<Hotel> filterHotelByNumber(List<Hotel> filteredHotels, int numberOfGuests, int numberOfRooms, LocalDate checkInDate, LocalDate checkOutDate) {
-        List<Hotel> filteredHotels2 = new ArrayList<>();
-        //Case 1: Find only 1 room
-        if (numberOfRooms == 1) {
-            //Loop over the first filteredHotel
-            for (Hotel hotel : filteredHotels) {
-                //Get all the room type in that hotel
-                List<Room> roomList = RoomDB.getRoomsByHotel_ID(hotel.getHotel_ID());
-                //Loop over each room in the room list
-                for (Room room : roomList) {
-                    // If the room capacity == required guest
-                    if (room.getCapacity() == numberOfGuests) {
-                        // Check amount of available room of that room type each day
-                        for (LocalDate date = checkInDate; date.isBefore(checkOutDate) || date.equals(checkOutDate); date = date.plusDays(1)) {
-                            if (amoutOfRoomsByDate(date, room.getRoom_ID()) >= 1) {
-                                //Add suitable hotel to filter2 list
-                                filteredHotels2.add(hotel);
-                            }
-                        }
-                    }
-                    else if (room.getCapacity() > numberOfGuests){
-                        
-                    }
-                }
-            }
-        }
-        return filteredHotels2;
-    }
-
-    //Calculate amount of rooms
-    private int amoutOfRoomsByDate(LocalDate date, int room_ID) {
-        List<ReservedRoom> reservedRooms = ReservedRoomDB.getReservedRoomsByRoomID(room_ID);
-        Room room = RoomDB.getRoomByID(room_ID);
-        int availableRooms = room.getTotalRooms();
-        for (ReservedRoom reservedRoom : reservedRooms) {
-            Reservation reservation = ReservationDB.getReservationByReservationID(reservedRoom.getReservation_ID());
-            if (checkBetweenReservedDate(reservation.getCheckInDate(), reservation.getCheckOutDate(), date)) {
-                availableRooms -= reservedRoom.getAmount();
-            }
-        }
-        return availableRooms;
-    }
-
-    //Check between reserved date
-    private boolean checkBetweenReservedDate(LocalDate checkinDate, LocalDate checkoutDate, LocalDate date) {
-        return (date.isAfter(checkinDate) || date.equals(checkinDate)) && date.isBefore(checkoutDate) || date.equals(checkoutDate);
+        List<Province> locationList = ProvinceDB.getAllProvince();
+        request.setAttribute("locationList", locationList);
+        request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
     }
 
     /**
@@ -198,7 +105,8 @@ public class SearchHotelServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String location = request.getParameter("location");
-        int numberOfPeople = Integer.parseInt(request.getParameter("number_of_people"));
+        int people = Integer.parseInt(request.getParameter("number_of_people"));
+        int roomSize = Integer.parseInt(request.getParameter("number_of_rooms"));
         String start_date = request.getParameter("check_in_date");
         String end_date = request.getParameter("check_out_date");
         java.sql.Date checkInDate = null;
@@ -208,21 +116,94 @@ public class SearchHotelServlet extends HttpServlet {
             checkInDate = new java.sql.Date(dateFormat.parse(start_date).getTime());
             checkOutDate = new java.sql.Date(dateFormat.parse(end_date).getTime());
         } catch (ParseException e) {
-            e.printStackTrace(); // Handle parsing exception appropriately
+            e.printStackTrace(); // Xử lý ngoại lệ phân tích cú pháp một cách thích hợp
         }
-        List<Hotel> hotelList = HotelDB.getHotelsByProvince(location);
-        List<Room> roomHoltelList = RoomDB.getAllRooms();
-        
+// kiểm tra điều kiện ngày bắt đầu và ngày kết thúc
+        if (checkInDate.after(checkOutDate)) {
+            request.setAttribute("statusDate", "Ngày trả phòng không hợp lệ!");
+            request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
+        } else {
+            // kiểm tra vị trí
+            List<Hotel> hotelList = null;
+            try {
+                hotelList = HotelDB.filterProvince(location);
+            } catch (SQLException ex) {
+                Logger.getLogger(SearchHotelServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            List<Hotel> newHotelList = new ArrayList<>();
+
+            List<Reservation> check1 = RoomDB.reservationCoincide(checkInDate, checkOutDate);
+            List<Date> dateList = RoomDB.getDateRange(checkInDate, checkOutDate);
+
+            // Bộ nhớ đệm tất cả các phòng và đặt chỗ
+            Map<Integer, Room> roomCache = new HashMap<>();
+            for (Room room : RoomDB.getAllRooms()) {
+                roomCache.put(room.getRoom_ID(), room);
+            }
+
+            Map<Integer, List<ReservedRoom>> reservedRoomsByReservation = new HashMap<>();
+            for (Reservation reservation : ReservationDB.getAllReservations()) {
+                reservedRoomsByReservation.put(reservation.getReservationID(), ReservedRoomDB.getReservedRoomsByReservationID(reservation.getReservationID()));
+            }
+
+            // Tính trước tình trạng phòng trống cho mỗi ngày
+            Map<Integer, Map<Date, Integer>> roomAvailability = new HashMap<>();
+            for (Room room : roomCache.values()) {
+                Map<Date, Integer> availabilityByDate = new HashMap<>();
+                for (Date date : dateList) {
+                    availabilityByDate.put(date, RoomDB.numberOfRoomAvailableByDate(room.getRoom_ID(), date, check1, reservedRoomsByReservation));
+                }
+                roomAvailability.put(room.getRoom_ID(), availabilityByDate);
+            }
+
+            // Tính công suất khách sạn
+            Map<Integer, Map<Date, Integer>> hotelCapacity = new HashMap<>();
+            for (Hotel hotel : hotelList) {
+                Map<Date, Integer> capacityByDate = new HashMap<>();
+                for (Date date : dateList) {
+                    int totalCapacity = 0;
+                    for (Room room : RoomDB.getRoomsByHotel_ID(hotel.getHotel_ID())) {
+                        totalCapacity += roomAvailability.get(room.getRoom_ID()).get(date) * room.getCapacity();
+                    }
+                    capacityByDate.put(date, totalCapacity);
+                }
+                hotelCapacity.put(hotel.getHotel_ID(), capacityByDate);
+            }
+
+            // Lọc các khách sạn dựa trên tình trạng phòng trống
+            for (Hotel hotel : hotelList) {
+                boolean isAvailable = true;
+                for (Date date : dateList) {
+                    if (hotelCapacity.get(hotel.getHotel_ID()).get(date) < people) {
+                        isAvailable = false;
+                        break;
+                    }
+                }
+                if (isAvailable) {
+                    newHotelList.add(hotel);
+                }
+            }
+
+            List<String> hotelImmageList = new ArrayList<>();
+            for (int i = 0; i < newHotelList.size(); i++) {
+                List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(newHotelList.get(i).getHotel_ID());
+                String img = hotelImgList.get(0).getUrl();
+                hotelImmageList.add(img);
+            }
+            HttpSession session = request.getSession();
+            session.setAttribute("checkInDate", checkInDate);
+            session.setAttribute("checkOutDate", checkOutDate);
+            request.setAttribute("hotelList", newHotelList);
+            request.setAttribute("hotelImgList", hotelImmageList);
+            request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
+        }
+
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
+
+/**
+ * Returns a short description of the servlet.
+ *
+ * @return a String containing servlet description
+ */

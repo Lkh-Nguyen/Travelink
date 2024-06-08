@@ -17,6 +17,7 @@ import com.travelink.Model.Account;
 import com.travelink.Model.Facility;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
+import com.travelink.Model.Reservation;
 import com.travelink.Model.Room;
 import com.travelink.Model.RoomImage;
 import java.io.IOException;
@@ -26,6 +27,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,8 +73,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        int hotelId = Integer.parseInt(request.getParameter("hotelId"));
-        
+        int hotelId = Integer.parseInt(request.getParameter("hotelID"));
         Hotel hotel = HotelDB.getHotelByID(hotelId);
         request.setAttribute("hotel_view", hotel);
         List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(hotelId);
@@ -93,7 +95,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
         // list room hotel
         List<Room> listRoom = RoomDB.getRoomsByHotel_ID(hotelId);
         request.setAttribute("roomList", listRoom);
-        // list img room hotel 
+        // list img room hotel  
         List<RoomImage> roomImgList = new ArrayList<>();
         for(Room room : listRoom){
             roomImgList.add(RoomImageDB.getRoomImagesByRoom_ID(room.getRoom_ID()).get(0));
@@ -110,7 +112,30 @@ public class ViewHotelDetailServlet extends HttpServlet {
             boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, account.getAccount_ID());
             request.setAttribute("checkFavorite", checkFavorite);
         }
-        //checkFavorite
+        //Room Availavle by Time 
+        String checkIntDate = request.getParameter("checkInDate");
+        String checkOutDate = request.getParameter("checkOutDate");
+        java.sql.Date beginDate = null;
+        java.sql.Date endDate = null;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            beginDate = new java.sql.Date(dateFormat.parse(checkIntDate).getTime());
+            endDate = new java.sql.Date(dateFormat.parse(checkOutDate).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace(); // Xử lý ngoại lệ phân tích cú pháp một cách thích hợp
+        }
+        List<Integer> numberOfRoomList = new ArrayList<>();
+        List<Reservation> check1 = RoomDB.reservationCoincide(beginDate, endDate);
+        for(Room room : RoomDB.getRoomsByHotel_ID(hotelId)){
+            if(check1 == null){
+            int numberOfRoom = room.getTotalRooms();
+                numberOfRoomList.add(numberOfRoom);
+            }else{
+                int numberOfRoom = RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), beginDate, endDate, check1);
+                numberOfRoomList.add(numberOfRoom);
+            }
+        }
+        request.setAttribute("numberOfRoomList", numberOfRoomList);
         request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
     } 
 

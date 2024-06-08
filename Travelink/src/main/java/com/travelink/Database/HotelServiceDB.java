@@ -38,7 +38,7 @@ public class HotelServiceDB implements DatabaseInfo {
                         + "h.Address AS HotelAddress, h.Ward_ID AS HotelWardID, "
                         + "s.Service_ID AS S_Service_ID, s.Name AS ServiceName, "
                         + "rs.Reserved_Service_ID AS RS_Reserved_Service_ID, rs.AmountOfDays AS RS_AmountOfDays, rs.Reservation_ID AS RS_Reservation_ID, rs.Hotel_Service_ID AS RS_Hotel_Service_ID, "
-                        + "r.Reservation_ID AS R_Reservation_ID, r.Reservation_Date AS R_Reservation_Date, r.CheckInDate AS R_CheckInDate, "
+                        + "r.Reservation_ID AS R_Reservation_ID, r.Reservation_Date AS R_Reservation_Date, r.Number_of_guests AS R_Number_of_guests, r.CheckInDate AS R_CheckInDate, "
                         + "r.CheckOutDate AS R_CheckOutDate, r.Total_Price AS R_Total_Price, r.Payment_Method AS R_Payment_Method, r.Account_ID AS R_Account_ID, r.Status AS R_Status "
                         + "FROM Hotel_Service hs "
                         + "JOIN Hotel h ON hs.Hotel_ID = h.Hotel_ID "
@@ -84,12 +84,14 @@ public class HotelServiceDB implements DatabaseInfo {
 
                     Reservation reservation = new Reservation();
                     reservation.setReservationID(rs.getInt("R_Reservation_ID"));
-                    reservation.setReservationDate(rs.getDate("R_Reservation_Date").toLocalDate());
-                    reservation.setCheckInDate(rs.getDate("R_CheckInDate").toLocalDate());
-                    reservation.setCheckOutDate(rs.getDate("R_CheckOutDate").toLocalDate());
+                    reservation.setReservationDate(rs.getDate("R_Reservation_Date"));
+                    reservation.setNumber_of_guests(rs.getInt("R_Number_of_guests"));
+                    reservation.setCheckInDate(rs.getDate("R_CheckInDate"));
+                    reservation.setCheckOutDate(rs.getDate("R_CheckOutDate"));
                     reservation.setTotalPrice(rs.getBigDecimal("R_Total_Price"));
                     reservation.setPaymentMethod(rs.getString("R_Payment_Method"));
                     reservation.setStatus(rs.getString("R_Status"));
+                    reservation.setAccount_ID(rs.getInt("R_Account_ID"));
 
                     hotelService.setHotel(hotel);
                     hotelService.setService(service);
@@ -122,19 +124,6 @@ public class HotelServiceDB implements DatabaseInfo {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            }
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
         }
         return hotelServiceList;

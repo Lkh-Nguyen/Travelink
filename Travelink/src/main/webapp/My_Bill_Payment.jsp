@@ -1,9 +1,4 @@
-<%-- 
-    Document   : My_Bill_Payment
-    Created on : May 30, 2024, 8:55:15 PM
-    Author     : admin
---%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@page import="com.travelink.Model.Account" %>
 <%@page import="java.util.List" %>
@@ -25,64 +20,160 @@
                 background-image: linear-gradient(to right, #fafafa, #f5f5f5); /* Gradient từ #fafafa đến #f5f5f5 */
                 border-radius: 5px;
             }
+            .card-body .first p {
+                width: 350px;
+            }
+            .custom-border {
+                border: 2px dashed #000; /* Đường viền nét đứt màu đen */
+                border-radius: 15px; /* Bo góc */
+                padding: 15px; /* Khoảng cách bên trong */
+                margin-bottom: 15px; /* Khoảng cách bên ngoài dưới */
+            }
+            .gradient-background {
+                background-image: linear-gradient(to right, whitesmoke ,#5EBABA, #3A7BD5);
+                border-radius: 5px;
+            }
+            .gradient-background:hover{
+                color: white;
+                transition: 0.6s ease;
+            }
+            .contain-price {
+                border-left: 0.5px solid lightslategrey;
+            }
+            .mini-info:hover {
+                z-index: 2;
+                transform: translateY(-40%);
+                transition: transform 0.6s ease-in-out;
+            }
+            .mini-info {
+                z-index: 2;
+                cursor: pointer;
+                transition: transform 0.8s ease-in-out;
+            }
+            .card-body .row {
+                margin-bottom: 10px;
+            }
+
+            .card-body .row .col-8 {
+                text-align: left;
+            }
+
+            .card-body .row .col-4 {
+                text-align: left;
+            }
+            .first {
+                width: 400px;
+            }
+            /* Giảm khoảng cách giữa các hàng */
+            .info-row {
+                padding-bottom: 5px; /* Thay đổi khoảng cách giữa các hàng */
+            }
+
+            /* Loại bỏ padding mặc định */
+            .info-row .col-4,
+            .info-row .col-8 {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+            #confirmBtn, #cancelBtn {
+                background-image: linear-gradient(to right,#5EBABA, #3A7BD5);
+            }
+            #confirmBtn:hover,
+            #cancelBtn:hover {
+                color: white;
+                transition: 0.5s ease;
+            }
         </style>
     </head>
     <body>
         <%@include file="Header.jsp" %>
         <div class="container">
             <div class="row mt-5 justify-content-center align-items-center">
-                <div class="col-md-5">
-                    <div class="card mb-5">
-                        <img src="img_Home/hotel-1.webp" class="img-thumbnail border-0" alt="...">
-                        <div class="card-body">
-                            <div class="container custom-bg">
-                                <div class="row p-lg-2">
-                                    <div class="col-md-4">
-                                        <p class="fw-bold">Hotel Brand</p>
-                                        <p>Get Hotel's Name</p>
+                <div class="col-md-6">
+                    <div class="card mb-5 border-0 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+                        <div class="container p-3">
+                            <div id="carouselExampleIndicators" class="carousel slide" >
+                                <div class="carousel-indicators">
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                </div>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img src="img_Home/best -2.jpg" class="d-block w-100" alt="...">
                                     </div>
-                                    <div class="col-md-4">
-                                        <p class="fw-bold">Check in time</p>
-                                        <p>Get Check In Time Start</p>
+                                    <div class="carousel-item">
+                                        <img src="img_Home/best -1.jpg" class="d-block w-100" alt="...">
                                     </div>
-                                    <div class="col-md-4">
-                                        <p class="fw-bold">Check in date</p>
-                                        <p>Get Check Out Date</p>
+                                    <div class="carousel-item">
+                                        <img src="img_Home/best -3.jpg" class="d-block w-100" alt="...">
                                     </div>
                                 </div>
-                                <div class="row p-lg-2">
-                                    <div class="col-md-4">
-                                        <p class="fw-bold">Type Room</p>
-                                        <p>Get Type Room</p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <p class="fw-bold">Check out time</p>
-                                        <p>Get Check Out Time Start</p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <p class="fw-bold">Check out date</p>
-                                        <p>Get Check Out Date</p>
-                                    </div>
-                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
                             </div>
-
+                        </div>
+                        <div class="card-body mini-info">
+                            <c:forEach var="bill" items="${requestScope.list_bill}">
+                                <div class="container gradient-background fs-6">
+                                    <div class="row p-lg-2 justify-content-center align-items-center text-center">
+                                        <p class="fw-bold">Hotel Brand</p>  
+                                        <p>${bill.hotel_Name}</p>
+                                    </div>
+                                    <div class="row p-lg-2 justify-content-center align-items-center text-center">
+                                        <div class="col-md-4">
+                                            <p class="fw-bold">Check In Date</p>
+                                            <p>${bill.checkInDate}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p class="fw-bold">Customer</p>
+                                            <p>${account.name}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p class="fw-bold">Check Out Date</p>
+                                            <p>${bill.checkOutDate}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-7">
-                    <div class="card mb-3 h-1000">
-                        <div class="card-body">
+                <div class="col-md-6">
+                    <div class="card mb-5 h-1000 ">
+                        <div class="card-body ">
+                            <div class="row gradient-background m-1" style="height: 5px">
+                            </div>
                             <div class="row">
                                 <div class="col-md-5">
                                     <div class="card border-0">
-                                        <div class="card-body">
-                                            <p class="fw-bold lh-1">${account.name}</p>
-                                            <p class="fw-bold lh-1">Invoice # <span class="fw-normal text-muted lh-1"> getAccountID</span></p>
-                                            <p class="text-muted">BILLING TO</p>
-                                            <p class="fw-bold border-bottom">NAME COMPANY</p>
-                                            <p class="fw-bold lh-1">Contact: <span class="fw-normal text-muted lh-1"> getPhoneNumber</span></p>
-                                            <p class="fw-bold lh-1">Email: <span class="fw-normal text-muted lh-1"> getAccountEmail</span></p>
-                                            <p class="fw-bold lh-1">Address: <span class="fw-normal text-muted lh-1"> getAddress</span></p>
+                                        <div class="card-body first">
+                                            <h2 class="fw-bold">TRAVELINK</h2>
+                                            <p class="fw-bold lh-1">Reservation ID #<span class="fw-normal text-muted lh-1">${requestScope.reservationID}</span></p>
+                                            <p class="text-muted border-bottom">BILLING TO COMPANY</p>
+
+                                            <div class="row info-row">
+                                                <div class="col-4 fw-bold lh-1 ">Name:</div>
+                                                <div class="col-8 fw-normal text-muted lh-1 px-0 ">Travelink</div>
+                                            </div>
+                                            <div class="row info-row">
+                                                <div class="col-4 fw-bold lh-1">Contact:</div>
+                                                <div class="col-8 fw-normal text-muted lh-1 px-0">+123456789</div>
+                                            </div>
+                                            <div class="row info-row">
+                                                <div class="col-4 fw-bold lh-1">Email:</div>
+                                                <div class="col-8 fw-normal text-muted lh-1 px-0">group1swp391@fpt.edu.vn</div>
+                                            </div>
+                                            <div class="row info-row">
+                                                <div class="col-4 fw-bold lh-1">Address:</div>
+                                                <div class="col-8 fw-normal text-muted lh-1 px-0">Khu đô thị FPT, TP Đà Nẵng</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -92,45 +183,69 @@
                                 <div class="col-md-4 justify-content-end align-items-end">
                                     <div class="card border-0">
                                         <div class="card-body">
-                                            <p class="fw-bold lh-1">INVOICE</p>
-                                            <p class="fw-bold lh-1">Date: <span class="fw-normal text-muted lh-1"> getDateForBill</span></p>
+                                            <p class="fw-bold lh-1">BOOKING BILL</p>
+                                            <p class="fw-bold lh-1">Date: <span class="fw-normal text-muted lh-1">
+                                                    <%
+                                                      java.util.Date date = new java.util.Date();
+                                                      String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+                                                      String dayOfWeek = days[date.getDay()];
+                                                    %>
+                                                    <%= dayOfWeek %> <%= String.format("%02d-%02d", date.getDate(), date.getMonth() + 1) %>
+                                                </span></p>
                                         </div>
                                     </div>
                                 </div>
                             </div> 
-                            <!<!-- Table -->
                             <div class="row">
                                 <div class="container">
                                     <div class="card border-0">
-                                        <div class="card-body">
-                                            <table class="table table-striped table-hover">
+                                        <div class="card-body justify-content-center align-items-center text-center">
+                                            <table class="table table-striped table-hover text-center">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">#</th>
-                                                        <th scope="col">Name</th>
-                                                        <th scope="col">Email</th>
-                                                        <th scope="col">Phone Number</th>
+                                                        <th scope="col" class="col-1">No.</th>
+                                                        <th scope="col" class="col-4">Room Name</th>
+                                                        <th scope="col" class="col-3">Quantity</th>
+                                                        <th scope="col" class="col-4">Price</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <c:forEach var="bill" items="${requestScope.list_bill}">
+                                                        <tr>
+                                                            <th scope="row" class="col-1">1</th>
+                                                            <td class="col-4">${bill.room_Name}</td>
+                                                            <td class="col-3">${bill.amount}</td>
+                                                            <td class="col-4">${bill.room_price}</td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="container">
+                                    <div class="card border-0">
+                                        <div class="card-body justify-content-center align-items-center text-center">
+                                            <table class="table table-striped table-hover text-center">
+                                                <thead>
                                                     <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>${account.name}</td>
-                                                        <td>${account.email}</td>
-                                                        <td>${account.phoneNumber}</td>
+                                                        <th scope="col" class="col-1">No.</th>
+                                                        <th scope="col" class="col-4">Service Name</th>
+                                                        <th scope="col" class="col-3">Type</th>
+                                                        <th scope="col" class="col-4">Price</th>
                                                     </tr>
-                                                    <tr>
-                                                        <th scope="row">2</th>
-                                                        <td>Trần Thị B</td>
-                                                        <td>tranthib@example.com</td>
-                                                        <td>0987654321</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">3</th>
-                                                        <td>Lê Văn C</td>
-                                                        <td>levanc@example.com</td>
-                                                        <td>0234567891</td>
-                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach var="bill" items="${requestScope.list_bill}">
+                                                        <tr>
+                                                            <th scope="row" class="col-1">1</th>
+                                                            <td class="col-4">${bill.service_Name}</td>
+                                                            <td class="col-3">${bill.service_ID}</td>
+                                                            <td class="col-4">${bill.hotelService_price}</td>
+                                                        </tr>
+                                                    </c:forEach>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -142,53 +257,88 @@
                                     <div class="card-body">
                                         <!-- Phần dưới bên phải -->
                                         <div class="row">
-                                            <div class="col-md-6"></div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 ">
+                                                <div class="card-body p-2">
+                                                    <p class="fw-bold lh-1">Payment Info: #<span class="fw-normal text-muted lh-1">${account.account_ID}</span></p>
+                                                    <p class="fw-bold lh-1">Name: <span class="fw-normal text-muted lh-1">${account.name}</span></p>
+                                                    <p class="fw-bold lh-1">Contact: <span class="fw-normal text-muted lh-1">${account.phoneNumber}</span></p>
+                                                    <p class="fw-bold lh-1">Email: <span class="fw-normal text-muted lh-1">${account.email}</span></p>
+                                                    <p class="fw-bold lh-1">Address: <span class="fw-normal text-muted lh-1">${account.address}</span></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-2 ">
                                                 <div class="row border-bottom">
                                                     <div class="col">
                                                         <p class="fw-bold lh-1">Sub Total:</p>
                                                         <p class="fw-bold lh-1">Tax:</p>
                                                     </div>
                                                     <div class="col">
-                                                        <p class="text-muted fw-normal lh-1 ps-4">getTotalPrice</p>
-                                                        <p class="text-muted fw-normal lh-1 ps-4">getTotalPrice</p>
+                                                        <c:forEach var="bill" items="${requestScope.list_bill}">
+                                                            <p class="text-muted fw-normal lh-1 ps-4">${bill.total_price}</p>
+                                                            <p class="text-muted fw-normal lh-1 ps-4">0%</p>
+                                                        </c:forEach>
                                                     </div>
                                                 </div>
-                                                <div class="row mt-3">
-                                                    <div class="col">
-                                                        <p class="fw-bold lh-1">Grand Total: </p>
+                                                <c:forEach var="bill" items="${requestScope.list_bill}">
+                                                    <div class="row mt-2">
+                                                        <div class="col">
+                                                            <p class="fw-bold lh-1">Grand Total</p>
+                                                        </div>
+                                                        <div class="col">
+                                                            <p class="text-muted fw-normal lh-1 ps-4">${bill.total_price}</p>
+                                                        </div>
                                                     </div>
-                                                    <div class="col">
-                                                        <p class="text-muted fw-normal lh-1 ps-4"> getTotalPrice</p>
-                                                    </div>
-                                                </div>
+                                                </c:forEach>
                                             </div>
                                         </div>
                                         <!-- Phần dưới bên trái -->
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="row border-bottom">
-                                                    <div class="col">
-                                                        <p class="fw-bold lh-1">Sub Total:</p>
-                                                        <p class="fw-bold lh-1">Tax:</p>
+                                            <div class="col-md-6 mt-2">
+                                                <div class="card-body p-2">
+                                                    <h5 class="fw-bold lh-1">Customer Signature</h5>
+                                                    <br><br><br><br><br>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-2">
+                                                <div class="card-body p-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" onclick="hideShowButton(1)" type="radio" name="lang" id="exampleRadios1" value="option1" checked>
+                                                        <label class="form-check-label" for="exampleRadios1">
+                                                            Agree the Terms & Privacy
+                                                        </label>
                                                     </div>
-                                                    <div class="col">
-                                                        <p class="text-muted fw-normal lh-1 ps-4">getTotalPrice</p>
-                                                        <p class="text-muted fw-normal lh-1 ps-4">getTotalPrice</p>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" onclick="hideShowButton(2)" type="radio" name="lang" id="exampleRadios2" value="option2">
+                                                        <label class="form-check-label" for="exampleRadios2">
+                                                            Decline the Terms & Privacy
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="row mt-3">
-                                                    <div class="col">
-                                                        <p class="fw-bold lh-1">Grand Total: </p>
-                                                    </div>
-                                                    <div class="col">
-                                                        <p class="text-muted fw-normal lh-1 ps-4"> getTotalPrice</p>
+                                                <div class="row">
+                                                    <div class="card-body p-2">
+                                                        <div class="row p-2">
+                                                            <c:forEach var="bill" items="${requestScope.list_bill}">
+                                                                <div class="col justify-content-center align-items-center" id="btn-cancel">
+                                                                    <c:choose>
+                                                                        <c:when test="${bill.status != 'Paid'}">
+                                                                            <a class="btn btn-primary text-center justify-content-center align-items-center disabled" id="cancelBtn" aria-disabled="true">Cancel</a>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <a class="btn btn-primary text-center justify-content-center align-items-center" id="cancelBtn">Cancel</a>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </div>
+                                                            </c:forEach>
+                                                            <div class="col justify-content-center align-items-center" id="btn-confirm">
+                                                                <a class="btn btn-primary text-center justify-content-center align-items-center" id="confirmBtn">Confirm</a>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6"></div>
                                         </div>
-
+                                        <div class="row gradient-background" style="height: 20px">
+                                        </div>
                                     </div>
                                 </div> 
                             </div>
@@ -197,6 +347,19 @@
                 </div>
             </div>
         </div>
-        <script src="/bootstrap_js/js/bootstrap.bundle.js"></script>
+                                                <%@include file="Footer.jsp" %>
+        <script src="bootstrap_js/js/bootstrap.min.js"></script>
+        <script src="bootstrap_js/js/bootstrap.bundle.js"></script>
+        <script src="bootstrap_js/js/bootstrap.bundle.min.js"></script>
+        <script>
+                                                            function hideShowButton(val) {
+                                                                if (val == 1) {
+                                                                    document.getElementById('btn-confirm').style.display = 'block';
+                                                                }
+                                                                if (val == 2) {
+                                                                    document.getElementById('btn-confirm').style.display = 'none';
+                                                                }
+                                                            }
+        </script>
     </body>
 </html>

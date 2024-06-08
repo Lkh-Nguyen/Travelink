@@ -1,7 +1,7 @@
 <%-- 
-    Document   : Search_Hotel
-    Created on : May 30, 2024, 1:02:02 PM
-    Author     : DUYAN
+   Document   : Search_Hotel
+   Created on : May 30, 2024, 1:02:02 PM
+   Author     : DUYAN
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -26,56 +26,61 @@
         <div class="container mt-2">
             <section class="section__container booking__container">
                 <form method="post" action="search">
-                    <form>
-                        <div class="form__group">
-                            <span><i class="ri-map-pin-line"></i></span>
-                            <div class="input__content">
-                                <div class="input__group">
-                                    <input type="text" name="location"/>
-                                    <label>Location</label>
-                                </div>
-                                <p>Where are you going?</p>
+
+                    <div class="form__group">
+                        <span><i class="ri-map-pin-line"></i></span>
+                        <div class="input__content">
+                            <div class="input__group">
+                                <select name="location">
+                                    <option>Location</option>
+                                    <c:forEach var="location" items="${requestScope.locationList}">
+                                        <option value="${location.name}">${location.name}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
+                            <p>Where are you going?</p>
                         </div>
-                        <div class="form__group">
-                            <span><i class="ri-user-3-line"></i></span>
-                            <div class="input__content">
-                                <div class="input__group">
-                                    <input id="numberInput" type="text" name="number_of_people"/>
-                                    <label id="number_label">No of people</label>
-                                </div>
-                                <p>Add guests</p>
+                    </div>
+                    <div class="form__group">
+                        <span><i class="ri-user-3-line"></i></span>
+                        <div class="input__content">
+                            <div class="input__group">
+                                <input id="numberInput" type="number" name="number_of_people" min="1" required=""/>
+                                <label id="number_label">No of people</label>
                             </div>
+                            <p>Add guests</p>
                         </div>
-                        <div class="form__group">
-                            <span><i class="ri-calendar-line"></i></span>
-                            <div class="input__content">
-                                <div class="input__group">
-                                    <input type="text" name="check_in_date"/>
-                                    <label>Departure</label>
-                                </div>
-                                <p>Add date</p>
+                    </div>
+                    <div class="form__group">
+                        <span><i class="ri-calendar-line"></i></span>
+                        <div class="input__content">
+                            <div class="input__group">
+                                <input type="date" name="check_in_date"/>
+                                <label>Departure</label>
                             </div>
+                            <p>Add date</p>
                         </div>
-                        <div class="form__group">
-                            <span><i class="ri-calendar-line"></i></span>
-                            <div class="input__content">
-                                <div class="input__group">
-                                    <input type="text" name="check_out_date"/>
-                                    <label>Return</label>
-                                </div>
-                                <p>Add date</p>
+                    </div>
+                    <div class="form__group">
+                        <span><i class="ri-calendar-line"></i></span>
+                        <div class="input__content">
+                            <div class="input__group">
+                                <input type="date" name="check_out_date"/>
+                                <label>Return</label>
                             </div>
+                            <p>Add date</p>
+                            <p style="color: red"> ${requestScope.statusDate}</p>
                         </div>
-                        <div class="form__group">
-                            <span><i class="ri-home-5-line"></i></span>  <div class="input__content">
-                                <div class="input__group">
-                                    <input type="number" min="1" name="number_of_rooms"/>  <label>Rooms</label>
-                                </div>
-                                <p>Number of rooms</p>
+                    </div>
+                    <div class="form__group">
+                        <span><i class="ri-home-5-line"></i></span>  <div class="input__content">
+                            <div class="input__group">
+                                <input type="number" min="1" name="number_of_rooms"/>  <label>Rooms</label>
                             </div>
+                            <p>Number of rooms</p>
                         </div>
-                    </form>
+                    </div>
+
                     <div class="text-center mb-2">
                         <button class="btn btn-primary fw-bold w-25"><i class="ri-search-line text-dark">  Search</i></button>
                     </div>
@@ -138,23 +143,27 @@
                 <!-- Phần bên phải -->
                 <div class="col-md-9">
                     <div class="row">
-                        <c:if test="${not empty hotels}">
+                        <c:if test="${requestScope.hotelList != null}">
                             <div class="col-md-12">
                                 <h2>Danh sách khách sạn: </h2>
-                                <c:forEach var="hotel" items="${hotels}">
+                                <c:forEach var="hotel" items="${requestScope.hotelList}" varStatus="status">
                                     <div class="card mb-3">
                                         <div class="row g-0">
                                             <div class="col-md-4">
-                                                <img src="hotel1.jpg" class="img-fluid rounded-start" alt="Hotel 1">
+                                                <img src="${requestScope.hotelImgList[status.index]}" class="img-fluid rounded-start" alt="Hotel 1">
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body">
                                                     <h5 class="card-title">${hotel.name}</h5>
-                                                    <p class="card-text"><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i> (${hotel.starRating} stars)</p>
-                                                    <p class="card-text"><i class="bi bi-geo-alt"></i> Địa điểm: ${hotel.location}</p>
-                                                    <p class="card-text price-info">Giá: $${hotel.price}/đêm</p>
+                                                    <p class="card-text"><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i> (${hotel.star} stars)</p>
+                                                    <p class="card-text"><i class="bi bi-geo-alt"></i> Địa điểm: ${hotel.address}</p>
                                                     <div class="card-divider"></div>
-                                                    <a href="#" class="btn btn-primary float-end">Đặt phòng</a>
+                                                    <form action="viewHotelDetailServlet" method="get">
+                                                        <button>Đặt Phòng</button>
+                                                        <input type="hidden" name="hotel_ID"value="${hotel.hotel_ID}">
+
+                                                    </form>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -163,11 +172,19 @@
                             </div>
                         </c:if>
 
-                        <c:if test="${empty hotels}">
-                            <div class="col-md-12">
-                                <p>Không tìm thấy khách sạn nào phù hợp với tiêu chí của bạn.</p>
-                            </div>
+                        <c:if test="${requestScope.status == null}">
+                            <c:if test="${requestScope.hotelList == null}">
+                                <div class="col-md-12">
+                                    <p>Không tìm thấy khách sạn nào phù hợp với tiêu chí của bạn.</p>
+                                </div>
+                            </c:if>
                         </c:if>
+
+                        <div class="col-md-12">
+                            <p>${requestScope.status}</p>
+
+                        </div>
+
                     </div>
                 </div>
             </div>

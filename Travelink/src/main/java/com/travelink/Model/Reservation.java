@@ -15,7 +15,6 @@ package com.travelink.Model;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
-
 /**
  *
  * @author ASUS
@@ -36,7 +35,8 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(LocalDateTime reservationDate, int number_of_guests, Date checkInDate, Date checkOutDate, int totalPrice, String paymentMethod, String status, int account_ID) {
+    public Reservation(LocalDateTime reservationDate, int number_of_guests, Date checkInDate, Date checkOutDate,
+            int totalPrice, String paymentMethod, String status, int account_ID) {
         this.reservationDate = reservationDate;
         this.number_of_guests = number_of_guests;
         this.checkInDate = checkInDate;
@@ -121,10 +121,10 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return "Reservation{" + "reservationID=" + reservationID + ", reservationDate=" + reservationDate + ", number_of_guests=" + number_of_guests + ", checkInDate=" + checkInDate + ", checkOutDate=" + checkOutDate + ", totalPrice=" + totalPrice + ", paymentMethod=" + paymentMethod + ", status=" + status + ", account_ID=" + account_ID + '}';
+        return "Reservation{" + "reservationID=" + reservationID + ", reservationDate=" + reservationDate
+                + ", number_of_guests=" + number_of_guests + ", checkInDate=" + checkInDate + ", checkOutDate="
+                + checkOutDate + ", totalPrice=" + totalPrice + ", paymentMethod=" + paymentMethod + ", status="
+                + status + ", account_ID=" + account_ID + '}';
     }
-
-
-
 
 }

@@ -157,7 +157,7 @@
                                 </form>
                             </c:if>
                             <c:if test="${requestScope.alterDeleteSuccess != null}">
-                                <div id="status-message" style="background-color: rgb(233,251,233);height: 70px;" class="hidden">
+                                <div id="status-message" style="background-color: rgb(233,251,233);height: 70px;margin-top: 10px" class="hidden">
                                     <div style="display: flex">
                                         <div style="width: 20%">
                                             <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
@@ -170,7 +170,7 @@
                                 </div>
                             </c:if>
                             <c:if test="${requestScope.alterDeleteUnSuccess != null}">
-                                <div id="status-message" style="background-color: rgb(253,233,231);height: 70px;" class="hidden">
+                                <div id="status-message" style="background-color: rgb(253,233,231);height: 70px ;margin-top: 10px" class="hidden">
                                     <div style="display: flex">
                                         <div style="width: 20%">
                                             <i class='bx bxs-error-circle' style="font-size: 50px;color: red;margin-top: 0px"></i>
@@ -193,10 +193,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <c:forEach var="roomHotel" items="${requestScope.roomList}" varStatus="status">
-                            <div class="card mb-3">
+                            <div class="card mb-3" >
                                 <div class="row g-0" id="images_rom">
-                                    <div class="col-md-3">
-                                        <img src="${requestScope.roomImgList[status.index].url}" class="img-fluid rounded-start" alt="...">
+                                    <div class="col-md-3" style="padding-top:10px">
+                                        <img src="${requestScope.roomImgList[status.index].url}" class="img-fluid rounded-start img-custom" alt="...">
                                         <div id="show_detail">
                                             <form action="viewRoom" method="get">
                                                 <button><i class='bx bx-folder-plus' style="margin-right:5px"></i>Xem chi tiết phòng</button>
@@ -207,7 +207,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="card-body1">
-                                            <h4 class="card-title">${roomHotel.name}</h4>
+                                            <h4 class="card-title" style="margin-top:10px">${roomHotel.name}</h4>
                                             <table id="roomTable">
                                                 <thead>
                                                     <tr>
@@ -226,7 +226,7 @@
                                                                 for(RoomBed roomBed : RoomBedDB.getRoomBedsByRoomID(roomHotel.getRoom_ID())){
                                                                    Bed bed = BedDB.getBedByRoomBedID(roomBed.getRoom_Bed_ID()); 
                                                             %>
-                                                            <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 20px;"></i> <%= roomBed.getAmount()%> <%=bed.getName() %></p>
+                                                            <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 12px;"></i> <%= roomBed.getAmount()%> <%=bed.getName() %></p>
                                                             <%
                                                                 }
                                                             %>
@@ -234,8 +234,8 @@
                                                             <% 
                                                                 
                                                             %> 
-                                                            <h4 id="service">Breakfast Included</h4>
-                                                            <a id="numberRoom">Only 4 rooms left on our site</a>
+                                                            <h4 id="service" style="margin-top: 5px">Breakfast Included</h4>
+                                                            <a id="numberRoom">Only ${requestScope.numberOfRoomList[status.index]} rooms left on our site</a>
                                                         </td>
                                                         <td>
                                                             <div id="amount_People">
@@ -278,8 +278,8 @@
                         </c:forEach>
                     </div>
                     <form action="CheckoutServlet" method="post">
-                        <input type="text" value="" name="bookingStr" id="bookingStr">
-                        <input type="text" value="${param.hotel_ID}" name="hotel_ID">
+                        <input type="hidden" value="" name="bookingStr" id="bookingStr">
+                        <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">
                         <input type="submit" value="Continue" id="continue">
                     </form>
                 </div>
@@ -461,6 +461,7 @@
                 };
                 xhr.send("action=dislike&feedbackID=" + feedbackID);
             }
+            
         </script>
         <script src="js/Hotel_Detail.js"></script>
     </body>

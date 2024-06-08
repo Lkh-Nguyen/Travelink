@@ -38,12 +38,12 @@
     </head>
     <body>
         <c:if test="${requestScope.succesLogin != null}">
-            <div id="status-message" style="background-color: rgb(233,251,233);height: 70px;" class="hidden">
+            <div id="status-message" style="background-color: rgb(233,251,233);" class="hidden">
                 <div style="display: flex">
                     <div style="width: 20%">
                         <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
                     </div>
-                    <div style="width: 80%; text-align: start">
+                    <div style="width: 80%;height: 100%; text-align: start">
                         <h3 style="color:green;margin-top: 5px;font-weight: 550 ">Success</h3>
                         <p style="color: black;font-size: 14px">${succesLogin}</p>
                     </div>
@@ -51,13 +51,13 @@
             </div>
         </c:if>
         <c:if test="${requestScope.loggout != null}">
-            <div id="status-message" style="background-color: rgb(233,251,233);height: 80px;" class="hidden">
+            <div id="status-message" style="background-color: rgb(233,251,233);" class="hidden">
                 <div style="display: flex">
                     <div style="width: 20%">
                         <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
                     </div>
-                    <div style="width: 80%; text-align: start">
-                        <h3 style="color:green;margin-top: 5px;font-weight: 550 ">Success</h3>
+                    <div style="width: 80%; text-align: start;">
+                        <h3 style="color:green;margin-top: 5px;font-weight: 550;margin-bottom: 0px;">Success</h3>
                         <p style="color: black;font-size: 14px">${loggout}</p>
                     </div>
                 </div>           

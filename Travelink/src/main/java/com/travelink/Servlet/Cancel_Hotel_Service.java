@@ -4,9 +4,11 @@
  */
 package com.travelink.Servlet;
 
+import com.travelink.Database.BillDB;
 import com.travelink.Database.HotelServiceDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.HotelService;
+import com.travelink.View.Bill;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,7 +63,28 @@ public class Cancel_Hotel_Service extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
 
+        if (account == null) {
+            response.sendRedirect("Form_Login.jsp");
+            return;
+        }
+
+        List<Bill> list_bill = BillDB.getBillByCustomerID(account.getAccount_ID());
+        List<Bill> cancel_List = new ArrayList<>();
+
+        for (Bill b : list_bill) {
+            if (b.getStatus().toUpperCase().equals("CANCEL")) {
+                cancel_List.add(b);
+            }
+        }
+
+        PrintWriter pw = response.getWriter();
+        pw.print(cancel_List.size());
+
+        request.setAttribute("cancel_List", cancel_List);
+        request.getRequestDispatcher("Cancel_Transaction.jsp").forward(request, response);
     }
 
     /**

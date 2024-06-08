@@ -29,7 +29,7 @@ public class ProvinceDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM province"; // Replace "province" with your actual table name
+                String query = "SELECT * FROM province Order by name"; // Replace "province" with your actual table name
                 statement = connection.createStatement();
                 resultSet = statement.executeQuery(query);
 

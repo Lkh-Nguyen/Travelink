@@ -51,7 +51,22 @@ public class ReservationDB implements DatabaseInfo {
             }
         } catch (SQLException e) {
             System.out.println("Error getting reservation by ID: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
         }
+
         return reservation;
     }
 
@@ -87,9 +102,76 @@ public class ReservationDB implements DatabaseInfo {
             }
         } catch (SQLException e) {
             System.out.println("Error getting reservations by Account ID: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
         }
+
         return reservations;
     }
+
+
+    public static List<Reservation> getAllReservations() {
+        List<Reservation> reservations = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT * FROM Reservation";
+                statement = connection.prepareStatement(query);
+                resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Reservation reservation = new Reservation();
+                    reservation.setReservationID(resultSet.getInt("Reservation_ID"));
+                   reservation.setReservationDate(resultSet.getTimestamp("Reservation_Date").toLocalDateTime());
+                    reservation.setNumber_of_guests(resultSet.getInt("number_of_guests"));
+                    reservation.setCheckInDate(resultSet.getDate("CheckInDate"));
+                    reservation.setCheckOutDate(resultSet.getDate("CheckOutDate"));
+                    reservation.setTotalPrice(resultSet.getInt("Total_Price"));
+                    reservation.setPaymentMethod(resultSet.getString("Payment_Method"));
+                    reservation.setStatus(resultSet.getString("Status"));
+                    reservation.setAccount_ID(resultSet.getInt("Account_ID"));
+                    reservations.add(reservation);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting all reservations: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+
+        return reservations;
+    }
+
+
 
 //    public static void main(String[] args) {
 //
@@ -121,6 +203,7 @@ public class ReservationDB implements DatabaseInfo {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet generatedKeys = null;
+
 
         try {
             connection = DatabaseInfo.getConnect();

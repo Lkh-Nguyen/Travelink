@@ -1,18 +1,14 @@
-<%
-    if (request.getAttribute("Paid_Transaction") == null) {
-        request.getRequestDispatcher("Paid_Hotel_Service").forward(request, response);
-    }
-%>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@page import="com.travelink.Model.Account" %>
 <%@page import="java.util.List" %>
-<%@page import="com.travelink.Model.HotelService" %>
+<%@page import="com.travelink.View.*" %>
+<%@page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>PAID</title>
+        <title>FINISHED</title>
         <link rel="stylesheet" href="css/Right_My_Account.css">
         <link rel="stylesheet" href="css/Left_My_Account.css">
         <link rel="icon" href="img_Home/logo.png">
@@ -24,12 +20,11 @@
         <style>
             /* Định dạng chung cho card */
             .hotel-card {
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                transition: transform 0.3s ease;
             }
 
             .hotel-card:hover {
                 transform: translateY(-5px);
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
 
             /* Định dạng nội dung trong card */
@@ -98,75 +93,6 @@
                 transform: scale(1.1);
                 transition: transform 0.5s ease;
             }
-
-            #overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-                display: none;
-                z-index: 999;
-            }
-
-            #logoutConfirm {
-                display: none;
-                /* Ẩn mặc định */
-                border-radius: 10px;
-                width: 280px;
-                height: 320px;
-                position: fixed;
-                bottom: -300px;
-                left: 50%;
-                transform: translateX(-50%);
-                background-color: #fff;
-                padding: 20px;
-                border: 1px solid #ccc;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                z-index: 1000;
-                transition: bottom 0.5s ease;
-            }
-
-            #logoutConfirm h2 {
-                margin-top: -10px;
-            }
-
-            #logoutConfirm p {
-                font-size: 20px;
-                color: grey;
-            }
-
-            #logoutConfirm button {
-                background-color: rgb(247, 249, 250);
-                border: 0px;
-                margin-bottom: 15px;
-                width: 280px;
-                height: 40px;
-            }
-
-            #logoutConfirm button:hover {
-                background-color: rgb(242, 243, 243);
-            }
-
-            #logoutConfirm button:active {
-                border: 3px solid rgb(1, 148, 243);
-            }
-
-            #logoutConfirm button a {
-                font-size: 17px;
-                user-select: none;
-                color: rgb(1, 148, 243);
-                text-decoration: none;
-            }
-
-            #logoutConfirm.active {
-                bottom: 50%;
-                transform: translate(-50%, 50%);
-            }
-
-
-
             /*Change*/
             .disabled {
                 pointer-events: none;
@@ -188,44 +114,6 @@
                 cursor: pointer;
             }
 
-            .loader {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background-color: #f7f9fb;
-                transition: opacity 0.75s, visibility 0.75s;
-                z-index: 999;
-            }
-
-            .loader-hidden {
-                opacity: 0;
-                visibility: hidden;
-            }
-
-            .loader::after {
-                content: "";
-                width: 95px;
-                height: 95px;
-                border: 14px solid #dddddd;
-                border-top-color: rgb(1, 148, 243);
-                border-radius: 50%;
-                animation: loading 0.75s ease infinite;
-            }
-
-            @keyframes loading {
-                from {
-                    transform: rotate(0turn);
-                }
-
-                to {
-                    transform: rotate(1turn);
-                }
-            }
 
             .btn-primary:active {
                 background-color: rgb(247, 249, 250);
@@ -349,7 +237,7 @@
                         <a href="View_Avatar.jsp"><i class='bx bx-image-add'></i> <b>View Avatar</b></a>
                     </div>
                     <div class="list0">
-                        <a href="#"><i class='bx bx-calendar'></i> <b>Process Booking</b></a>
+                        <a href="MyFeedbackServlet"><i class='bx bx-calendar'></i> <b>My Feedback</b></a>
                     </div>
                     <div class="list1">
                         <a href="My_Card_Payment_History.jsp"><i class='bx bx-money-withdraw'></i>
@@ -372,17 +260,17 @@
                     <div class="card-body">
                         <div class="row mb-3">
                             <div class="col-md-3 d-flex align-items-center justify-content-center">
-                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="My_Card_Payment_History.jsp">ALL</a>
+                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="All_Hotel_Service">ALL</a>
                             </div>
 
                             <div class="col-md-3 d-flex align-items-center justify-content-center">
-                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="#">PAID</a>
+                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="Paid_Hotel_Service">FINISHED</a>
                             </div>
                             <div class="col-md-3  d-flex align-items-center justify-content-center">
-                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="NotPaid_Transaction.jsp">NOT PAID</a>
+                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="NotPaid_Hotel_Service">PROCESSING</a>
                             </div>
                             <div class="col-md-3  d-flex align-items-center justify-content-center">
-                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="Cancel_Transaction.jsp">CANCEL</a>
+                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="Cancel_Hotel_Service">CANCEL</a>
                             </div>
                         </div>
                     </div>
@@ -390,39 +278,68 @@
                         You don't have any transaction !
                     </div>
                     <div id="hotelList">
-                        <c:if test="${requestScope.Paid_Transaction == null}">
+                        <c:if test="${requestScope.list_bill == null}">
                             <div class="container">
                                 <div id="noHistory" class="alert alert-danger text-center w-100">
                                     You don't have any transaction !
                                 </div>
                             </div>
                         </c:if>
-                        <div class ="row">
-                            <c:forEach var="h" items="${requestScope.Paid_Transaction}">
+                        <div class ="row p-4">
+                            <c:forEach var="h" items="${requestScope.list_bill}">
                                 <div class="col-md-6 mb-4 hotel-card">
                                     <div class="card h-100 border rounded shadow">
                                         <div class="card-body d-flex flex-column custom-bg">
-                                            <h5 class="card-title">
-                                                <i class='bx bxs-hotel'></i> ${h.hotel.name} - ${h.hotelServiceID}
-                                            </h5>
-                                            <p class="card-text mb-3">
-                                                <i class='bx bx-support'></i> ${h.service.name}
-                                            </p>
-                                            <p class="card-text">
-                                                <i class='bx bxs-check-square'></i>
-                                                <span class="badge text-bg-success">${h.reservation.status}</span>
-                                            </p>
-                                            <p class="card-text mb-2">
-                                                <i class='bx bx-calendar-check'></i> ${h.reservation.checkInDate}
-                                            </p>
-                                            <p class="card-text mb-2">
-                                                <i class='bx bx-calendar-x'></i> ${h.reservation.checkOutDate} 
-                                            </p>
-                                            <p class="card-text mb-2">
-                                                <i class='bx bx-dollar-circle'></i> ${h.reservation.totalPrice}
-                                            </p>
-                                            <a href="hotelServiceDetail?hsID=${h.hotelServiceID}" target="_blank" class="btn btn-outline-primary mt-auto">
-                                                <i class='bx bx-detail'> </i> View Details
+                                            <div class="row h-50">
+                                                <h5 class="card-title mb-3 ">
+
+                                                    <i class='bx bxs-hotel'></i> ${h.hotel_Name}
+                                                </h5>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col ">
+                                                    <p class="card-text ">
+                                                        <i class='bx bx-buildings'></i> ${h.room_ID}
+                                                    </p>
+                                                </div>
+                                                <div class="col">
+                                                    <p class="card-text">
+                                                        <i class='bx bx-support'></i> ${h.service_Name}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="card-text mb-2">
+                                                        <i class='bx bx-calendar-check'></i> ${h.checkInDate}
+                                                    </p>
+                                                </div>
+                                                <div class="col">
+                                                    <p class="card-text mb-2">
+                                                        <i class='bx bx-calendar-x'></i> ${h.checkOutDate}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="card-text mb-2">
+                                                        <i class='bx bx-dollar-circle'></i> ${h.total_price}
+                                                    </p>
+                                                </div>
+                                                <div class="col">
+                                                    <p class="card-text">
+                                                        <i class='bx bx-check-square'></i>
+                                                        <span class="badge text-bg-success">${h.status}</span>
+                                                    </p>
+                                                </div>
+
+                                            </div>
+                                            <a class="btn btn-outline-primary mb-2" href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" >
+                                                Cancel
+                                            </a>
+                                            <a href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" class="btn btn-outline-primary mt-auto">
+                                                <i class='bx bx-detail'></i> View Details
                                             </a>
                                         </div>
                                     </div>
@@ -436,10 +353,10 @@
                 </div>
             </div>
         </div>
-<!--        <div class="loader">
-
-        </div>-->
-<!--        <script src="js/Loader.js"></script>-->
+        <!--        <div class="loader">
+        
+                </div>-->
+        <!--        <script src="js/Loader.js"></script>-->
         <script>
             //Logout confirmation
             document.getElementById("logoutButton").addEventListener("click", function () {

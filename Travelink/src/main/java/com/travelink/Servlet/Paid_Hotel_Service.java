@@ -4,9 +4,11 @@
  */
 package com.travelink.Servlet;
 
+import com.travelink.Database.BillDB;
 import com.travelink.Database.HotelServiceDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.HotelService;
+import com.travelink.View.Bill;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +43,7 @@ public class Paid_Hotel_Service extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Paid_Hotel_Service</title>");            
+            out.println("<title>Servlet Paid_Hotel_Service</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Paid_Hotel_Service at " + request.getContextPath() + "</h1>");
@@ -61,8 +64,22 @@ public class Paid_Hotel_Service extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                HttpSession session = request.getSession();
+        LocalDate currentDate = LocalDate.now();
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
 
+        if (account == null) {
+            response.sendRedirect("Form_Login.jsp");
+            return;
+        }
+
+        List<Bill> list_bill = BillDB.getBillFinishedByCustomerID(account.getAccount_ID());
+        for (Bill b : list_bill) {
+            b.setStatus("Paid");
+        }
+
+        request.setAttribute("list_bill", list_bill);
+        request.getRequestDispatcher("Paid_Transaction.jsp").forward(request, response);
     }
 
     /**

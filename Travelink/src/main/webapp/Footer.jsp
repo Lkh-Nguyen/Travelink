@@ -10,7 +10,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/Footer.css"/>
-        <link href="bootstrap_css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <title>JSP Page</title>
     </head>
@@ -24,9 +23,7 @@
                                 <h3 class="f-title f_600 t_color f_size_18">Travelink</h3>
                                 <p>Find And Book A Great Experience</p>
                                 <input type="text" name="EMAIL" class="form-control memail" placeholder="Email">
-                                <button class="btn btn_get btn_get_two" type="submit">Subscribe</button>
-                                <p class="mchimp-errmessage" style="display: none;"></p>
-                                <p class="mchimp-sucmessage" style="display: none;"></p>
+                                <button class="btn btn_get btn_get_two" type="submit" style="margin-top:5px;">Subscribe</button>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6" style="padding-left: 100px">

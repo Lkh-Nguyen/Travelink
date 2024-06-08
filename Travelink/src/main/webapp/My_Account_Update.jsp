@@ -72,7 +72,7 @@
                         <a href="View_Avatar.jsp"><i class='bx bx-image-add' ></i> <b>View Avatar</b></a>
                     </div>
                     <div class="list0">
-                        <a href="#"><i class='bx bx-calendar' ></i> <b>My Booking</b></a>
+                        <a href="MyFeedbackServlet"><i class='bx bx-calendar' ></i> <b>My Feedback</b></a>
                     </div>
                     <div class="list0">
                         <a href="My_Card_Payment_History.jsp"><i class='bx bx-money-withdraw'></i> <b>Booking History</b></a>
@@ -184,7 +184,6 @@
                 <!-- Change -->
             </div>
         </div>
-        <%@include file="Footer.jsp" %>
         <script src="js/Alter.js"></script>
         <script>
                                 function cancel() {

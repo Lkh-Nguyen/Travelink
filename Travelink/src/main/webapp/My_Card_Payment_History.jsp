@@ -239,7 +239,7 @@
                         <a href="View_Avatar.jsp"><i class='bx bx-image-add'></i> <b>View Avatar</b></a>
                     </div>
                     <div class="list0">
-                        <a href="#"><i class='bx bx-calendar'></i> <b>Process Booking</b></a>
+                        <a href="MyFeedbackServlet"><i class='bx bx-calendar'></i> <b>My Feedback</b></a>
                     </div>
                     <div class="list1">
                         <a href="All_Hotel_Service"><i class='bx bx-money-withdraw'></i>  <b>Booking History</b></a>
@@ -359,7 +359,6 @@
                 </div>
             </div>
         </div>
-                        <%@include file="Footer.jsp" %>
         <!--            <div class="loader">
         
                     </div>-->

@@ -42,9 +42,7 @@
                 transition: background-color 0.3s, box-shadow 0.3s;
             }
             .btns .btn:hover {
-                color : #fff;
-                background-color: #487eb0;
-/*                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);*/
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             }
 
             .loginBtn {
@@ -112,6 +110,9 @@
                 font-size: 1.8rem;
                 font-weight: 600;
                 color: var(--text-dark);
+            }
+            .nav_logo a{
+                text-decoration: none;
             }
             .nav__logo a:active{
 

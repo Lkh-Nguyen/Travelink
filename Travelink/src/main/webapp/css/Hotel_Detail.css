@@ -209,3 +209,13 @@
     width: 150px;
     height: 50px;
 }
+
+.img-custom{
+        margin-right: 10px;
+        width: 100%;
+        height: auto;
+        max-width: 300px; /* Điều chỉnh kích thước tối đa cho chiều rộng */
+        max-height: 200px; /* Điều chỉnh kích thước tối đa cho chiều cao */
+        object-fit: cover; /* Giữ nguyên tỷ lệ gốc và cắt bớt phần thừa nếu cần */
+        border-radius: 10px;
+    }

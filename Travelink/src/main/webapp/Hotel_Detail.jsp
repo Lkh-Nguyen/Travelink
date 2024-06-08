@@ -193,10 +193,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <c:forEach var="roomHotel" items="${requestScope.roomList}" varStatus="status">
-                            <div class="card mb-3">
+                            <div class="card mb-3" >
                                 <div class="row g-0" id="images_rom">
-                                    <div class="col-md-3">
-                                        <img src="${requestScope.roomImgList[status.index].url}" class="img-fluid rounded-start" alt="...">
+                                    <div class="col-md-3" style="padding-top:10px">
+                                        <img src="${requestScope.roomImgList[status.index].url}" class="img-fluid rounded-start img-custom" alt="...">
                                         <div id="show_detail">
                                             <form action="viewRoom" method="get">
                                                 <button><i class='bx bx-folder-plus' style="margin-right:5px"></i>Xem chi tiết phòng</button>
@@ -207,7 +207,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="card-body1">
-                                            <h4 class="card-title">${roomHotel.name}</h4>
+                                            <h4 class="card-title" style="margin-top:10px">${roomHotel.name}</h4>
                                             <table id="roomTable">
                                                 <thead>
                                                     <tr>

@@ -53,7 +53,7 @@ function changePage(i) {
 document.addEventListener('DOMContentLoaded', (event) => {
     const selects = document.querySelectorAll('select');
     const messageCells = document.querySelectorAll('#message');
-    const Sum_Total = document.getElementById("Sum_Total");
+    const bookingStr = document.getElementById("bookingStr");
 
     selects.forEach(select => {
         select.addEventListener('change', checkSelectValues);
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         messageCells.forEach(cell => {
             cell.textContent = allZero ? 'No room selected' : '';
         });
-        Sum_Total.value = "";
+        bookingStr.value = "";
         selects.forEach(select => {
             
             let row = select.closest('tr');
@@ -78,11 +78,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             if (amount > 0) {
                 priceCell.innerHTML = `Room: ${roomName}<br> Quantity: ${amount}<br> Total Price: ${totalPrice.toLocaleString()} VND`;
-                infor.value = `IDRoom = ${idHotel}, Quantity = ${amount}`;
-if(Sum_Total.value == ""){
-                    Sum_Total.value = Sum_Total.value + infor.value;
+                infor.value = `Room_ID=${idHotel},Quantity=${amount}`;
+if(bookingStr.value == ""){
+                    bookingStr.value = bookingStr.value + infor.value;
                 }else{
-                    Sum_Total.value = Sum_Total.value + " / " + infor.value;
+                    bookingStr.value = bookingStr.value + "/" + infor.value;
                 }
             } else {
                 priceCell.textContent = 'No room selected';

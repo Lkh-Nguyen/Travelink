@@ -30,7 +30,7 @@
 
 .section__container img{
     width:100%;
-    border-radius: 10cm/10cm;
+/*    border-radius: 10cm/10cm;*/
 }
 
 .section__container h1{
@@ -591,3 +591,4 @@ form .page .field button:hover {
     z-index: 4;
     display: none;
 }
+

@@ -12,9 +12,8 @@ package com.travelink.Model;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -23,11 +22,11 @@ import java.time.LocalDate;
 public class Reservation {
 
     private int reservationID;
-    private Date reservationDate;
+    private LocalDateTime reservationDate;
     private int number_of_guests;
     private Date checkInDate;
     private Date checkOutDate;
-    private BigDecimal totalPrice;
+    private int totalPrice;
     private String paymentMethod;
     private String status;
     private int account_ID;
@@ -36,7 +35,8 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(Date reservationDate, int number_of_guests, Date checkInDate, Date checkOutDate, BigDecimal totalPrice, String paymentMethod, String status, int account_ID) {
+    public Reservation(LocalDateTime reservationDate, int number_of_guests, Date checkInDate, Date checkOutDate,
+            int totalPrice, String paymentMethod, String status, int account_ID) {
         this.reservationDate = reservationDate;
         this.number_of_guests = number_of_guests;
         this.checkInDate = checkInDate;
@@ -55,11 +55,11 @@ public class Reservation {
         this.reservationID = reservationID;
     }
 
-    public Date getReservationDate() {
+    public LocalDateTime getReservationDate() {
         return reservationDate;
     }
 
-    public void setReservationDate(Date reservationDate) {
+    public void setReservationDate(LocalDateTime reservationDate) {
         this.reservationDate = reservationDate;
     }
 
@@ -87,11 +87,11 @@ public class Reservation {
         this.checkOutDate = checkOutDate;
     }
 
-    public BigDecimal getTotalPrice() {
+    public int getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
+    public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -121,10 +121,10 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return "Reservation{" + "reservationID=" + reservationID + ", reservationDate=" + reservationDate + ", number_of_guests=" + number_of_guests + ", checkInDate=" + checkInDate + ", checkOutDate=" + checkOutDate + ", totalPrice=" + totalPrice + ", paymentMethod=" + paymentMethod + ", status=" + status + ", account_ID=" + account_ID + '}';
+        return "Reservation{" + "reservationID=" + reservationID + ", reservationDate=" + reservationDate
+                + ", number_of_guests=" + number_of_guests + ", checkInDate=" + checkInDate + ", checkOutDate="
+                + checkOutDate + ", totalPrice=" + totalPrice + ", paymentMethod=" + paymentMethod + ", status="
+                + status + ", account_ID=" + account_ID + '}';
     }
-
-
-
 
 }

@@ -6,17 +6,37 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="bootstrap_css/bootstrap.min.css">
         <link rel="stylesheet" href="css/Home_Customer.css">
         <link rel="stylesheet" href="css/Alter.css">
         <link
-              href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css"
-              rel="stylesheet"
-        />    
+            href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css"
+            rel="stylesheet"
+        >    
         <title>Travelink</title>
         <link rel="icon" href="img_Home/logo.png">
+        <style>
+            .booking {
+                transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease; /* Increased duration for smoother transition */
+                animation: float 3s ease-in-out infinite; /* Apply the floating animation */
+            }
+
+            .booking:hover {
+                background-color: #17a2b8; /* Example of a property that will change smoothly */
+                border-color: #17a2b8; /* Change border color to match the new background */
+                color: #fff; /* Change text color for better contrast */
+            }
+            @keyframes float {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+            }
+        </style>
     </head>
     <body>
-        
         <c:if test="${requestScope.succesLogin != null}">
             <div id="status-message" style="background-color: rgb(233,251,233);height: 70px;" class="hidden">
                 <div style="display: flex">
@@ -47,7 +67,14 @@
         <%@include file="Header.jsp" %>
         <header class="section__container header__container">
             <h1 class="section__header">Find And Book<br />A Great Experience</h1>
-            <img src="img_Home/header.jpg" alt="header" />
+            <div style="position: relative">
+                <button class="booking btn btn-outline-info position-absolute border border-white p-4 rounded text-white fs-2 cursor-pointer" style="
+                        bottom: 13rem;
+                        left: 9rem;
+                        ">
+                    Booking now</button>
+                <img src="img_Home/header.jpg" style="border-radius:0" alt="header" />
+            </div>
         </header>
 
         <section class="section__container booking__container">
@@ -216,9 +243,9 @@
                     <div class="lounge__details">
                         <h4>Integrating Technology with Luxury</h4>
                         <p>
-                           Modern luxurious interiors blend advanced technology seamlessly with traditional opulence. 
-                           Smart home systems and hidden audio-visual equipment enhance comfort and convenience, 
-                           ensuring a stylish and functional space.
+                            Modern luxurious interiors blend advanced technology seamlessly with traditional opulence. 
+                            Smart home systems and hidden audio-visual equipment enhance comfort and convenience, 
+                            ensuring a stylish and functional space.
                         </p>
                     </div>
                 </div>
@@ -265,5 +292,12 @@
         <%@include file="Footer.jsp" %>
         <script src="js/Home_Customer.js"></script>
         <script src="js/Alter.js"></script>
+        <script>
+            document.querySelector('.booking').addEventListener('click', function () {
+                document.querySelector('.booking__container').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        </script>
     </body>
 </html>

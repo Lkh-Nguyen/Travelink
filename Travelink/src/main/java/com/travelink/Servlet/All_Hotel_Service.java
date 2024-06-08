@@ -61,25 +61,7 @@ public class All_Hotel_Service extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
 
-        if (account == null) {
-            response.sendRedirect("Form_Login.jsp");
-            return;
-        }
-
-        List<HotelService> mainList = HotelServiceDB.getAllHotelServicesByAccountID(account.getAccount_ID());
-        List<HotelService> all_List = new ArrayList<>(); // Khởi tạo all_List với ArrayList
-
-        for (HotelService hotel : mainList) {
-            if (hotel.getReservation().getStatus().equalsIgnoreCase("Paid") || hotel.getReservation().getStatus().equalsIgnoreCase("Not Paid") || hotel.getReservation().getStatus().equalsIgnoreCase("Cancel")) {
-                all_List.add(hotel);
-            }
-        }
-
-        request.setAttribute("All_Transaction", all_List);
-        request.getRequestDispatcher("My_Card_Payment_History.jsp").forward(request, response);
     }
 
     /**

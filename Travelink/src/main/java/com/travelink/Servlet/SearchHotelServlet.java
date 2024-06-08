@@ -4,24 +4,18 @@
  */
 package com.travelink.Servlet;
 
-import com.travelink.Database.DistrictDB;
 import com.travelink.Database.HotelDB;
 import com.travelink.Database.HotelImageDB;
 import com.travelink.Database.ProvinceDB;
 import com.travelink.Database.ReservationDB;
 import com.travelink.Database.ReservedRoomDB;
 import com.travelink.Database.RoomDB;
-import com.travelink.Database.WardDB;
-import com.travelink.Model.District;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
 import com.travelink.Model.Province;
 import com.travelink.Model.Reservation;
 import com.travelink.Model.ReservedRoom;
 import com.travelink.Model.Room;
-import com.travelink.Model.Ward;
-import com.travelink.View.RoomHotelAvailable;
-import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -32,11 +26,7 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

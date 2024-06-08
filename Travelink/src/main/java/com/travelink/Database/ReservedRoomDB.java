@@ -44,31 +44,7 @@ public class ReservedRoomDB implements DatabaseInfo {
         return reservedRooms;
     }
 
-    public static ReservedRoom getReservedRoomByReservationID(int reservationID) {
-        ReservedRoom reservedRoom = null;
-
-        try (Connection connection = DatabaseInfo.getConnect()) {
-            String sql = "SELECT * FROM Reserved_Room WHERE Reservation_ID = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setInt(1, reservationID);
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        reservedRoom = new ReservedRoom();
-                        reservedRoom.setReserved_Room_ID(resultSet.getInt("Reserved_Room_ID"));
-                        reservedRoom.setAmount(resultSet.getInt("Amount"));
-                        reservedRoom.setReservation_ID(resultSet.getInt("Reservation_ID"));
-                        reservedRoom.setRoom_ID(resultSet.getInt("Room_ID"));
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return reservedRoom;
-    }
-
-    //Get reservation by RoomID
+    // Get reservation by RoomID
     public static List<ReservedRoom> getReservedRoomsByRoomID(int roomID) {
         List<ReservedRoom> reservedRooms = new ArrayList<>();
 
@@ -94,7 +70,7 @@ public class ReservedRoomDB implements DatabaseInfo {
         return reservedRooms;
     }
 
-    public static List<ReservedRoom> getAllReservedRoom() {
+     public static List<ReservedRoom> getAllReservedRoom() {
         List<ReservedRoom> reservedRooms = new ArrayList<>();
 
         try (Connection connection = DatabaseInfo.getConnect()) {
@@ -142,21 +118,48 @@ public class ReservedRoomDB implements DatabaseInfo {
         return reservedRoom;
     }
 
+    public static void insertReservedRoom(ReservedRoom reservedRoom) {
+        try (Connection connection = DatabaseInfo.getConnect()) {
+            String sql = "INSERT INTO Reserved_Room (Amount, Reservation_ID, Room_ID) VALUES (?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, reservedRoom.getAmount());
+                preparedStatement.setInt(2, reservedRoom.getReservation_ID());
+                preparedStatement.setInt(3, reservedRoom.getRoom_ID());
+
+                // Print the SQL query and parameter values
+                System.out.println("Executing query: " + sql);
+                System.out.println("Amount: " + reservedRoom.getAmount());
+                System.out.println("Reservation ID: " + reservedRoom.getReservation_ID());
+                System.out.println("Room ID: " + reservedRoom.getRoom_ID());
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
-//        ReservedRoomDB reservedRoomDB = new ReservedRoomDB();
-//        int reservationID = 456; // Replace with the actual reservation ID you want to query
-//        List<ReservedRoom> reservedRooms = reservedRoomDB.getReservedRoomsByReservationID(reservationID);
-//
-//        if (reservedRooms.isEmpty()) {
-//            System.out.println("No reserved rooms found for reservation ID: " + reservationID);
-//        } else {
-//            System.out.println("Reserved rooms for reservation ID " + reservationID + ":");
-//            for (ReservedRoom reservedRoom : reservedRooms) {
-//                System.out.println(reservedRoom);
-//            }
-//        }
+        // ReservedRoomDB reservedRoomDB = new ReservedRoomDB();
+        // int reservationID = 456; // Replace with the actual reservation ID you want
+        // to query
+        // List<ReservedRoom> reservedRooms =
+        // reservedRoomDB.getReservedRoomsByReservationID(reservationID);
+        //
+        // if (reservedRooms.isEmpty()) {
+        // System.out.println("No reserved rooms found for reservation ID: " +
+        // reservationID);
+        // } else {
+        // System.out.println("Reserved rooms for reservation ID " + reservationID +
+        // ":");
+        // for (ReservedRoom reservedRoom : reservedRooms) {
+        // System.out.println(reservedRoom);
+        // }
+        // }
+
         
-            System.out.println(ReservedRoomDB.getReservedRoomByReservationID(1));
-     
+
     }
 }
+
+

@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package com.travelink.Servlet;
 
 import com.travelink.Database.FavouriteHotelDB;
@@ -44,11 +43,11 @@ public class ViewHotelDetailServlet extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     * 
-     * @param request  servlet request
+     *
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -71,17 +70,17 @@ public class ViewHotelDetailServlet extends HttpServlet {
     // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     * 
-     * @param request  servlet request
+     *
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if(session.getAttribute("checkInDate") == null && session.getAttribute("checkOutDate")== null){
+        if (session.getAttribute("checkInDate") == null && session.getAttribute("checkOutDate") == null) {
             request.setAttribute("status", "Vui lòng tìm kiếm");
             request.getRequestDispatcher("search").forward(request, response);
         }
@@ -118,17 +117,17 @@ public class ViewHotelDetailServlet extends HttpServlet {
         List<Bed> bedList = new ArrayList<>();
         RoomBedDB.getRoomBedsByBedID(hotel_ID);
         // checkFavorite
-       
+
         Account account = (Account) session.getAttribute("account");
         if (account != null) {
             boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotel_ID, account.getAccount_ID());
             request.setAttribute("checkFavorite", checkFavorite);
         }
-        
+
         // Room Availavle by Time
-        Date beginDate = (Date)session.getAttribute("checkInDate");
-        Date endDate = (Date)session.getAttribute("checkOutDate");
-        
+        Date beginDate = (Date) session.getAttribute("checkInDate");
+        Date endDate = (Date) session.getAttribute("checkOutDate");
+
         List<Integer> numberOfRoomList = new ArrayList<>();
         List<Reservation> check1 = RoomDB.reservationCoincide(beginDate, endDate);
         for (Room room : RoomDB.getRoomsByHotel_ID(hotel_ID)) {
@@ -154,11 +153,11 @@ public class ViewHotelDetailServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * 
-     * @param request  servlet request
+     *
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -222,13 +221,20 @@ public class ViewHotelDetailServlet extends HttpServlet {
             boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, account.getAccount_ID());
             request.setAttribute("checkFavorite", checkFavorite);
         }
+        List<Feedback> feedbacks = new ArrayList<>();
+        try {
+            feedbacks = FeedbackDB.getFeedbacksByHotelID(hotelId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        request.setAttribute("feedbacks", feedbacks);
         // checkFavorite
         request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
     }
 
     /**
      * Returns a short description of the servlet.
-     * 
+     *
      * @return a String containing servlet description
      */
     @Override

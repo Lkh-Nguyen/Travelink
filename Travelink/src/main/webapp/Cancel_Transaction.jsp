@@ -1,18 +1,15 @@
-<%
-    if (request.getAttribute("Cancel_Transaction") == null) {
-        request.getRequestDispatcher("Cancel_Hotel_Service").forward(request, response);
-    }
-%>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<%@page import="com.travelink.Model.Account" %>
+<%@page import="com.travelink.Model.*" %>
+<%@page import="com.travelink.Database.*" %>
 <%@page import="java.util.List" %>
-<%@page import="com.travelink.Model.HotelService" %>
+<%@page import="com.travelink.View.*" %>
+<%@page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>PAID</title>
+        <title>CANCEL</title>
         <link rel="stylesheet" href="css/Right_My_Account.css">
         <link rel="stylesheet" href="css/Left_My_Account.css">
         <link rel="icon" href="img_Home/logo.png">
@@ -372,17 +369,17 @@
                     <div class="card-body">
                         <div class="row mb-3">
                             <div class="col-md-3 d-flex align-items-center justify-content-center">
-                                <a href="My_Card_Payment_History.jsp" class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px">ALL</a>
+                                <a href="All_Hotel_Service" class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px">ALL</a>
                             </div>
 
                             <div class="col-md-3 d-flex align-items-center justify-content-center">
-                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px"" href="Paid_Transaction.jsp">PAID</a>
+                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px"" href="Paid_Hotel_Service">FINISHED</a>
                             </div>
                             <div class="col-md-3  d-flex align-items-center justify-content-center">
-                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px"" href="NotPaid_Transaction.jsp">NOT PAID</a>
+                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px"" href="NotPaid_Hotel_Service">PROCESSING</a>
                             </div>
                             <div class="col-md-3  d-flex align-items-center justify-content-center">
-                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px"" href="#">CANCEL</a>
+                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px"" href="Cancel_Hotel_Service">CANCEL</a>
                             </div>
                         </div>
                     </div>
@@ -390,39 +387,63 @@
                         You don't have any transaction !
                     </div>
                     <div id="hotelList">
-                        <c:if test="${requestScope.Cancel_Transaction == null}">
+                        <c:if test="${requestScope.cancel_List == null}">
                             <div class="container">
                                 <div id="noHistory" class="alert alert-danger text-center w-100">
                                     You don't have any transaction !
                                 </div>
                             </div>
                         </c:if>
-                        <div class ="row">
-                            <c:forEach var="h" items="${requestScope.Cancel_Transaction}">
+                        <div class ="row p-4">
+                            <c:forEach var="h" items="${requestScope.cancel_List}">
                                 <div class="col-md-6 mb-4 hotel-card">
                                     <div class="card h-100 border rounded shadow">
                                         <div class="card-body d-flex flex-column custom-bg">
-                                            <h5 class="card-title">
-                                                <i class='bx bxs-hotel'></i> ${h.hotel.name} - ${h.hotelServiceID}
-                                            </h5>
-                                            <p class="card-text mb-3">
-                                                <i class='bx bx-support'></i> ${h.service.name}
-                                            </p>
-                                            <p class="card-text">
-                                                <i class='bx bxs-x-square'></i>
-                                                <span class="badge text-bg-danger">${h.reservation.status}</span>
-                                            </p>
-                                            <p class="card-text mb-2">
-                                                <i class='bx bx-calendar-check'></i> ${h.reservation.checkInDate}
-                                            </p>
-                                            <p class="card-text mb-2">
-                                                <i class='bx bx-calendar-x'></i> ${h.reservation.checkOutDate} 
-                                            </p>
-                                            <p class="card-text mb-2">
-                                                <i class='bx bx-dollar-circle'></i> ${h.reservation.totalPrice}
-                                            </p>
-                                            <a href="hotelServiceDetail?hsID=${h.hotelServiceID}" target="_blank" class="btn btn-outline-primary mt-auto">
-                                                <i class='bx bx-detail'> </i> View Details
+                                            <div class="row h-50">
+                                                <h5 class="card-title mb-3 ">
+                                                    <i class='bx bxs-hotel'></i> ${h.hotel_Name}
+                                                </h5>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col ">
+                                                    <p class="card-text ">
+                                                        <i class='bx bx-buildings'></i> ${h.room_ID}
+                                                    </p>
+                                                </div>
+                                                <div class="col">
+                                                    <p class="card-text">
+                                                        <i class='bx bx-support'></i> ${h.service_Name}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="card-text mb-2">
+                                                        <i class='bx bx-calendar-check'></i> ${h.checkInDate}
+                                                    </p>
+                                                </div>
+                                                <div class="col">
+                                                    <p class="card-text mb-2">
+                                                        <i class='bx bx-calendar-x'></i> ${h.checkOutDate}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="card-text mb-2">
+                                                        <i class='bx bx-dollar-circle'></i> ${h.total_price}
+                                                    </p>
+                                                </div>
+                                                <div class="col">
+                                                    <p class="card-text">
+                                                        <i class='bx bx-check-square'></i>
+                                                        <span class="badge text-bg-danger">${h.status}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                             <a href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" class="btn btn-outline-primary mt-auto">
+                                                <i class='bx bx-detail'></i> View Details
                                             </a>
                                         </div>
                                     </div>
@@ -436,6 +457,7 @@
                 </div>
             </div>
         </div>
+                        <%@include file="Footer.jsp" %>
         <!--            <div class="loader">
         
                     </div>-->

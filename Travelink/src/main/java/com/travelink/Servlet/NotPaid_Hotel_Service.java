@@ -4,9 +4,11 @@
  */
 package com.travelink.Servlet;
 
+import com.travelink.Database.BillDB;
 import com.travelink.Database.HotelServiceDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.HotelService;
+import com.travelink.View.Bill;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +64,20 @@ public class NotPaid_Hotel_Service extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
 
+        if (account == null) {
+            response.sendRedirect("Form_Login.jsp");
+            return;
+        }
+
+        List<Bill> list_bill = BillDB.getBillProcessingByCustomerID(account.getAccount_ID());
+
+        request.setAttribute("error", "Please pay for this booking");
+
+        request.setAttribute("list_bill", list_bill);
+        request.getRequestDispatcher("NotPaid_Transaction.jsp").forward(request, response);
     }
 
     /**

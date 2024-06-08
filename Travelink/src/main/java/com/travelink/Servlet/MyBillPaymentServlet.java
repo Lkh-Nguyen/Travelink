@@ -5,9 +5,7 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.BillDB;
-import com.travelink.Database.HotelServiceDB;
 import com.travelink.Model.Account;
-import com.travelink.Model.HotelService;
 import com.travelink.View.Bill;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -16,14 +14,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  *
  * @author admin
  */
-public class All_Hotel_Service extends HttpServlet {
+public class MyBillPaymentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +40,10 @@ public class All_Hotel_Service extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet All_Hotel_Service</title>");
+            out.println("<title>Servlet MyBillPaymentServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet All_Hotel_Service at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet MyBillPaymentServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,17 +63,30 @@ public class All_Hotel_Service extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-
+        String reservationId = request.getParameter("reservation_ID");
+        int reservation_ID = Integer.parseInt(reservationId);
+        
+        
         if (account == null) {
             response.sendRedirect("Form_Login.jsp");
             return;
         }
-
-        List<Bill> list_bill = BillDB.getBillByCustomerID(account.getAccount_ID());
-
+        
+        
+        
+        //Gán giá trị cứng cho đối số được truyền vào
+        List<Bill> list_bill= BillDB.getBillByCustomerIDAndReservationID(account.getAccount_ID(), reservation_ID);
+        
+        for(Bill bill : list_bill){
+            if(reservation_ID != bill.getReservationID()){
+                response.sendRedirect("Home_Customer.jsp");
+            }
+        }
+        
+        request.setAttribute("reservationID", reservation_ID);
+        
         request.setAttribute("list_bill", list_bill);
-
-        request.getRequestDispatcher("My_Card_Payment_History.jsp").forward(request, response);
+        request.getRequestDispatcher("My_Bill_Payment.jsp").forward(request, response);
     }
 
     /**

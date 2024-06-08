@@ -99,6 +99,8 @@
     <servlet>
         <servlet-name>ReturnPaymentServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.ReturnPaymentServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>PromotionServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.PromotionServlet</servlet-class>
     </servlet>
@@ -117,6 +119,10 @@
     <servlet>
         <servlet-name>ReactFeedbackServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.ReactFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MyBillPaymentServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.MyBillPaymentServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -213,6 +219,8 @@
     <servlet-mapping>
         <servlet-name>ReturnPaymentServlet</servlet-name>
         <url-pattern>/ReturnPaymentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>PromotionServlet</servlet-name>
         <url-pattern>/PromotionServlet</url-pattern>
     </servlet-mapping>
@@ -231,6 +239,10 @@
     <servlet-mapping>
         <servlet-name>ReactFeedbackServlet</servlet-name>
         <url-pattern>/ReactFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyBillPaymentServlet</servlet-name>
+        <url-pattern>/MyBillPaymentServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

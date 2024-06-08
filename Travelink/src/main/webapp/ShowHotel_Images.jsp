@@ -26,31 +26,21 @@
                 <button disabled>Hotel</button>
                 <c:if test="${requestScope.hotel_view.star eq 1}">
                     <i class='bx bxs-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 2}">
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 3}">
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 4}">
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
-                    <i class='bx bx-star'></i>
 
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 5}">

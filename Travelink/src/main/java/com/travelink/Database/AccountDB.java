@@ -269,6 +269,7 @@ public class AccountDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) {
-
+        Account account = AccountDB.getAccount("example@email.com");
+        System.out.println(account.toString());
     }
 }

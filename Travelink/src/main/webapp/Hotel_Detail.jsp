@@ -40,31 +40,21 @@
                 <button disabled>Hotel</button>
                 <c:if test="${requestScope.hotel_view.star eq 1}">
                     <i class='bx bxs-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 2}">
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 3}">
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
-                    <i class='bx bx-star'></i>
-                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 4}">
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
                     <i class='bx bxs-star'></i>
-                    <i class='bx bx-star'></i>
                 </c:if>
                 <c:if test="${requestScope.hotel_view.star eq 5}">
                     <i class='bx bxs-star'></i>
@@ -167,7 +157,7 @@
                                 </form>
                             </c:if>
                             <c:if test="${requestScope.alterDeleteSuccess != null}">
-                                <div id="status-message" style="background-color: rgb(233,251,233);height: 70px;" class="hidden">
+                                <div id="status-message" style="background-color: rgb(233,251,233);height: 70px;margin-top: 10px" class="hidden">
                                     <div style="display: flex">
                                         <div style="width: 20%">
                                             <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
@@ -180,7 +170,7 @@
                                 </div>
                             </c:if>
                             <c:if test="${requestScope.alterDeleteUnSuccess != null}">
-                                <div id="status-message" style="background-color: rgb(253,233,231);height: 70px;" class="hidden">
+                                <div id="status-message" style="background-color: rgb(253,233,231);height: 70px ;margin-top: 10px" class="hidden">
                                     <div style="display: flex">
                                         <div style="width: 20%">
                                             <i class='bx bxs-error-circle' style="font-size: 50px;color: red;margin-top: 0px"></i>
@@ -236,7 +226,7 @@
                                                                 for(RoomBed roomBed : RoomBedDB.getRoomBedsByRoomID(roomHotel.getRoom_ID())){
                                                                    Bed bed = BedDB.getBedByRoomBedID(roomBed.getRoom_Bed_ID()); 
                                                             %>
-                                                            <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 20px;"></i> <%= roomBed.getAmount()%> <%=bed.getName() %></p>
+                                                            <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 12px;"></i> <%= roomBed.getAmount()%> <%=bed.getName() %></p>
                                                             <%
                                                                 }
                                                             %>
@@ -244,7 +234,7 @@
                                                             <% 
                                                                 
                                                             %> 
-                                                            <h4 id="service">Breakfast Included</h4>
+                                                            <h4 id="service" style="margin-top: 5px">Breakfast Included</h4>
                                                             <a id="numberRoom">Only ${requestScope.numberOfRoomList[status.index]} rooms left on our site</a>
                                                         </td>
                                                         <td>
@@ -288,8 +278,8 @@
                         </c:forEach>
                     </div>
                     <form action="CheckoutServlet" method="post">
-                        <input type="text" value="" name="bookingStr" id="bookingStr">
-                        <input type="text" value="${param.hotel_ID}" name="hotel_ID">
+                        <input type="hidden" value="" name="bookingStr" id="bookingStr">
+                        <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">
                         <input type="submit" value="Continue" id="continue">
                     </form>
                 </div>
@@ -471,6 +461,7 @@
                 };
                 xhr.send("action=dislike&feedbackID=" + feedbackID);
             }
+            
         </script>
         <script src="js/Hotel_Detail.js"></script>
     </body>

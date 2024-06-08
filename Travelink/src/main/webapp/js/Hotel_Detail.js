@@ -92,6 +92,14 @@ if(bookingStr.value == ""){
         
     }
 });
+let priceElements = document.querySelectorAll('#price_save');
+
+// Lặp qua tất cả các phần tử và định dạng giá
+priceElements.forEach(function (element) {
+    let price = parseInt(element.innerText); // Chuyển đổi giá trị text thành số nguyên
+    element.innerText = price.toLocaleString('vi-VN') + " VND"; // Định dạng giá và cập nhật lại nội dung
+});
+
 
 
 

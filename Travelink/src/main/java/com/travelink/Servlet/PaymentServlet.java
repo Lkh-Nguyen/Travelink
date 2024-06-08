@@ -59,8 +59,9 @@ public class PaymentServlet extends HttpServlet {
             return;
         }
         //Else check again available room
-        //
-        //
+        Date checkInDate = (Date) session.getAttribute("checkInDate");
+        Date checkOutDate = (Date) session.getAttribute("checkOutDate");
+        Map<Room, Integer> bookingMap = (Map<Room, Integer>) session.getAttribute("bookingMap");
         //
         //
         //
@@ -71,7 +72,6 @@ public class PaymentServlet extends HttpServlet {
         //
         //Get booking details from session
         Hotel hotel = (Hotel) session.getAttribute("bookingHotel");
-        Map<Room, Integer> bookingMap = (Map<Room, Integer>) session.getAttribute("bookingMap");
         Account account = (Account) session.getAttribute("account");
         String totalPriceStr = (String) session.getAttribute("bookingTotalPrice");
 
@@ -89,9 +89,6 @@ public class PaymentServlet extends HttpServlet {
 
         // Example values (replace with actual data)
         int number_Of_Guests = 2;
-        java.sql.Date checkInDate = java.sql.Date.valueOf("2024-06-10"); // Example date, replace with actual date
-        java.sql.Date checkOutDate = java.sql.Date.valueOf("2024-06-15"); // Example date, replace with actual date
-
         String paymentMethod = "VIETQR";
         String status = "NOT PAID";
 
@@ -141,6 +138,7 @@ public class PaymentServlet extends HttpServlet {
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
             response.sendRedirect("Error.jsp");
+            return;
         }
 
         //Send json
@@ -163,7 +161,7 @@ public class PaymentServlet extends HttpServlet {
         session.setAttribute("checkoutUrl", result[0]);
         session.setAttribute("paymentLinkId", result[1]);
         response.sendRedirect(result[0]);
-
+        return;
     }
 
     //Get back the checkoutUrl + paymentLinkId

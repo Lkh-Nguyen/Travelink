@@ -29,7 +29,7 @@ public class ReservedRoomDB implements DatabaseInfo {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         ReservedRoom reservedRoom = new ReservedRoom();
-                        reservedRoom.setReserved_Room_ID(resultSet.getInt("ReservedRoom_ID"));
+                        reservedRoom.setReserved_Room_ID(resultSet.getInt("Reserved_Room_ID"));
                         reservedRoom.setAmount(resultSet.getInt("Amount"));
                         reservedRoom.setReservation_ID(resultSet.getInt("Reservation_ID"));
                         reservedRoom.setRoom_ID(resultSet.getInt("Room_ID"));
@@ -55,7 +55,7 @@ public class ReservedRoomDB implements DatabaseInfo {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         ReservedRoom reservedRoom = new ReservedRoom();
-                        reservedRoom.setReserved_Room_ID(resultSet.getInt("ReservedRoom_ID"));
+                        reservedRoom.setReserved_Room_ID(resultSet.getInt("Reserved_Room_ID"));
                         reservedRoom.setAmount(resultSet.getInt("Amount"));
                         reservedRoom.setReservation_ID(resultSet.getInt("Reservation_ID"));
                         reservedRoom.setRoom_ID(resultSet.getInt("Room_ID"));

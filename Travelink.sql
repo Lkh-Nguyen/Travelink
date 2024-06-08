@@ -210,7 +210,7 @@ GO
 -- Create table Pending_Cancel_Reservation
 CREATE TABLE Pending_Cancel_Reservation (
   Pending_Cancel_Reservation_ID INT IDENTITY(1,1) PRIMARY KEY,  -- Auto-incrementing unique identifier
-  Cancel_Date DATE NOT NULL,  -- Date the cancellation request was submitted
+  Cancel_Date DATETIME NOT NULL,  -- Date the cancellation request was submitted
   Reservation_ID INT NOT NULL,
   FOREIGN KEY (Reservation_ID) REFERENCES Reservation(Reservation_ID) ON DELETE CASCADE,
   CONSTRAINT UniqueCancelRequest UNIQUE (Reservation_ID)  -- Ensures only one pending cancellation request per reservation

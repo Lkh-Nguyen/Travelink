@@ -114,7 +114,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
         }
         List<Feedback> feedbacks = new ArrayList<>();
         try {
-            feedbacks =FeedbackDB.getFeedbacksByHotelID(hotelId);
+            feedbacks =FeedbackDB.getFeedbacksByHotelID(hotel_ID);
         } catch (Exception e) {
             e.printStackTrace();
         }

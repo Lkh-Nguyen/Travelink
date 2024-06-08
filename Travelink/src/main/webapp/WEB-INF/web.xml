@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <filter>
+        <filter-name>PaymentFilter</filter-name>
+        <filter-class>Filter.PaymentFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PaymentFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>UploadImageAvatar</servlet-name>
         <servlet-class>com.travelink.Servlet.UploadImageAvatar</servlet-class>
@@ -99,6 +107,8 @@
     <servlet>
         <servlet-name>ReturnPaymentServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.ReturnPaymentServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>PromotionServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.PromotionServlet</servlet-class>
     </servlet>
@@ -117,6 +127,10 @@
     <servlet>
         <servlet-name>ReactFeedbackServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.ReactFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CancelBookingServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.CancelBookingServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -213,6 +227,8 @@
     <servlet-mapping>
         <servlet-name>ReturnPaymentServlet</servlet-name>
         <url-pattern>/ReturnPaymentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>PromotionServlet</servlet-name>
         <url-pattern>/PromotionServlet</url-pattern>
     </servlet-mapping>
@@ -231,6 +247,10 @@
     <servlet-mapping>
         <servlet-name>ReactFeedbackServlet</servlet-name>
         <url-pattern>/ReactFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CancelBookingServlet</servlet-name>
+        <url-pattern>/CancelBookingServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

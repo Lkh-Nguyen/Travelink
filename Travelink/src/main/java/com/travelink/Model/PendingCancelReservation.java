@@ -4,7 +4,8 @@
  */
 package com.travelink.Model;
 
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 public class PendingCancelReservation {
 
     private int pendingCancelReservationID;
-    private LocalDate cancelDate;
+    private LocalDateTime cancelDate;
     private int reservationID;
 
     // Default constructor
@@ -21,7 +22,7 @@ public class PendingCancelReservation {
     }
 
     // Constructor with all member variables
-    public PendingCancelReservation(LocalDate cancelDate, int reservationID) {
+    public PendingCancelReservation(LocalDateTime cancelDate, int reservationID) {
         this.cancelDate = cancelDate;
         this.reservationID = reservationID;
     }
@@ -34,11 +35,11 @@ public class PendingCancelReservation {
         this.pendingCancelReservationID = pendingCancelReservationID;
     }
 
-    public LocalDate getCancelDate() {
+    public LocalDateTime getCancelDate() {
         return cancelDate;
     }
 
-    public void setCancelDate(LocalDate cancelDate) {
+    public void setCancelDate(LocalDateTime cancelDate) {
         this.cancelDate = cancelDate;
     }
 

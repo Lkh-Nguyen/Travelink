@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -34,7 +36,11 @@ public class PendingCancelReservationDB implements DatabaseInfo {
                 if (resultSet.next()) {
                     pendingCancelReservation = new PendingCancelReservation();
                     pendingCancelReservation.setPendingCancelReservationID(resultSet.getInt("Pending_Cancel_Reservation_ID"));
-                    pendingCancelReservation.setCancelDate(resultSet.getDate("Cancel_Date").toLocalDate());
+
+                    java.sql.Timestamp timestamp = resultSet.getTimestamp("Cancel_Date");
+                    LocalDateTime localDateTime = timestamp.toLocalDateTime();
+                    pendingCancelReservation.setCancelDate(localDateTime);
+
                     pendingCancelReservation.setReservationID(resultSet.getInt("Reservation_ID"));
                 }
             }
@@ -42,6 +48,37 @@ public class PendingCancelReservationDB implements DatabaseInfo {
             System.out.println("Error getting pending cancellation by reservation ID: " + e);
         }
         return pendingCancelReservation;
+    }
+
+    public static int insertPendingCancelReservation(PendingCancelReservation pendingCancelReservation) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "INSERT INTO Pending_Cancel_Reservation (Cancel_Date, Reservation_ID) VALUES (?, ?)";
+                statement = connection.prepareStatement(query);
+                statement.setTimestamp(1, Timestamp.valueOf(pendingCancelReservation.getCancelDate()));
+                statement.setInt(2, pendingCancelReservation.getReservationID());
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Pending cancellation record inserted successfully.");
+                    return rowsAffected; // Return the number of rows inserted
+                } else {
+                    System.out.println("Error inserting pending cancellation record.");
+                    return 0; // Return 0 if no rows were inserted
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error inserting pending cancellation record: " + e);
+        } finally {
+            // Close resources (connection, statement, etc.) here if needed
+        }
+
+        return 0; // Return 0 if an exception occurred
     }
 
     public static void main(String[] args) throws SQLException {

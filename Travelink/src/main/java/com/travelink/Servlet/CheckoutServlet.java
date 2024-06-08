@@ -38,8 +38,7 @@ public class CheckoutServlet extends HttpServlet {
         Account account = (Account)session.getAttribute("account");
         //If user already have not paid online bill
         if (ReservationDB.hasUnpaidReservationWithVietQR(account.getAccount_ID())){
-            request.setAttribute("notpaidMessage", "Please finish this payment first!");
-            request.getRequestDispatcher("NotPaid_Transaction.jsp").forward(request, response);
+            response.sendRedirect("NotPaid_Hotel_Service");
             return;
         }
         

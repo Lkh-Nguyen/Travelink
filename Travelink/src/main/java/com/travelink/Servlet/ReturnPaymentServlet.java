@@ -62,5 +62,6 @@ public class ReturnPaymentServlet extends HttpServlet {
         session.removeAttribute("checkoutUrl");
         //Redirect to cancel successful page!
         response.sendRedirect("ReturnPaymentSuccess.jsp");
+        return;
     }
 }

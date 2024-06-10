@@ -20,27 +20,53 @@
             />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css">
         <link rel="stylesheet" href="css/Search_Hotel.css">
+        <link rel="stylesheet" href="css/listPage.css"/>
+        <style>
+            .booking__container select{
+                width: 100%;
+                padding: 10px 0;
+                font-size: 1rem;
+                outline: none;
+                border: none;
+                border-bottom: 1px solid var(--primary-color);
+                color: var(--text-dark);
+            }
+            .booking__container select:focus~label{
+                font-size: 0.8rem;
+                top: 0;
+            }
+            .input__group input:focus + label,
+            .input__group input:not(:placeholder-shown) + label,
+            .input__group select:focus + label,
+            .input__group select:not(:placeholder-shown) + label {
+                top: 0;
+                font-size: 0.8rem;
+                color: #333;
+            }
+        </style>
     </head>
     <body>
         <%@include file="Header.jsp" %>
         <div class="container mt-2">
             <section class="section__container booking__container">
                 <form method="post" action="search">
-
+                    <!--                    Location-->
                     <div class="form__group">
                         <span><i class="ri-map-pin-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
-                                <select name="location">
-                                    <option>Location</option>
+                                <select>
+                                    <option></option>
                                     <c:forEach var="location" items="${requestScope.locationList}">
                                         <option value="${location.name}">${location.name}</option>
                                     </c:forEach>
                                 </select>
+                                <label>Location</label>
                             </div>
                             <p>Where are you going?</p>
                         </div>
                     </div>
+                    <!--                    Number of people-->
                     <div class="form__group">
                         <span><i class="ri-user-3-line"></i></span>
                         <div class="input__content">
@@ -51,6 +77,7 @@
                             <p>Add guests</p>
                         </div>
                     </div>
+                    <!--                    Departure-->
                     <div class="form__group">
                         <span><i class="ri-calendar-line"></i></span>
                         <div class="input__content">
@@ -61,6 +88,7 @@
                             <p>Add date</p>
                         </div>
                     </div>
+                    <!--                    Return-->
                     <div class="form__group">
                         <span><i class="ri-calendar-line"></i></span>
                         <div class="input__content">
@@ -69,9 +97,9 @@
                                 <label>Return</label>
                             </div>
                             <p>Add date</p>
-                            <p style="color: red"> ${requestScope.statusDate}</p>
                         </div>
                     </div>
+                    <!--                        Number of rooms-->
                     <div class="form__group">
                         <span><i class="ri-home-5-line"></i></span>  <div class="input__content">
                             <div class="input__group">
@@ -80,9 +108,10 @@
                             <p>Number of rooms</p>
                         </div>
                     </div>
-
+                    <!--                    Search button-->
+                    <div></div><div></div>
                     <div class="text-center mb-2">
-                        <button class="btn btn-primary fw-bold w-25"><i class="ri-search-line text-dark">  Search</i></button>
+                        <button class="btn btn-primary fw-bold w-100 text-center"><i class="ri-search-line text-dark">  Search</i></button>
                     </div>
                 </form>
             </section>        
@@ -97,7 +126,7 @@
                             <button class="btn btn-primary" style="position: absolute; top: 10px; right: 10px;" onclick="openMap()">Mở bản đồ</button>
                         </div>
                     </div>
-                    <h4 style="color: #2c97d2;">Lọc khách sạn</h4>
+                    <h4 style="color: #2c97d2;">Filter hotel</h4>
                     <form id="filterForm">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="star" value="1" id="star1">
@@ -141,50 +170,49 @@
 
                 </div>
                 <!-- Phần bên phải -->
-                <div class="col-md-9">
+                <div class="col-md-9 mt-5">
                     <div class="row">
-                        <c:if test="${requestScope.hotelList != null}">
-                            <div class="col-md-12">
-                                <h2>Danh sách khách sạn: </h2>
-                                <c:forEach var="hotel" items="${requestScope.hotelList}" varStatus="status">
-                                    <div class="card mb-3">
-                                        <div class="row g-0">
-                                            <div class="col-md-4">
-                                                <img src="${requestScope.hotelImgList[status.index]}" class="img-fluid rounded-start" alt="Hotel 1">
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">${hotel.name}</h5>
-                                                    <p class="card-text"><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i> (${hotel.star} stars)</p>
-                                                    <p class="card-text"><i class="bi bi-geo-alt"></i> Địa điểm: ${hotel.address}</p>
-                                                    <div class="card-divider"></div>
-                                                    <form action="viewHotelDetailServlet" method="get">
-                                                        <button>Đặt Phòng</button>
-                                                        <input type="hidden" name="hotel_ID"value="${hotel.hotel_ID}">
-                                                    </form>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </c:forEach>
-                            </div>
-                        </c:if>
-
-                        <c:if test="${requestScope.status == null}">
-                            <c:if test="${requestScope.hotelList == null}">
-                                <div class="col-md-12">
-                                    <p>Không tìm thấy khách sạn nào phù hợp với tiêu chí của bạn.</p>
-                                </div>
-                            </c:if>
-                        </c:if>
-
                         <div class="col-md-12">
-                            <p>${requestScope.status}</p>
-
-                        </div>
-
+                        <c:choose>
+                            <c:when test="${requestScope.statusDate == null}">
+                                <c:choose>
+                                    <c:when test="${requestScope.hotelList == null}">
+                                        <div class="alert alert-danger">
+                                            <p>No hotel matching your citeria</p>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                            <h2>List hotel : </h2>
+                                            <c:forEach var="hotel" items="${requestScope.hotelList}" varStatus="status">
+                                                <div class="card mb-3">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-4">
+                                                            <img src="${requestScope.hotelImgList[status.index]}" class="img-fluid rounded-start" alt="Hotel 1">
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">${hotel.name}</h5>
+                                                                <p class="card-text"><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i> (${hotel.star} stars)</p>
+                                                                <p class="card-text"><i class="bi bi-geo-alt"></i> Location: ${hotel.address}</p>
+                                                                <div class="card-divider"></div>
+                                                                <form action="viewHotelDetailServlet" method="get">
+                                                                    <button class="btn btn-primary">Book Room</button>
+                                                                    <input type="hidden" name="hotel_ID"value="${hotel.hotel_ID}">
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:when>
+                            <c:otherwise>
+                                <p class="alert alert-danger">${requestScope.statusDate}</p>
+                            </c:otherwise>
+                        </c:choose>      
                     </div>
+                    <div class="listPage"></div>
                 </div>
             </div>
         </div>
@@ -193,6 +221,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
         <script src="js/Search_Hotel.js"></script>
+        <script src="js/Pagination.js"></script>
     </body>
 </html>
 

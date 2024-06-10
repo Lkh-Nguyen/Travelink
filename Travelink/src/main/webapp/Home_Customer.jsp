@@ -12,7 +12,7 @@
         <link
             href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css"
             rel="stylesheet"
-        >    
+            >    
         <title>Travelink</title>
         <link rel="icon" href="img_Home/logo.png">
         <style>
@@ -33,6 +33,31 @@
                 50% {
                     transform: translateY(-10px);
                 }
+            }
+            .booking__container .btn {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            .booking__container select{
+                width: 100%;
+                padding: 10px 0;
+                font-size: 1rem;
+                outline: none;
+                border: none;
+                border-bottom: 1px solid var(--primary-color);
+                color: var(--text-dark);
+            }
+            .booking__container select:focus~label{
+                font-size: 0.8rem;
+                top: 0;
+            }
+            .input__group input:focus + label,
+            .input__group input:not(:placeholder-shown) + label,
+            .input__group select:focus + label,
+            .input__group select:not(:placeholder-shown) + label {
+                top: 0;
+                font-size: 0.8rem;
+                color: #333;
             }
         </style>
     </head>
@@ -78,66 +103,72 @@
         </header>
 
         <section class="section__container booking__container">
-            <div class="booking__nav">  
-                <span class="active">Regular Room</span>
-                <span>Presidential Room</span>
-                <span>VIP Room</span>
-            </div>
-            <form>
+            <form method="post" action="search">
+                <!--                    Location-->
                 <div class="form__group">
                     <span><i class="ri-map-pin-line"></i></span>
                     <div class="input__content">
                         <div class="input__group">
-                            <input type="text" />
+                            <select>
+                                <option></option>
+                                <c:forEach var="location" items="${requestScope.locationList}">
+                                    <option value="${location.name}">${location.name}</option>
+                                </c:forEach>
+                            </select>
                             <label>Location</label>
                         </div>
                         <p>Where are you going?</p>
                     </div>
                 </div>
+                <!--                    Number of people-->
                 <div class="form__group">
                     <span><i class="ri-user-3-line"></i></span>
                     <div class="input__content">
                         <div class="input__group">
-                            <input id="numberInput" type="text" />
+                            <input id="numberInput" type="number" name="number_of_people" min="1" required=""/>
                             <label id="number_label">No of people</label>
                         </div>
                         <p>Add guests</p>
                     </div>
-                    <div class="dropdown" id="travellersDropdown">
-                        <div class="dropdown__item">
-                            <label for="adults">Adults:</label>
-                            <input type="number" id="adults" name="adults" min="0" value="1" />
-                        </div>
-                        <div class="dropdown__item">
-                            <label for="children">Children:</label>
-                            <input type="number" id="children" name="children" min="0" value="0" />
-                        </div>
-                        <button class="btn" id="applyTravellers">Apply</button>
-                    </div>
                 </div>
+                <!--                    Departure-->
                 <div class="form__group">
                     <span><i class="ri-calendar-line"></i></span>
                     <div class="input__content">
                         <div class="input__group">
-                            <input type="text" />
+                            <input type="date" name="check_in_date" required=""/>
                             <label>Departure</label>
                         </div>
                         <p>Add date</p>
                     </div>
                 </div>
+                <!--                    Return-->
                 <div class="form__group">
                     <span><i class="ri-calendar-line"></i></span>
                     <div class="input__content">
                         <div class="input__group">
-                            <input type="text" />
+                            <input type="date" name="check_out_date" required=""/>
                             <label>Return</label>
                         </div>
                         <p>Add date</p>
                     </div>
                 </div>
-                <button class="btn"><i class="ri-search-line"></i></button>
+                <!--                        Number of rooms-->
+                <div class="form__group">
+                    <span><i class="ri-home-5-line"></i></span>  <div class="input__content">
+                        <div class="input__group">
+                            <input type="number" min="1" name="number_of_rooms" required=""/>  <label>Rooms</label>
+                        </div>
+                        <p>Number of rooms</p>
+                    </div>
+                </div>
+                <!--                    Search button-->
+                <div></div><div></div>
+                <div class="text-center mb-2">
+                    <button class="btn btn-primary fw-bold w-100 text-center"><i class="ri-search-line text-dark">  Search</i></button>
+                </div>
             </form>
-        </section>
+        </section>  
 
         <section id = "about" class="section__container plan__container ">
             <p class="subheader">TRAVEL SUPPORT</p>

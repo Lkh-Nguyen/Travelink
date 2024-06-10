@@ -350,6 +350,15 @@
                                                     </c:if>
                                                 </div>
                                             </c:if>
+                                            <c:if test="${h.status == 'Paid'}">
+                                                <div class="row m-1">
+                                                    <c:if test="${requestScope.error != null}">
+                                                        <a class="btn btn-outline-primary mb-2" href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" >
+                                                            <i class="fa-solid fa-ban"></i> Cancel
+                                                        </a>
+                                                    </c:if>
+                                                </div>
+                                            </c:if>
                                             <a href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" class="btn btn-outline-primary mt-auto">
                                                 <i class='bx bx-detail'></i> View Details
                                             </a>

@@ -336,9 +336,6 @@
 
                                             </div>
                                             <a class="btn btn-outline-primary mb-2" href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" >
-                                                <i class="fa-solid fa-ban"></i> Cancel
-                                            </a>
-                                            <a class="btn btn-outline-primary mb-2" href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" >
                                                 <i class='bx bx-detail'></i> View Details
                                             </a> 
                                                 <hr>

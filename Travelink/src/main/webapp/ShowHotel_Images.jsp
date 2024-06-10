@@ -83,7 +83,10 @@
                             <h5 class="card-title" style="font-weight: bold">Highlights of the property</h5>
                             <h6>Perfect for a 1 night stay!</h6>
                             <p class="card-text">Located in the top-rated area in Hoi An, this property has an excellent location score of 9.1</p>
-                            <a href="viewHotelDetailServlet?hotelId=${requestScope.hotel_view.hotel_ID}#idBooking" class="btn btn-primary" style="background-color: blue;  color:white">Booking Now</a><br>
+                            <form action="viewHotelDetailServlet" method="get">
+                                <button>Booking Now</button>
+                                <input type="hidden" name="hotel_ID"value="${requestScope.hotel_view.hotel_ID}">                               
+                            </form>
                             <!-- Favorite Hotel -->
                             <c:if test="${requestScope.checkFavorite eq 'true'}">
                                 <form action="viewHotelDetailServlet" method="post">

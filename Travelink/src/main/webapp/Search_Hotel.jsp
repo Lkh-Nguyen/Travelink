@@ -55,7 +55,7 @@
                         <span><i class="ri-calendar-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
-                                <input type="date" name="check_in_date"/>
+                                <input type="date" name="check_in_date" required=""/>
                                 <label>Departure</label>
                             </div>
                             <p>Add date</p>
@@ -65,7 +65,7 @@
                         <span><i class="ri-calendar-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
-                                <input type="date" name="check_out_date"/>
+                                <input type="date" name="check_out_date" required=""/>
                                 <label>Return</label>
                             </div>
                             <p>Add date</p>
@@ -75,7 +75,7 @@
                     <div class="form__group">
                         <span><i class="ri-home-5-line"></i></span>  <div class="input__content">
                             <div class="input__group">
-                                <input type="number" min="1" name="number_of_rooms"/>  <label>Rooms</label>
+                                <input type="number" min="1" name="number_of_rooms" required=""/>  <label>Rooms</label>
                             </div>
                             <p>Number of rooms</p>
                         </div>
@@ -161,7 +161,6 @@
                                                     <form action="viewHotelDetailServlet" method="get">
                                                         <button>Đặt Phòng</button>
                                                         <input type="hidden" name="hotel_ID"value="${hotel.hotel_ID}">
-
                                                     </form>
 
                                                 </div>

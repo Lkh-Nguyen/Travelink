@@ -80,10 +80,10 @@ public class ViewHotelDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if (session.getAttribute("checkInDate") == null && session.getAttribute("checkOutDate") == null) {
-            request.setAttribute("status", "Vui lòng tìm kiếm");
-            request.getRequestDispatcher("search").forward(request, response);
-        }
+//        if (session.getAttribute("checkInDate") == null && session.getAttribute("checkOutDate") == null) {
+//            request.setAttribute("status", "Vui lòng tìm kiếm");
+//            request.getRequestDispatcher("search").forward(request, response);
+//        }
         int hotel_ID = Integer.parseInt(request.getParameter("hotel_ID"));
         Hotel hotel = HotelDB.getHotelByID(hotel_ID);
         request.setAttribute("hotel_view", hotel);

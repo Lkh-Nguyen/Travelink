@@ -16,6 +16,7 @@ import com.travelink.Model.Province;
 import com.travelink.Model.Reservation;
 import com.travelink.Model.ReservedRoom;
 import com.travelink.Model.Room;
+import com.travelink.Model.RoomImage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -108,83 +109,58 @@ public class SearchHotelServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace(); // Xử lý ngoại lệ phân tích cú pháp một cách thích hợp
         }
-// kiểm tra điều kiện ngày bắt đầu và ngày kết thúc
+        // kiểm tra điều kiện ngày bắt đầu và ngày kết thúc
         if (checkInDate.after(checkOutDate)) {
             request.setAttribute("statusDate", "Ngày trả phòng không hợp lệ!");
+            List<Province> locationList = ProvinceDB.getAllProvince();
+            request.setAttribute("locationList", locationList);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         } else {
-            // kiểm tra vị trí
-            List<Hotel> hotelList = null;
+            List<Hotel> newHotelList = new ArrayList<>();
+            List<Hotel> hotelList = new ArrayList<>();
             try {
                 hotelList = HotelDB.filterProvince(location);
             } catch (SQLException ex) {
                 Logger.getLogger(SearchHotelServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            List<Hotel> newHotelList = new ArrayList<>();
-
             List<Reservation> check1 = RoomDB.reservationCoincide(checkInDate, checkOutDate);
             List<Date> dateList = RoomDB.getDateRange(checkInDate, checkOutDate);
-
-            // Bộ nhớ đệm tất cả các phòng và đặt chỗ
-            Map<Integer, Room> roomCache = new HashMap<>();
-            for (Room room : RoomDB.getAllRooms()) {
-                roomCache.put(room.getRoom_ID(), room);
-            }
-
-            Map<Integer, List<ReservedRoom>> reservedRoomsByReservation = new HashMap<>();
-            for (Reservation reservation : ReservationDB.getAllReservations()) {
-                reservedRoomsByReservation.put(reservation.getReservationID(), ReservedRoomDB.getReservedRoomsByReservationID(reservation.getReservationID()));
-            }
-
-            // Tính trước tình trạng phòng trống cho mỗi ngày
-            Map<Integer, Map<Date, Integer>> roomAvailability = new HashMap<>();
-            for (Room room : roomCache.values()) {
-                Map<Date, Integer> availabilityByDate = new HashMap<>();
-                for (Date date : dateList) {
-                    availabilityByDate.put(date, RoomDB.numberOfRoomAvailableByDate(room.getRoom_ID(), date, check1, reservedRoomsByReservation));
-                }
-                roomAvailability.put(room.getRoom_ID(), availabilityByDate);
-            }
-
-            // Tính công suất khách sạn
-            Map<Integer, Map<Date, Integer>> hotelCapacity = new HashMap<>();
+            List<Integer> hotelSizeList = new ArrayList<>();
+            List<Integer> capacitySizeList = new ArrayList<>();
             for (Hotel hotel : hotelList) {
-                Map<Date, Integer> capacityByDate = new HashMap<>();
-                for (Date date : dateList) {
-                    int totalCapacity = 0;
-                    for (Room room : RoomDB.getRoomsByHotel_ID(hotel.getHotel_ID())) {
-                        totalCapacity += roomAvailability.get(room.getRoom_ID()).get(date) * room.getCapacity();
-                    }
-                    capacityByDate.put(date, totalCapacity);
+                int roomHotelAvailable = 0;
+                int capacityHotelList = 0;
+                for (Room room : RoomDB.getRoomsByHotel_ID(hotel.getHotel_ID())) {
+                    roomHotelAvailable = roomHotelAvailable + RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), checkInDate, checkOutDate, check1);
+                    capacityHotelList = capacityHotelList +room.getCapacity()*roomHotelAvailable;
                 }
-                hotelCapacity.put(hotel.getHotel_ID(), capacityByDate);
+                hotelSizeList.add(roomHotelAvailable);
+                capacitySizeList.add(capacityHotelList);
+                
+                
             }
-
-            // Lọc các khách sạn dựa trên tình trạng phòng trống
-            for (Hotel hotel : hotelList) {
-                boolean isAvailable = true;
-                for (Date date : dateList) {
-                    if (hotelCapacity.get(hotel.getHotel_ID()).get(date) < people) {
-                        isAvailable = false;
-                        break;
-                    }
-                }
-                if (isAvailable) {
-                    newHotelList.add(hotel);
+            for (int i = 0 ;i < hotelList.size() ; i++) {
+//                PrintWriter printWriter = response.getWriter();
+//                printWriter.println(hotelSizeList.get(i));
+//                printWriter.println(capacitySizeList.get(i));
+//                 printWriter.println("=================================================");
+                if(hotelSizeList.get(i) >= roomSize && capacitySizeList.get(i) >= people){
+                    newHotelList.add(hotelList.get(i));
                 }
             }
-
-            List<String> hotelImmageList = new ArrayList<>();
+            List<String> hotelImageList = new ArrayList<>();
             for (int i = 0; i < newHotelList.size(); i++) {
                 List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(newHotelList.get(i).getHotel_ID());
+                PrintWriter printWriter = response.getWriter();
+                
                 String img = hotelImgList.get(0).getUrl();
-                hotelImmageList.add(img);
+                hotelImageList.add(img);
             }
             HttpSession session = request.getSession();
             session.setAttribute("checkInDate", checkInDate);
             session.setAttribute("checkOutDate", checkOutDate);
             request.setAttribute("hotelList", newHotelList);
-            request.setAttribute("hotelImgList", hotelImmageList);
+            request.setAttribute("hotelImgList", hotelImageList);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         }
 

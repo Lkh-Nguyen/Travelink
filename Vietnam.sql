@@ -1,4 +1,4 @@
-﻿-- Create the Travelink database
+﻿﻿-- Create the Travelink database
 CREATE DATABASE Travelink;
 GO
 

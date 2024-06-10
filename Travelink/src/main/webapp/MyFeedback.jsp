@@ -8,13 +8,24 @@
         <link rel="stylesheet" href="css/listPage.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     </head>
+    <style>
+        .col-md-5,.col-md-7 {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+        }
+
+        .col-md-5,.col-md-7:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+    </style>
     <body>
         <%@include file="Header.jsp" %>
         <div class="container my-5">
             <h2 class="mb-4">My Feedback</h2>
             <c:if test="${not empty feedbacks}">
                 <c:forEach var="f" items="${feedbacks}">
-                    <div class="row mb-4" id="feedback-${f.feedbackID}">
+                    <div class="row feedback mb-4" id="feedback-${f.feedbackID}">
                         <div class="col-md-5">
                             <div class="shadow-sm">
                                 <div class="card card-body row">
@@ -28,8 +39,8 @@
                             </div>
                         </div>
                         <div class="col-md-7">
-                            <div class="shadow-sm">
-                                <div class="card card-body">
+                            <div class="shadow-sm h-100">
+                                <div class="card card-body h-100">
                                     <h4 class="card-title d-flex align-items-center">
                                         <img src="${f.getAccount(f.feedbackID).avatarURL}" alt="Avatar" class="rounded-circle me-3" style="width: 50px; height: 50px;">
                                         ${f.getAccount(f.feedbackID).name}
@@ -41,15 +52,15 @@
                                         </c:forEach>
                                     </div>
                                     <p class="card-text description">${f.description}</p>
-                                    <div class="d-flex justify-content-end">
+                                    <div class="d-flex justify-content-end mt-5">
                                         <span class="me-3"><i class="bx bx-like"></i> ${f.likesCount}</span>
                                         <span><i class="bx bx-dislike"></i> ${f.dislikesCount}</span>
                                     </div>
-                                    <div class="mt-3">
-                                        <button class="btn btn-primary me-2 update-btn" data-id="${f.feedbackID}">Update</button>
-                                        <button class="btn btn-danger me-2 delete-btn" data-id="${f.feedbackID}">Delete</button>
-                                        <button class="btn btn-success me-2 save-btn d-none" data-id="${f.feedbackID}">Save</button>
-                                        <button class="btn btn-secondary me-2 cancel-btn d-none" data-id="${f.feedbackID}">Cancel</button>
+                                    <div class="mt-4">
+                                        <button class="btn btn-primary me-4 update-btn" data-id="${f.feedbackID}">Update</button>
+                                        <button class="btn btn-danger me-4 delete-btn" data-id="${f.feedbackID}">Delete</button>
+                                        <button class="btn btn-success me-4 save-btn d-none" data-id="${f.feedbackID}">Save</button>
+                                        <button class="btn btn-secondary me-4 cancel-btn d-none" data-id="${f.feedbackID}">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -129,16 +140,16 @@
                     location.reload();
                 });
             });
-
+            //Pagination
             let thisPage = 1;
-            let limit = 4;
-            let list = document.querySelectorAll(".card-body");
+            let limit = 8;
+            let list = document.querySelectorAll(".feedback");
             function loadItem() {
                 let beginGet = limit * (thisPage - 1);
                 let endGet = limit * thisPage - 1;
                 list.forEach((item, key) => {
                     if (key >= beginGet && key <= endGet) {
-                        item.style.display = "block";
+                        item.style.display = "flex";
                     } else {
                         item.style.display = "none";
                     }
@@ -179,7 +190,6 @@
                 let scrollPosition = window.scrollY;
                 window.scrollTo(0, scrollPosition);
             }
-
         </script>
         <%@include file="Footer.jsp" %>
     </body>

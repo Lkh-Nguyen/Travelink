@@ -347,7 +347,7 @@
                 </div>
             </div>
         </div>
-                                                <%@include file="Footer.jsp" %>
+        <%@include file="Footer.jsp" %>
         <script src="bootstrap_js/js/bootstrap.min.js"></script>
         <script src="bootstrap_js/js/bootstrap.bundle.js"></script>
         <script src="bootstrap_js/js/bootstrap.bundle.min.js"></script>

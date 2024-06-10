@@ -107,7 +107,7 @@
                     </div>
                 </div>
                 <div id="right">
-                    <h1>Settings</h1>
+                    <h1 style="font-weight: bold">Settings</h1>
                     <div id="data_img">
                         <div id="pd_h3">
                             <h2>Favorite Hotels</h2>
@@ -189,7 +189,7 @@
                                                 <form action="viewHotelDetailServlet" method="get">
                                                     <i class='bx bx-folder-plus'></i>
                                                     <button>View Details Hotel</button>
-                                                    <input type="hidden" name="hotelId" value="${c.hotel_ID}"/>
+                                                    <input type="hidden" name="hotel_ID" value="${c.hotel_ID}"/>
                                                 </form>
                                             </div>
                                             <form action="ListFavoriteHotel" method="post">
@@ -221,7 +221,7 @@
                         // Prevent click events on child elements (like buttons) from triggering the card click event
                         if (event.target.tagName !== 'BUTTON' && !event.target.classList.contains('deleteButton')) {
                             const hotelID = this.getAttribute("data-hotel-id");
-                            window.location.href = 'viewHotelDetailServlet?hotelId=' + hotelID;
+                            window.location.href = 'viewHotelDetailServlet?hotel_ID=' + hotelID;
                         }
                     });
                 });

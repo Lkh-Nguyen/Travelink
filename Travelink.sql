@@ -186,15 +186,6 @@ CREATE TABLE Reservation (
 );
 GO
 
-CREATE TABLE Reserved_Service (
-  Reserved_Service_ID INT IDENTITY(1,1) PRIMARY KEY,
-  AmountOfDays TINYINT,
-  Reservation_ID INT,
-  Hotel_Service_ID INT,
-  FOREIGN KEY (Reservation_ID) REFERENCES Reservation(Reservation_ID) ON DELETE CASCADE,
-  FOREIGN KEY (Hotel_Service_ID) REFERENCES Hotel_Service(Hotel_Service_ID) ON DELETE CASCADE
-);
-GO
 
 CREATE TABLE Reserved_Room (
   Reserved_Room_ID INT IDENTITY(1,1) PRIMARY KEY,

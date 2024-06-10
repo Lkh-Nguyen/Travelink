@@ -199,7 +199,7 @@
                                         <img src="${requestScope.roomImgList[status.index].url}" class="img-fluid rounded-start img-custom" alt="...">
                                         <div id="show_detail">
                                             <form action="viewRoom" method="get">
-                                                <button><i class='bx bx-folder-plus' style="margin-right:5px"></i>Xem chi tiết phòng</button>
+                                                <button><i class='bx bx-folder-plus' style="margin-right:5px"></i>View Detail Room</button>
                                                 <input type="hidden" name="roomId" value="${roomHotel.room_ID}">
                                                 <input type="hidden" name="hotelId" value="${requestScope.hotel_view.hotel_ID}">
                                             </form>

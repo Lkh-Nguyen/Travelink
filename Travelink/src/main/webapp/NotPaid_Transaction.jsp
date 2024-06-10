@@ -355,6 +355,7 @@
                 </div>
             </div>
         </div>
+        <%@include file="Footer.jsp"%>
         <!--        <div class="loader">
         
                 </div>-->

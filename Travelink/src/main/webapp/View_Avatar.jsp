@@ -135,7 +135,7 @@ Author     : HELLO
                         <form method="post" action="UpdateAvatar">
                             <c:choose>
                                 <c:when test="${not empty uploadedFilePath}">
-                                    <input type="hidden" name="urlAvatar" value="/Travelink/img_Avatar/${uploadedFilePath}"/>
+                                    <input type="hidden" name="urlAvatar"  value="/Travelink/img_Avatar/${uploadedFilePath}"/>
                                     <div class="pd_button">
                                         <button><a href="View_Avatar.jsp">Cancel</a></button>
                                         <input type="submit" value="Save"/>
@@ -167,6 +167,7 @@ Author     : HELLO
                 </div>
             </div>
         </div>
+        <%@include file="Footer.jsp"%>
         <script>
             document.getElementById("logoutButton").addEventListener("click", function () {
                 document.getElementById("overlay").style.display = "block";

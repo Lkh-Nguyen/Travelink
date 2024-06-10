@@ -122,6 +122,7 @@
 
 
     <body>
+        <%@include file="header.jsp"%>
         <main id="content" role="main">
             <div class="form-container">
                 <h1>Verify Code</h1>
@@ -157,6 +158,7 @@
                 <a href="#">Contact us!</a>
             </div>
         </main>
+        <%@include file="Footer.jsp"%>
         <script>
             function hideErrorMessage() {
                 document.querySelector('.error').style.display = 'none';

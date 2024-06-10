@@ -5,9 +5,9 @@ GO
 select *
 from Account
 
-INSERT INTO Account (Email, Password, Name, Gender, DateOfBirth, PhoneNumber, Role)
-VALUES ('example@email.com', '123', N'Nguyễn Văn Nam', 'M', '1990-01-01', '0912345678',1),
-('nguyenlkhde170387@fpt.edu.vn','123',N'Le Kim Hoang Nguyen', 'M', '2003-06-30','0934726073',1);
+INSERT INTO Account (Email, Password, Name, Gender, DateOfBirth, PhoneNumber,AvatarURL, Role)
+VALUES ('example@email.com', '123', N'Nguyễn Văn Nam', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/avatar_default.jpg',1),
+('nguyenlkhde170387@fpt.edu.vn','123',N'Le Kim Hoang Nguyen', 'M', '2003-06-30','0934726073','/Travelink/img_Avatar/avatar_default.jpg',1);
 --insert table Account--
 
 --insert table hotel--
@@ -375,28 +375,6 @@ Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm m
   --insert table Favourite_Hotel--
 select *
 from Favourite_Hotel
-
-insert into Favourite_Hotel values 
-(1,1),
-(2,1),
-(3,1),
-(4,1),
-(5,1),
-(6,1),
-(7,1),
-(8,1),
-(9,1),
-(10,1),
-(11,1),
-(12,1),
-(13,1),
-(14,1),
-(15,1),
-(16,1),
-(17,1),
-(18,1),
-(19,1),
-(20,1);
 
 insert into Favourite_Hotel values 
 (1,1),

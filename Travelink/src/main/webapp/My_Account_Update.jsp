@@ -184,6 +184,7 @@
                 <!-- Change -->
             </div>
         </div>
+        <%@include file="Footer.jsp"%>
         <script src="js/Alter.js"></script>
         <script>
                                 function cancel() {

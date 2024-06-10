@@ -299,12 +299,12 @@
                                             <div class="row">
                                                 <div class="col ">
                                                     <p class="card-text ">
-                                                        <i class='bx bx-buildings'></i> ${h.room_ID}
+                                                        Room ID: ${h.room_ID}
                                                     </p>
                                                 </div>
                                                 <div class="col">
                                                     <p class="card-text">
-                                                        <i class='bx bx-support'></i> ${h.service_Name}
+                                                        Reservation: ${h.reservationID}
                                                     </p>
                                                 </div>
                                             </div>
@@ -336,11 +336,24 @@
 
                                             </div>
                                             <a class="btn btn-outline-primary mb-2" href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" >
-                                                Cancel
+                                                <i class="fa-solid fa-ban"></i> Cancel
                                             </a>
-                                            <a href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" class="btn btn-outline-primary mt-auto">
+                                            <a class="btn btn-outline-primary mb-2" href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" >
                                                 <i class='bx bx-detail'></i> View Details
-                                            </a>
+                                            </a> 
+                                                <hr>
+                                            <div class="row"> 
+                                                <div class="col">
+                                                    <a class="btn btn-outline-primary mb-2" href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" >
+                                                        <i class="fa-regular fa-comment"></i> Feedback
+                                                    </a>
+                                                </div>
+                                                <div class="col">
+                                                    <a href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" class="btn btn-outline-primary mt-auto">
+                                                        <i class="fa-regular fa-paper-plane-top"></i> Skip Feedback
+                                                    </a>
+                                                </div>
+                                            </div> 
                                         </div>
                                     </div>
                                 </div>

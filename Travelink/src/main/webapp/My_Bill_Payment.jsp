@@ -30,7 +30,7 @@
                 margin-bottom: 15px; /* Khoảng cách bên ngoài dưới */
             }
             .gradient-background {
-                background-image: linear-gradient(to right, whitesmoke ,#5EBABA, #3A7BD5);
+                background-image: linear-gradient(to right ,#5EBABA, #3A7BD5);
                 border-radius: 5px;
             }
             .gradient-background:hover{
@@ -42,7 +42,7 @@
             }
             .mini-info:hover {
                 z-index: 2;
-                transform: translateY(-40%);
+                transform: translateY(-5%);
                 transition: transform 0.6s ease-in-out;
             }
             .mini-info {
@@ -76,17 +76,20 @@
                 margin-bottom: 0;
             }
             #confirmBtn, #cancelBtn {
+                color: black;
                 background-image: linear-gradient(to right,#5EBABA, #3A7BD5);
             }
             #confirmBtn:hover,
             #cancelBtn:hover {
-                color: white;
+                color: whitesmoke;
                 transition: 0.5s ease;
+                transform: translateY(-5px);
             }
         </style>
     </head>
     <body>
         <%@include file="Header.jsp" %>
+        <br>
         <div class="container">
             <div class="row mt-5 justify-content-center align-items-center">
                 <div class="col-md-6">
@@ -155,7 +158,6 @@
                                     <div class="card border-0">
                                         <div class="card-body first">
                                             <h2 class="fw-bold">TRAVELINK</h2>
-                                            <p class="fw-bold lh-1">Reservation ID #<span class="fw-normal text-muted lh-1">${requestScope.reservationID}</span></p>
                                             <p class="text-muted border-bottom">BILLING TO COMPANY</p>
 
                                             <div class="row info-row">
@@ -225,41 +227,12 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="container">
-                                    <div class="card border-0">
-                                        <div class="card-body justify-content-center align-items-center text-center">
-                                            <table class="table table-striped table-hover text-center">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col" class="col-1">No.</th>
-                                                        <th scope="col" class="col-4">Service Name</th>
-                                                        <th scope="col" class="col-3">Type</th>
-                                                        <th scope="col" class="col-4">Price</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <c:forEach var="bill" items="${requestScope.list_bill}">
-                                                        <tr>
-                                                            <th scope="row" class="col-1">1</th>
-                                                            <td class="col-4">${bill.service_Name}</td>
-                                                            <td class="col-3">${bill.service_ID}</td>
-                                                            <td class="col-4">${bill.hotelService_price}</td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="card border-0">
                                     <div class="card-body">
                                         <!-- Phần dưới bên phải -->
                                         <div class="row">
                                             <div class="col-md-6 ">
                                                 <div class="card-body p-2">
-                                                    <p class="fw-bold lh-1">Payment Info: #<span class="fw-normal text-muted lh-1">${account.account_ID}</span></p>
                                                     <p class="fw-bold lh-1">Name: <span class="fw-normal text-muted lh-1">${account.name}</span></p>
                                                     <p class="fw-bold lh-1">Contact: <span class="fw-normal text-muted lh-1">${account.phoneNumber}</span></p>
                                                     <p class="fw-bold lh-1">Email: <span class="fw-normal text-muted lh-1">${account.email}</span></p>
@@ -316,21 +289,53 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="card-body p-2">
-                                                        <div class="row p-2">
-                                                            <c:forEach var="bill" items="${requestScope.list_bill}">
-                                                                <div class="col justify-content-center align-items-center" id="btn-cancel">
-                                                                    <c:choose>
-                                                                        <c:when test="${bill.status != 'Paid'}">
-                                                                            <a class="btn btn-primary text-center justify-content-center align-items-center disabled" id="cancelBtn" aria-disabled="true">Cancel</a>
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            <a class="btn btn-primary text-center justify-content-center align-items-center" id="cancelBtn">Cancel</a>
-                                                                        </c:otherwise>
-                                                                    </c:choose>
+                                                        <div class="row p-2 justify-content-center align-items-center">
+                                                            <div class="col-md-6">
+                                                                <c:forEach var="bill" items="${requestScope.list_bill}">
+                                                                    <div class="mb-2" id="btn-cancel">
+                                                                        <c:choose>
+                                                                            <c:when test="${bill.status != 'Paid'}">
+                                                                                <a class="btn btn-primary w-100 disabled" id="cancelBtn" aria-disabled="true">Cancel</a>
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <a class="btn btn-primary w-100 btnCancel" id="cancelBtn">Cancel</a>
+                                                                                <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                                                                                    <!-- Toast -->
+                                                                                    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                                                                                        <div class="toast-header">
+                                                                                            <img src="${account.avatarURL}" class="img-fluid rounded me-2" alt="..." style="height: 30px; width: 30px">
+                                                                                            <strong class="me-auto">${account.name}</strong>
+                                                                                            <small id="toastTime" class="text-muted"></small>
+                                                                                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <div class="toast-body">
+                                                                                            ${account.name} have request canceled his bill ! 
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                    </div>
+                                                                </c:forEach>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="mb-2" id="btn-confirm">
+                                                                    <a class="btn btn-primary w-100 btnConfirm" id="confirmBtn">Confirm</a>
+
+                                                                    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                                                                        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                                                                            <div class="toast-header">
+                                                                                <img src="${account.avatarURL}" class="img-fluid rounded me-2" alt="..." style="height: 30px; width: 30px">
+                                                                                <strong class="me-auto">${account.name}</strong>
+                                                                                <small id="toastTime" class="text-muted"></small>
+                                                                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="toast-body">
+                                                                                ${account.name} have confirmed his bill !
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </c:forEach>
-                                                            <div class="col justify-content-center align-items-center" id="btn-confirm">
-                                                                <a class="btn btn-primary text-center justify-content-center align-items-center" id="confirmBtn">Confirm</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -349,9 +354,9 @@
         </div>
         <%@include file="Footer.jsp" %>
         <script src="bootstrap_js/js/bootstrap.min.js"></script>
-        <script src="bootstrap_js/js/bootstrap.bundle.js"></script>
         <script src="bootstrap_js/js/bootstrap.bundle.min.js"></script>
         <script>
+                                                            //Display Button Cancel and Confirm
                                                             function hideShowButton(val) {
                                                                 if (val == 1) {
                                                                     document.getElementById('btn-confirm').style.display = 'block';
@@ -360,6 +365,61 @@
                                                                     document.getElementById('btn-confirm').style.display = 'none';
                                                                 }
                                                             }
+                                                            ;
+
+                                                            //Display Toast
+                                                            const toastTrigger = document.getElementById('confirmBtn')
+                                                            const toastLiveExample = document.getElementById('liveToast')
+
+                                                            if (toastTrigger) {
+                                                                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                                                                toastTrigger.addEventListener('click', () => {
+                                                                    toastBootstrap.show()
+                                                                })
+                                                            }
+                                                            ;
+
+                                                            document.getElementById('confirmBtn').addEventListener('click', function (event) {
+                                                                event.preventDefault();
+
+                                                                // Lấy thời điểm hiện tại
+                                                                var currentTime = new Date();
+                                                                var hours = currentTime.getHours();
+                                                                var minutes = currentTime.getMinutes();
+
+                                                                // Định dạng thời gian hiện tại
+                                                                var timeString = hours + ':' + (minutes < 10 ? '0' : '') + minutes;
+
+                                                                // Hiển thị thời gian lúc bấm
+                                                                var toastTimeElement = document.getElementById('toastTime');
+                                                                toastTimeElement.textContent = 'Confirmed at ' + timeString;
+
+                                                                // Hiển thị toast
+                                                                var toastEl = document.getElementById('liveToast');
+                                                                var toast = new bootstrap.Toast(toastEl);
+                                                                toast.show();
+                                                            });
+
+                                                            document.getElementById('cancelBtn').addEventListener('click', function (event) {
+                                                                event.preventDefault();
+
+                                                                // Lấy thời điểm hiện tại
+                                                                var currentTime = new Date();
+                                                                var hours = currentTime.getHours();
+                                                                var minutes = currentTime.getMinutes();
+
+                                                                // Định dạng thời gian hiện tại
+                                                                var timeString = hours + ':' + (minutes < 10 ? '0' : '') + minutes;
+
+                                                                // Hiển thị thời gian lúc bấm
+                                                                var toastTimeElement = document.getElementById('toastTime');
+                                                                toastTimeElement.textContent = 'Canceled at ' + timeString;
+
+                                                                // Hiển thị toast
+                                                                var toastEl = document.getElementById('liveToast');
+                                                                var toast = new bootstrap.Toast(toastEl);
+                                                                toast.show();
+                                                            });
         </script>
     </body>
 </html>

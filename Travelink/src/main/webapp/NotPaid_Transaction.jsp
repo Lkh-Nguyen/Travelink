@@ -298,12 +298,12 @@
                                             <div class="row">
                                                 <div class="col ">
                                                     <p class="card-text ">
-                                                        <i class='bx bx-buildings'></i> ${h.room_ID}
+                                                        Room ID: ${h.room_ID}
                                                     </p>
                                                 </div>
                                                 <div class="col">
                                                     <p class="card-text">
-                                                        <i class='bx bx-support'></i> ${h.service_Name}
+                                                        Reservation: ${h.reservationID}
                                                     </p>
                                                 </div>
                                             </div>
@@ -327,19 +327,29 @@
                                                     </p>
                                                 </div>
                                                 <div class="col">
-                                                    <p class="card-text">
-                                                        <i class='bx bx-check-square'></i>
-                                                        <span class="badge text-bg-warning">${h.status}</span>
-                                                    </p>
+                                                    <c:if test="${h.status == 'Not Paid'}">
+                                                        <p class="card-text">
+                                                            <i class='bx bx-check-square'></i>
+                                                            <span class="badge text-bg-warning">${h.status}</span>
+                                                        </p>
+                                                    </c:if>
+                                                    <c:if test="${h.status == 'Paid'}">
+                                                        <p class="card-text">
+                                                            <i class='bx bx-check-square'></i>
+                                                            <span class="badge text-bg-success">${h.status}</span>
+                                                        </p>
+                                                    </c:if>
                                                 </div>
                                             </div>
-                                            <div class="row m-1">
-                                                <c:if test="${requestScope.error != null}">
-                                                    <div class="alert alert-success" role="alert">
-                                                        ${requestScope.error}
-                                                    </div>
-                                                </c:if>
-                                            </div>
+                                            <c:if test="${h.status == 'Not Paid'}">
+                                                <div class="row m-1">
+                                                    <c:if test="${requestScope.error != null}">
+                                                        <div class="alert alert-success" role="alert">
+                                                            ${requestScope.error}
+                                                        </div>
+                                                    </c:if>
+                                                </div>
+                                            </c:if>
                                             <a href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" class="btn btn-outline-primary mt-auto">
                                                 <i class='bx bx-detail'></i> View Details
                                             </a>

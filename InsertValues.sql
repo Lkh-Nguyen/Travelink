@@ -5,9 +5,9 @@ GO
 select *
 from Account
 
-INSERT INTO Account (Email, Password, Name, Gender, DateOfBirth, PhoneNumber, Role)
-VALUES ('example@email.com', '123', N'Nguyễn Văn Nam', 'M', '1990-01-01', '0912345678',1),
-('nguyenlkhde170387@fpt.edu.vn','123',N'Le Kim Hoang Nguyen', 'M', '2003-06-30','0934726073',1);
+INSERT INTO Account (Email, Password, Name, Gender, DateOfBirth, PhoneNumber,AvatarURL, Role)
+VALUES ('example@email.com', '123', N'Nguyễn Văn Nam', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/avatar_default.jpg',1),
+('nguyenlkhde170387@fpt.edu.vn','123',N'Le Kim Hoang Nguyen', 'M', '2003-06-30','0934726073','/Travelink/img_Avatar/avatar_default.jpg',1);
 --insert table Account--
 
 --insert table hotel--

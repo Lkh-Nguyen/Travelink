@@ -309,7 +309,7 @@
                 <div class="nav__logo"><a href="Home_Customer.jsp">Trave<span>link</span></a></div>
                 <ul class="nav__links">
                     <li class="link"><a href="Home_Customer.jsp">Home</a></li>
-                    <li class="link"><a href="#">About</a></li>
+                    <li class="link"><a href="Home_Customer.jsp">About</a></li>
                     <li class="link"><a href="All_Hotel_Service">Transaction History</a></li>
                     <li class="link"><a href="MyFeedbackServlet">My Feedback</a></li>
                     <li class="link"><a href="ListFavoriteHotel">Favorite Hotels</a></li>
@@ -326,7 +326,7 @@
                 </c:if>
                 <c:if test="${empty account}">
                     <button class="button" onclick="location.href = 'Form_Login.jsp'">
-                        Apply Now
+                        GET STARTED
                         <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
                         <path clip-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" fill-rule="evenodd"></path>
                         </svg>

@@ -16,20 +16,19 @@
     <body>
         <footer class="new_footer_area bg_color">
             <div class="new_footer_top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="f_widget company_widget wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
+                <div class="container1">
+                    <div class="row1">
+                        <div class="column1">
+                            <div class="f_widget1 company_widget wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
                                 <h3 class="f-title f_600 t_color f_size_18">Travelink</h3>
-                                <p>Find And Book A Great Experience</p>
-                                <input type="text" name="EMAIL" class="form-control memail" placeholder="Email">
-                                <button class="btn btn_get btn_get_two" type="submit" style="margin-top:5px;">Subscribe</button>
+                                <input type="text" name="EMAIL" class="form-control1 memail" placeholder="Email">
+                                <button class="btn123 btn_get btn_get_two" type="submit" style="margin-top:5px;">Subscribe</button>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-6" style="padding-left: 100px">
-                            <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
+                        <div class="column1" style="padding-left: 100px">
+                            <div class="f_widget1 about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
                                 <h3 class="f-title f_600 t_color f_size_18">Booking Now</h3>
-                                <ul class="list-unstyled f_list">
+                                <ul class="list-unstyled1 f_list1">
                                     <li><a href="#">Home</a></li>
                                     <li><a href="#">About</a></li>
                                     <li><a href="#">My Booking</a></li>
@@ -39,10 +38,10 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-6" style="padding-left: 70px">
-                            <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
-                                <h3 class="f-title f_600 t_color f_size_18">Help User</h3>
-                                <ul class="list-unstyled f_list">
+                        <div class="column1" style="padding-left: 70px">
+                            <div class="f_widget1 about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
+                                <h3 class="f-title1 f_600 t_color f_size_18">Help User</h3>
+                                <ul class="list-unstyled1 f_list1">
                                     <li><a href="#">FAQ</a></li>
                                     <li><a href="#">Term &amp; conditions</a></li>
                                     <li><a href="#">Reporting</a></li>
@@ -52,9 +51,9 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInLeft;">
-                                <h3 class="f-title f_600 t_color f_size_18">Social Network</h3>
+                        <div class="column1">
+                            <div class="f_widget1 social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInLeft;">
+                                <h3 class="f-title1 f_600 t_color f_size_18">Social Network</h3>
                                 <div class="f_social_icon">
                                     <a href="#" class="fab fa-facebook"></a>
                                     <a href="#" class="fab fa-twitter"></a>

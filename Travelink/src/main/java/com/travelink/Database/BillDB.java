@@ -310,4 +310,3 @@ public class BillDB implements DatabaseInfo {
     }
 
 }
-

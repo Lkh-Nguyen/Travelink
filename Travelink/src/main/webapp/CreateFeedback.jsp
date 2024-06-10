@@ -1,9 +1,3 @@
-<%-- 
-    Document   : CreateFeedback
-    Created on : May 29, 2024, 10:15:52 PM
-    Author     : DUYAN
---%>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -96,6 +90,10 @@
                 outline: none;
             }
 
+            .form-control.error {
+                border-color: red;
+            }
+
             .btn-primary {
                 font-size: 1.5em;
                 background-color: #4d90fe;
@@ -113,6 +111,22 @@
 
             .btn-primary:hover {
                 background-color: #357ae8;
+            }
+
+            .error-message {
+                color: red;
+                font-size: 1em;
+                margin-top: 5px;
+                display: none;
+            }
+
+            .character-count {
+                font-size: 1em;
+                text-align: right;
+                color: #000;
+            }
+            #charCount{
+                color: #000;
             }
         </style>
     </head>
@@ -133,11 +147,13 @@
                 <div class="mb-3 mt-5">
                     <label for="description" class="form-label fs-3">Description</label>
                     <textarea class="form-control" id="description" name="description" rows="7" required></textarea>
+                    <div class="character-count" id="charCount">0/200</div>
+                    <div class="error-message" id="error-message">Description cannot exceed 200 characters.</div>
                 </div>
                 <input type="hidden" id="date" name="date" value="">
                 <div class="d-flex justify-content-around ">
                     <button type="submit" class="btn btn-primary fw-bold">Submit</button>
-                    <button class="btn btn-secondary fw-bold">Cancel</button>
+                    <button type="button" class="btn btn-secondary fw-bold" onclick="window.history.back()">Cancel</button>
                 </div>
             </form>
             <!-- Overlay for success message -->
@@ -150,23 +166,7 @@
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                document.getElementById('date').value = new Date().toISOString().split('T')[0];
-
-                // Show overlay when form is submitted
-                document.getElementById('feedbackForm').addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    // Display the overlay
-                    document.getElementById('overlay').style.display = 'flex';
-                    // Hide the overlay after 3 seconds
-                    setTimeout(function () {
-                        document.getElementById('overlay').style.display = 'none';
-                    }, 3000);
-                    // You can add further actions here like submitting the form via AJAX
-                });
-            });
+        <script src="js/Create Feedback.js">
         </script>
     </body>
 </html>
-

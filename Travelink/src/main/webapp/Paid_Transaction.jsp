@@ -348,7 +348,7 @@
                                             <c:if test="${h.status == 'Paid'}">
                                                 <div class="row"> 
                                                     <div class="col">
-                                                        <a class="btn btn-outline-primary mb-2" href="CreateFeedback.jsp?reservationID=${h.reservationID}">
+                                                        <a class="btn btn-outline-primary mb-2" href="CreateFeedback.jsp?reservationID=${h.reservationID}&hotel_ID=${h.hotel_ID}">
                                                             <i class="fa-regular fa-comment"></i> Feedback
                                                         </a>
                                                     </div>

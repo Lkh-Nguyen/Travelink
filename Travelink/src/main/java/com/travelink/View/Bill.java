@@ -29,11 +29,11 @@ public class Bill {
     private String status;
     private int total_price;
     private int amount;
-    
+    private int hotel_ID;
     public Bill() {
     }
 
-    public Bill(int reservationID, LocalDate checkInDate, LocalDate checkOutDate, int number_of_guest, LocalDate reservationDate, int room_ID, String room_Name, int room_price, String hotel_Name, LocalTime checkInTimeStart, LocalTime checkInTimeEnd, LocalTime checkOutTimeStart, LocalTime checkOutTimeEnd, int account_ID, String status, int total_price, int amount) {
+    public Bill(int reservationID, LocalDate checkInDate, LocalDate checkOutDate, int number_of_guest, LocalDate reservationDate, int room_ID, String room_Name, int room_price, String hotel_Name, LocalTime checkInTimeStart, LocalTime checkInTimeEnd, LocalTime checkOutTimeStart, LocalTime checkOutTimeEnd, int account_ID, String status, int total_price, int amount, int hotel_ID) {
         this.reservationID = reservationID;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
@@ -51,6 +51,7 @@ public class Bill {
         this.status = status;
         this.total_price = total_price;
         this.amount = amount;
+        this.hotel_ID = hotel_ID;
     }
 
     public int getReservationID() {
@@ -188,6 +189,16 @@ public class Bill {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+
+    public int getHotel_ID() {
+        return hotel_ID;
+    }
+
+    public void setHotel_ID(int hotel_ID) {
+        this.hotel_ID = hotel_ID;
+    }
+
+    
 
     @Override
     public String toString() {

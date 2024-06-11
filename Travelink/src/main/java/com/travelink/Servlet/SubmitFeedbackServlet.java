@@ -71,6 +71,10 @@ public class SubmitFeedbackServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        try {
+            
+        } catch (Exception e) {
+        }
         // Get parameters from the request
         String description = request.getParameter("description");
         byte rating = Byte.parseByte(request.getParameter("rating"));
@@ -83,7 +87,7 @@ public class SubmitFeedbackServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         int accountID = account.getAccount_ID();
-        int hotelID = 456; 
+        int hotelID = Integer.parseInt(request.getParameter("hotel_ID"));
 
         // Create a Feedback object
         Feedback feedback = new Feedback();

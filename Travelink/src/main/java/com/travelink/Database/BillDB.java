@@ -45,7 +45,7 @@ public class BillDB implements DatabaseInfo {
                     if (viewCount == 0) {
                         String createViewQuery = "CREATE VIEW Bill AS "
                                 + "SELECT r.Reservation_ID, r.CheckInDate, r.CheckOutDate, r.Number_of_guests, r.Reservation_Date, r.Account_ID, r.Status, r.Total_Price, "
-                                + "       rm.Room_ID, rm.Name as Room_Name, rm.Price as Room_Price, h.Name, h.CheckInTimeStart, h.CheckInTimeEnd, h.CheckOutTimeStart, h.CheckOutTimeEnd,rr.Amount "
+                                + "       rm.Room_ID, rm.Name as Room_Name, rm.Price as Room_Price, h.Name, h.CheckInTimeStart, h.CheckInTimeEnd, h.CheckOutTimeStart, h.CheckOutTimeEnd,rr.Amount,h.Hotel_ID "
                                 + "FROM Reservation r "
                                 + "JOIN Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID "
                                 + "JOIN Room rm ON rr.Room_ID = rm.Room_ID "
@@ -107,6 +107,7 @@ public class BillDB implements DatabaseInfo {
                     bill.setStatus(rs.getString("Status"));
                     bill.setTotal_price(rs.getInt("Total_Price"));
                     bill.setAmount(rs.getInt("Amount"));
+                    bill.setHotel_ID(rs.getInt("Hotel_ID"));
                     list_bill.add(bill);
                 }
             }
@@ -153,6 +154,7 @@ public class BillDB implements DatabaseInfo {
                     bill.setStatus(rs.getString("Status"));
                     bill.setTotal_price(rs.getInt("Total_Price"));
                     bill.setAmount(rs.getInt("Amount"));
+                    bill.setHotel_ID(rs.getInt("Hotel_ID"));
                     list_bill.add(bill);
                 }
             }
@@ -214,6 +216,7 @@ public class BillDB implements DatabaseInfo {
                     bill.setStatus(rs.getString("Status"));
                     bill.setTotal_price(rs.getInt("Total_Price"));
                     bill.setAmount(rs.getInt("Amount"));
+                    bill.setHotel_ID(rs.getInt("Hotel_ID"));
                     list_bill.add(bill);
                 }
             }
@@ -274,6 +277,7 @@ public class BillDB implements DatabaseInfo {
                     bill.setStatus(rs.getString("Status"));
                     bill.setTotal_price(rs.getInt("Total_Price"));
                     bill.setAmount(rs.getInt("Amount"));
+                    bill.setHotel_ID(rs.getInt("Hotel_ID"));
                     list_bill.add(bill);
                 }
             }

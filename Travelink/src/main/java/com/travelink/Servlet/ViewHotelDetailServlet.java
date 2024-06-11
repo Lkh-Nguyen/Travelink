@@ -80,75 +80,132 @@ public class ViewHotelDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-//        if (session.getAttribute("checkInDate") == null && session.getAttribute("checkOutDate") == null) {
-//            request.setAttribute("status", "Vui lòng tìm kiếm");
-//            request.getRequestDispatcher("search").forward(request, response);
-//        }
-        int hotel_ID = Integer.parseInt(request.getParameter("hotel_ID"));
-        Hotel hotel = HotelDB.getHotelByID(hotel_ID);
-        request.setAttribute("hotel_view", hotel);
-        List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(hotel_ID);
-        // image center
-        String urlHotelImgCenter = hotelImgList.get(0).getUrl();
-        request.setAttribute("hotelImgCenter", urlHotelImgCenter);
-        // image 4 image
-        String urlHotelImg1 = hotelImgList.get(1).getUrl();
-        String urlHotelImg2 = hotelImgList.get(2).getUrl();
-        String urlHotelImg3 = hotelImgList.get(3).getUrl();
-        String urlHotelImg4 = hotelImgList.get(4).getUrl();
-        request.setAttribute("hotelImg1", urlHotelImg1);
-        request.setAttribute("hotelImg2", urlHotelImg2);
-        request.setAttribute("hotelImg3", urlHotelImg3);
-        request.setAttribute("hotelImg4", urlHotelImg4);
-        // list facibility
-        List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotel_ID);
-        request.setAttribute("hotelFacilityList", hotelFacilityList);
-        // list room hotel
-        List<Room> listRoom = RoomDB.getRoomsByHotel_ID(hotel_ID);
-        request.setAttribute("roomList", listRoom);
-        // list img room hotel
-        List<RoomImage> roomImgList = new ArrayList<>();
-        for (Room room : listRoom) {
-            roomImgList.add(RoomImageDB.getRoomImagesByRoom_ID(room.getRoom_ID()).get(0));
-        }
-        request.setAttribute("roomImgList", roomImgList);
-        // List bed number
-        // request jsp
-        List<Bed> bedList = new ArrayList<>();
-        RoomBedDB.getRoomBedsByBedID(hotel_ID);
-        // checkFavorite
+        if (session.getAttribute("checkInDate") == null && session.getAttribute("checkOutDate") == null) {
+            int hotel_ID = Integer.parseInt(request.getParameter("hotel_ID"));
+            Hotel hotel = HotelDB.getHotelByID(hotel_ID);
+            request.setAttribute("hotel_view", hotel);
+            List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(hotel_ID);
+            // image center
+            String urlHotelImgCenter = hotelImgList.get(0).getUrl();
+            request.setAttribute("hotelImgCenter", urlHotelImgCenter);
+            // image 4 image
+            String urlHotelImg1 = hotelImgList.get(1).getUrl();
+            String urlHotelImg2 = hotelImgList.get(2).getUrl();
+            String urlHotelImg3 = hotelImgList.get(3).getUrl();
+            String urlHotelImg4 = hotelImgList.get(4).getUrl();
+            request.setAttribute("hotelImg1", urlHotelImg1);
+            request.setAttribute("hotelImg2", urlHotelImg2);
+            request.setAttribute("hotelImg3", urlHotelImg3);
+            request.setAttribute("hotelImg4", urlHotelImg4);
+            // list facibility
+            List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotel_ID);
+            request.setAttribute("hotelFacilityList", hotelFacilityList);
+            // list room hotel
+            List<Room> listRoom = RoomDB.getRoomsByHotel_ID(hotel_ID);
+            request.setAttribute("roomList", listRoom);
+            // list img room hotel
+            List<RoomImage> roomImgList = new ArrayList<>();
+            for (Room room : listRoom) {
+                roomImgList.add(RoomImageDB.getRoomImagesByRoom_ID(room.getRoom_ID()).get(0));
+            }
+            request.setAttribute("roomImgList", roomImgList);
+            // List bed number
+            // request jsp
+            List<Bed> bedList = new ArrayList<>();
+            RoomBedDB.getRoomBedsByBedID(hotel_ID);
+            // checkFavorite
 
-        Account account = (Account) session.getAttribute("account");
-        if (account != null) {
-            boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotel_ID, account.getAccount_ID());
-            request.setAttribute("checkFavorite", checkFavorite);
-        }
-
-        // Room Availavle by Time
-        Date beginDate = (Date) session.getAttribute("checkInDate");
-        Date endDate = (Date) session.getAttribute("checkOutDate");
-
-        List<Integer> numberOfRoomList = new ArrayList<>();
-        List<Reservation> check1 = RoomDB.reservationCoincide(beginDate, endDate);
-        for (Room room : RoomDB.getRoomsByHotel_ID(hotel_ID)) {
-            if (check1 == null) {
+            Account account = (Account) session.getAttribute("account");
+            if (account != null) {
+                boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotel_ID, account.getAccount_ID());
+                request.setAttribute("checkFavorite", checkFavorite);
+            }
+            List<Integer> numberOfRoomList = new ArrayList<>();
+            //check number of room 
+            for (Room room : listRoom) {
                 int numberOfRoom = room.getTotalRooms();
                 numberOfRoomList.add(numberOfRoom);
-            } else {
-                int numberOfRoom = RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), beginDate, endDate, check1);
-                numberOfRoomList.add(numberOfRoom);
             }
+            request.setAttribute("numberOfRoomList", numberOfRoomList);
+            List<Feedback> feedbacks = new ArrayList<>();
+            try {
+                feedbacks = FeedbackDB.getFeedbacksByHotelID(hotel_ID);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            request.setAttribute("feedbacks", feedbacks);
+            // checkFavorite
+            request.setAttribute("check", null);
+            request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
+        } else if(session.getAttribute("checkInDate") != null && session.getAttribute("checkOutDate") != null) {
+            int hotel_ID = Integer.parseInt(request.getParameter("hotel_ID"));
+            Hotel hotel = HotelDB.getHotelByID(hotel_ID);
+            request.setAttribute("hotel_view", hotel);
+            List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(hotel_ID);
+            // image center
+            String urlHotelImgCenter = hotelImgList.get(0).getUrl();
+            request.setAttribute("hotelImgCenter", urlHotelImgCenter);
+            // image 4 image
+            String urlHotelImg1 = hotelImgList.get(1).getUrl();
+            String urlHotelImg2 = hotelImgList.get(2).getUrl();
+            String urlHotelImg3 = hotelImgList.get(3).getUrl();
+            String urlHotelImg4 = hotelImgList.get(4).getUrl();
+            request.setAttribute("hotelImg1", urlHotelImg1);
+            request.setAttribute("hotelImg2", urlHotelImg2);
+            request.setAttribute("hotelImg3", urlHotelImg3);
+            request.setAttribute("hotelImg4", urlHotelImg4);
+            // list facibility
+            List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotel_ID);
+            request.setAttribute("hotelFacilityList", hotelFacilityList);
+            // list room hotel
+            List<Room> listRoom = RoomDB.getRoomsByHotel_ID(hotel_ID);
+            request.setAttribute("roomList", listRoom);
+            // list img room hotel
+            List<RoomImage> roomImgList = new ArrayList<>();
+            for (Room room : listRoom) {
+                roomImgList.add(RoomImageDB.getRoomImagesByRoom_ID(room.getRoom_ID()).get(0));
+            }
+            request.setAttribute("roomImgList", roomImgList);
+            // List bed number
+            // request jsp
+            List<Bed> bedList = new ArrayList<>();
+            RoomBedDB.getRoomBedsByBedID(hotel_ID);
+            // checkFavorite
+
+            Account account = (Account) session.getAttribute("account");
+            if (account != null) {
+                boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotel_ID, account.getAccount_ID());
+                request.setAttribute("checkFavorite", checkFavorite);
+            }
+
+            // Room Availavle by Time
+            Date beginDate = (Date) session.getAttribute("checkInDate");
+            Date endDate = (Date) session.getAttribute("checkOutDate");
+
+            List<Integer> numberOfRoomList = new ArrayList<>();
+            List<Reservation> check1 = RoomDB.reservationCoincide(beginDate, endDate);
+            for (Room room : RoomDB.getRoomsByHotel_ID(hotel_ID)) {
+                if (check1 == null) {
+                    int numberOfRoom = room.getTotalRooms();
+                    numberOfRoomList.add(numberOfRoom);
+                } else {
+                    int numberOfRoom = RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), beginDate, endDate, check1);
+                    numberOfRoomList.add(numberOfRoom);
+                }
+            }
+            request.setAttribute("numberOfRoomList", numberOfRoomList);
+            List<Feedback> feedbacks = new ArrayList<>();
+            try {
+                feedbacks = FeedbackDB.getFeedbacksByHotelID(hotel_ID);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            request.setAttribute("feedbacks", feedbacks);
+            // checkFavorite
+            request.setAttribute("check", "123");
+            request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
         }
-        request.setAttribute("numberOfRoomList", numberOfRoomList);
-        List<Feedback> feedbacks = new ArrayList<>();
-        try {
-            feedbacks = FeedbackDB.getFeedbacksByHotelID(hotel_ID);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        request.setAttribute("feedbacks", feedbacks);
-        // checkFavorite
-        request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
+
     }
 
     /**

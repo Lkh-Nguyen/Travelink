@@ -27,6 +27,7 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -110,9 +111,13 @@ public class SearchHotelServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace(); // Xử lý ngoại lệ phân tích cú pháp một cách thích hợp
         }
-        Date currentDate = new Date();
-
-        if (currentDate.after(checkInDate)) {
+        
+        LocalDate currentDate = LocalDate.now();
+        LocalDate checkInDateLocal = checkInDate.toLocalDate();
+        System.out.println("Checkin: " + checkInDate );
+        System.out.println(currentDate);
+        // check điều kiện ngày hiện tại và ngày check in
+        if (currentDate.isAfter(checkInDateLocal)) {
             request.setAttribute("location", location);
             request.setAttribute("people", people);
             request.setAttribute("room", roomSize);
@@ -123,9 +128,34 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("locationList", locationList);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         }
+        // check điều kiệu số phòng và số người 
+         if (roomSize > people) {
+            request.setAttribute("location", location);
+            request.setAttribute("people", people);
+            request.setAttribute("room", roomSize);
+            session.setAttribute("checkInDate", checkInDate);
+            session.setAttribute("checkOutDate", checkOutDate);
+            request.setAttribute("statusRoomAndPeople", "Số phòng và số người không hợp lệ!");
+            List<Province> locationList = ProvinceDB.getAllProvince();
+            request.setAttribute("locationList", locationList);
+            request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
+        }
+        
+          if (roomSize > people) {
+            request.setAttribute("location", location);
+            request.setAttribute("people", people);
+            request.setAttribute("room", roomSize);
+            session.setAttribute("checkInDate", checkInDate);
+            session.setAttribute("checkOutDate", checkOutDate);
+            request.setAttribute("statusRoomAndPeople", "Số phòng và số người không hợp lệ!");
+            List<Province> locationList = ProvinceDB.getAllProvince();
+            request.setAttribute("locationList", locationList);
+            request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
+        }
 
+        
         // kiểm tra điều kiện ngày bắt đầu và ngày kết thúc
-        if (checkInDate.after(checkOutDate)) {
+        if (checkInDate.after(checkOutDate) || checkInDate.equals(checkOutDate)) {
             request.setAttribute("location", location);
             request.setAttribute("people", people);
             request.setAttribute("room", roomSize);

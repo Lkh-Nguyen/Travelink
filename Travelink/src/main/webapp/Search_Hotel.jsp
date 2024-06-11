@@ -87,7 +87,7 @@
                                 <input type="date" name="check_in_date" value="${sessionScope.checkInDate}"required=""/>
                                 <label>Departure</label>
                             </div>
-                                <p style="color: red"> ${requestScope.statusBeginDate}</p>
+                            <p style="color: red"> ${requestScope.statusBeginDate}</p>
                             <p>Add date</p>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                     </div>
                     <div></div>
                     <div></div>
-                    
+
                     <div class="text-center mb-2">
                         <button class="btn btn-primary fw-bold w-100"><i class="ri-search-line text-dark">  Search</i></button>
                     </div>
@@ -130,7 +130,7 @@
                         </div>
                     </div>
                     <h4 style="color: #2c97d2;">Lọc khách sạn</h4>
-                    <form id="filterForm">
+                    <form id="filterForm" action="filterHotelByStarServlet" method="get">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="star" value="1" id="star1">
                             <label class="form-check-label" for="star1">
@@ -160,7 +160,12 @@
                             <label class="form-check-label" for="star5">
                                 <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
                             </label>
-                        </div>                                   
+                        </div>                        
+<!--                        <button>Lọc</button>-->
+                        <input type="hidden" name="location" value="${requestScope.location}"><!-- comment -->
+                        <input type="hidden" name="people" value="${requestScope.people}"><!-- comment -->
+                        <input type="hidden" name="room" value="${requestScope.room}"><!-- comment -->
+                        <input type="hidden" name ="hotelList" value="${requestScope.hotelList}">
                     </form>
 
                     <div class="container mt-3">

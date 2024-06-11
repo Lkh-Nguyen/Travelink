@@ -299,12 +299,12 @@
                                             <div class="row">
                                                 <div class="col ">
                                                     <p class="card-text ">
-                                                        <i class='bx bx-buildings'></i> ${h.room_ID}
+                                                        Room ID: ${h.room_ID}
                                                     </p>
                                                 </div>
                                                 <div class="col">
                                                     <p class="card-text">
-                                                        <i class='bx bx-support'></i> ${h.service_Name}
+                                                        Reservation: ${h.reservationID}
                                                     </p>
                                                 </div>
                                             </div>
@@ -329,18 +329,45 @@
                                                 </div>
                                                 <div class="col">
                                                     <p class="card-text">
-                                                        <i class='bx bx-check-square'></i>
-                                                        <span class="badge text-bg-success">${h.status}</span>
+                                                        <c:if test="${h.status == 'Paid'}">
+                                                            <i class='bx bx-check-square'></i>
+                                                            <span class="badge text-bg-success">${h.status}</span>
+                                                        </c:if>
+                                                        <c:if test="${h.status == 'Finish'}">
+                                                            <i class='bx bx-check-square'></i>
+                                                            <span class="badge text-bg-primary">${h.status}</span>
+                                                        </c:if>
                                                     </p>
                                                 </div>
 
                                             </div>
                                             <a class="btn btn-outline-primary mb-2" href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" >
-                                                Cancel
-                                            </a>
-                                            <a href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" class="btn btn-outline-primary mt-auto">
                                                 <i class='bx bx-detail'></i> View Details
-                                            </a>
+                                            </a> 
+                                            <hr>
+                                            <c:if test="${h.status == 'Paid'}">
+                                                <div class="row"> 
+                                                    <div class="col">
+                                                        <a class="btn btn-outline-primary mb-2" href="CreateFeedback.jsp?reservationID=${h.reservationID}">
+                                                            <i class="fa-regular fa-comment"></i> Feedback
+                                                        </a>
+                                                    </div>
+                                                    <div class="col">
+                                                        <a href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" class="btn btn-outline-primary mt-auto">
+                                                            <i class="fa-regular fa-paper-plane-top"></i> Skip Feedback
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </c:if>
+                                            <c:if test="${h.status == 'Finish'}">
+                                                <div class="row"> 
+                                                    <div class="col-md-12">
+                                                        <button class="btn btn-outline-primary mb-2 w-100" style="height: 61px" disabled>
+                                                            <i class="fa-regular fa-comment"></i> Already Feedback
+                                                        </button>
+                                                    </div>
+                                                </div> 
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>
@@ -389,7 +416,7 @@
 
             // Pagination
             let thisPage = 1;
-            let limit = 2; // 2 items per page
+            let limit = 4; // 2 items per page
             let list = document.querySelectorAll(".hotel-card");
 
             function loadItem() {
@@ -450,7 +477,6 @@
 
 
         </script>
-    </div>
 </body>
 
 </html>

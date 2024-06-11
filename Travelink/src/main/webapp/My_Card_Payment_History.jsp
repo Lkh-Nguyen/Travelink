@@ -299,12 +299,12 @@
                                             <div class="row">
                                                 <div class="col ">
                                                     <p class="card-text ">
-                                                        <i class='bx bx-buildings'></i> ${h.room_ID}
+                                                        Room ID: ${h.room_ID}
                                                     </p>
                                                 </div>
                                                 <div class="col">
                                                     <p class="card-text">
-                                                        <i class='bx bx-support'></i> ${h.service_Name}
+                                                        Reservation: ${h.reservationID}
                                                     </p>
                                                 </div>
                                             </div>
@@ -340,6 +340,10 @@
                                                         <c:if test="${h.status == 'Cancel'}">
                                                             <i class='bx bx-check-square'></i>
                                                             <span class="badge text-bg-danger">${h.status}</span>
+                                                        </c:if>
+                                                        <c:if test="${h.status == 'Finish'}">
+                                                            <i class='bx bx-check-square'></i>
+                                                            <span class="badge text-bg-primary">${h.status}</span>
                                                         </c:if>
                                                     </p>
                                                 </div>
@@ -395,8 +399,9 @@
 
             // Pagination
             let thisPage = 1;
-            let limit = 2; // 2 items per page
+            let limit = 4; // Number of items per page
             let list = document.querySelectorAll(".hotel-card");
+            let maxPageVisible = 5; // Maximum number of pages to display at once
 
             function loadItem() {
                 let beginGet = limit * (thisPage - 1);
@@ -419,14 +424,23 @@
                 let count = Math.ceil(list.length / limit);
                 document.querySelector('.pagination').innerHTML = '';
 
+                let maxPage = Math.min(count, maxPageVisible);
+                let startPage = Math.max(thisPage - Math.floor(maxPageVisible / 2), 1);
+                let endPage = startPage + maxPage - 1;
+
+                if (endPage > count) {
+                    endPage = count;
+                    startPage = Math.max(endPage - maxPage + 1, 1);
+                }
+
                 if (thisPage != 1) {
                     let prev = document.createElement('li');
                     prev.classList.add('page-item');
-                    prev.innerHTML = '<a class="page-link" href="#" onclick="changePage(' + (thisPage - 1) + ')">Previous</a>';
+                    prev.innerHTML = '<a class="page-link" href="#" onclick="changePage(' + (thisPage - 1) + ')">PREV</a>';
                     document.querySelector('.pagination').appendChild(prev);
                 }
 
-                for (let i = 1; i <= count; i++) {
+                for (let i = startPage; i <= endPage; i++) {
                     let li = document.createElement('li');
                     li.classList.add('page-item');
                     if (i == thisPage) {
@@ -439,15 +453,18 @@
                 if (thisPage != count) {
                     let next = document.createElement('li');
                     next.classList.add('page-item');
-                    next.innerHTML = '<a class="page-link" href="#" onclick="changePage(' + (thisPage + 1) + ')">Next</a>';
+                    next.innerHTML = '<a class="page-link" href="#" onclick="changePage(' + (thisPage + 1) + ')">NEXT</a>';
                     document.querySelector('.pagination').appendChild(next);
                 }
             }
 
-            function changePage(page) {
-                thisPage = page;
+            function changePage(i) {
+                thisPage = i;
                 loadItem();
+                let scrollPosition = window.scrollY;
+                window.scrollTo(0, scrollPosition);
             }
+
 
             // Initially load the first page
             window.onload = function () {
@@ -455,7 +472,6 @@
             };
 
         </script>
-    </div>
-</body>
+    </body>
 
 </html>

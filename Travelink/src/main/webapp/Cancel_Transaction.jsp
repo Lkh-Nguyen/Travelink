@@ -407,12 +407,12 @@
                                             <div class="row">
                                                 <div class="col ">
                                                     <p class="card-text ">
-                                                        <i class='bx bx-buildings'></i> ${h.room_ID}
+                                                        Room ID: ${h.room_ID}
                                                     </p>
                                                 </div>
                                                 <div class="col">
                                                     <p class="card-text">
-                                                        <i class='bx bx-support'></i> ${h.service_Name}
+                                                        Reservation: ${h.reservationID}
                                                     </p>
                                                 </div>
                                             </div>
@@ -492,7 +492,7 @@
 
             // Pagination
             let thisPage = 1;
-            let limit = 2; // 2 items per page
+            let limit = 4; // 2 items per page
             let list = document.querySelectorAll(".hotel-card");
 
             function loadItem() {

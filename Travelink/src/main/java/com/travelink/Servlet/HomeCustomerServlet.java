@@ -2,60 +2,52 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package com.travelink.Servlet;
 
-import com.travelink.Database.BillDB;
-import com.travelink.Database.HotelServiceDB;
-import com.travelink.Model.Account;
-import com.travelink.Model.HotelService;
-import com.travelink.View.Bill;
+import com.travelink.Database.ProvinceDB;
+import com.travelink.Model.Province;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author admin
+ * @author MSI
  */
-public class Paid_Hotel_Service extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+public class HomeCustomerServlet extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Paid_Hotel_Service</title>");
+            out.println("<title>Servlet HomeCustomerServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Paid_Hotel_Service at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet HomeCustomerServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -63,25 +55,14 @@ public class Paid_Hotel_Service extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        LocalDate currentDate = LocalDate.now();
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
+    throws ServletException, IOException {
+        List<Province> locationList = ProvinceDB.getAllProvince();
+        request.setAttribute("locationList", locationList);
+        request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
+    } 
 
-        if (account == null) {
-            response.sendRedirect("Form_Login.jsp");
-            return;
-        }
-
-        List<Bill> list_bill = BillDB.getBillFinishedByCustomerID(account.getAccount_ID());
-
-        request.setAttribute("list_bill", list_bill);
-        request.getRequestDispatcher("Paid_Transaction.jsp").forward(request, response);
-    }
-
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -89,13 +70,12 @@ public class Paid_Hotel_Service extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

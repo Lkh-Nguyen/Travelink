@@ -25,9 +25,6 @@ public class Bill {
     private LocalTime checkInTimeEnd;
     private LocalTime checkOutTimeStart;
     private LocalTime checkOutTimeEnd;
-    private String service_Name;
-    private int service_ID;
-    private int hotelService_price;
     private int account_ID;
     private String status;
     private int total_price;
@@ -36,7 +33,7 @@ public class Bill {
     public Bill() {
     }
 
-    public Bill(int reservationID, LocalDate checkInDate, LocalDate checkOutDate, int number_of_guest, LocalDate reservationDate, int room_ID, String room_Name, int room_price, String hotel_Name, LocalTime checkInTimeStart, LocalTime checkInTimeEnd, LocalTime checkOutTimeStart, LocalTime checkOutTimeEnd, String service_Name, int service_ID, int hotelService_price, int account_ID, String status, int total_price, int amount) {
+    public Bill(int reservationID, LocalDate checkInDate, LocalDate checkOutDate, int number_of_guest, LocalDate reservationDate, int room_ID, String room_Name, int room_price, String hotel_Name, LocalTime checkInTimeStart, LocalTime checkInTimeEnd, LocalTime checkOutTimeStart, LocalTime checkOutTimeEnd, int account_ID, String status, int total_price, int amount) {
         this.reservationID = reservationID;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
@@ -50,9 +47,6 @@ public class Bill {
         this.checkInTimeEnd = checkInTimeEnd;
         this.checkOutTimeStart = checkOutTimeStart;
         this.checkOutTimeEnd = checkOutTimeEnd;
-        this.service_Name = service_Name;
-        this.service_ID = service_ID;
-        this.hotelService_price = hotelService_price;
         this.account_ID = account_ID;
         this.status = status;
         this.total_price = total_price;
@@ -163,30 +157,6 @@ public class Bill {
         this.checkOutTimeEnd = checkOutTimeEnd;
     }
 
-    public String getService_Name() {
-        return service_Name;
-    }
-
-    public void setService_Name(String service_Name) {
-        this.service_Name = service_Name;
-    }
-
-    public int getService_ID() {
-        return service_ID;
-    }
-
-    public void setService_ID(int service_ID) {
-        this.service_ID = service_ID;
-    }
-
-    public int getHotelService_price() {
-        return hotelService_price;
-    }
-
-    public void setHotelService_price(int hotelService_price) {
-        this.hotelService_price = hotelService_price;
-    }
-
     public int getAccount_ID() {
         return account_ID;
     }
@@ -219,12 +189,10 @@ public class Bill {
         this.amount = amount;
     }
 
-    
-
     @Override
     public String toString() {
-        return "Bill{" + "reservationID=" + reservationID + ", checkInDate=" + checkInDate + ", checkOutDate=" + checkOutDate + ", number_of_guest=" + number_of_guest + ", reservationDate=" + reservationDate + ", room_ID=" + room_ID + ", room_Name=" + room_Name + ", room_price=" + room_price + ", hotel_Name=" + hotel_Name + ", checkInTimeStart=" + checkInTimeStart + ", checkInTimeEnd=" + checkInTimeEnd + ", checkOutTimeStart=" + checkOutTimeStart + ", checkOutTimeEnd=" + checkOutTimeEnd + ", service_Name=" + service_Name + ", service_ID=" + service_ID + ", hotelService_price=" + hotelService_price + ", account_ID=" + account_ID + ", status=" + status + ", total_price=" + total_price + ", amount=" + amount + '}';
+        return "Bill{" + "reservationID=" + reservationID + ", checkInDate=" + checkInDate + ", checkOutDate=" + checkOutDate + ", number_of_guest=" + number_of_guest + ", reservationDate=" + reservationDate + ", room_ID=" + room_ID + ", room_Name=" + room_Name + ", room_price=" + room_price + ", hotel_Name=" + hotel_Name + ", checkInTimeStart=" + checkInTimeStart + ", checkInTimeEnd=" + checkInTimeEnd + ", checkOutTimeStart=" + checkOutTimeStart + ", checkOutTimeEnd=" + checkOutTimeEnd + ", account_ID=" + account_ID + ", status=" + status + ", total_price=" + total_price + ", amount=" + amount + '}';
     }
-
+    
     
 }

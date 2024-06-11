@@ -95,6 +95,7 @@ public class SearchHotelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String location = request.getParameter("location");
         int people = Integer.parseInt(request.getParameter("number_of_people"));
         int roomSize = Integer.parseInt(request.getParameter("number_of_rooms"));
@@ -109,8 +110,27 @@ public class SearchHotelServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace(); // Xử lý ngoại lệ phân tích cú pháp một cách thích hợp
         }
+        Date currentDate = new Date();
+
+        if (currentDate.after(checkInDate)) {
+            request.setAttribute("location", location);
+            request.setAttribute("people", people);
+            request.setAttribute("room", roomSize);
+            session.setAttribute("checkInDate", checkInDate);
+            session.setAttribute("checkOutDate", checkOutDate);
+            request.setAttribute("statusBeginDate", "Ngày thuê không hợp lệ!");
+            List<Province> locationList = ProvinceDB.getAllProvince();
+            request.setAttribute("locationList", locationList);
+            request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
+        }
+
         // kiểm tra điều kiện ngày bắt đầu và ngày kết thúc
         if (checkInDate.after(checkOutDate)) {
+            request.setAttribute("location", location);
+            request.setAttribute("people", people);
+            request.setAttribute("room", roomSize);
+            session.setAttribute("checkInDate", checkInDate);
+            session.setAttribute("checkOutDate", checkOutDate);
             request.setAttribute("statusDate", "Ngày trả phòng không hợp lệ!");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
@@ -132,19 +152,18 @@ public class SearchHotelServlet extends HttpServlet {
                 int capacityHotelList = 0;
                 for (Room room : RoomDB.getRoomsByHotel_ID(hotel.getHotel_ID())) {
                     roomHotelAvailable = roomHotelAvailable + RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), checkInDate, checkOutDate, check1);
-                    capacityHotelList = capacityHotelList +room.getCapacity()*roomHotelAvailable;
+                    capacityHotelList = capacityHotelList + room.getCapacity() * roomHotelAvailable;
                 }
                 hotelSizeList.add(roomHotelAvailable);
                 capacitySizeList.add(capacityHotelList);
-                
-                
+
             }
-            for (int i = 0 ;i < hotelList.size() ; i++) {
+            for (int i = 0; i < hotelList.size(); i++) {
 //                PrintWriter printWriter = response.getWriter();
 //                printWriter.println(hotelSizeList.get(i));
 //                printWriter.println(capacitySizeList.get(i));
 //                 printWriter.println("=================================================");
-                if(hotelSizeList.get(i) >= roomSize && capacitySizeList.get(i) >= people){
+                if (hotelSizeList.get(i) >= roomSize && capacitySizeList.get(i) >= people) {
                     newHotelList.add(hotelList.get(i));
                 }
             }
@@ -152,15 +171,22 @@ public class SearchHotelServlet extends HttpServlet {
             for (int i = 0; i < newHotelList.size(); i++) {
                 List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(newHotelList.get(i).getHotel_ID());
                 PrintWriter printWriter = response.getWriter();
-                
+
                 String img = hotelImgList.get(0).getUrl();
                 hotelImageList.add(img);
             }
-            HttpSession session = request.getSession();
+
+            List<Province> locationList = ProvinceDB.getAllProvince();
+            request.setAttribute("locationList", locationList);
             session.setAttribute("checkInDate", checkInDate);
             session.setAttribute("checkOutDate", checkOutDate);
             request.setAttribute("hotelList", newHotelList);
+            request.setAttribute("location", location);
+            request.setAttribute("people", people);
+            request.setAttribute("room", roomSize);
             request.setAttribute("hotelImgList", hotelImageList);
+            PrintWriter printWriter = response.getWriter();
+            printWriter.print(location);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         }
 

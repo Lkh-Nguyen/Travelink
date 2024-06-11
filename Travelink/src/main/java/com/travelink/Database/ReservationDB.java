@@ -309,5 +309,25 @@ public class ReservationDB implements DatabaseInfo {
 
         return false; // No such reservation found
     }
+    
+    public static void updateReservationStatusAfterFeedback(int reservationID){
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "UPDATE Reservation SET Status = 'Finish' WHERE Reservation_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, reservationID);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating reservation status by ID: " + e);
+        } finally {
+            // Close resources (connection, statement, etc.) here
+        }
+    }
 
 }

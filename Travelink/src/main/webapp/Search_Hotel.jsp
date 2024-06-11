@@ -124,9 +124,11 @@
                     <div class="mb-3 mt-5">
                         <div style="border: 1px solid #ccc; height: 200px; position: relative;">
                             <!-- Đây là Google Map -->
-                            <div id="googleMap" style="width: 100%; height: 100%;"></div>
+                            <div id="googleMap" style="width: 100%; height: 100%;">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3835.856069316391!2d108.25831637387171!3d15.968891042118765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142116949840599%3A0x365b35580f52e8d5!2zxJDhuqFpIGjhu41jIEZQVCDEkMOgIE7hurVuZw!5e0!3m2!1svi!2s!4v1718097490872!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
                             <!-- Button mở bản đồ -->
-                            <button class="btn btn-primary" style="position: absolute; top: 10px; right: 10px;" onclick="openMap()">Mở bản đồ</button>
+                            <button class="btn btn-primary" style="position: absolute; top: 10px; right: 10px;" ><a href="https://www.google.com/maps/place/%C4%90%E1%BA%A1i+h%E1%BB%8Dc+FPT+%C4%90%C3%A0+N%E1%BA%B5ng/@15.968891,108.2583164,17z/data=!3m1!4b1!4m6!3m5!1s0x3142116949840599:0x365b35580f52e8d5!8m2!3d15.9688859!4d108.2608913!16s%2Fg%2F11fl0yz7tc?authuser=0&entry=ttu"></a>Mở bản đồ</button>
                         </div>
                     </div>
                     <h4 style="color: #2c97d2;">Lọc khách sạn</h4>

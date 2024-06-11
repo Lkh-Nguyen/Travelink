@@ -109,9 +109,9 @@
                     <span><i class="ri-map-pin-line"></i></span>
                     <div class="input__content">
                         <div class="input__group">
-                            <select>
-                                <option></option>
-                                <c:forEach var="location" items="${requestScope.locationList}">
+                            <select name="location">
+                                <option>Location</option>
+                                <<c:forEach var="location" items="${requestScope.locationList}">
                                     <option value="${location.name}">${location.name}</option>
                                 </c:forEach>
                             </select>

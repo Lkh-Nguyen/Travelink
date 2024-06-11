@@ -56,7 +56,12 @@
                         <div class="input__content">
                             <div class="input__group">
                                 <select name="location">
-                                    <option>Location</option>
+                                    <c:if test="${requestScope.location != null}">
+                                        <option >${requestScope.location}</option>
+                                    </c:if>
+                                    <c:if test="${requestScope.location == null}">
+                                        <option>Location</option>
+                                    </c:if>
                                     <c:forEach var="location" items="${requestScope.locationList}">
                                         <option value="${location.name}">${location.name}</option>
                                     </c:forEach>
@@ -69,7 +74,7 @@
                         <span><i class="ri-user-3-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
-                                <input id="numberInput" type="number" name="number_of_people" min="1" required=""/>
+                                <input id="numberInput" value="${requestScope.people}"type="number" name="number_of_people" min="1" required=""/>
                                 <label id="number_label">No of people</label>
                             </div>
                             <p>Add guests</p>
@@ -79,9 +84,10 @@
                         <span><i class="ri-calendar-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
-                                <input type="date" name="check_in_date" required=""/>
+                                <input type="date" name="check_in_date" value="${sessionScope.checkInDate}"required=""/>
                                 <label>Departure</label>
                             </div>
+                                <p style="color: red"> ${requestScope.statusBeginDate}</p>
                             <p>Add date</p>
                         </div>
                     </div>
@@ -89,23 +95,24 @@
                         <span><i class="ri-calendar-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
-                                <input type="date" name="check_out_date" required=""/>
+                                <input type="date" value="${sessionScope.checkOutDate}" name="check_out_date" required=""/>
                                 <label>Return</label>
                             </div>
-                            <p>Add date</p>
                             <p style="color: red"> ${requestScope.statusDate}</p>
+                            <p>Add date</p>                           
                         </div>
                     </div>
                     <div class="form__group">
                         <span><i class="ri-home-5-line"></i></span>  <div class="input__content">
                             <div class="input__group">
-                                <input type="number" min="1" name="number_of_rooms" required=""/>  <label>Rooms</label>
+                                <input type="number" min="1" value="${requestScope.room}" name="number_of_rooms" required=""/>  <label>Rooms</label>
                             </div>
                             <p>Number of rooms</p>
                         </div>
                     </div>
                     <div></div>
                     <div></div>
+                    
                     <div class="text-center mb-2">
                         <button class="btn btn-primary fw-bold w-100"><i class="ri-search-line text-dark">  Search</i></button>
                     </div>

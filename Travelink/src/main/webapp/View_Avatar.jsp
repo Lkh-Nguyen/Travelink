@@ -102,7 +102,7 @@ Author     : HELLO
                         <a href="MyFeedbackServlet"><i class='bx bx-calendar' ></i> <b>My Feedback</b></a>
                     </div>
                     <div class="list0">
-                        <a href="My_Card_Payment_History.jsp"><i class='bx bx-money-withdraw'></i> <b>Booking History</b></a>
+                        <a href="All_Hotel_Service"><i class='bx bx-money-withdraw'></i> <b>Booking History</b></a>
                     </div>
                     <div class="list0">
                         <a href="ListFavoriteHotel"><i class='bx bx-heart-circle' ></i> <b>Favorite Hotel</b></a>

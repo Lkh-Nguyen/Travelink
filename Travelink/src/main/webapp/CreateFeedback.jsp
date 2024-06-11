@@ -1,9 +1,6 @@
-<%-- 
-    Document   : CreateFeedback
-    Created on : May 29, 2024, 10:15:52 PM
-    Author     : DUYAN
---%>
-
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@page import="java.util.Date" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -37,35 +34,6 @@
             .rating input:checked ~ label::before {
                 opacity: 1 !important;
             }
-
-            /* Overlay style */
-            .overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-                z-index: 999;
-                justify-content: center;
-                align-items: center;
-            }
-            .overlay-content {
-                background-color: white;
-                padding: 20px;
-                border-radius: 5px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-                transition: opacity 0.3s ease-in-out;
-            }
-
-            /* Custom tick animation */
-            .tick-icon {
-                color: #28a745;
-                font-size: 4em;
-            }
-
-            /* Form style */
             .container {
                 max-width: 600px;
                 margin: auto;
@@ -73,44 +41,30 @@
                 border-radius: 5px;
                 background-color: #f9f9f9;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-                transition: box-shadow 0.3s ease-in-out;
             }
-
-            .container:hover {
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            }
-
             .form-label {
                 font-size: 1.5em;
             }
-
             .form-control {
                 font-size: 1.2em;
                 border: 2px solid #ccc;
                 border-radius: 5px;
-                transition: border-color 0.3s ease-in-out;
             }
-
             .form-control:focus {
                 border-color: #4d90fe;
                 outline: none;
             }
-
             .btn-primary {
                 font-size: 1.5em;
                 background-color: #4d90fe;
                 border: none;
                 border-radius: 5px;
-                transition: background-color 0.3s ease-in-out;
             }
-
-            .btn-secondary{
+            .btn-secondary {
                 font-size: 1.5rem;
                 border: none;
                 border-radius: 5px;
-                transition: background-color 0.3s ease-in-out;
             }
-
             .btn-primary:hover {
                 background-color: #357ae8;
             }
@@ -119,7 +73,7 @@
     <body>
         <div class="container mt-5">
             <h2>Create New Feedback</h2>
-            <form id="feedbackForm" action="/submit_feedback" method="post">
+            <form id="feedbackForm" action="SubmitFeedbackServlet" method="post">
                 <div class="mb-3">
                     <label for="rating" class="form-label fs-3">Rating</label>
                     <div class="rating">
@@ -134,39 +88,13 @@
                     <label for="description" class="form-label fs-3">Description</label>
                     <textarea class="form-control" id="description" name="description" rows="7" required></textarea>
                 </div>
-                <input type="hidden" id="date" name="date" value="">
+                <input type="hidden" id="date" name="date" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new Date()) %>">
+                <input type="hidden" id="reservationID" name="reservationID" value="${param.reservationID}">
                 <div class="d-flex justify-content-around ">
                     <button type="submit" class="btn btn-primary fw-bold">Submit</button>
-                    <button class="btn btn-secondary fw-bold">Cancel</button>
+                    <button type="button" class="btn btn-secondary fw-bold" onclick="window.history.back()">Cancel</button>
                 </div>
             </form>
-            <!-- Overlay for success message -->
-            <div class="overlay" id="overlay">
-                <div class="overlay-content text-center">
-                    <i class="fas fa-check-circle tick-icon"></i>
-                    <p class="text-success">Feedback submitted successfully!</p>
-                </div>
-            </div>
         </div>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                document.getElementById('date').value = new Date().toISOString().split('T')[0];
-
-                // Show overlay when form is submitted
-                document.getElementById('feedbackForm').addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    // Display the overlay
-                    document.getElementById('overlay').style.display = 'flex';
-                    // Hide the overlay after 3 seconds
-                    setTimeout(function () {
-                        document.getElementById('overlay').style.display = 'none';
-                    }, 3000);
-                    // You can add further actions here like submitting the form via AJAX
-                });
-            });
-        </script>
     </body>
 </html>
-

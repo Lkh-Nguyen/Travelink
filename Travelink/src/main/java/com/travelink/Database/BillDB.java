@@ -45,13 +45,11 @@ public class BillDB implements DatabaseInfo {
                     if (viewCount == 0) {
                         String createViewQuery = "CREATE VIEW Bill AS "
                                 + "SELECT r.Reservation_ID, r.CheckInDate, r.CheckOutDate, r.Number_of_guests, r.Reservation_Date, r.Account_ID, r.Status, r.Total_Price, "
-                                + "       rm.Room_ID, rm.Name as Room_Name, rm.Price as Room_Price, h.Name, h.CheckInTimeStart, h.CheckInTimeEnd, h.CheckOutTimeStart, h.CheckOutTimeEnd, "
-                                + "       hs.Price as HotelService_Price, rr.Amount, hs.Service_ID "
+                                + "       rm.Room_ID, rm.Name as Room_Name, rm.Price as Room_Price, h.Name, h.CheckInTimeStart, h.CheckInTimeEnd, h.CheckOutTimeStart, h.CheckOutTimeEnd,rr.Amount "
                                 + "FROM Reservation r "
                                 + "JOIN Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID "
                                 + "JOIN Room rm ON rr.Room_ID = rm.Room_ID "
-                                + "JOIN Hotel_Service hs ON rm.Hotel_ID = hs.Hotel_ID "
-                                + "JOIN Hotel h on hs.Hotel_ID = h.Hotel_ID";
+                                + "JOIN Hotel h on rm.Hotel_ID = h.Hotel_ID";
                         ps = conn.prepareStatement(createViewQuery);
                         ps.execute();
                     }
@@ -85,7 +83,7 @@ public class BillDB implements DatabaseInfo {
             conn = DatabaseInfo.getConnect();
 
             if (conn != null) {
-                String query = "SELECT * FROM Bill WHERE Account_ID = ?";
+                String query = "SELECT * FROM Bill WHERE Account_ID = ? ORDER BY Status desc";
                 ps = conn.prepareStatement(query);
                 ps.setInt(1, account_ID);
                 rs = ps.executeQuery();
@@ -106,11 +104,9 @@ public class BillDB implements DatabaseInfo {
                     bill.setCheckInTimeEnd(rs.getTime("CheckInTimeEnd").toLocalTime());
                     bill.setCheckOutTimeStart(rs.getTime("CheckOutTimeStart").toLocalTime());
                     bill.setCheckOutTimeEnd(rs.getTime("CheckOutTimeEnd").toLocalTime());
-                    bill.setHotelService_price(rs.getInt("HotelService_Price"));
                     bill.setStatus(rs.getString("Status"));
                     bill.setTotal_price(rs.getInt("Total_Price"));
                     bill.setAmount(rs.getInt("Amount"));
-                    bill.setService_ID(rs.getInt("Service_ID"));
                     list_bill.add(bill);
                 }
             }
@@ -154,11 +150,9 @@ public class BillDB implements DatabaseInfo {
                     bill.setCheckInTimeEnd(rs.getTime("CheckInTimeEnd").toLocalTime());
                     bill.setCheckOutTimeStart(rs.getTime("CheckOutTimeStart").toLocalTime());
                     bill.setCheckOutTimeEnd(rs.getTime("CheckOutTimeEnd").toLocalTime());
-                    bill.setHotelService_price(rs.getInt("HotelService_Price"));
                     bill.setStatus(rs.getString("Status"));
                     bill.setTotal_price(rs.getInt("Total_Price"));
                     bill.setAmount(rs.getInt("Amount"));
-                    bill.setService_ID(rs.getInt("Service_ID"));
                     list_bill.add(bill);
                 }
             }
@@ -196,7 +190,7 @@ public class BillDB implements DatabaseInfo {
             if (conn != null) {
                 // Query to select bills based on checkInDate, checkOutDate, status 'finished' or 'processing'
                 String query = "SELECT * FROM Bill WHERE Account_ID = ? AND "
-                        + "CheckOutDate < GETDATE() AND Status = 'Paid'";
+                        + "CheckOutDate < GETDATE() AND (Status = 'Paid' OR Status = 'Finish')";
                 ps = conn.prepareStatement(query);
                 ps.setInt(1, account_ID);
                 rs = ps.executeQuery();
@@ -217,11 +211,9 @@ public class BillDB implements DatabaseInfo {
                     bill.setCheckInTimeEnd(rs.getTime("CheckInTimeEnd").toLocalTime());
                     bill.setCheckOutTimeStart(rs.getTime("CheckOutTimeStart").toLocalTime());
                     bill.setCheckOutTimeEnd(rs.getTime("CheckOutTimeEnd").toLocalTime());
-                    bill.setHotelService_price(rs.getInt("HotelService_Price"));
                     bill.setStatus(rs.getString("Status"));
                     bill.setTotal_price(rs.getInt("Total_Price"));
                     bill.setAmount(rs.getInt("Amount"));
-                    bill.setService_ID(rs.getInt("Service_ID"));
                     list_bill.add(bill);
                 }
             }
@@ -279,11 +271,9 @@ public class BillDB implements DatabaseInfo {
                     bill.setCheckInTimeEnd(rs.getTime("CheckInTimeEnd").toLocalTime());
                     bill.setCheckOutTimeStart(rs.getTime("CheckOutTimeStart").toLocalTime());
                     bill.setCheckOutTimeEnd(rs.getTime("CheckOutTimeEnd").toLocalTime());
-                    bill.setHotelService_price(rs.getInt("HotelService_Price"));
                     bill.setStatus(rs.getString("Status"));
                     bill.setTotal_price(rs.getInt("Total_Price"));
                     bill.setAmount(rs.getInt("Amount"));
-                    bill.setService_ID(rs.getInt("Service_ID"));
                     list_bill.add(bill);
                 }
             }
@@ -294,7 +284,7 @@ public class BillDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) throws SQLException {
-        List<Bill> list = BillDB.getBillProcessingByCustomerID(1);
+        List<Bill> list = BillDB.getBillByCustomerID(1);
         for (Bill b : list) {
             System.out.println(b.toString());
         }

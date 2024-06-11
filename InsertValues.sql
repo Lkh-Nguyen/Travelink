@@ -650,20 +650,22 @@ VALUES
 ('2024-05-04', 1, '2024-06-22', '2024-06-28', 35100.00, 'Credit Card', 'Not Paid', 1),
 ('2024-05-05', 4, '2024-06-23', '2024-06-29', 45100.00, 'Credit Card', 'Not Paid', 1),
 ('2024-05-06', 5, '2024-06-24', '2024-06-30', 55100.00, 'Credit Card', 'Not Paid', 1),
---paid , not finish
+--paid , not finish , not feedback
 ('2024-06-02', 5, '2024-06-11', '2024-06-26', 2100.00, 'Credit Card', 'Paid', 1),
 ('2024-06-05', 6, '2024-06-12', '2024-06-27', 4100.00, 'Credit Card', 'Paid', 1),
 ('2024-06-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'Credit Card', 'Paid', 1),
 ('2024-06-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'Credit Card', 'Paid', 1),
 ('2024-06-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'Credit Card', 'Paid', 1),
 
---paid , finish
+--paid , finish, not feedback
 ('2024-05-03', 5, '2024-05-11', '2024-05-26', 2100.00, 'Credit Card', 'Paid', 1),
 ('2024-05-05', 6, '2024-05-12', '2024-05-27', 4100.00, 'Credit Card', 'Paid', 1),
 ('2024-05-04', 7, '2024-05-13', '2024-05-28', 4100.00, 'Credit Card', 'Paid', 1),
 ('2024-05-05', 2, '2024-05-14', '2024-05-29', 3100.00, 'Credit Card', 'Paid', 1),
-('2024-05-06', 3, '2024-05-15', '2024-05-30', 2100.00, 'Credit Card', 'Paid', 1);
-
+('2024-05-06', 3, '2024-05-15', '2024-05-30', 2100.00, 'Credit Card', 'Paid', 1),
+--finish,feedback
+('2024-05-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'Credit Card', 'Finish', 1),
+('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'Credit Card', 'Finish', 1);
 
 -----------------------------------------------------------------------------------------------------------------
 select *
@@ -673,7 +675,7 @@ order by Reservation_ID
 -- Chèn dữ liệu vào bảng Reserved_Room với Reservation_ID từ 1 đến 21, Room_ID random từ 1 đến 90, amount từ 1 đến 2
 DECLARE @ReservationID INT = 1;
 
-WHILE @ReservationID <= 21
+WHILE @ReservationID <= 23
 BEGIN
     INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
     VALUES (@ReservationID, FLOOR(RAND() * 90) + 1, FLOOR(RAND() * 2) + 1);
@@ -681,4 +683,3 @@ BEGIN
     SET @ReservationID = @ReservationID + 1;
 END;
 -----------------------------------------------------------------------------------------------------------------
-

@@ -492,7 +492,7 @@
 
             // Pagination
             let thisPage = 1;
-            let limit = 2; // 2 items per page
+            let limit = 4; // 2 items per page
             let list = document.querySelectorAll(".hotel-card");
 
             function loadItem() {

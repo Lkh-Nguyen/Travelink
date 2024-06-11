@@ -74,9 +74,9 @@ public class Paid_Hotel_Service extends HttpServlet {
         }
 
         List<Bill> list_bill = BillDB.getBillFinishedByCustomerID(account.getAccount_ID());
-        for (Bill b : list_bill) {
-            b.setStatus("Paid");
-        }
+//        for (Bill b : list_bill) {
+//            b.setStatus("Paid");
+//        }
 
         request.setAttribute("list_bill", list_bill);
         request.getRequestDispatcher("Paid_Transaction.jsp").forward(request, response);

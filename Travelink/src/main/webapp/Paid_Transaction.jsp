@@ -333,7 +333,6 @@
                                                         <span class="badge text-bg-success">${h.status}</span>
                                                     </p>
                                                 </div>
-
                                             </div>
                                             <a class="btn btn-outline-primary mb-2" href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" >
                                                 Cancel

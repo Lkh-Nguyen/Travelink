@@ -114,6 +114,7 @@
                 </div>
                 <input type="hidden" id="date" name="date" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new Date()) %>">
                 <input type="hidden" id="reservationID" name="reservationID" value="${param.reservationID}">
+                <input type="hidden" id="hotel_ID" name="hotel_ID" value="${param.hotel_ID}">
                 <div class="d-flex justify-content-around ">
                     <button type="submit" class="btn btn-primary fw-bold">Submit</button>
                     <button type="button" class="btn btn-secondary fw-bold" onclick="window.history.back()">Cancel</button>

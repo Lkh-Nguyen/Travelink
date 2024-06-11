@@ -169,7 +169,8 @@ public class FeedbackDB implements DatabaseInfo {
         Connection connection = DatabaseInfo.getConnect();
 
         if (connection != null) {
-            String query = "INSERT INTO Feedback (Description, Rating, Date, LikesCount, DislikesCount, Account_ID, Hotel_ID) VALUES (?, ?, ?, 0, 0, ?, ?)";
+            String query = "INSERT INTO Feedback (Description, Rating, Date, LikesCount, DislikesCount, Account_ID, Hotel_ID)"
+                    + " VALUES (?, ?, ?, 0, 0, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, feedback.getDescription());
             statement.setByte(2, feedback.getRating());

@@ -54,6 +54,12 @@
                 border-color: #4d90fe;
                 outline: none;
             }
+
+            .form-control.error {
+                border-color: red;
+            }
+
+
             .btn-primary {
                 font-size: 1.5em;
                 background-color: #4d90fe;
@@ -67,6 +73,22 @@
             }
             .btn-primary:hover {
                 background-color: #357ae8;
+            }
+
+            .error-message {
+                color: red;
+                font-size: 1em;
+                margin-top: 5px;
+                display: none;
+            }
+
+            .character-count {
+                font-size: 1em;
+                text-align: right;
+                color: #000;
+            }
+            #charCount{
+                color: #000;
             }
         </style>
     </head>
@@ -87,6 +109,8 @@
                 <div class="mb-3 mt-5">
                     <label for="description" class="form-label fs-3">Description</label>
                     <textarea class="form-control" id="description" name="description" rows="7" required></textarea>
+                    <div class="character-count" id="charCount">0/200</div>
+                    <div class="error-message" id="error-message">Description cannot exceed 200 characters.</div>
                 </div>
                 <input type="hidden" id="date" name="date" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new Date()) %>">
                 <input type="hidden" id="reservationID" name="reservationID" value="${param.reservationID}">
@@ -96,5 +120,9 @@
                 </div>
             </form>
         </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+        <script src="js/Create Feedback.js">
+        </script>
     </body>
 </html>

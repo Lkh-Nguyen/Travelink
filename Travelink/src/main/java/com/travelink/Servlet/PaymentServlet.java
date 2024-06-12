@@ -78,7 +78,6 @@ public class PaymentServlet extends HttpServlet {
         }
         
         //Get booking details from session
-        Hotel hotel = (Hotel) session.getAttribute("bookingHotel");
         Account account = (Account) session.getAttribute("account");
         String totalPriceStr = (String) session.getAttribute("bookingTotalPrice");
 

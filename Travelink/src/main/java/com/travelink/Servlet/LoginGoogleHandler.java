@@ -98,7 +98,7 @@ public class LoginGoogleHandler extends HttpServlet {
         return accessToken;
     }
 
-    public static Account getAccountInfo(final String accessToken) throws ClientProtocolException, IOException {
+    public static Account getAccountInfo(String accessToken) throws ClientProtocolException, IOException {
         String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();
 

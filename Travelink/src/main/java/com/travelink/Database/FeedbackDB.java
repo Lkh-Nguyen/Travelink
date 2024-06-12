@@ -169,15 +169,14 @@ public class FeedbackDB implements DatabaseInfo {
         Connection connection = DatabaseInfo.getConnect();
 
         if (connection != null) {
-            String query = "INSERT INTO Feedback (Description, Rating, Date, LikesCount, DislikesCount, Account_ID, Hotel_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Feedback (Description, Rating, Date, LikesCount, DislikesCount, Account_ID, Hotel_ID)"
+                    + " VALUES (?, ?, ?, 0, 0, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, feedback.getDescription());
             statement.setByte(2, feedback.getRating());
             statement.setDate(3, feedback.getDate());
-            statement.setInt(4, feedback.getLikesCount());
-            statement.setInt(5, feedback.getDislikesCount());
-            statement.setInt(6, feedback.getAccount_ID());
-            statement.setInt(7, feedback.getHotelID());
+            statement.setInt(4, feedback.getAccount_ID());
+            statement.setInt(5, feedback.getHotelID());
 
             statement.executeUpdate();
             connection.close();
@@ -185,7 +184,22 @@ public class FeedbackDB implements DatabaseInfo {
             System.out.println("Error: Connection failed!");
         }
     }
+    
+    public static void updateStatusBill(int reservationID) throws SQLException {
+        Connection connection = DatabaseInfo.getConnect();
 
+        if (connection != null) {
+            String query = "update Reservation "
+                    + "set status = 'FINISH' "
+                    + "where Reservation_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, reservationID);
+            statement.executeUpdate();
+            connection.close();
+        } else {
+            System.out.println("Error: Connection failed!");
+        }
+    }
     // Update an existing feedback
     public static void updateFeedback(Feedback feedback) throws SQLException {
         Connection connection = DatabaseInfo.getConnect();
@@ -275,33 +289,35 @@ public class FeedbackDB implements DatabaseInfo {
     }
 
     public static void incrementLikesCount(int feedbackID) throws SQLException {
-    Connection connection = DatabaseInfo.getConnect();
+        Connection connection = DatabaseInfo.getConnect();
 
-    if (connection != null) {
-        String query = "UPDATE Feedback SET LikesCount = LikesCount + 1 WHERE Feedback_ID = ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, feedbackID);
+        if (connection != null) {
+            String query = "UPDATE Feedback SET LikesCount = LikesCount + 1 WHERE Feedback_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, feedbackID);
 
-        statement.executeUpdate();
-        connection.close();
-    } else {
-        System.out.println("Error: Connection failed!");
+            statement.executeUpdate();
+            connection.close();
+        } else {
+            System.out.println("Error: Connection failed!");
         }
     }
+
     public static void decrementLikesCount(int feedbackID) throws SQLException {
-    Connection connection = DatabaseInfo.getConnect();
+        Connection connection = DatabaseInfo.getConnect();
 
-    if (connection != null) {
-        String query = "UPDATE Feedback SET DislikesCount = DislikesCount + 1 WHERE Feedback_ID = ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, feedbackID);
+        if (connection != null) {
+            String query = "UPDATE Feedback SET DislikesCount = DislikesCount + 1 WHERE Feedback_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, feedbackID);
 
-        statement.executeUpdate();
-        connection.close();
-    } else {
-        System.out.println("Error: Connection failed!");
+            statement.executeUpdate();
+            connection.close();
+        } else {
+            System.out.println("Error: Connection failed!");
         }
     }
+
     public static boolean isFeedbackOwner(int feedbackID, int userID) throws SQLException {
         Connection connection = DatabaseInfo.getConnect();
 
@@ -309,12 +325,12 @@ public class FeedbackDB implements DatabaseInfo {
             String query = "SELECT COUNT(*) FROM Feedback WHERE feedbackID = ? AND account_ID = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, feedbackID);
-            statement.setInt(2,userID);
-             try (ResultSet rs = statement.executeQuery()) {
+            statement.setInt(2, userID);
+            try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1) > 0;
                 }
-             }
+            }
         } else {
             System.out.println("Error: Connection failed!");
         }
@@ -329,15 +345,7 @@ public class FeedbackDB implements DatabaseInfo {
     public static void main(String[] args) throws SQLException {
 
         // Test getFeedbackByID
-        System.out.println("\n** Test getFeedbackByID **");
-        int testFeedbackID = 5; // Replace with an existing feedback ID
-        Feedback feedback = FeedbackDB.getFeedbackByID(testFeedbackID);
-        if (feedback == null) {
-            System.out.println("Feedback with ID " + testFeedbackID + " not found.");
-        } else {
-            System.out.println("Details of Feedback (ID: " + testFeedbackID + "):");
-            System.out.println(feedback); // Assuming your Feedback model has a toString() method
-        }
+        FeedbackDB.updateStatusBill(2);
     }
 
 }

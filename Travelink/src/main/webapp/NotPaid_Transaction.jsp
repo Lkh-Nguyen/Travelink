@@ -327,13 +327,13 @@
                                                     </p>
                                                 </div>
                                                 <div class="col">
-                                                    <c:if test="${h.status == 'Not Paid'}">
+                                                    <c:if test="${h.status == 'NOT PAID'}">
                                                         <p class="card-text">
                                                             <i class='bx bx-check-square'></i>
                                                             <span class="badge text-bg-warning">${h.status}</span>
                                                         </p>
                                                     </c:if>
-                                                    <c:if test="${h.status == 'Paid'}">
+                                                    <c:if test="${h.status == 'PAID'}">
                                                         <p class="card-text">
                                                             <i class='bx bx-check-square'></i>
                                                             <span class="badge text-bg-success">${h.status}</span>
@@ -341,7 +341,7 @@
                                                     </c:if>
                                                 </div>
                                             </div>
-                                            <c:if test="${h.status == 'Not Paid'}">
+                                            <c:if test="${h.status == 'NOT PAID'}">
                                                 <div class="row m-1">
                                                     <c:if test="${requestScope.error != null}">
                                                         <div class="alert alert-success" role="alert">
@@ -350,7 +350,7 @@
                                                     </c:if>
                                                 </div>
                                             </c:if>
-                                            <c:if test="${h.status == 'Paid'}">
+                                            <c:if test="${h.status == 'PAID'}">
                                                 <div class="row m-1">
                                                     <c:if test="${requestScope.error != null}">
                                                         <a class="btn btn-outline-primary mb-2" href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" >

@@ -19,9 +19,15 @@
             rel="stylesheet"
             />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
         <link rel="stylesheet" href="css/Search_Hotel.css">
         <link rel="stylesheet" href="css/listPage.css"/>
         <style>
+            @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+            * {
+                box-sizing: border-box;
+                font-family: 'Montserrat', sans-serif;
+            }
             .booking__container select{
                 width: 100%;
                 padding: 10px 0;
@@ -42,6 +48,42 @@
                 top: 0;
                 font-size: 0.8rem;
                 color: #333;
+            }
+            .loader {
+                position: fixed;
+                top:0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #f7f9fb;
+                transition: opacity 0.75s, visibility 0.75s;
+            }
+
+            .loader-hidden {
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .loader::after{
+                content: "";
+                width: 75px;
+                height: 75px;
+                border: 15px solid #dddddd;
+                border-top-color: rgb(1, 148, 243);
+                border-radius: 50%;
+                animation: loading 0.75s ease infinite;
+            }
+
+            @keyframes loading {
+                from{
+                    transform: rotate(0turn);
+                }
+                to{
+                    transform: rotate(1turn);
+                }
             }
         </style>
     </head>
@@ -87,7 +129,7 @@
                                 <input type="date" name="check_in_date" value="${sessionScope.checkInDate}"required=""/>
                                 <label>Departure</label>
                             </div>
-                                <p style="color: red"> ${requestScope.statusBeginDate}</p>
+                            <p style="color: red"> ${requestScope.statusBeginDate}</p>
                             <p>Add date</p>
                         </div>
                     </div>
@@ -107,14 +149,15 @@
                             <div class="input__group">
                                 <input type="number" min="1" value="${requestScope.room}" name="number_of_rooms" required=""/>  <label>Rooms</label>
                             </div>
+                            <p style="color: red"> ${requestScope.statusRoomAndPeople}</p>
                             <p>Number of rooms</p>
                         </div>
                     </div>
                     <div></div>
                     <div></div>
-                    
+
                     <div class="text-center mb-2">
-                        <button class="btn btn-primary fw-bold w-100"><i class="ri-search-line text-dark">  Search</i></button>
+                        <button class="btn btn-primary" type="submit"><i class="ri-search-line text-light">Search</button>
                     </div>
                 </form>
             </section>        
@@ -176,25 +219,46 @@
                 <div class="col-md-9">
                     <div class="row">
                         <c:if test="${requestScope.hotelList != null}">
-                            <div class="col-md-12">
-                                <h2>Danh sách khách sạn: </h2>
+                            <div class="col-md-12 mt-5">
                                 <c:forEach var="hotel" items="${requestScope.hotelList}" varStatus="status">
                                     <div class="card mb-3">
                                         <div class="row g-0">
                                             <div class="col-md-4">
-                                                <img src="${requestScope.hotelImgList[status.index]}" class="img-fluid rounded-start" alt="Hotel 1">
+                                                <img src="${requestScope.hotelImgList[status.index]}" class="img-fluid h-100 rounded-start" alt="Hotel 1">
                                             </div>
                                             <div class="col-md-8">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">${hotel.name}</h5>
-                                                    <p class="card-text"><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i> (${hotel.star} stars)</p>
+                                                <div class="card-body h-100">
+                                                    <h5 class="card-title d-flex justify-content-between align-items-center">
+                                                        ${hotel.name}
+                                                        <span class="px-0">
+                                                            <c:if test="${hotel.star == 5}">
+                                                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
+                                                                </c:if>
+                                                                <c:if test="${hotel.star == 4}">
+                                                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i>
+                                                                </c:if>
+                                                                <c:if test="${hotel.star == 3}">
+                                                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                </c:if>
+                                                                <c:if test="${hotel.star == 2}">
+                                                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                </c:if>
+                                                                <c:if test="${hotel.star == 1}">
+                                                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                </c:if>
+                                                        </span>
+                                                    </h5>
+                                                    <div class="row">
+                                                        <p><i class="bi bi-location"></i>Đà Nẵng - <a href="https://maps.app.goo.gl/g2auqYTqpbokyX3E7">Show on map</a></p>
+                                                    </div>
                                                     <p class="card-text"><i class="bi bi-geo-alt"></i> Địa điểm: ${hotel.address}</p>
+                                                    <p class="card-text text-success fw-medium"><i class="bi bi-check"></i> Free canellation</p>
+                                                    <p class="card-text text-success fw-medium"><i class="bi bi-check"></i> No prepayment needed <span class="text-muted text-success">- pay at property</span></p>
                                                     <div class="card-divider"></div>
                                                     <form action="viewHotelDetailServlet" method="get">
                                                         <button class="btn btn-primary">Đặt Phòng</button>
                                                         <input type="hidden" name="hotel_ID"value="${hotel.hotel_ID}">
                                                     </form>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -206,8 +270,10 @@
 
                         <c:if test="${requestScope.status == null}">
                             <c:if test="${requestScope.hotelList == null}">
-                                <div class="col-md-12">
-                                    <p>Không tìm thấy khách sạn nào phù hợp với tiêu chí của bạn.</p>
+                                <div class="col-md-12 mt-5 text-center">
+                                    <div class="alert alert-success" role="alert">
+                                        Không có khách sạn hợp lệ !
+                                    </div>
                                 </div>
                             </c:if>
                         </c:if>
@@ -218,13 +284,82 @@
                 </div>
             </div>
         </div>
+<!--        <div class="loader">
+
+        </div>-->
         <%@include file="Footer.jsp"%>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
         <script src="js/Search_Hotel.js"></script>
-        <script src="js/Pagination.js"></script>
+        <script>
+                                /* 
+                                 * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+                                 * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
+                                 */
+                                let thisPage = 1;
+                                let limit = 6;
+                                let list = document.querySelectorAll(".card");
+                                function loadItem() {
+                                    let beginGet = limit * (thisPage - 1);
+                                    let endGet = limit * thisPage - 1;
+                                    list.forEach((item, key) => {
+                                        if (key >= beginGet && key <= endGet) {
+                                            item.style.display = "block";
+                                        } else {
+                                            item.style.display = "none";
+                                        }
+                                    });
+                                    listPage();
+                                }
+                                loadItem();
+                                function listPage() {
+                                    let count = Math.ceil(list.length / limit);
+                                    document.querySelector('.listPage').innerHTML = '';
+
+                                    if (thisPage != 1) {
+                                        let prev = document.createElement('li');
+                                        prev.innerText = 'PREV';
+                                        prev.setAttribute('onclick', "changePage(" + (thisPage - 1) + ")");
+                                        document.querySelector('.listPage').appendChild(prev);
+                                    }
+                                    for (i = 1; i <= count; i++) {
+                                        let newPage = document.createElement('li');
+                                        newPage.innerText = i;
+                                        if (i == thisPage) {
+                                            newPage.classList.add('active');
+                                        }
+                                        newPage.setAttribute('onclick', "changePage(" + i + ")");
+                                        document.querySelector('.listPage').appendChild(newPage);
+                                    }
+
+                                    if (thisPage != count) {
+                                        let next = document.createElement('li');
+                                        next.innerText = 'NEXT';
+                                        next.setAttribute('onclick', "changePage(" + (thisPage + 1) + ")");
+                                        document.querySelector('.listPage').appendChild(next);
+                                    }
+                                }
+                                function changePage(i) {
+                                    thisPage = i;
+                                    loadItem();
+                                    let scrollPosition = window.scrollY;
+                                    window.scrollTo(0, scrollPosition);
+                                }
+
+//                                window.addEventListener("load", () => {
+//                                    const loader = document.querySelector(".loader");
+//
+//                                    loader.classList.add("loader-hidden");
+//
+//                                    loader.addEventListener("transitioned", () => {
+//                                        document.body.removeChild("loader");
+//                                    });
+//                                });
+
+
+        </script>
     </body>
 </html>
 

@@ -4,27 +4,22 @@
  */
 package com.travelink.Servlet;
 
-import com.travelink.Database.BillDB;
-import com.travelink.Database.HotelServiceDB;
-import com.travelink.Model.Account;
-import com.travelink.Model.HotelService;
-import com.travelink.View.Bill;
+import com.travelink.Model.Hotel;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author admin
+ * @author MSI
  */
-public class Paid_Hotel_Service extends HttpServlet {
+@WebServlet(name = "FilterHotelByStarServlet", urlPatterns = {"/filterHotelByStarServlet"})
+public class FilterHotelByStarServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +38,10 @@ public class Paid_Hotel_Service extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Paid_Hotel_Service</title>");
+            out.println("<title>Servlet FilterHotelByStarServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Paid_Hotel_Service at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet FilterHotelByStarServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,23 +59,16 @@ public class Paid_Hotel_Service extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String check = request.getParameter("check");
-        if(check != null){
-            request.setAttribute("successFeedback", "Feedback successfully.");
-        }
-        LocalDate currentDate = LocalDate.now();
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-
-        if (account == null) {
-            response.sendRedirect("Form_Login.jsp");
-            return;
-        }
-
-        List<Bill> list_bill = BillDB.getBillFinishedByCustomerID(account.getAccount_ID());
-
-        request.setAttribute("list_bill", list_bill);
-        request.getRequestDispatcher("Paid_Transaction.jsp").forward(request, response);
+        String location = request.getParameter("location");
+        int people = Integer.parseInt(request.getParameter("people"));
+        int roomSize = Integer.parseInt(request.getParameter("room"));
+        int star = Integer.parseInt(request.getParameter("star"));
+        String hotelList = request.getParameter("hotelList");
+        request.setAttribute("location", location);
+        request.setAttribute("people", people);
+        request.setAttribute("room", roomSize);
+        System.out.println(hotelList);
+//        request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
     }
 
     /**

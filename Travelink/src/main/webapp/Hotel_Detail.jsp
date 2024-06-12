@@ -12,6 +12,10 @@
         <link rel="stylesheet" href="bootstrap_css/bootstrap.min.css">
         <link rel="stylesheet" href="css/Hotel_Detail.css">
         <link rel="stylesheet" href="css/listPage.css">
+        <!-- SweetAlert CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <!-- SweetAlert JS -->
+        
         <title>Hotel</title>
         <style>
             table {
@@ -226,7 +230,7 @@
                                                                 for(RoomBed roomBed : RoomBedDB.getRoomBedsByRoomID(roomHotel.getRoom_ID())){
                                                                    Bed bed = BedDB.getBedByRoomBedID(roomBed.getRoom_Bed_ID()); 
                                                             %>
-                                                            <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 12px;"></i> <%= roomBed.getAmount()%> <%=bed.getName() %></p>
+                                                            <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 12px;"></i><%= roomBed.getAmount()%> <%=bed.getName() %> </p>
                                                             <%
                                                                 }
                                                             %>
@@ -235,10 +239,10 @@
                                                                 
                                                             %> 
                                                             <h4 id="service" style="margin-top: 5px">Breakfast Included</h4>
-                                                            <a id="numberRoom">Only ${requestScope.numberOfRoomList[status.index]} rooms left on our site</a>
-                                                        </td>
-                                                        <td>
-                                                            <div id="amount_People">
+                                                            <c:if test="${requestScope.check != null}"><a id="numberRoom">Only ${requestScope.numberOfRoomList[status.index]} rooms left on our site</a></c:if>
+                                                            </td>
+                                                            <td>
+                                                                <div id="amount_People">
                                                                 <%
                                                                      int n = roomHotel.getCapacity();
                                                                      for (int i = 0; i < n; i++) {
@@ -258,11 +262,9 @@
                                                         </td>
                                                         <td>
                                                             <select style="width:50px">
-                                                                <option value="0">0</option>
-                                                                <option value="1">1</option>
-                                                                <option value="2">2</option>
-                                                                <option value="3">3</option>
-                                                                <option value="4">4</option>
+                                                                <c:forEach var="i" begin="0" end="${requestScope.numberOfRoomList[status.index]}">
+                                                                    <option value="${i}">${i}</option>
+                                                                </c:forEach>
                                                             </select>
                                                             <input type="hidden" id="infor" value=""/>
                                                         </td>
@@ -276,12 +278,15 @@
                                 </div>
                             </div>
                         </c:forEach>
+
                     </div>
-                    <form action="CheckoutServlet" method="post">
-                        <input type="hidden" value="" name="bookingStr" id="bookingStr">
-                        <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">
-                        <input type="submit" value="Continue" id="continue">
-                    </form>
+                    <c:if test="${requestScope.check != null}">
+                        <form action="CheckoutServlet" method="post" onsubmit="return validateForm()">
+                            <input type="hidden" value="" name="bookingStr" id="bookingStr">
+                            <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">
+                            <input type="submit" value="Continue" id="continue">
+                        </form>
+                    </c:if>
                 </div>
             </div>
 
@@ -358,45 +363,45 @@
                                             <i class='bx bxs-star'></i>
                                         </c:if>
                                     </div>
-                                        <p class="card-text">${f.description}</p> 
-                                        <div class="d-flex justify-content-end m-2">
-                                            <c:choose>
-                                                <c:when test="${sessionScope.account != null}">
-                                                    <c:choose>
-                                                        <c:when test="${sessionScope.account.account_ID != f.getAccount(f.feedbackID).account_ID}">
-                                                            <!-- Like icon with count -->
-                                                            <button class="btn btn-primary mx-2" onclick="likeFeedback(${f.feedbackID})">
-                                                                <i class="bx bx-like mx-2"></i>
-                                                                <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
-                                                            </button>
-                                                            <button class="btn btn-danger" onclick="dislikeFeedback(${f.feedbackID})">
-                                                                <i class="bx bx-dislike mx-2"></i>
-                                                                <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
-                                                            </button>
-                                                        </c:when>  
-                                                        <c:otherwise>
-                                                            <button class="btn btn-primary mx-2" onclick="error()">
-                                                                <i class="bx bx-like mx-2"></i>
-                                                                <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
-                                                            </button>
-                                                            <button class="btn btn-danger" onclick="error()">
-                                                                <i class="bx bx-dislike mx-2"></i>
-                                                                <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
-                                                            </button>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <button class="btn btn-primary  mx-2" onclick="errorLogin()">
-                                                        <i class="bx bx-like mx-2"></i>
-                                                        <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
-                                                    </button>
-                                                    <button class="btn btn-danger" onclick="errorLogin()">
-                                                        <i class="bx bx-dislike mx-2"></i>
-                                                        <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
-                                                    </button>
-                                                </c:otherwise>
-                                            </c:choose> 
+                                    <p class="card-text">${f.description}</p> 
+                                    <div class="d-flex justify-content-end m-2">
+                                        <c:choose>
+                                            <c:when test="${sessionScope.account != null}">
+                                                <c:choose>
+                                                    <c:when test="${sessionScope.account.account_ID != f.getAccount(f.feedbackID).account_ID}">
+                                                        <!-- Like icon with count -->
+                                                        <button class="btn btn-primary mx-2" onclick="likeFeedback(${f.feedbackID})">
+                                                            <i class="bx bx-like mx-2"></i>
+                                                            <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
+                                                        </button>
+                                                        <button class="btn btn-danger" onclick="dislikeFeedback(${f.feedbackID})">
+                                                            <i class="bx bx-dislike mx-2"></i>
+                                                            <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
+                                                        </button>
+                                                    </c:when>  
+                                                    <c:otherwise>
+                                                        <button class="btn btn-primary mx-2" onclick="error()">
+                                                            <i class="bx bx-like mx-2"></i>
+                                                            <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
+                                                        </button>
+                                                        <button class="btn btn-danger" onclick="error()">
+                                                            <i class="bx bx-dislike mx-2"></i>
+                                                            <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
+                                                        </button>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <button class="btn btn-primary  mx-2" onclick="errorLogin()">
+                                                    <i class="bx bx-like mx-2"></i>
+                                                    <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
+                                                </button>
+                                                <button class="btn btn-danger" onclick="errorLogin()">
+                                                    <i class="bx bx-dislike mx-2"></i>
+                                                    <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
+                                                </button>
+                                            </c:otherwise>
+                                        </c:choose> 
                                     </div>   
                                     <!-- <i id="likeButton" class='bx bx-like' onclick="toggleLike()"></i><span id="sumLike">4 likes this comment</span>-->
                                 </div>
@@ -411,58 +416,59 @@
         <%@include file="Footer.jsp" %>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            function error() {
-                Swal.fire({
-                    title: "Travelink",
-                    text: "You can't react your feedback",
-                    icon: "error"
-                });
-            }
-            function errorLogin() {
-                Swal.fire({
-                    title: "Travelink",
-                    text: "You must login first",
-                    icon: "error"
-                });
-            }
-            //Like action
-            function likeFeedback(feedbackID) {
-                var likesCountElement = document.getElementById('likesCount-' + feedbackID);
-                var likesCount = parseInt(likesCountElement.textContent);
-                
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "ReactFeedbackServlet", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        likesCount++;
-                        likesCountElement.textContent = likesCount;
-                    } else if (xhr.readyState === 4) {
-                        alert("Something went wrong!");
-                    }
-                };
-                xhr.send("action=like&feedbackID=" + feedbackID);
-            }
-            //Dislike action
-            function dislikeFeedback(feedbackID) {
-                var dislikesCountElement = document.getElementById('dislikesCount-' + feedbackID);
-                var dislikesCount = parseInt(dislikesCountElement.textContent);
+                                                    function error() {
+                                                        Swal.fire({
+                                                            title: "Travelink",
+                                                            text: "You can't react your feedback",
+                                                            icon: "error"
+                                                        });
+                                                    }
+                                                    function errorLogin() {
+                                                        Swal.fire({
+                                                            title: "Travelink",
+                                                            text: "You must login first",
+                                                            icon: "error"
+                                                        });
+                                                    }
+                                                    //Like action
+                                                    function likeFeedback(feedbackID) {
+                                                        var likesCountElement = document.getElementById('likesCount-' + feedbackID);
+                                                        var likesCount = parseInt(likesCountElement.textContent);
 
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "ReactFeedbackServlet", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        dislikesCount++;
-                        dislikesCountElement.textContent = dislikesCount;
-                    } else if (xhr.readyState === 4) {
-                        alert("Something went wrong!");
-                    }
-                };
-                xhr.send("action=dislike&feedbackID=" + feedbackID);
-            }
-            
+                                                        var xhr = new XMLHttpRequest();
+                                                        xhr.open("POST", "ReactFeedbackServlet", true);
+                                                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                                                        xhr.onreadystatechange = function () {
+                                                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                                                likesCount++;
+                                                                likesCountElement.textContent = likesCount;
+                                                            } else if (xhr.readyState === 4) {
+                                                                alert("Something went wrong!");
+                                                            }
+                                                        };
+                                                        xhr.send("action=like&feedbackID=" + feedbackID);
+                                                    }
+                                                    //Dislike action
+                                                    function dislikeFeedback(feedbackID) {
+                                                        var dislikesCountElement = document.getElementById('dislikesCount-' + feedbackID);
+                                                        var dislikesCount = parseInt(dislikesCountElement.textContent);
+
+                                                        var xhr = new XMLHttpRequest();
+                                                        xhr.open("POST", "ReactFeedbackServlet", true);
+                                                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                                                        xhr.onreadystatechange = function () {
+                                                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                                                dislikesCount++;
+                                                                dislikesCountElement.textContent = dislikesCount;
+                                                            } else if (xhr.readyState === 4) {
+                                                                alert("Something went wrong!");
+                                                            }
+                                                        };
+                                                        xhr.send("action=dislike&feedbackID=" + feedbackID);
+                                                    }
+
         </script>
         <script src="js/Hotel_Detail.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     </body>
 </html>

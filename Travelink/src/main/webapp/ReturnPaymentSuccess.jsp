@@ -72,18 +72,15 @@
     <div class="content">
         <div class="container text-center">
             <div class="success-message">
-                <div class="icon mb-4">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <h1>Transaction Successful!</h1>
+                <h1><span><i class='bx bxs-check-circle' style="color: rgba(4, 117, 4, 0.858)"></i></span>Transaction Successful!</h1>
                 <p>Thank you for your transaction.</p>    
                 <p>You can view your bill in the <strong>Booking History</strong>.</p>
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="Home_Customer.jsp" class="btn btn-home mt-4">Return to Home Page</a>
+                        <a href="homeCustomerServlet" class="btn btn-home mt-4">Return to Home Page</a>
                     </div>
                     <div class="col-md-6">
-                        <a href="My_Card_Payment_History.jsp" class="btn btn-home mt-4">Going Booking History</a>
+                        <a href="NotPaid_Hotel_Service" class="btn btn-home mt-4">Going Booking History</a>
                     </div>
                 </div>
             </div>

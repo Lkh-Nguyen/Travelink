@@ -123,28 +123,31 @@
                             </div>
                         </div>
                         <div class="card-body mini-info">
-                            <c:forEach var="bill" items="${requestScope.list_bill}">
-                                <div class="container gradient-background fs-6">
-                                    <div class="row p-lg-2 justify-content-center align-items-center text-center">
-                                        <p class="fw-bold">Hotel Brand</p>  
-                                        <p>${bill.hotel_Name}</p>
+                            <c:forEach var="bill" items="${requestScope.list_bill}" varStatus="status">
+                                <c:if test="${status.index == 0}">
+                                    <div class="container gradient-background fs-6">
+                                        <div class="row p-lg-2 justify-content-center align-items-center text-center">
+                                            <p class="fw-bold">Hotel Brand</p>  
+                                            <p>${bill.hotel_Name}</p>
+                                        </div>
+                                        <div class="row p-lg-2 justify-content-center align-items-center text-center">
+                                            <div class="col-md-4">
+                                                <p class="fw-bold">Check In Date</p>
+                                                <p>${bill.checkInDate}</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p class="fw-bold">Customer</p>
+                                                <p>${account.name}</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p class="fw-bold">Check Out Date</p>
+                                                <p>${bill.checkOutDate}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="row p-lg-2 justify-content-center align-items-center text-center">
-                                        <div class="col-md-4">
-                                            <p class="fw-bold">Check In Date</p>
-                                            <p>${bill.checkInDate}</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <p class="fw-bold">Customer</p>
-                                            <p>${account.name}</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <p class="fw-bold">Check Out Date</p>
-                                            <p>${bill.checkOutDate}</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                </c:if>
                             </c:forEach>
+
                         </div>
                     </div>
                 </div>
@@ -184,7 +187,8 @@
                                 </div>
                                 <div class="col-md-4 justify-content-end align-items-end">
                                     <div class="card border-0">
-                                        <div class="card-body">
+                                        <div class="card-body" style="margin-top: 20px;
+                                             padding: 0;">
                                             <p class="fw-bold lh-1">BOOKING BILL</p>
                                             <p class="fw-bold lh-1">Date: <span class="fw-normal text-muted lh-1">
                                                     <%
@@ -239,28 +243,32 @@
                                                     <p class="fw-bold lh-1">Address: <span class="fw-normal text-muted lh-1">${account.address}</span></p>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 mt-2 ">
+                                            <div class="col-md-6 mt-2">
                                                 <div class="row border-bottom">
                                                     <div class="col">
                                                         <p class="fw-bold lh-1">Sub Total:</p>
                                                         <p class="fw-bold lh-1">Tax:</p>
                                                     </div>
                                                     <div class="col">
-                                                        <c:forEach var="bill" items="${requestScope.list_bill}">
-                                                            <p class="text-muted fw-normal lh-1 ps-4">${bill.total_price}</p>
-                                                            <p class="text-muted fw-normal lh-1 ps-4">0%</p>
+                                                        <c:forEach var="bill" items="${requestScope.list_bill}" varStatus="status">
+                                                            <c:if test="${status.index == 0}">
+                                                                <p class="text-muted fw-normal lh-1 ps-4">${bill.total_price}</p>
+                                                                <p class="text-muted fw-normal lh-1 ps-4">0%</p>
+                                                            </c:if>
                                                         </c:forEach>
                                                     </div>
                                                 </div>
-                                                <c:forEach var="bill" items="${requestScope.list_bill}">
-                                                    <div class="row mt-2">
-                                                        <div class="col">
-                                                            <p class="fw-bold lh-1">Grand Total</p>
+                                                <c:forEach var="bill" items="${requestScope.list_bill}" varStatus="status">
+                                                    <c:if test="${status.index == 0}">
+                                                        <div class="row mt-2">
+                                                            <div class="col">
+                                                                <p class="fw-bold lh-1">Grand Total</p>
+                                                            </div>
+                                                            <div class="col">
+                                                                <p class="text-muted fw-normal lh-1 ps-4">${bill.total_price}</p>
+                                                            </div>
                                                         </div>
-                                                        <div class="col">
-                                                            <p class="text-muted fw-normal lh-1 ps-4">${bill.total_price}</p>
-                                                        </div>
-                                                    </div>
+                                                    </c:if>
                                                 </c:forEach>
                                             </div>
                                         </div>
@@ -291,33 +299,38 @@
                                                     <div class="card-body p-2">
                                                         <div class="row p-2 justify-content-center align-items-center">
                                                             <div class="col-md-6">
-                                                                <c:forEach var="bill" items="${requestScope.list_bill}">
-                                                                    <div class="mb-2" id="btn-cancel">
-                                                                        <c:choose>
-                                                                            <c:when test="${bill.status != 'Paid'}">
-                                                                                <a class="btn btn-primary w-100 disabled" id="cancelBtn" aria-disabled="true">Cancel</a>
-                                                                            </c:when>
-                                                                            <c:otherwise>
-                                                                                <a class="btn btn-primary w-100 btnCancel" id="cancelBtn">Cancel</a>
-                                                                                <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                                                                                    <!-- Toast -->
-                                                                                    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                                                                                        <div class="toast-header">
-                                                                                            <img src="${account.avatarURL}" class="img-fluid rounded me-2" alt="..." style="height: 30px; width: 30px">
-                                                                                            <strong class="me-auto">${account.name}</strong>
-                                                                                            <small id="toastTime" class="text-muted"></small>
-                                                                                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                                                                                        </div>
-                                                                                        <div class="toast-body">
-                                                                                            ${account.name} have request canceled his bill ! 
+                                                                <c:set var="cancelButtonDisplayed" value="false" />
+                                                                <c:forEach var="bill" items="${requestScope.list_bill}" varStatus="status">
+                                                                    <c:if test="${!cancelButtonDisplayed}">
+                                                                        <div class="mb-2" id="btn-cancel">
+                                                                            <c:choose>
+                                                                                <c:when test="${bill.status != 'Paid'}">
+                                                                                    <a class="btn btn-primary w-100 disabled" id="cancelBtn" aria-disabled="true">Cancel</a>
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <a class="btn btn-primary w-100 btnCancel" id="cancelBtn">Cancel</a>
+                                                                                    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                                                                                        <!-- Toast -->
+                                                                                        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                                                                                            <div class="toast-header">
+                                                                                                <img src="${account.avatarURL}" class="img-fluid rounded me-2" alt="..." style="height: 30px; width: 30px">
+                                                                                                <strong class="me-auto">${account.name}</strong>
+                                                                                                <small id="toastTime" class="text-muted"></small>
+                                                                                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                                                                            </div>
+                                                                                            <div class="toast-body">
+                                                                                                ${account.name} has requested to cancel their bill!
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                </div>
-                                                                            </c:otherwise>
-                                                                        </c:choose>
-                                                                    </div>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                        </div>
+                                                                        <c:set var="cancelButtonDisplayed" value="true" />
+                                                                    </c:if>
                                                                 </c:forEach>
                                                             </div>
+
                                                             <div class="col-md-6">
                                                                 <div class="mb-2" id="btn-confirm">
                                                                     <a class="btn btn-primary w-100 btnConfirm" id="confirmBtn">Confirm</a>

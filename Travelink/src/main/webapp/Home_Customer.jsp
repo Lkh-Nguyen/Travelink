@@ -165,7 +165,7 @@
                 <!--                    Search button-->
                 <div></div><div></div>
                 <div class="text-center mb-2">
-                    <button class="btn btn-primary fw-bold w-100 text-center"><i class="ri-search-line text-dark">  Search</i></button>
+                    <button class="btn btn-primary fw-bold w-100 text-center"><i class="ri-search-line text-dark">Search</i></button>
                 </div>
             </form>
         </section>  

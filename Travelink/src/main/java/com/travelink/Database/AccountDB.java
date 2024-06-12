@@ -14,7 +14,7 @@ import java.sql.SQLException;
  *
  * @author ASUS
  */
-public class AccountDB implements DatabaseInfo {
+public class AccountDB {
 
     public static boolean insertAccount(Account Account) {
         Connection con = DatabaseInfo.getConnect();

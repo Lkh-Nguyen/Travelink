@@ -149,32 +149,7 @@ public class RoomDB implements DatabaseInfo {
         return reservationCoincideList;
     }
 
-    public static int numberOfRoomAvailableByDate(int RoomID, Date date, List<Reservation> reservationList, Map<Integer, List<ReservedRoom>> reservedRoomsByReservation) {
-        List<ReservedRoom> reservedRooms = ReservedRoomDB.getReservedRoomsByRoomID(RoomID);
-        boolean check = true;
-        for (ReservedRoom reservedRoom : reservedRooms) {
-            if (reservedRoom.getRoom_ID() == RoomID) {
-                check = false;
-                break;
-            }
-        }
-        if (check) {
-            return RoomDB.getRoomByID(RoomID).getTotalRooms();
-        } else {
-            int roomAvalable = RoomDB.getRoomByID(RoomID).getTotalRooms();
-            for (Reservation reservation : reservationList) {
-                if (checkOverlap(date, reservation.getCheckInDate(), getDateBefore(reservation.getCheckOutDate(), 1))) {
-                    List<ReservedRoom> reservedRoomList = reservedRoomsByReservation.get(reservation.getReservationID());
-                    for (ReservedRoom reservedRoom : reservedRoomList) {
-                        if (reservedRoom.getRoom_ID() == RoomID) {
-                            roomAvalable -= reservedRoom.getAmount();
-                        }
-                    }
-                }
-            }
-            return roomAvalable;
-        }
-    }
+    
 
     public static int numberOfRoomAvailableByDate(int RoomID, Date date, List<Reservation> reservationList) {
         // duyet reservationList lan 2 

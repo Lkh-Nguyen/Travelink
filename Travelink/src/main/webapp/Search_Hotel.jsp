@@ -149,6 +149,7 @@
                             <div class="input__group">
                                 <input type="number" min="1" value="${requestScope.room}" name="number_of_rooms" required=""/>  <label>Rooms</label>
                             </div>
+                            <p style="color: red"> ${requestScope.statusRoomAndPeople}</p>
                             <p>Number of rooms</p>
                         </div>
                     </div>

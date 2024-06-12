@@ -64,6 +64,10 @@ public class Paid_Hotel_Service extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String check = request.getParameter("check");
+        if(check != null){
+            request.setAttribute("successFeedback", "Feedback successfully.");
+        }
         LocalDate currentDate = LocalDate.now();
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");

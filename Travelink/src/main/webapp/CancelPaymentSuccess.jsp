@@ -80,7 +80,7 @@
                     <h1><span><i class='bx bxs-check-circle' style="color: rgba(4, 117, 4, 0.858)"></i></span>Transaction Canceled</h1>
                     <p>You have successfully canceled your transaction.</p>    
                     <p>If you have any questions, please contact our support team.</p>
-                    <a href="Home_Customer.jsp" class="btn btn-home mt-4">Return to Home Page</a>
+                    <a href="homeCustomerServlet" class="btn btn-home mt-4">Return to Home Page</a>
                 </div>
             </div>
         </div>

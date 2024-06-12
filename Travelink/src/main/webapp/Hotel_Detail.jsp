@@ -12,6 +12,10 @@
         <link rel="stylesheet" href="bootstrap_css/bootstrap.min.css">
         <link rel="stylesheet" href="css/Hotel_Detail.css">
         <link rel="stylesheet" href="css/listPage.css">
+        <!-- SweetAlert CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <!-- SweetAlert JS -->
+        
         <title>Hotel</title>
         <style>
             table {
@@ -258,11 +262,9 @@
                                                         </td>
                                                         <td>
                                                             <select style="width:50px">
-                                                                <option value="0">0</option>
-                                                                <option value="1">1</option>
-                                                                <option value="2">2</option>
-                                                                <option value="3">3</option>
-                                                                <option value="4">4</option>
+                                                                <c:forEach var="i" begin="0" end="${requestScope.numberOfRoomList[status.index]}">
+                                                                    <option value="${i}">${i}</option>
+                                                                </c:forEach>
                                                             </select>
                                                             <input type="hidden" id="infor" value=""/>
                                                         </td>
@@ -279,13 +281,12 @@
 
                     </div>
                     <c:if test="${requestScope.check != null}">
-                        <form action="CheckoutServlet" method="post">
+                        <form action="CheckoutServlet" method="post" onsubmit="return validateForm()">
                             <input type="hidden" value="" name="bookingStr" id="bookingStr">
                             <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">
                             <input type="submit" value="Continue" id="continue">
                         </form>
                     </c:if>
-
                 </div>
             </div>
 
@@ -468,5 +469,6 @@
 
         </script>
         <script src="js/Hotel_Detail.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     </body>
 </html>

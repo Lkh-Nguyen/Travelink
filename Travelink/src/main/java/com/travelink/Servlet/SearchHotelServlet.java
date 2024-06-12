@@ -123,35 +123,30 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("room", roomSize);
             session.setAttribute("checkInDate", checkInDate);
             session.setAttribute("checkOutDate", checkOutDate);
-            request.setAttribute("statusBeginDate", "Ngày thuê không hợp lệ!");
+            request.setAttribute("statusBeginDate", "Date checkin is disable");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         }
         // check điều kiệu số phòng và số người 
-         if (roomSize > people) {
+         int max = 0;
+        for (Room room : RoomDB.getAllRooms()) {
+            if (room.getCapacity() >= max) {
+                max = room.getCapacity();
+            }
+        }
+        if (roomSize > people || (roomSize * max) < people ) {
             request.setAttribute("location", location);
             request.setAttribute("people", people);
             request.setAttribute("room", roomSize);
             session.setAttribute("checkInDate", checkInDate);
             session.setAttribute("checkOutDate", checkOutDate);
-            request.setAttribute("statusRoomAndPeople", "Số phòng và số người không hợp lệ!");
+            request.setAttribute("statusRoomAndPeople", "Room and People is disable");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         }
-        
-          if (roomSize > people) {
-            request.setAttribute("location", location);
-            request.setAttribute("people", people);
-            request.setAttribute("room", roomSize);
-            session.setAttribute("checkInDate", checkInDate);
-            session.setAttribute("checkOutDate", checkOutDate);
-            request.setAttribute("statusRoomAndPeople", "Số phòng và số người không hợp lệ!");
-            List<Province> locationList = ProvinceDB.getAllProvince();
-            request.setAttribute("locationList", locationList);
-            request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
-        }
+
 
         
         // kiểm tra điều kiện ngày bắt đầu và ngày kết thúc
@@ -161,7 +156,7 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("room", roomSize);
             session.setAttribute("checkInDate", checkInDate);
             session.setAttribute("checkOutDate", checkOutDate);
-            request.setAttribute("statusDate", "Ngày trả phòng không hợp lệ!");
+            request.setAttribute("statusDate", "Date checkout is disable");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);

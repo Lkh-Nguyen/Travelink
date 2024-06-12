@@ -77,10 +77,10 @@
                 <p>You can view your bill in the <strong>Booking History</strong>.</p>
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="Home_Customer.jsp" class="btn btn-home mt-4">Return to Home Page</a>
+                        <a href="homeCustomerServlet" class="btn btn-home mt-4">Return to Home Page</a>
                     </div>
                     <div class="col-md-6">
-                        <a href="My_Card_Payment_History.jsp" class="btn btn-home mt-4">Going Booking History</a>
+                        <a href="NotPaid_Hotel_Service" class="btn btn-home mt-4">Going Booking History</a>
                     </div>
                 </div>
             </div>

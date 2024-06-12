@@ -329,19 +329,19 @@
                                                 </div>
                                                 <div class="col">
                                                     <p class="card-text">
-                                                        <c:if test="${h.status == 'Paid'}">
+                                                        <c:if test="${h.status == 'PAID'}">
                                                             <i class='bx bx-check-square'></i>
                                                             <span class="badge text-bg-success">${h.status}</span>
                                                         </c:if>
-                                                        <c:if test="${h.status == 'Not Paid'}">
+                                                        <c:if test="${h.status == 'NOT PAID'}">
                                                             <i class='bx bx-check-square'></i>
                                                             <span class="badge text-bg-warning">${h.status}</span>
                                                         </c:if>
-                                                        <c:if test="${h.status == 'Cancel'}">
+                                                        <c:if test="${h.status == 'CANCEL'}">
                                                             <i class='bx bx-check-square'></i>
                                                             <span class="badge text-bg-danger">${h.status}</span>
                                                         </c:if>
-                                                        <c:if test="${h.status == 'Finish'}">
+                                                        <c:if test="${h.status == 'FINISH'}">
                                                             <i class='bx bx-check-square'></i>
                                                             <span class="badge text-bg-primary">${h.status}</span>
                                                         </c:if>

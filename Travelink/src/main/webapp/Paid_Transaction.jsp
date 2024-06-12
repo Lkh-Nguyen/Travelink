@@ -207,6 +207,20 @@
 
     <body>
         <%@include file="Header.jsp" %>
+        
+        <c:if test="${requestScope.successFeedback != null}">
+            <div id="status-message" style="background-color: rgb(233,251,233);height: 70px;" class="hidden">
+                <div style="display: flex">
+                    <div style="width: 20%">
+                        <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                    </div>
+                    <div style="width: 80%; text-align: start">
+                        <h3 style="color:green;margin-top: 5px; margin-bottom: -2px;font-weight:550">Success</h3>
+                        <p style="color: black;font-size: 14px">${successFeedback}</p>
+                    </div>
+                </div>           
+            </div>
+        </c:if>
         <!-- Dùng để đăng xuất-->
         <div id="overlay"></div>
         <div id="logoutConfirm">
@@ -329,11 +343,11 @@
                                                 </div>
                                                 <div class="col">
                                                     <p class="card-text">
-                                                        <c:if test="${h.status == 'Paid'}">
+                                                        <c:if test="${h.status == 'PAID'}">
                                                             <i class='bx bx-check-square'></i>
                                                             <span class="badge text-bg-success">${h.status}</span>
                                                         </c:if>
-                                                        <c:if test="${h.status == 'Finish'}">
+                                                        <c:if test="${h.status == 'FINISH'}">
                                                             <i class='bx bx-check-square'></i>
                                                             <span class="badge text-bg-primary">${h.status}</span>
                                                         </c:if>
@@ -345,7 +359,7 @@
                                                 <i class='bx bx-detail'></i> View Details
                                             </a> 
                                             <hr>
-                                            <c:if test="${h.status == 'Paid'}">
+                                            <c:if test="${h.status == 'PAID'}">
                                                 <div class="row"> 
                                                     <div class="col">
                                                         <a class="btn btn-outline-primary mb-2" href="CreateFeedback.jsp?reservationID=${h.reservationID}&hotel_ID=${h.hotel_ID}">
@@ -359,7 +373,7 @@
                                                     </div>
                                                 </div>
                                             </c:if>
-                                            <c:if test="${h.status == 'Finish'}">
+                                            <c:if test="${h.status == 'FINISH'}">
                                                 <div class="row"> 
                                                     <div class="col-md-12">
                                                         <button class="btn btn-outline-primary mb-2 w-100" style="height: 61px" disabled>
@@ -385,6 +399,7 @@
         
                 </div>-->
         <!--        <script src="js/Loader.js"></script>-->
+        <script src="js/Alter.js"></script>
         <script>
             //Logout confirmation
             document.getElementById("logoutButton").addEventListener("click", function () {

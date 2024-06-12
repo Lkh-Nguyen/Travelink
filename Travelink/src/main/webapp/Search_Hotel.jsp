@@ -92,7 +92,6 @@
         <div class="container mt-2">
             <section class="section__container booking__container">
                 <form method="post" action="search">
-
                     <div class="form__group">
                         <span><i class="ri-map-pin-line"></i></span>
                         <div class="input__content">
@@ -166,12 +165,21 @@
                     <div class="mb-3 mt-5">
                         <div style="border: 1px solid #ccc; height: 200px; position: relative;">
                             <!-- Đây là Google Map -->
-                            <div id="googleMap" style="width: 100%; height: 100%;"></div>
+                            <div id="googleMap" style="width: 100%; height: 100%;">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3835.8560693163813!2d108.25831637387171!3d15.968891042118765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142116949840599%3A0x365b35580f52e8d5!2zxJDhuqFpIGjhu41jIEZQVCDEkMOgIE7hurVuZw!5e0!3m2!1svi!2s!4v1718163596136!5m2!1svi!2s" 
+                                        width="303" height="197" style="border:0;top:0" allowfullscreen="" loading="lazy" 
+                                        referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            </div>
                             <!-- Button mở bản đồ -->
-                            <button class="btn btn-primary" style="position: absolute; top: 10px; right: 10px;" onclick="openMap()">Mở bản đồ</button>
+<!--                            <button class="btn btn-primary" style="position: absolute; top: 10px; right: 10px;" >
+                                <a href="">
+                                                                  Open Map  
+                                </a>
+                            </button>-->
                         </div>
                     </div>
-                    <h4 style="color: #2c97d2;">Lọc khách sạn</h4>
+                    <h4 style="color: #2c97d2;">Filter Hotel</h4>
                     <form id="filterForm">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="star" value="1" id="star1">
@@ -207,7 +215,6 @@
 
                     <div class="container mt-3">
                         <div class="slidecontainer">
-                            <span>min</span> <span>max</span>
                             <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
                             <p><b>Value: <span id="demo"></span>$</b></p>
                         </div>
@@ -255,7 +262,7 @@
                                                     <p class="card-text text-success fw-medium"><i class="bi bi-check"></i> No prepayment needed <span class="text-muted text-success">- pay at property</span></p>
                                                     <div class="card-divider"></div>
                                                     <form action="viewHotelDetailServlet" method="get">
-                                                        <button class="btn btn-primary">Đặt Phòng</button>
+                                                        <button class="btn btn-primary">Book room</button>
                                                         <input type="hidden" name="hotel_ID"value="${hotel.hotel_ID}">
                                                     </form>
                                                 </div>
@@ -271,7 +278,7 @@
                             <c:if test="${requestScope.hotelList == null}">
                                 <div class="col-md-12 mt-5 text-center">
                                     <div class="alert alert-success" role="alert">
-                                        Không có khách sạn hợp lệ !
+                                        No hotel matching!!
                                     </div>
                                 </div>
                             </c:if>
@@ -283,9 +290,9 @@
                 </div>
             </div>
         </div>
-<!--        <div class="loader">
-
-        </div>-->
+        <!--        <div class="loader">
+        
+                </div>-->
         <%@include file="Footer.jsp"%>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -293,59 +300,55 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
         <script src="js/Search_Hotel.js"></script>
         <script>
-                                /* 
-                                 * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-                                 * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
-                                 */
-                                let thisPage = 1;
-                                let limit = 6;
-                                let list = document.querySelectorAll(".card");
-                                function loadItem() {
-                                    let beginGet = limit * (thisPage - 1);
-                                    let endGet = limit * thisPage - 1;
-                                    list.forEach((item, key) => {
-                                        if (key >= beginGet && key <= endGet) {
-                                            item.style.display = "block";
-                                        } else {
-                                            item.style.display = "none";
-                                        }
-                                    });
-                                    listPage();
-                                }
-                                loadItem();
-                                function listPage() {
-                                    let count = Math.ceil(list.length / limit);
-                                    document.querySelector('.listPage').innerHTML = '';
+            let thisPage = 1;
+            let limit = 6;
+            let list = document.querySelectorAll(".card");
+            function loadItem() {
+                let beginGet = limit * (thisPage - 1);
+                let endGet = limit * thisPage - 1;
+                list.forEach((item, key) => {
+                    if (key >= beginGet && key <= endGet) {
+                        item.style.display = "block";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+                listPage();
+            }
+            loadItem();
+            function listPage() {
+                let count = Math.ceil(list.length / limit);
+                document.querySelector('.listPage').innerHTML = '';
 
-                                    if (thisPage != 1) {
-                                        let prev = document.createElement('li');
-                                        prev.innerText = 'PREV';
-                                        prev.setAttribute('onclick', "changePage(" + (thisPage - 1) + ")");
-                                        document.querySelector('.listPage').appendChild(prev);
-                                    }
-                                    for (i = 1; i <= count; i++) {
-                                        let newPage = document.createElement('li');
-                                        newPage.innerText = i;
-                                        if (i == thisPage) {
-                                            newPage.classList.add('active');
-                                        }
-                                        newPage.setAttribute('onclick', "changePage(" + i + ")");
-                                        document.querySelector('.listPage').appendChild(newPage);
-                                    }
+                if (thisPage != 1) {
+                    let prev = document.createElement('li');
+                    prev.innerText = 'PREV';
+                    prev.setAttribute('onclick', "changePage(" + (thisPage - 1) + ")");
+                    document.querySelector('.listPage').appendChild(prev);
+                }
+                for (i = 1; i <= count; i++) {
+                    let newPage = document.createElement('li');
+                    newPage.innerText = i;
+                    if (i == thisPage) {
+                        newPage.classList.add('active');
+                    }
+                    newPage.setAttribute('onclick', "changePage(" + i + ")");
+                    document.querySelector('.listPage').appendChild(newPage);
+                }
 
-                                    if (thisPage != count) {
-                                        let next = document.createElement('li');
-                                        next.innerText = 'NEXT';
-                                        next.setAttribute('onclick', "changePage(" + (thisPage + 1) + ")");
-                                        document.querySelector('.listPage').appendChild(next);
-                                    }
-                                }
-                                function changePage(i) {
-                                    thisPage = i;
-                                    loadItem();
-                                    let scrollPosition = window.scrollY;
-                                    window.scrollTo(0, scrollPosition);
-                                }
+                if (thisPage != count) {
+                    let next = document.createElement('li');
+                    next.innerText = 'NEXT';
+                    next.setAttribute('onclick', "changePage(" + (thisPage + 1) + ")");
+                    document.querySelector('.listPage').appendChild(next);
+                }
+            }
+            function changePage(i) {
+                thisPage = i;
+                loadItem();
+                let scrollPosition = window.scrollY;
+                window.scrollTo(0, scrollPosition);
+            }
 
 //                                window.addEventListener("load", () => {
 //                                    const loader = document.querySelector(".loader");

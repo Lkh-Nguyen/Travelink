@@ -409,7 +409,7 @@ DECLARE @HotelID INT = 1;
 DECLARE @MaxHotelID INT = 30;
 DECLARE @Price INT;
 DECLARE @TotalRooms INT;
-DECLARE @Status NVARCHAR(50) = 'Available';
+DECLARE @Status NVARCHAR(50) = 'ACTIVE';
 
 -- Loop through Hotel_ID values from 1 to 30
 WHILE @HotelID <= @MaxHotelID

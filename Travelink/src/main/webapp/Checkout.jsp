@@ -58,12 +58,12 @@
                                 <div class="row">
                                     <div class="col">
                                         <strong>Checkin</strong>
-                                        <p style="margin-bottom: 0px">T2, 1 tháng 7 2024</p>
+                                        <p style="margin-bottom: 0px">${checkInDate}</p>
                                         <p>Từ ${hotel.checkInTimeStart}</p>
                                     </div>
                                     <div class="col">
                                         <strong>Checkout</strong>
-                                        <p style="margin-bottom: 0px">T5, 4 tháng 7 2024</p>
+                                        <p style="margin-bottom: 0px">${checkOutDate}</p>
                                         <p>Cho đến ${hotel.checkOutTimeEnd}</p>
                                     </div>
 

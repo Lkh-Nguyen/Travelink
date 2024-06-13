@@ -82,6 +82,7 @@ CREATE TABLE Room (
   Capacity TINYINT,
   Total_Rooms TINYINT,
   Price INT,
+  Status NVARCHAR(50) NOT NULL,
   Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
 );
 

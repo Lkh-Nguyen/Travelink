@@ -123,7 +123,7 @@ public class PaymentServlet extends HttpServlet {
             ReservedRoomDB.insertReservedRoom(reservedRoom);
         }
 
-        //Save temporary reservation ID to session
+        //Save temporary reservation ID to session (Deleted)
         session.setAttribute("pendingReservationID", (Integer) pendingReservationID);
 
         //Data parameter
@@ -162,6 +162,8 @@ public class PaymentServlet extends HttpServlet {
             response.sendRedirect("Error.jsp");
             return;
         }
+        
+        //Delete not needed payment related session
 
         //Save checkoutURL and paymentLinkId to session and redirect to checkoutUrl
         session.setAttribute("checkoutUrl", result[0]);

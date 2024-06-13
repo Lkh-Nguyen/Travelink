@@ -409,6 +409,7 @@ DECLARE @HotelID INT = 1;
 DECLARE @MaxHotelID INT = 30;
 DECLARE @Price INT;
 DECLARE @TotalRooms INT;
+DECLARE @Status NVARCHAR(50) = 'Available';
 
 -- Loop through Hotel_ID values from 1 to 30
 WHILE @HotelID <= @MaxHotelID
@@ -433,8 +434,8 @@ BEGIN
         SET @TotalRooms = FLOOR(RAND() * (5 - 1 + 1)) + 1;
         
         -- Insert the record into Room
-        INSERT INTO Room (Name, Room_Description, Capacity, Total_Rooms, Price, Hotel_ID)
-        VALUES (@Name, @Room_Description, @Capacity, @TotalRooms, @Price, @HotelID);
+        INSERT INTO Room (Name, Room_Description, Capacity, Total_Rooms, Price, Hotel_ID, Status)
+        VALUES (@Name, @Room_Description, @Capacity, @TotalRooms, @Price, @HotelID, @Status);
         
         FETCH NEXT FROM RoomCursor INTO @Name, @Room_Description, @Capacity;
     END;
@@ -445,7 +446,6 @@ BEGIN
     -- Increment the Hotel_ID
     SET @HotelID = @HotelID + 1;
 END;
-
 
  ----------------------------------------------------------------------------------------------------------------
  --INSERT INTO Room_Image-

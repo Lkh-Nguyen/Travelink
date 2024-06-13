@@ -129,13 +129,7 @@ public class SearchHotelServlet extends HttpServlet {
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         }
         // check điều kiệu số phòng và số người 
-         int max = 0;
-        for (Room room : RoomDB.getAllRooms()) {
-            if (room.getCapacity() >= max) {
-                max = room.getCapacity();
-            }
-        }
-        if (roomSize > people || (roomSize * max) < people ) {
+        if (roomSize > people) {
             request.setAttribute("location", location);
             request.setAttribute("people", people);
             request.setAttribute("room", roomSize);

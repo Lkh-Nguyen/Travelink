@@ -64,6 +64,7 @@ public class ListFavoriteHotel extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         
+        if(account != null){
         List<Hotel> list_Hotel = FavouriteHotelDB.getHotelFavourite(account.getAccount_ID());
         List<HotelImage> list_HotelImage = FavouriteHotelDB.getHotelImageFavourite(account.getAccount_ID());
         List<Integer> list_RatingCount = FavouriteHotelDB.getRatingCountFavourite(account.getAccount_ID());
@@ -74,6 +75,9 @@ public class ListFavoriteHotel extends HttpServlet {
         request.setAttribute("list_Average", list_Average);
         
         request.getRequestDispatcher("Favorite_Hotel.jsp").forward(request, response);
+        }else{
+            request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
+        }
     }
 
     /**

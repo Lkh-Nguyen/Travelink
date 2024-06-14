@@ -7,16 +7,12 @@ package com.travelink.Servlet;
 import com.travelink.Database.HotelDB;
 import com.travelink.Database.HotelImageDB;
 import com.travelink.Database.ProvinceDB;
-import com.travelink.Database.ReservationDB;
-import com.travelink.Database.ReservedRoomDB;
 import com.travelink.Database.RoomDB;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
 import com.travelink.Model.Province;
 import com.travelink.Model.Reservation;
-import com.travelink.Model.ReservedRoom;
 import com.travelink.Model.Room;
-import com.travelink.Model.RoomImage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -30,9 +26,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -169,7 +163,7 @@ public class SearchHotelServlet extends HttpServlet {
             for (Hotel hotel : hotelList) {
                 int roomHotelAvailable = 0;
                 int capacityHotelList = 0;
-                for (Room room : RoomDB.getRoomsByHotel_ID(hotel.getHotel_ID())) {
+                for (Room room : RoomDB.getActiveRoomsByHotel_ID(hotel.getHotel_ID())) {
                     roomHotelAvailable = roomHotelAvailable + RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), checkInDate, checkOutDate, check1);
                     capacityHotelList = capacityHotelList + room.getCapacity() * roomHotelAvailable;
                 }

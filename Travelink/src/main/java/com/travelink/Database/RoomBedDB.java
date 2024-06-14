@@ -139,7 +139,7 @@ public class RoomBedDB implements DatabaseInfo {
         System.out.println("Room Beds for Room ID " + roomIDToSearch + ":");
         printRoomBeds(roomBedsByRoomID);
         
-        List<Room> listRoom = RoomDB.getRoomsByHotel_ID(1);
+        List<Room> listRoom = RoomDB.getActiveRoomsByHotel_ID(1);
         List<RoomImage> roomImgList = new ArrayList<>();
          for(Room room : listRoom){
              System.out.println(roomImgList.add(RoomImageDB.getRoomImagesByRoom_ID(room.getRoom_ID()).get(0)));

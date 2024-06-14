@@ -15,6 +15,15 @@ public class Room {
     private int capacity;
     private int totalRooms;
     private int price;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
     private int hotel_ID;
 
     // Constructor
@@ -77,18 +86,9 @@ public class Room {
         this.hotel_ID = hotel_ID;
     }
 
-    public Room(String name, String roomDescription, int capacity, int totalRooms, int price, int hotel_ID) {
-        this.name = name;
-        this.roomDescription = roomDescription;
-        this.capacity = capacity;
-        this.totalRooms = totalRooms;
-        this.price = price;
-        this.hotel_ID = hotel_ID;
-    }
-
     @Override
     public String toString() {
-        return "Room{" + "room_ID=" + room_ID + ", name=" + name + ", roomDescription=" + roomDescription + ", capacity=" + capacity + ", totalRooms=" + totalRooms + ", price=" + price + ", hotel_ID=" + hotel_ID + '}';
+        return "Room{" + "room_ID=" + room_ID + ", name=" + name + ", roomDescription=" + roomDescription + ", capacity=" + capacity + ", totalRooms=" + totalRooms + ", price=" + price + ", status=" + status + ", hotel_ID=" + hotel_ID + '}';
     }
 }
 

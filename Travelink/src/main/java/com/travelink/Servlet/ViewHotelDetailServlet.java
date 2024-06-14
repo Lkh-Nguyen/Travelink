@@ -101,7 +101,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
             List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotel_ID);
             request.setAttribute("hotelFacilityList", hotelFacilityList);
             // list room hotel
-            List<Room> listRoom = RoomDB.getRoomsByHotel_ID(hotel_ID);
+            List<Room> listRoom = RoomDB.getActiveRoomsByHotel_ID(hotel_ID);
             request.setAttribute("roomList", listRoom);
             // list img room hotel
             List<RoomImage> roomImgList = new ArrayList<>();
@@ -158,7 +158,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
             List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotel_ID);
             request.setAttribute("hotelFacilityList", hotelFacilityList);
             // list room hotel
-            List<Room> listRoom = RoomDB.getRoomsByHotel_ID(hotel_ID);
+            List<Room> listRoom = RoomDB.getActiveRoomsByHotel_ID(hotel_ID);
             request.setAttribute("roomList", listRoom);
             // list img room hotel
             List<RoomImage> roomImgList = new ArrayList<>();
@@ -184,7 +184,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
 
             List<Integer> numberOfRoomList = new ArrayList<>();
             List<Reservation> check1 = RoomDB.reservationCoincide(beginDate, endDate);
-            for (Room room : RoomDB.getRoomsByHotel_ID(hotel_ID)) {
+            for (Room room : RoomDB.getActiveRoomsByHotel_ID(hotel_ID)) {
                 if (check1 == null) {
                     int numberOfRoom = room.getTotalRooms();
                     numberOfRoomList.add(numberOfRoom);
@@ -261,7 +261,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
         List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotelId);
         request.setAttribute("hotelFacilityList", hotelFacilityList);
         // list room hotel
-        List<Room> listRoom = RoomDB.getRoomsByHotel_ID(hotelId);
+        List<Room> listRoom = RoomDB.getActiveRoomsByHotel_ID(hotelId);
         request.setAttribute("roomList", listRoom);
         // list img room hotel
         List<RoomImage> roomImgList = new ArrayList<>();

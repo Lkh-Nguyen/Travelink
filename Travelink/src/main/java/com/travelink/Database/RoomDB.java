@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class RoomDB implements DatabaseInfo {
 
-    public static List<Room> getAllRooms() {
+    public static List<Room> getAllActiveRooms() {
         List<Room> Rooms = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
@@ -35,7 +35,7 @@ public class RoomDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM Room";
+                String query = "SELECT * FROM Room WHERE Status = 'ACTIVE'";
                 statement = connection.createStatement();
                 resultSet = statement.executeQuery(query);
 
@@ -47,6 +47,7 @@ public class RoomDB implements DatabaseInfo {
                     Room.setCapacity(resultSet.getInt("Capacity"));
                     Room.setTotalRooms(resultSet.getInt("Total_Rooms"));
                     Room.setPrice(resultSet.getInt("Price"));
+                    Room.setStatus(resultSet.getString("Status"));
                     Room.setHotel_ID(resultSet.getInt("Hotel_ID"));
                     Rooms.add(Room);
                 }
@@ -80,6 +81,7 @@ public class RoomDB implements DatabaseInfo {
                     Room.setCapacity(resultSet.getInt("Capacity"));
                     Room.setTotalRooms(resultSet.getInt("Total_Rooms"));
                     Room.setPrice(resultSet.getInt("Price"));
+                    Room.setStatus(resultSet.getString("Status"));
                     Room.setHotel_ID(resultSet.getInt("Hotel_ID"));
                 }
             }
@@ -89,7 +91,7 @@ public class RoomDB implements DatabaseInfo {
         return Room;
     }
 
-    public static List<Room> getRoomsByHotel_ID(int hotel_ID) {
+    public static List<Room> getActiveRoomsByHotel_ID(int hotel_ID) {
         List<Room> Rooms = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -99,7 +101,7 @@ public class RoomDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM Room WHERE Hotel_ID = ?";
+                String query = "SELECT * FROM Room WHERE Status = 'ACTIVE' AND Hotel_ID = ?";
                 statement = connection.prepareStatement(query);
                 statement.setInt(1, hotel_ID); // Set the hotel ID parameter
                 resultSet = statement.executeQuery();
@@ -112,6 +114,7 @@ public class RoomDB implements DatabaseInfo {
                     Room.setCapacity(resultSet.getInt("Capacity"));
                     Room.setTotalRooms(resultSet.getInt("Total_Rooms"));
                     Room.setPrice(resultSet.getInt("Price"));
+                    Room.setStatus(resultSet.getString("Status"));
                     Room.setHotel_ID(resultSet.getInt("Hotel_ID"));
                     Rooms.add(Room); // Add the retrieved room type to the list
                 }
@@ -241,7 +244,7 @@ public class RoomDB implements DatabaseInfo {
 
         // Test getAllRooms
         System.out.println("** Test getAllRooms **");
-        List<Room> allRooms = RoomDB.getAllRooms();
+        List<Room> allRooms = RoomDB.getAllActiveRooms();
         if (allRooms.isEmpty()) {
             System.out.println("No room types found in the database.");
         } else {
@@ -265,7 +268,7 @@ public class RoomDB implements DatabaseInfo {
         // Test getRoomsByHotel_ID
         System.out.println("\n** Test getRoomsByHotel_ID **");
         int targetHotel_ID = 1; // Replace with an existing hotel ID
-        List<Room> hotelRooms = RoomDB.getRoomsByHotel_ID(targetHotel_ID);
+        List<Room> hotelRooms = RoomDB.getActiveRoomsByHotel_ID(targetHotel_ID);
         if (hotelRooms.isEmpty()) {
             System.out.println("No room types found for hotel with ID " + targetHotel_ID + ".");
         } else {

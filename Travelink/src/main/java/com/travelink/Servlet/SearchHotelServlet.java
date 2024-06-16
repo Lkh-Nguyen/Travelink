@@ -7,16 +7,12 @@ package com.travelink.Servlet;
 import com.travelink.Database.HotelDB;
 import com.travelink.Database.HotelImageDB;
 import com.travelink.Database.ProvinceDB;
-import com.travelink.Database.ReservationDB;
-import com.travelink.Database.ReservedRoomDB;
 import com.travelink.Database.RoomDB;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
 import com.travelink.Model.Province;
 import com.travelink.Model.Reservation;
-import com.travelink.Model.ReservedRoom;
 import com.travelink.Model.Room;
-import com.travelink.Model.RoomImage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -30,9 +26,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -123,35 +117,24 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("room", roomSize);
             session.setAttribute("checkInDate", checkInDate);
             session.setAttribute("checkOutDate", checkOutDate);
-            request.setAttribute("statusBeginDate", "Ngày thuê không hợp lệ!");
+            request.setAttribute("statusBeginDate", "Date checkin is disable");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         }
         // check điều kiệu số phòng và số người 
-         if (roomSize > people) {
+        if (roomSize > people) {
             request.setAttribute("location", location);
             request.setAttribute("people", people);
             request.setAttribute("room", roomSize);
             session.setAttribute("checkInDate", checkInDate);
             session.setAttribute("checkOutDate", checkOutDate);
-            request.setAttribute("statusRoomAndPeople", "Số phòng và số người không hợp lệ!");
+            request.setAttribute("statusRoomAndPeople", "Room and People is disable");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         }
-        
-          if (roomSize > people) {
-            request.setAttribute("location", location);
-            request.setAttribute("people", people);
-            request.setAttribute("room", roomSize);
-            session.setAttribute("checkInDate", checkInDate);
-            session.setAttribute("checkOutDate", checkOutDate);
-            request.setAttribute("statusRoomAndPeople", "Số phòng và số người không hợp lệ!");
-            List<Province> locationList = ProvinceDB.getAllProvince();
-            request.setAttribute("locationList", locationList);
-            request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
-        }
+
 
         
         // kiểm tra điều kiện ngày bắt đầu và ngày kết thúc
@@ -161,7 +144,7 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("room", roomSize);
             session.setAttribute("checkInDate", checkInDate);
             session.setAttribute("checkOutDate", checkOutDate);
-            request.setAttribute("statusDate", "Ngày trả phòng không hợp lệ!");
+            request.setAttribute("statusDate", "Date checkout is disable");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
@@ -180,7 +163,7 @@ public class SearchHotelServlet extends HttpServlet {
             for (Hotel hotel : hotelList) {
                 int roomHotelAvailable = 0;
                 int capacityHotelList = 0;
-                for (Room room : RoomDB.getRoomsByHotel_ID(hotel.getHotel_ID())) {
+                for (Room room : RoomDB.getActiveRoomsByHotel_ID(hotel.getHotel_ID())) {
                     roomHotelAvailable = roomHotelAvailable + RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), checkInDate, checkOutDate, check1);
                     capacityHotelList = capacityHotelList + room.getCapacity() * roomHotelAvailable;
                 }

@@ -15,10 +15,6 @@
         </style>
         <title>Don't forget your booking</title>
     </head>
-
-
-
-    <fmt
         <body>
         <div class="wrapper">
             <%@include file="Header.jsp" %>
@@ -58,12 +54,12 @@
                                 <div class="row">
                                     <div class="col">
                                         <strong>Checkin</strong>
-                                        <p style="margin-bottom: 0px">T2, 1 tháng 7 2024</p>
+                                        <p style="margin-bottom: 0px">${checkInDate}</p>
                                         <p>Từ ${hotel.checkInTimeStart}</p>
                                     </div>
                                     <div class="col">
                                         <strong>Checkout</strong>
-                                        <p style="margin-bottom: 0px">T5, 4 tháng 7 2024</p>
+                                        <p style="margin-bottom: 0px">${checkOutDate}</p>
                                         <p>Cho đến ${hotel.checkOutTimeEnd}</p>
                                     </div>
 
@@ -72,12 +68,12 @@
                                 <p>Total number of people: <strong>4 people</strong></p>
                                 <p style="border-top: 1px grey solid;padding-top: 5px;margin-bottom: 0px">You selected</p>
                                 <c:forEach items="${bookingMap}" var="entry">
-                                    <strong>${entry.value} x ${entry.key.name}</strong>: ${entry.key.price} VND<br>
+                                    <strong>${entry.value} x ${entry.key.name}</strong>: <span class="price text-danger">${entry.key.price}</span> VND<br>
                                 </c:forEach>
 
                                 <a href="viewHotelDetailServlet?hotel_ID=${hotel.hotel_ID}">Change your selection</a>
                                 <hr>
-                                <h4 class="text-danger">Total: ${totalPrice} VND</h4>
+                                <h4 class="text-danger">Total: <span class="price text-danger">${totalPrice}</span> VND</h4>
                                 <small>Includes taxes and fees</small>
 
                             </div>
@@ -133,5 +129,22 @@
             <%@include file="Footer.jsp" %>
         </div>
         <script src="bootstrap_js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript">
+        // Function to format numbers with thousand separators
+        function formatCurrency(amount) {
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Function to format all prices in the document
+        function formatPrices() {
+            var prices = document.getElementsByClassName("price");
+            for (var i = 0; i < prices.length; i++) {
+                var price = prices[i].innerHTML;
+                prices[i].innerHTML = formatCurrency(price);
+            }
+        }
+
+        window.onload = formatPrices;
+    </script>
     </body>
 </html>

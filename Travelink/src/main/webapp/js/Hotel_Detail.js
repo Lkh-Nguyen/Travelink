@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
         bookingStr.value = "";
         selects.forEach(select => {
-            
+
             let row = select.closest('tr');
             let priceCell = row.querySelector('#message');
             let infor = row.querySelector('#infor');
@@ -79,17 +79,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (amount > 0) {
                 priceCell.innerHTML = `Room: ${roomName}<br> Quantity: ${amount}<br> Total Price: ${totalPrice.toLocaleString()} VND`;
                 infor.value = `Room_ID=${idHotel},Quantity=${amount}`;
-if(bookingStr.value == ""){
+                if (bookingStr.value == "") {
                     bookingStr.value = bookingStr.value + infor.value;
-                }else{
+                } else {
                     bookingStr.value = bookingStr.value + "/" + infor.value;
                 }
             } else {
                 priceCell.textContent = 'No room selected';
             }
-            
+
         });
-        
+
     }
 });
 let priceElements = document.querySelectorAll('#price_save');
@@ -100,7 +100,19 @@ priceElements.forEach(function (element) {
     element.innerText = price.toLocaleString('vi-VN') + " VND"; // Định dạng giá và cập nhật lại nội dung
 });
 
-
+function validateForm() {
+    var bookingStr = document.getElementById("bookingStr").value;
+    if (bookingStr === "") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please choose a room!',
+            confirmButtonText: 'OK'
+        });
+        return false;
+    }
+    return true;
+}
 
 
 
@@ -145,7 +157,7 @@ var modal = document.getElementById("myModal1");
 var imgs = document.getElementsByClassName("thumbnail1");
 var modalImg = document.getElementById("img01");
 for (var i = 0; i < imgs.length; i++) {
-    imgs[i].onclick = function() {
+    imgs[i].onclick = function () {
         modal.style.display = "block";
         modalImg.src = this.src;
         document.body.style.overflow = "hidden"; // Disable scrolling
@@ -156,13 +168,13 @@ for (var i = 0; i < imgs.length; i++) {
 var span = document.getElementsByClassName("close1")[0];
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+span.onclick = function () {
     modal.style.display = "none";
     document.body.style.overflow = "auto"; // Enable scrolling
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
         document.body.style.overflow = "auto"; // Enable scrolling

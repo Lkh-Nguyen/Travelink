@@ -91,6 +91,8 @@ public class LoginAccountServlet extends HttpServlet {
         } else {
             HttpSession session = request.getSession();
             session.setAttribute("account", cu);
+            List<Province> locationList = ProvinceDB.getAllProvince();
+            request.setAttribute("locationList", locationList);
             request.setAttribute("succesLogin", "Login successfully.");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);

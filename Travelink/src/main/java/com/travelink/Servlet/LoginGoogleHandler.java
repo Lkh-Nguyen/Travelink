@@ -7,14 +7,17 @@ package com.travelink.Servlet;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.travelink.Database.AccountDB;
+import com.travelink.Database.ProvinceDB;
 import com.travelink.Model.Constants;
 import com.travelink.Model.Account;
+import com.travelink.Model.Province;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
@@ -49,7 +52,7 @@ public class LoginGoogleHandler extends HttpServlet {
 
         //If never sign in
         if (Account == null) {
-            Account = new Account(userGoogle.getEmail(), userGoogle.getName(),1);
+            Account = new Account(userGoogle.getEmail(), userGoogle.getName(), 1);
             Account.setAvatarURL("/Travelink/img_Avatar/avatar_default.jpg");
             String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             StringBuilder text = new StringBuilder(8);
@@ -74,6 +77,8 @@ public class LoginGoogleHandler extends HttpServlet {
             session.setAttribute("account", Account);
             session.setMaxInactiveInterval(60 * 30);
             request.setAttribute("succesLogin", "Login successfully.");
+            List<Province> locationList = ProvinceDB.getAllProvince();
+            request.setAttribute("locationList", locationList);
             request.getRequestDispatcher("Home_Customer"
                     + ".jsp").forward(request, response);
         }
@@ -93,7 +98,7 @@ public class LoginGoogleHandler extends HttpServlet {
         return accessToken;
     }
 
-    public static Account getAccountInfo(final String accessToken) throws ClientProtocolException, IOException {
+    public static Account getAccountInfo(String accessToken) throws ClientProtocolException, IOException {
         String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();
 

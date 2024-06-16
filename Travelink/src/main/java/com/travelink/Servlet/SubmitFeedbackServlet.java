@@ -100,7 +100,8 @@ public class SubmitFeedbackServlet extends HttpServlet {
         try {
             // Insert the feedback into the database
             FeedbackDB.insertFeedback(feedback);
-            request.getRequestDispatcher("Paid_Hotel_Service").forward(request, response);
+            FeedbackDB.updateStatusBill(reservationID);
+            response.sendRedirect("Paid_Hotel_Service?check=true");
         } catch (SQLException ex) {
             // Handle database errors
             ex.printStackTrace();

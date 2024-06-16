@@ -169,7 +169,8 @@ public class FeedbackDB implements DatabaseInfo {
         Connection connection = DatabaseInfo.getConnect();
 
         if (connection != null) {
-            String query = "INSERT INTO Feedback (Description, Rating, Date, LikesCount, DislikesCount, Account_ID, Hotel_ID) VALUES (?, ?, ?, 0, 0, ?, ?)";
+            String query = "INSERT INTO Feedback (Description, Rating, Date, LikesCount, DislikesCount, Account_ID, Hotel_ID)"
+                    + " VALUES (?, ?, ?, 0, 0, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, feedback.getDescription());
             statement.setByte(2, feedback.getRating());
@@ -183,7 +184,22 @@ public class FeedbackDB implements DatabaseInfo {
             System.out.println("Error: Connection failed!");
         }
     }
+    
+    public static void updateStatusBill(int reservationID) throws SQLException {
+        Connection connection = DatabaseInfo.getConnect();
 
+        if (connection != null) {
+            String query = "update Reservation "
+                    + "set status = 'FINISH' "
+                    + "where Reservation_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, reservationID);
+            statement.executeUpdate();
+            connection.close();
+        } else {
+            System.out.println("Error: Connection failed!");
+        }
+    }
     // Update an existing feedback
     public static void updateFeedback(Feedback feedback) throws SQLException {
         Connection connection = DatabaseInfo.getConnect();
@@ -329,15 +345,7 @@ public class FeedbackDB implements DatabaseInfo {
     public static void main(String[] args) throws SQLException {
 
         // Test getFeedbackByID
-        System.out.println("\n** Test getFeedbackByID **");
-        int testFeedbackID = 5; // Replace with an existing feedback ID
-        Feedback feedback = FeedbackDB.getFeedbackByID(testFeedbackID);
-        if (feedback == null) {
-            System.out.println("Feedback with ID " + testFeedbackID + " not found.");
-        } else {
-            System.out.println("Details of Feedback (ID: " + testFeedbackID + "):");
-            System.out.println(feedback); // Assuming your Feedback model has a toString() method
-        }
+        FeedbackDB.updateStatusBill(2);
     }
 
 }

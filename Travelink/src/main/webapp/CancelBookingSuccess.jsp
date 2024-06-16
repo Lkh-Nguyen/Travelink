@@ -77,10 +77,10 @@
         <div class="content">
             <div class="container text-center">
                 <div class="cancel-message position-relative">
-                    <h1><span><i class='bx bxs-check-circle' style="color: rgba(4, 117, 4, 0.858)"></i></span>Transaction Canceled</h1>
-                    <p>You have successfully canceled your transaction.</p>    
+                    <h1><span><i class='bx bxs-check-circle' style="color: rgba(4, 117, 4, 0.858)"></i></span>Cancel Booking</h1>
+                    <p>You have successfully cancel booking.</p>    
                     <p>If you have any questions, please contact our support team.</p>
-                    <a href="homeCustomerServlet" class="btn btn-home mt-4">Return to Home Page</a>
+                    <a href="Home_Customer.jsp" class="btn btn-home mt-4">Return to Home Page</a>
                 </div>
             </div>
         </div>

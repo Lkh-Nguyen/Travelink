@@ -122,7 +122,7 @@
 
 
     <body>
-        <%@include file="header.jsp"%>
+        <%@include file="Header.jsp"%>
         <main id="content" role="main">
             <div class="form-container">
                 <h1>Verify Code</h1>

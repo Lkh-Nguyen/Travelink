@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('date').value = new Date().toISOString().split('T')[0];
 
                     // Show overlay for success message
-                    e.preventDefault();
+//                    e.preventDefault();
                     document.getElementById('overlay').style.display = 'flex';
                     setTimeout(function () {
                         document.getElementById('overlay').style.display = 'none';

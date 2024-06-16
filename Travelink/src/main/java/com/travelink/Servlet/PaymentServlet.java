@@ -78,7 +78,6 @@ public class PaymentServlet extends HttpServlet {
         }
         
         //Get booking details from session
-        Hotel hotel = (Hotel) session.getAttribute("bookingHotel");
         Account account = (Account) session.getAttribute("account");
         String totalPriceStr = (String) session.getAttribute("bookingTotalPrice");
 
@@ -124,7 +123,7 @@ public class PaymentServlet extends HttpServlet {
             ReservedRoomDB.insertReservedRoom(reservedRoom);
         }
 
-        //Save temporary reservation ID to session
+        //Save temporary reservation ID to session (Deleted)
         session.setAttribute("pendingReservationID", (Integer) pendingReservationID);
 
         //Data parameter
@@ -163,6 +162,8 @@ public class PaymentServlet extends HttpServlet {
             response.sendRedirect("Error.jsp");
             return;
         }
+        
+        //Delete not needed payment related session
 
         //Save checkoutURL and paymentLinkId to session and redirect to checkoutUrl
         session.setAttribute("checkoutUrl", result[0]);

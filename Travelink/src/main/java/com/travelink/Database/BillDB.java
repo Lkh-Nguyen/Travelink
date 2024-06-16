@@ -130,7 +130,7 @@ public class BillDB implements DatabaseInfo {
             if (conn != null) {
                 // Query to select bills based on checkInDate, checkOutDate, status 'finished' or 'processing'
                 String query = "SELECT * FROM Bill WHERE Account_ID = ? AND "
-                        + "CheckOutDate >= GETDATE() AND (Status = 'Not Paid' OR Status = 'Paid')";
+                        + "CheckOutDate >= GETDATE() AND (Status = 'NOT PAID' OR Status = 'PAID')";
                 ps = conn.prepareStatement(query);
                 ps.setInt(1, account_ID);
                 rs = ps.executeQuery();
@@ -192,7 +192,7 @@ public class BillDB implements DatabaseInfo {
             if (conn != null) {
                 // Query to select bills based on checkInDate, checkOutDate, status 'finished' or 'processing'
                 String query = "SELECT * FROM Bill WHERE Account_ID = ? AND "
-                        + "CheckOutDate < GETDATE() AND (Status = 'Paid' OR Status = 'Finish')";
+                        + "CheckOutDate < GETDATE() AND (Status = 'PAID' OR Status = 'FINISH')";
                 ps = conn.prepareStatement(query);
                 ps.setInt(1, account_ID);
                 rs = ps.executeQuery();

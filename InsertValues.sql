@@ -196,10 +196,13 @@ DROP TABLE #TempURLs;
  select *
  from Feedback
 
+
 -- Set up a counter for Hotel_ID
 DECLARE @HotelID INT = 1;
 DECLARE @MaxHotelID INT = 30;
 DECLARE @Rating INT;
+DECLARE @like INT;
+DECLARE @dislike INT;
 DECLARE @Description NVARCHAR(255);
 DECLARE @Date DATE;
 
@@ -208,6 +211,11 @@ WHILE @HotelID <= @MaxHotelID
 BEGIN
     -- Generate a random Rating between 1 and 5
     SET @Rating = ROUND((RAND() * 4) + 1, 0);
+
+	-- Generate a random Rating between 0 and 100
+    SET @like = ROUND((RAND() * 100), 0);
+	-- Generate a random Rating between 0 and 
+    SET @dislike = ROUND((RAND() * 100), 0);
     
     -- Generate a random Description
     SET @Description = 'Random Description ' + CAST(@HotelID AS NVARCHAR(10));
@@ -216,8 +224,8 @@ BEGIN
     SET @Date = DATEADD(DAY, -1 * FLOOR(RAND() * 30), GETDATE());
 
     -- Insert the record into Feedback
-    INSERT INTO Feedback (Account_ID, Hotel_ID, Rating, Description, Date)
-    VALUES (1, @HotelID, @Rating, @Description, @Date);
+    INSERT INTO Feedback (Account_ID, Hotel_ID, Rating ,Description, Date, LikesCount,DislikesCount)
+    VALUES (6, @HotelID, @Rating, @Description, @Date,@like,@dislike);
 
     -- Increment the Hotel_ID
     SET @HotelID = @HotelID + 1;
@@ -401,6 +409,7 @@ DECLARE @HotelID INT = 1;
 DECLARE @MaxHotelID INT = 30;
 DECLARE @Price INT;
 DECLARE @TotalRooms INT;
+DECLARE @Status NVARCHAR(50) = 'ACTIVE';
 
 -- Loop through Hotel_ID values from 1 to 30
 WHILE @HotelID <= @MaxHotelID
@@ -425,8 +434,8 @@ BEGIN
         SET @TotalRooms = FLOOR(RAND() * (5 - 1 + 1)) + 1;
         
         -- Insert the record into Room
-        INSERT INTO Room (Name, Room_Description, Capacity, Total_Rooms, Price, Hotel_ID)
-        VALUES (@Name, @Room_Description, @Capacity, @TotalRooms, @Price, @HotelID);
+        INSERT INTO Room (Name, Room_Description, Capacity, Total_Rooms, Price, Hotel_ID, Status)
+        VALUES (@Name, @Room_Description, @Capacity, @TotalRooms, @Price, @HotelID, @Status);
         
         FETCH NEXT FROM RoomCursor INTO @Name, @Room_Description, @Capacity;
     END;
@@ -437,7 +446,6 @@ BEGIN
     -- Increment the Hotel_ID
     SET @HotelID = @HotelID + 1;
 END;
-
 
  ----------------------------------------------------------------------------------------------------------------
  --INSERT INTO Room_Image-
@@ -634,38 +642,45 @@ END;
 select *
 from Reservation
 
+update Reservation
+set status = 'PAID'
+where status = 'NOT PAID'
 
+
+DECLARE @Account_ID INT = 1;
 INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
 VALUES
 --cancel
-('2024-06-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'Credit Card', 'Cancel', 1),
-('2024-06-02', 3, '2024-06-12', '2024-06-17', 500.00, 'Credit Card', 'Cancel', 1),
-('2024-06-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'Credit Card', 'Cancel', 1),
-('2024-06-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'Credit Card', 'Cancel', 1),
-('2024-06-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'Credit Card', 'Cancel', 1),
-('2024-06-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'Credit Card', 'Cancel', 1),
+('2024-06-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'Credit Card', 'CANCEL', @Account_ID),
+('2024-06-02', 3, '2024-06-12', '2024-06-17', 500.00, 'Credit Card', 'CANCEL', @Account_ID),
+('2024-06-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'Credit Card', 'CANCEL', @Account_ID),
+('2024-06-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'Credit Card', 'CANCEL', @Account_ID),
+('2024-06-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'Credit Card', 'CANCEL', @Account_ID),
+('2024-06-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'Credit Card', 'CANCEL', @Account_ID),
 --not paid
-('2024-05-02', 3, '2024-06-20', '2024-06-26', 25100.00, 'Credit Card', 'Not Paid', 1),
-('2024-05-05', 2, '2024-06-21', '2024-06-27', 15100.00, 'Credit Card', 'Not Paid', 1),
-('2024-05-04', 1, '2024-06-22', '2024-06-28', 35100.00, 'Credit Card', 'Not Paid', 1),
-('2024-05-05', 4, '2024-06-23', '2024-06-29', 45100.00, 'Credit Card', 'Not Paid', 1),
-('2024-05-06', 5, '2024-06-24', '2024-06-30', 55100.00, 'Credit Card', 'Not Paid', 1),
+('2024-05-02', 3, '2024-06-20', '2024-06-26', 25100.00, 'Credit Card', 'NOT PAID', @Account_ID),
+('2024-05-05', 2, '2024-06-21', '2024-06-27', 15100.00, 'Credit Card', 'NOT PAID', @Account_ID),
+('2024-05-04', 1, '2024-06-22', '2024-06-28', 35100.00, 'Credit Card', 'NOT PAID', @Account_ID),
+('2024-05-05', 4, '2024-06-23', '2024-06-29', 45100.00, 'Credit Card', 'NOT PAID', @Account_ID),
+('2024-05-06', 5, '2024-06-24', '2024-06-30', 55100.00, 'Credit Card', 'NOT PAID', @Account_ID),
 --paid , not finish , not feedback
-('2024-06-02', 5, '2024-06-11', '2024-06-26', 2100.00, 'Credit Card', 'Paid', 1),
-('2024-06-05', 6, '2024-06-12', '2024-06-27', 4100.00, 'Credit Card', 'Paid', 1),
-('2024-06-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'Credit Card', 'Paid', 1),
-('2024-06-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'Credit Card', 'Paid', 1),
-('2024-06-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'Credit Card', 'Paid', 1),
+('2024-06-02', 5, '2024-06-11', '2024-06-26', 2100.00, 'Credit Card', 'PAID', @Account_ID),
+('2024-06-05', 6, '2024-06-12', '2024-06-27', 4100.00, 'Credit Card', 'PAID', @Account_ID),
+('2024-06-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'Credit Card', 'PAID', @Account_ID),
+('2024-06-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'Credit Card', 'PAID', @Account_ID),
+('2024-06-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'Credit Card', 'PAID', @Account_ID),
 
 --paid , finish, not feedback
-('2024-05-03', 5, '2024-05-11', '2024-05-26', 2100.00, 'Credit Card', 'Paid', 1),
-('2024-05-05', 6, '2024-05-12', '2024-05-27', 4100.00, 'Credit Card', 'Paid', 1),
-('2024-05-04', 7, '2024-05-13', '2024-05-28', 4100.00, 'Credit Card', 'Paid', 1),
-('2024-05-05', 2, '2024-05-14', '2024-05-29', 3100.00, 'Credit Card', 'Paid', 1),
-('2024-05-06', 3, '2024-05-15', '2024-05-30', 2100.00, 'Credit Card', 'Paid', 1),
+('2024-05-03', 5, '2024-05-11', '2024-05-26', 2100.00, 'Credit Card', 'PAID', @Account_ID),
+('2024-05-05', 6, '2024-05-12', '2024-05-27', 4100.00, 'Credit Card', 'PAID', @Account_ID),
+('2024-05-04', 7, '2024-05-13', '2024-05-28', 4100.00, 'Credit Card', 'PAID', @Account_ID),
+('2024-05-05', 2, '2024-05-14', '2024-05-29', 3100.00, 'Credit Card', 'PAID', @Account_ID),
+('2024-05-06', 3, '2024-05-15', '2024-05-30', 2100.00, 'Credit Card', 'PAID', @Account_ID),
 --finish,feedback
-('2024-05-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'Credit Card', 'Finish', 1),
-('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'Credit Card', 'Finish', 1);
+('2024-05-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'Credit Card', 'FINISH', @Account_ID),
+('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'Credit Card', 'FINISH', @Account_ID);
+
+
 
 -----------------------------------------------------------------------------------------------------------------
 select *

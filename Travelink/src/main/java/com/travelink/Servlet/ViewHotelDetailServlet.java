@@ -101,7 +101,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
             List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotel_ID);
             request.setAttribute("hotelFacilityList", hotelFacilityList);
             // list room hotel
-            List<Room> listRoom = RoomDB.getRoomsByHotel_ID(hotel_ID);
+            List<Room> listRoom = RoomDB.getActiveRoomsByHotel_ID(hotel_ID);
             request.setAttribute("roomList", listRoom);
             // list img room hotel
             List<RoomImage> roomImgList = new ArrayList<>();
@@ -137,7 +137,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
             // checkFavorite
             request.setAttribute("check", null);
             request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
-        } else if(session.getAttribute("checkInDate") != null && session.getAttribute("checkOutDate") != null) {
+        } else if (session.getAttribute("checkInDate") != null && session.getAttribute("checkOutDate") != null) {
             int hotel_ID = Integer.parseInt(request.getParameter("hotel_ID"));
             Hotel hotel = HotelDB.getHotelByID(hotel_ID);
             request.setAttribute("hotel_view", hotel);
@@ -158,7 +158,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
             List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotel_ID);
             request.setAttribute("hotelFacilityList", hotelFacilityList);
             // list room hotel
-            List<Room> listRoom = RoomDB.getRoomsByHotel_ID(hotel_ID);
+            List<Room> listRoom = RoomDB.getActiveRoomsByHotel_ID(hotel_ID);
             request.setAttribute("roomList", listRoom);
             // list img room hotel
             List<RoomImage> roomImgList = new ArrayList<>();
@@ -184,7 +184,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
 
             List<Integer> numberOfRoomList = new ArrayList<>();
             List<Reservation> check1 = RoomDB.reservationCoincide(beginDate, endDate);
-            for (Room room : RoomDB.getRoomsByHotel_ID(hotel_ID)) {
+            for (Room room : RoomDB.getActiveRoomsByHotel_ID(hotel_ID)) {
                 if (check1 == null) {
                     int numberOfRoom = room.getTotalRooms();
                     numberOfRoomList.add(numberOfRoom);
@@ -261,7 +261,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
         List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotelId);
         request.setAttribute("hotelFacilityList", hotelFacilityList);
         // list room hotel
-        List<Room> listRoom = RoomDB.getRoomsByHotel_ID(hotelId);
+        List<Room> listRoom = RoomDB.getActiveRoomsByHotel_ID(hotelId);
         request.setAttribute("roomList", listRoom);
         // list img room hotel
         List<RoomImage> roomImgList = new ArrayList<>();
@@ -278,6 +278,23 @@ public class ViewHotelDetailServlet extends HttpServlet {
             boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, account.getAccount_ID());
             request.setAttribute("checkFavorite", checkFavorite);
         }
+        // Room Availavle by Time
+        Date beginDate = (Date) session.getAttribute("checkInDate");
+        Date endDate = (Date) session.getAttribute("checkOutDate");
+
+        List<Integer> numberOfRoomList = new ArrayList<>();
+        List<Reservation> check1 = RoomDB.reservationCoincide(beginDate, endDate);
+        for (Room room : RoomDB.getActiveRoomsByHotel_ID(hotelId)) {
+            if (check1 == null) {
+                int numberOfRoom = room.getTotalRooms();
+                numberOfRoomList.add(numberOfRoom);
+            } else {
+                int numberOfRoom = RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), beginDate, endDate, check1);
+                numberOfRoomList.add(numberOfRoom);
+            }
+        }
+        request.setAttribute("numberOfRoomList", numberOfRoomList);
+
         List<Feedback> feedbacks = new ArrayList<>();
         try {
             feedbacks = FeedbackDB.getFeedbacksByHotelID(hotelId);

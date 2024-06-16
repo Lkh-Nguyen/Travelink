@@ -16,6 +16,19 @@ CREATE TABLE Account (
   Role INT NOT NULL
 );
 
+CREATE TABLE Pending_Host (
+  Pending_Host_ID INT IDENTITY(1,1) PRIMARY KEY, -- Primary key with auto-increment
+  Email VARCHAR(255) NOT NULL,        -- Email field with VARCHAR type
+  Password VARCHAR(255),      -- Password field with VARCHAR type
+  CMND VARCHAR(20),							-- CMND field with VARCHAR type
+  Name NVARCHAR(255) NOT NULL,        -- Name field with NVARCHAR type
+  Gender CHAR(1),          -- Gender field with CHAR type
+  DateOfBirth DATE,
+  PhoneNumber VARCHAR(20),
+  AvatarURL VARCHAR(255),
+  Address NVARCHAR(255),
+);
+
 --Create the Hotel table
 CREATE TABLE Hotel (
   Hotel_ID INT IDENTITY(1,1) PRIMARY KEY,
@@ -50,18 +63,6 @@ CREATE TABLE Owned_Hotel (
 );
 GO
 
---Create table Pending_Hotel
-CREATE TABLE Pending_Hotel (
-  Pending_Hotel_ID INT IDENTITY(1,1) PRIMARY KEY, -- Use IDENTITY for auto-increment if needed
-  Name NVARCHAR(255) NOT NULL,
-  Email VARCHAR(255) UNIQUE,  -- Assuming email should be unique for pending hotels
-  Password VARCHAR(255),
-  PhoneNumber VARCHAR(20),
-  Address NVARCHAR(255),
-  Ward_ID INT FOREIGN KEY REFERENCES Ward(Ward_ID),
-);
-GO
-
 -- Create table Feedback
 CREATE TABLE Feedback (
   Feedback_ID INT IDENTITY(1,1) PRIMARY KEY,
@@ -82,6 +83,7 @@ CREATE TABLE Room (
   Capacity TINYINT,
   Total_Rooms TINYINT,
   Price INT,
+  Status NVARCHAR(50) NOT NULL,
   Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
 );
 

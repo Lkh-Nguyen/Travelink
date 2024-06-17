@@ -193,6 +193,7 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("locationList", locationList);
             session.setAttribute("checkInDate", checkInDate);
             session.setAttribute("checkOutDate", checkOutDate);
+            session.setAttribute("people", people);
             request.setAttribute("hotelList", newHotelList);
             request.setAttribute("location", location);
             request.setAttribute("people", people);

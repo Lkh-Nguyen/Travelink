@@ -94,8 +94,6 @@ public class LoginAccountServlet extends HttpServlet {
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
             request.setAttribute("succesLogin", "Login successfully.");
-            List<Province> locationList = ProvinceDB.getAllProvince();
-            request.setAttribute("locationList", locationList);
             request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
         }
     }

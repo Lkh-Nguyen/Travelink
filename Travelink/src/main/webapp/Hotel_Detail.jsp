@@ -2,7 +2,8 @@
 <%@ page import="java.util.*" %>
 <%@page import="com.travelink.Model.*" %>
 <%@page import="com.travelink.Database.*" %>
-
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.sql.Date" %>
 
 <!DOCTYPE html>
 <html>
@@ -12,10 +13,11 @@
         <link rel="stylesheet" href="bootstrap_css/bootstrap.min.css">
         <link rel="stylesheet" href="css/Hotel_Detail.css">
         <link rel="stylesheet" href="css/listPage.css">
+        <link rel="stylesheet" href="css/HotelHost_Feedback.css">
         <!-- SweetAlert CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
         <!-- SweetAlert JS -->
-        
+
         <title>Hotel</title>
         <style>
             table {
@@ -239,10 +241,10 @@
                                                                 
                                                             %> 
                                                             <h4 id="service" style="margin-top: 5px">Breakfast Included</h4>
-                                                            <c:if test="${requestScope.check != null}"><a id="numberRoom">Only ${requestScope.numberOfRoomList[status.index]} rooms left on our site</a></c:if>
-                                                            </td>
-                                                            <td>
-                                                                <div id="amount_People">
+                                                            <a id="numberRoom">Only ${requestScope.numberOfRoomList[status.index]} rooms left on our site</a>
+                                                        </td>
+                                                        <td>
+                                                            <div id="amount_People">
                                                                 <%
                                                                      int n = roomHotel.getCapacity();
                                                                      for (int i = 0; i < n; i++) {
@@ -283,7 +285,14 @@
                     <c:if test="${requestScope.check != null}">
                         <form action="CheckoutServlet" method="post" onsubmit="return validateForm()">
                             <input type="hidden" value="" name="bookingStr" id="bookingStr">
-                            <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">
+                            <c:choose>
+                                <c:when test="${not empty param.hotel_ID}">
+                                    <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="hidden" value="${requestScope.hotel_ID}" name="hotel_ID">
+                                </c:otherwise>
+                            </c:choose>
                             <input type="submit" value="Continue" id="continue">
                         </form>
                     </c:if>
@@ -306,64 +315,137 @@
                 %>
                 <h6>Rating & Overall Review Score</h6>
                 <div class="row">
-                    <div class="col-md-3" id="left_rate">
+                    <div class="col-md-3 mt-5" id="left_rate">
                         <p id="rating"><%= String.format("%.1f", overallRating) %></p>
                         <div style="display: flex" id="rate">
-                            <% for (int i = 1; i <= 5; i++) { %>
-                            <i class="bx <%= (i <= overallRating) ? "bxs-star" : "bx-star" %>"></i>
-                            <% } %>
+
+                            <% if(overallRating == 1){%>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bx-star'></i>
+                            <i class='bx bx-star'></i>
+                            <i class='bx bx-star'></i>
+                            <i class='bx bx-star'></i>
+                            <%  }else if(overallRating > 1  && overallRating < 2){%>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star-half'></i>
+                            <i class='bx bx-star'></i>
+                            <i class='bx bx-star'></i>
+                            <i class='bx bx-star'></i>
+                            <%}else if(overallRating == 2){%>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bx-star'></i>
+                            <i class='bx bx-star'></i>
+                            <i class='bx bx-star'></i>
+                            <%}else if(overallRating > 2 && overallRating < 3){%>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star-half'></i>
+                            <i class='bx bx-star'></i>
+                            <i class='bx bx-star'></i>
+                            <%}else if(overallRating == 3){%>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bx-star'></i>
+                            <i class='bx bx-star'></i>
+                            <%}else if(overallRating > 3 &&  overallRating < 4){%>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star-half'></i>
+                            <i class='bx bx-star'></i>
+                            <%}else if(overallRating == 4){%>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bx-star'></i>
+                            <%}else if(overallRating >  4 && overallRating < 5){%>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star-half'></i>
+                            <%}else if(overallRating ==5){%>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <%}%>
                         </div>
                     </div>
                     <!--                    Feedback-->
                     <div class="col-md-9">
                         <div class="my-feedback-button d-flex justify-content-end">
-                            <a href="MyFeedbackServlet" class="btn btn-primary mb-2">Show all my feedback</a>
+                            <a href="MyFeedbackServlet" class="btn btn-dark mb-2">Show all my feedback</a>
                         </div>
                         <c:forEach var="f" items="${requestScope.feedbacks}">
                             <div class="w-100 mb-3">
-                                <div class="card card-body "  data-customer-id="${f.account_ID}">
-                                    <!--                                     style="border-bottom: 1px solid grey"-->
-                                    <h5 class="card-title">
-                                        <img src="${f.getAccount(f.feedbackID).avatarURL}" alt="alt"/><label style="font-size: 16px">${f.getAccount(f.feedbackID).name}</label>
-                                    </h5>
-                                    <div>
-                                        <c:if test="${f.rating eq 1}">
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bx-star'></i>
-                                            <i class='bx bx-star'></i>
-                                            <i class='bx bx-star'></i>
-                                            <i class='bx bx-star'></i>
-                                        </c:if>
-                                        <c:if test="${f.rating eq 2}">
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bx-star'></i>
-                                            <i class='bx bx-star'></i>
-                                            <i class='bx bx-star'></i>
-                                        </c:if>
-                                        <c:if test="${f.rating eq 3}">
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bx-star'></i>
-                                            <i class='bx bx-star'></i>
-                                        </c:if>
-                                        <c:if test="${f.rating eq 4}">
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bx-star'></i>
-                                        </c:if>
-                                        <c:if test="${f.rating eq 5}">
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bxs-star'></i>
-                                        </c:if>
+
+                                <div class="card card-body mb-3" data-customer-id="${f.account_ID}" style="border: 1px solid rgb(227,227,227);border-radius: 5px;padding: 1rem">
+                                    <div class="d-flex">
+                                        <div class="avatar"><img src="${f.getAccount(f.feedbackID).avatarURL}"></div>
+                                        <div class="ms-3">
+                                            <div class="row">
+                                                <h6 class="mb-0" style="font-size: 20px;font-weight: bold">${f.getAccount(f.feedbackID).name}</h6>
+                                                <%
+                                                    // Example of how you might retrieve the date
+                                                    // This should be replaced with your actual logic
+                                                    // For example: Date date = f.getAccount(f.feedbackID).getDate();
+                                                    Date date = new Date(System.currentTimeMillis()); // Replace with your actual date
+
+                                                    // Format the date
+                                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                                    String formattedDate = "";
+                                                    if (date != null) {
+                                                        formattedDate = formatter.format(date);
+                                                    }
+                                                %>
+                                                <span class="text-muted" style="float: right;font-size: 18px;font-weight: bold"><%= formattedDate %></span>
+                                            </div>
+                                            <div style="color: orange;font-weight: bold">
+                                                <c:if test="${f.rating eq 1}">
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bx-star'></i>
+                                                    <i class='bx bx-star'></i>
+                                                    <i class='bx bx-star'></i>
+                                                    <i class='bx bx-star'></i>
+                                                </c:if>
+                                                <c:if test="${f.rating eq 2}">
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bx-star'></i>
+                                                    <i class='bx bx-star'></i>
+                                                    <i class='bx bx-star'></i>
+                                                </c:if>
+                                                <c:if test="${f.rating eq 3}">
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bx-star'></i>
+                                                    <i class='bx bx-star'></i>
+                                                </c:if>
+                                                <c:if test="${f.rating eq 4}">
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bx-star'></i>
+                                                </c:if>
+                                                <c:if test="${f.rating eq 5}">
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bxs-star'></i>
+                                                    <i class='bx bxs-star'></i>
+                                                </c:if>
+                                            </div>
+                                            <p style="font-size: 18px">${f.description}</p>
+                                        </div>
                                     </div>
-                                    <p class="card-text">${f.description}</p> 
+
                                     <div class="d-flex justify-content-end m-2">
                                         <c:choose>
                                             <c:when test="${sessionScope.account != null}">

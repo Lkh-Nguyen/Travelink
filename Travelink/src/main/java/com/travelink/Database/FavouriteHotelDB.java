@@ -7,7 +7,7 @@ package com.travelink.Database;
 import com.travelink.Model.Account;
 import com.travelink.Model.FavouriteHotel;
 import com.travelink.Model.Hotel;
-import com.travelink.Model.HotelImage;
+import com.travelink.View.HotelInfor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,39 +20,7 @@ import java.util.List;
  * @author ASUS
  */
 public class FavouriteHotelDB implements DatabaseInfo {
-
-    public static List<Hotel> getHotelsByAccountID(int AccountID) {
-        List<Hotel> hotels = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = DatabaseInfo.getConnect();
-
-            if (connection != null) {
-                String query
-                        = "SELECT h.* "
-                        + "FROM Favourite_Hotel fh "
-                        + "INNER JOIN Hotel h ON fh.Hotel_ID = h.Hotel_ID "
-                        + "WHERE fh.Account_ID = ?";
-                statement = connection.prepareStatement(query);
-                statement.setInt(1, AccountID); // Set the Account ID parameter
-                resultSet = statement.executeQuery();
-
-                while (resultSet.next()) {
-                    Hotel hotel = new Hotel(); // Assuming you have a Hotel model class
-                    hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
-                    // Set other hotel attributes from the result set (refer to your Hotel model)
-                    hotels.add(hotel);
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error getting hotels by Account ID: " + e);
-        }
-        return hotels;
-    }
-
+    
     public static boolean deleteFavouriteHotel(int hotelID, int accountID) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -130,8 +98,8 @@ public class FavouriteHotelDB implements DatabaseInfo {
         return false;
     }
 
-    public static List<Hotel> getHotelFavourite(int accountID) {
-        List<Hotel> cardFavouriteHotelS = new ArrayList<>();
+    public static List<HotelInfor> getHotelFavourite(int accountID) {
+        List<HotelInfor> cardFavouriteHotelS = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -162,141 +130,16 @@ public class FavouriteHotelDB implements DatabaseInfo {
                 resultSet = statement.executeQuery();
 
                 while (resultSet.next()) {
-                    Hotel cardFavouriteHotel = new Hotel(); // Assuming you have a Hotel model class
+                    HotelInfor cardFavouriteHotel = new HotelInfor(); // Assuming you have a Hotel model class
                     cardFavouriteHotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
                     cardFavouriteHotel.setName(resultSet.getString("Name"));
                     cardFavouriteHotel.setStar(resultSet.getInt("Star"));
                     cardFavouriteHotel.setAddress(resultSet.getString("Address"));
-
-                    cardFavouriteHotelS.add(cardFavouriteHotel);
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error getting hotels by account ID: " + e);
-        }
-        return cardFavouriteHotelS;
-    }
-    
-    public static List<HotelImage> getHotelImageFavourite(int accountID) {
-        List<HotelImage> cardFavouriteHotelS = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = DatabaseInfo.getConnect();
-
-            if (connection != null) {
-                String query
-                        = "WITH RankedHotels AS ( "
-                        + " SELECT  h.Hotel_ID,h.Name,h.Star,h.Address,hi.URL,ROW_NUMBER() OVER (PARTITION BY h.Hotel_ID ORDER BY (SELECT NULL)) AS rn "
-                        + " FROM Favourite_Hotel fh  INNER JOIN  Hotel h ON fh.Hotel_ID = h.Hotel_ID "
-                        + " INNER JOIN Hotel_Image hi ON h.Hotel_ID = hi.Hotel_ID "
-                        + " WHERE fh.Account_ID = ? "
-                        + "), "
-                        + " HotelRatings AS ( "
-                        + " SELECT h.Hotel_ID, COUNT(fb.Rating) AS RatingCount,ROUND(AVG(CAST(fb.Rating AS FLOAT)), 1) AS Average "
-                        + " FROM Hotel h  LEFT OUTER JOIN   Feedback fb ON h.Hotel_ID = fb.Hotel_ID "
-                        + " GROUP BY h.Hotel_ID "
-                        + ") "
-                        + " SELECT   rh.Hotel_ID,   rh.Name, rh.Star, rh.Address,  rh.URL, COALESCE(hr.RatingCount, 0) AS RatingCount, COALESCE(hr.Average, 0) AS Average "
-                        + " FROM  RankedHotels rh LEFT JOIN HotelRatings hr ON rh.Hotel_ID = hr.Hotel_ID "
-                        + " WHERE rh.rn = 1"
-                        + "ORDER BY rh.Star desc;";
-
-                statement = connection.prepareStatement(query);
-                statement.setInt(1, accountID); // Set the account ID parameter
-                resultSet = statement.executeQuery();
-
-                while (resultSet.next()) {
-                    HotelImage cardFavouriteHotel = new HotelImage(); // Assuming you have a Hotel model class
                     cardFavouriteHotel.setUrl(resultSet.getString("URL"));
-
+                    cardFavouriteHotel.setRatingCount(resultSet.getInt("RatingCount"));
+                    cardFavouriteHotel.setAverage(resultSet.getFloat("Average"));
+                    
                     cardFavouriteHotelS.add(cardFavouriteHotel);
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error getting hotels by account ID: " + e);
-        }
-        return cardFavouriteHotelS;
-    }
-    
-    public static List<Integer> getRatingCountFavourite(int accountID) {
-        List<Integer> cardFavouriteHotelS = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = DatabaseInfo.getConnect();
-
-            if (connection != null) {
-                String query
-                        = "WITH RankedHotels AS ( "
-                        + " SELECT  h.Hotel_ID,h.Name,h.Star,h.Address,hi.URL,ROW_NUMBER() OVER (PARTITION BY h.Hotel_ID ORDER BY (SELECT NULL)) AS rn "
-                        + " FROM Favourite_Hotel fh  INNER JOIN  Hotel h ON fh.Hotel_ID = h.Hotel_ID "
-                        + " INNER JOIN Hotel_Image hi ON h.Hotel_ID = hi.Hotel_ID "
-                        + " WHERE fh.Account_ID = ? "
-                        + "), "
-                        + " HotelRatings AS ( "
-                        + " SELECT h.Hotel_ID, COUNT(fb.Rating) AS RatingCount,ROUND(AVG(CAST(fb.Rating AS FLOAT)), 1) AS Average "
-                        + " FROM Hotel h  LEFT OUTER JOIN   Feedback fb ON h.Hotel_ID = fb.Hotel_ID "
-                        + " GROUP BY h.Hotel_ID "
-                        + ") "
-                        + " SELECT   rh.Hotel_ID,   rh.Name, rh.Star, rh.Address,  rh.URL, COALESCE(hr.RatingCount, 0) AS RatingCount, COALESCE(hr.Average, 0) AS Average "
-                        + " FROM  RankedHotels rh LEFT JOIN HotelRatings hr ON rh.Hotel_ID = hr.Hotel_ID "
-                        + " WHERE rh.rn = 1"
-                        + "ORDER BY rh.Star desc;";
-
-                statement = connection.prepareStatement(query);
-                statement.setInt(1, accountID); // Set the account ID parameter
-                resultSet = statement.executeQuery();
-
-                while (resultSet.next()) {
-                    int ratingCount = resultSet.getInt("RatingCount");
-                    cardFavouriteHotelS.add(ratingCount);
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error getting hotels by account ID: " + e);
-        }
-        return cardFavouriteHotelS;
-    }
-    
-    public static List<Float> getAverageFavourite(int accountID) {
-        List<Float> cardFavouriteHotelS = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = DatabaseInfo.getConnect();
-
-            if (connection != null) {
-                String query
-                        = "WITH RankedHotels AS ( "
-                        + " SELECT  h.Hotel_ID,h.Name,h.Star,h.Address,hi.URL,ROW_NUMBER() OVER (PARTITION BY h.Hotel_ID ORDER BY (SELECT NULL)) AS rn "
-                        + " FROM Favourite_Hotel fh  INNER JOIN  Hotel h ON fh.Hotel_ID = h.Hotel_ID "
-                        + " INNER JOIN Hotel_Image hi ON h.Hotel_ID = hi.Hotel_ID "
-                        + " WHERE fh.Account_ID = ? "
-                        + "), "
-                        + " HotelRatings AS ( "
-                        + " SELECT h.Hotel_ID, COUNT(fb.Rating) AS RatingCount,ROUND(AVG(CAST(fb.Rating AS FLOAT)), 1) AS Average "
-                        + " FROM Hotel h  LEFT OUTER JOIN   Feedback fb ON h.Hotel_ID = fb.Hotel_ID "
-                        + " GROUP BY h.Hotel_ID "
-                        + ") "
-                        + " SELECT   rh.Hotel_ID,   rh.Name, rh.Star, rh.Address,  rh.URL, COALESCE(hr.RatingCount, 0) AS RatingCount, COALESCE(hr.Average, 0) AS Average "
-                        + " FROM  RankedHotels rh LEFT JOIN HotelRatings hr ON rh.Hotel_ID = hr.Hotel_ID "
-                        + " WHERE rh.rn = 1"
-                        + "ORDER BY rh.Star desc;";
-
-                statement = connection.prepareStatement(query);
-                statement.setInt(1, accountID); // Set the account ID parameter
-                resultSet = statement.executeQuery();
-
-                while (resultSet.next()) {
-                    float average = resultSet.getFloat("Average");
-                    cardFavouriteHotelS.add(average);
                 }
             }
         } catch (SQLException e) {

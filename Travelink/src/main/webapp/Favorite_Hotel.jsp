@@ -123,15 +123,9 @@
                             <div class="card mb-3 list_Card"  data-hotel-id="${c.hotel_ID}" style="max-width: 100%;height: 210px; margin-top: 2%;margin-left: 2%;margin-right: 2%">
                                 <div class="row g-0" >   
                                     <div class="col-md-4">
-                                        <c:set var="j" value="0"/>
-                                        <c:forEach items="${requestScope.list_HotelImage}" var="hi">                                           
-                                            <c:if test="${i == j}">
-                                                <div class="img-container">
-                                                    <img src="${hi.url}" class="img-fluid rounded-start" alt="...">
-                                                </div>
-                                            </c:if>
-                                            <c:set var="j" value="${j + 1}" />
-                                        </c:forEach>
+                                        <div class="img-container">
+                                            <img src="${c.url}" class="img-fluid rounded-start" alt="...">
+                                        </div>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body" >
@@ -170,20 +164,8 @@
                                             </div>
                                             <c:set var="j" value="0"/>
                                             <div id="left_rate">
-                                                <c:forEach items="${requestScope.list_Average}" var="average">
-                                                    <c:if test="${i == j}">
-                                                        <p id="rating">${average}</p>
-                                                    </c:if>
-                                                    <c:set var="j" value="${j + 1}" />
-                                                </c:forEach>
-                                                <c:set var="j" value="0"/>
-                                                <c:forEach items="${requestScope.list_RatingCount}" var="count">
-                                                    <c:if test="${i == j}">
-                                                        <p id="reports" style="font-size: 15px;">${count} feedbacks</p>
-                                                    </c:if>
-                                                    <c:set var="j" value="${j + 1}" />
-                                                </c:forEach>
-                                                
+                                                <p id="rating">${c.average}</p>
+                                                <p id="reports" style="font-size: 15px;">${c.ratingCount} feedbacks</p>                                             
                                             </div>
                                             <div id="show_detail" style="margin-left:0px">
                                                 <form action="viewHotelDetailServlet" method="get">

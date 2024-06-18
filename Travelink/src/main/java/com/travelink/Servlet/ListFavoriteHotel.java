@@ -8,6 +8,7 @@ import com.travelink.Database.FavouriteHotelDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
+import com.travelink.View.HotelInfor;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -65,14 +66,8 @@ public class ListFavoriteHotel extends HttpServlet {
         Account account = (Account) session.getAttribute("account");
         
         if(account != null){
-        List<Hotel> list_Hotel = FavouriteHotelDB.getHotelFavourite(account.getAccount_ID());
-        List<HotelImage> list_HotelImage = FavouriteHotelDB.getHotelImageFavourite(account.getAccount_ID());
-        List<Integer> list_RatingCount = FavouriteHotelDB.getRatingCountFavourite(account.getAccount_ID());
-        List<Float> list_Average = FavouriteHotelDB.getAverageFavourite(account.getAccount_ID());
+        List<HotelInfor> list_Hotel = FavouriteHotelDB.getHotelFavourite(account.getAccount_ID());
         request.setAttribute("list_Hotel", list_Hotel);
-        request.setAttribute("list_HotelImage", list_HotelImage);
-        request.setAttribute("list_RatingCount", list_RatingCount);
-        request.setAttribute("list_Average", list_Average);
         
         request.getRequestDispatcher("Favorite_Hotel.jsp").forward(request, response);
         }else{
@@ -100,14 +95,8 @@ public class ListFavoriteHotel extends HttpServlet {
             request.setAttribute("alterDeleteUnSuccess", "Delete favorite hotel unsuccesfully.");
         }
         
-        List<Hotel> list_Hotel = FavouriteHotelDB.getHotelFavourite(account.getAccount_ID());
-        List<HotelImage> list_HotelImage = FavouriteHotelDB.getHotelImageFavourite(account.getAccount_ID());
-        List<Integer> list_RatingCount = FavouriteHotelDB.getRatingCountFavourite(account.getAccount_ID());
-        List<Float> list_Average = FavouriteHotelDB.getAverageFavourite(account.getAccount_ID());
+        List<HotelInfor> list_Hotel = FavouriteHotelDB.getHotelFavourite(account.getAccount_ID());
         request.setAttribute("list_Hotel", list_Hotel);
-        request.setAttribute("list_HotelImage", list_HotelImage);
-        request.setAttribute("list_RatingCount", list_RatingCount);
-        request.setAttribute("list_Average", list_Average);
         
         request.getRequestDispatcher("Favorite_Hotel.jsp").forward(request, response);
     }

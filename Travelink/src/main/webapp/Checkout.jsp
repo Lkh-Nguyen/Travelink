@@ -2,6 +2,8 @@
 <%@ page import="java.util.*" %>
 <%@page import="com.travelink.Model.*" %>
 <%@page import="com.travelink.Database.*" %>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.temporal.ChronoUnit"%>
 
 <!DOCTYPE html>
 <html>
@@ -24,6 +26,7 @@
             <c:set var="totalPrice" value="${sessionScope.bookingTotalPrice}" />
             <c:set var="checkInDate" value="${sessionScope.checkInDate}" />
             <c:set var="checkOutDate" value="${sessionScope.checkOutDate}" />
+            <c:set var="people" value="${sessionScope.people}" />
             <div class="container mt-4 content">
                 <div class="row">
                     <!-- Hotel Info -->
@@ -64,8 +67,8 @@
                                     </div>
 
                                 </div>
-                                <p>Total length of stay: <strong>3 nights</strong></p>
-                                <p>Total number of people: <strong>4 people</strong></p>
+                                <!--<p>Total length of stay: <strong>nights</strong></p>-->
+                                <p>Total number of people: <strong>${people}</strong></p>
                                 <p style="border-top: 1px grey solid;padding-top: 5px;margin-bottom: 0px">You selected</p>
                                 <c:forEach items="${bookingMap}" var="entry">
                                     <strong>${entry.value} x ${entry.key.name}</strong>: <span class="price text-danger">${entry.key.price}</span> VND<br>

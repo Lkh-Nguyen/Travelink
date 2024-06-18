@@ -16,6 +16,7 @@ import com.travelink.Model.Reservation;
 import com.travelink.Model.ReservedRoom;
 import com.travelink.Model.Room;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -69,14 +70,15 @@ public class PaymentServlet extends HttpServlet {
             Room room = entry.getKey();
             int amount = entry.getValue();
             int availableRoom = RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), checkInDate, checkOutDate, check1);
-            if (availableRoom >= amount) continue;
-            else {
+            if (availableRoom >= amount) {
+                continue;
+            } else {
                 response.sendRedirect("Error.jsp");
                 return;
             }
-            
+
         }
-        
+
         //Get booking details from session
         Account account = (Account) session.getAttribute("account");
         String totalPriceStr = (String) session.getAttribute("bookingTotalPrice");
@@ -94,7 +96,7 @@ public class PaymentServlet extends HttpServlet {
         }
 
         // Example values (replace with actual data)
-        int number_Of_Guests = 2;
+        int number_Of_Guests = (int) session.getAttribute("people");
         String paymentMethod = "VIETQR";
         String status = "NOT PAID";
 
@@ -123,14 +125,14 @@ public class PaymentServlet extends HttpServlet {
             ReservedRoomDB.insertReservedRoom(reservedRoom);
         }
 
-        //Save temporary reservation ID to session (Deleted)
+        //Save temporary reservation ID to session 
         session.setAttribute("pendingReservationID", (Integer) pendingReservationID);
 
         //Data parameter
         String cancelUrl = "http://localhost:8080/Travelink/CancelPaymentServlet";
         String description = "Payment for Travelink";
         String orderCode = Integer.toString(pendingReservationID);
-//        String orderCode = "20";
+
         String returnUrl = "http://localhost:8080/Travelink/ReturnPaymentServlet";
 
         //Make data string
@@ -143,6 +145,8 @@ public class PaymentServlet extends HttpServlet {
             signature = calculateHMAC(data, checksumKey);
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
+            ReservationDB.deleteReservationByReservationID(pendingReservationID);
+            session.removeAttribute("pendingReservationID");
             response.sendRedirect("Error.jsp");
             return;
         }
@@ -153,20 +157,26 @@ public class PaymentServlet extends HttpServlet {
             result = sendJsonToCreatePayment(orderCode, totalPriceStr, description, account, bookingMap, cancelUrl, returnUrl, signature);
         } catch (Exception ex) {
             ex.printStackTrace();
+            ReservationDB.deleteReservationByReservationID(pendingReservationID);
+            session.removeAttribute("pendingReservationID");
             response.sendRedirect("Error.jsp");
             return;
         }
 
         //Response fail
         if (result == null) {
+            ReservationDB.deleteReservationByReservationID(pendingReservationID);
+            session.removeAttribute("pendingReservationID");
             response.sendRedirect("Error.jsp");
             return;
         }
-        
-        //Delete not needed payment related session
 
+        //Delete not needed payment related session
         //Save checkoutURL and paymentLinkId to session and redirect to checkoutUrl
         session.setAttribute("checkoutUrl", result[0]);
+        Cookie checkoutUrlCookie = new Cookie("checkoutUrl", result[0]);
+        checkoutUrlCookie.setMaxAge(60*5);
+        response.addCookie(checkoutUrlCookie);
         session.setAttribute("paymentLinkId", result[1]);
         response.sendRedirect(result[0]);
         return;

@@ -1,196 +1,51 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : May 26, 2024, 8:16:05 PM
-    Author     : DUYAN
-*/
-
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
-
-:root {
-    --primary-color: #3d5cb8;
-    --primary-color-dark: #334c99;
-    --text-dark: #0f172a;
-    --text-light: #64748b;
-    --extra-light: #f1f5f9;
-    --white: #ffffff;
-    --max-width: 1200px;
+#titleHotel:hover {
+    transition: 0.5s ease;
+    background-color: lightgray;
+    color: whitesmoke;
+    transform: translateY(-5px);
 }
-
-/* CSS Reset */
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+#titleHotel {
+    transition: 0.5s ease;
 }
-
-/* Global Styles */
-body {
-    font-family: "Poppins", sans-serif;
-    overflow-x: hidden; /* Chặn việc cuộn ngang trang */
-}
-
-a {
-    text-decoration: none;
-}
-
-/* Navbar */
-nav {
-    background-color: rgba(0, 0, 0, 0.05);
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
 .nav__logo {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 600;
     color: var(--text-dark);
 }
-
-span{
-    color: var(--primary-color-dark);
-}
-
-.nav__links {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 4rem;
-    margin: 0 2rem;
-}
-
-.link a {
-    font-weight: 500;
-    color: var(--text-light);
-    transition: 0.3s;
-}
-
-.link a:hover {
-    color: var(--text-dark);
-}
-
-/* Profile Dropdown */
-.profile {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.profile img {
-    width: 2.5rem;
-    border-radius: 50%;
-    border: 1px solid black;
-}
-
-.profile-name {
-    color: var(--primary-color-dark);
-    line-height: 2.5;
-    padding: 0.75rem 2rem;
-    cursor: pointer; /* Hiển thị cursor pointer khi di chuột vào */
-}
-
-/* Dropdown Menu */
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 10;
-    width: 160px;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-}
-
-.profile:hover .dropdown-menu {
-    display: block; 
-}
-
-.dropdown-menu ul {
-    list-style: none;
-    padding: 0.5rem 0;
-}
-
-.dropdown-menu li {
-    padding: 0.5rem 1rem;
-}
-
-.dropdown-menu li:hover {
-    background-color: gray;
-    color: var(--white);
-    cursor: pointer;
-}
-
-.dropdown-menu a {
-    color: var(--text-dark);
-    transition: color 0.3s;
-}
-
-.dropdown-menu a:hover {
-    color: var(--primary-color);
-}
-.body{
-    display: flex;
-}
-/* Side bar */
-.sidebar {
-    width: 15rem;
-    background-color: var(--primary-color-dark);
-    color: #ecf0f1;
-    height: 100vh;
-    padding-top: 2rem;
-}
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #ecdbff;
-}
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-.sidebar ul li {
-    padding: 1rem;
-    border-bottom: 1px solid var(--primary-color);
-}
-.sidebar ul li a {
-    color: #ecf0f1;
+.nav__logo a{
     text-decoration: none;
-    display: block;
 }
-.sidebar ul li:hover {
-    background-color: var(--primary-color);
+.nav__logo a:active{
+
+    color:blue;
 }
-.sidebar ul li ul {
-    display: none;
+span{
+    color:var(--primary-color-dark);
+    padding-top: 2px;
 }
-.sidebar ul li:hover ul {
-    display: block;
+#containIcon {
+    border-right: 0.5px solid lightgray;
 }
-.sidebar ul li ul li {
-    padding: 0.75rem;
-    padding-left: 30px;
-    border-bottom: none;
+#rowFirst{
+    background-image: linear-gradient(to right ,#3366ff,#000080);
 }
-/*Content*/
-.content {
-    flex-grow: 1;
-    background-color: #ecf0f14b;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+#cardFist {
+    height: 300px;
+    
 }
-.icon {
-    font-size: 9rem;
-    color: #f8e803;
+#cardBelow:hover {
+    transition: 0.5s ease;
+    transform: translateY(-10px);
+    /*transform: scale(1.1);*/
 }
-.welcome-text {
-    font-size: 1.5rem;
-    margin-top: 2rem;
-    color: #2c3e50;
+#cardBelow{
+    transition: 0.5s ease;
 }
+.card-scale {
+    transition: transform 0.3s ease;
+}
+
+.card-scale-active {
+    transform: scale(1.1);
+}
+

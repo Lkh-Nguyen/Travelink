@@ -6,6 +6,7 @@ package com.travelink.Servlet;
 
 import com.travelink.Database.ReservationDB;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -50,7 +51,21 @@ public class CancelPaymentServlet extends HttpServlet {
             // Delete the temporary reservation
             ReservationDB.deleteReservationByReservationID(pendingReservationID);
         }
-        
+        Cookie[] cookies = request.getCookies();
+
+        // Check if the cookie array is not null
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                // Check for the specific cookie by name
+                if ("checkoutUrl".equals(cookie.getName())) {
+                    // Set the max age to 0 to delete the cookie
+                    cookie.setMaxAge(0);
+                    // Add the cookie to the response to delete it
+                    response.addCookie(cookie);
+                    break;
+                }
+            }
+        }
         //Remove all reservation related session
         session.removeAttribute("pendingReservationID");
         session.removeAttribute("paymentLinkId");

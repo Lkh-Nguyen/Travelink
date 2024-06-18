@@ -278,23 +278,27 @@ public class ViewHotelDetailServlet extends HttpServlet {
             boolean checkFavorite = FavouriteHotelDB.getFavoriteHotel(hotelId, account.getAccount_ID());
             request.setAttribute("checkFavorite", checkFavorite);
         }
-        // Room Availavle by Time
-        Date beginDate = (Date) session.getAttribute("checkInDate");
-        Date endDate = (Date) session.getAttribute("checkOutDate");
+        if (session.getAttribute("checkInDate") == null && session.getAttribute("checkOutDate") == null) {
+        } else if (session.getAttribute("checkInDate") != null && session.getAttribute("checkOutDate") != null) {
 
-        List<Integer> numberOfRoomList = new ArrayList<>();
-        List<Reservation> check1 = RoomDB.reservationCoincide(beginDate, endDate);
-        for (Room room : RoomDB.getActiveRoomsByHotel_ID(hotelId)) {
-            if (check1 == null) {
-                int numberOfRoom = room.getTotalRooms();
-                numberOfRoomList.add(numberOfRoom);
-            } else {
-                int numberOfRoom = RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), beginDate, endDate, check1);
-                numberOfRoomList.add(numberOfRoom);
+            // Room Availavle by Time
+            Date beginDate = (Date) session.getAttribute("checkInDate");
+            Date endDate = (Date) session.getAttribute("checkOutDate");
+
+            List<Integer> numberOfRoomList = new ArrayList<>();
+            List<Reservation> check1 = RoomDB.reservationCoincide(beginDate, endDate);
+            for (Room room : RoomDB.getActiveRoomsByHotel_ID(hotelId)) {
+                if (check1 == null) {
+                    int numberOfRoom = room.getTotalRooms();
+                    numberOfRoomList.add(numberOfRoom);
+                } else {
+                    int numberOfRoom = RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), beginDate, endDate, check1);
+                    numberOfRoomList.add(numberOfRoom);
+                }
             }
+            request.setAttribute("numberOfRoomList", numberOfRoomList);
+            request.setAttribute("check", "123");
         }
-        request.setAttribute("numberOfRoomList", numberOfRoomList);
-
         List<Feedback> feedbacks = new ArrayList<>();
         try {
             feedbacks = FeedbackDB.getFeedbacksByHotelID(hotelId);
@@ -302,6 +306,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
             e.printStackTrace();
         }
         request.setAttribute("feedbacks", feedbacks);
+        request.setAttribute("hotel_ID", hotelId);
         // checkFavorite
         request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
     }

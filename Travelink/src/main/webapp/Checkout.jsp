@@ -20,13 +20,6 @@
         <body>
         <div class="wrapper">
             <%@include file="Header.jsp" %>
-            <% 
-                LocalDate checkInDate = LocalDate.parse((String)session.getAttribute("checkInDate"));
-                LocalDate checkOutDate = LocalDate.parse((String)session.getAttribute("checkOutDate"));
-                long totalDays = ChronoUnit.DAYS.between(checkInDate, checkOutDate);
-            %>
-
-            <c:set var="totalDays" value="<%= totalDays %>" />
             <c:set var="hotel" value="${sessionScope.bookingHotel}" />
             <c:set var="bookingMap" value="${sessionScope.bookingMap}" />
             <c:set var="account" value="${sessionScope.account}" />
@@ -74,7 +67,7 @@
                                     </div>
 
                                 </div>
-                                <p>Total length of stay: <strong>${totalDays} nights</strong></p>
+                                <!--<p>Total length of stay: <strong>nights</strong></p>-->
                                 <p>Total number of people: <strong>${people}</strong></p>
                                 <p style="border-top: 1px grey solid;padding-top: 5px;margin-bottom: 0px">You selected</p>
                                 <c:forEach items="${bookingMap}" var="entry">

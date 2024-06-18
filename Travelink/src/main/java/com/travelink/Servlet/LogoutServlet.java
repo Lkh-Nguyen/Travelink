@@ -61,14 +61,9 @@ public class LogoutServlet extends HttpServlet {
         HttpSession session = request.getSession(false); // Get existing session (don't create if not exist)
 
         if (session != null) {
-            //If still has proccessing bill
-            Integer pendingReservationID = (Integer) session.getAttribute("pendingReservationID");
-            if (pendingReservationID != null) {
-                ReservationDB.deleteReservationByReservationID(pendingReservationID);
-            }
-            // Invalidate the session
             session.invalidate(); 
         }
+        
         request.setAttribute("loggout", "Loggout account success successfully.");
         request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
     }

@@ -16,6 +16,7 @@ import com.travelink.Model.Reservation;
 import com.travelink.Model.ReservedRoom;
 import com.travelink.Model.Room;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -173,6 +174,9 @@ public class PaymentServlet extends HttpServlet {
         //Delete not needed payment related session
         //Save checkoutURL and paymentLinkId to session and redirect to checkoutUrl
         session.setAttribute("checkoutUrl", result[0]);
+        Cookie checkoutUrlCookie = new Cookie("checkoutUrl", result[0]);
+        checkoutUrlCookie.setMaxAge(60*5);
+        response.addCookie(checkoutUrlCookie);
         session.setAttribute("paymentLinkId", result[1]);
         response.sendRedirect(result[0]);
         return;

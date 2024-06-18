@@ -4,22 +4,25 @@
  */
 package com.travelink.Servlet;
 
-import com.travelink.Database.PendingCancelReservationDB;
 import com.travelink.Database.ReservationDB;
 import com.travelink.Model.PendingCancelReservation;
+import com.travelink.Model.Reservation;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 /**
  *
  * @author ASUS
  */
 public class CancelBookingServlet extends HttpServlet {
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -40,6 +43,7 @@ public class CancelBookingServlet extends HttpServlet {
             response.sendRedirect("Error.jsp");
             return;
         }
+      
         //Setting pending cancle reservation attribute
         PendingCancelReservation pendingCancelReservation = new PendingCancelReservation();
         pendingCancelReservation.setReservationID(reservation_ID);

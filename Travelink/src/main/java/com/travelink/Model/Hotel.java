@@ -16,6 +16,7 @@ public class Hotel {
     private String name;
     private String email;
     private int star;
+    private float rating;
     private String phoneNumber;
     private String description;
     private LocalTime checkInTimeStart;
@@ -138,14 +139,24 @@ public class Hotel {
         this.address = address;
         this.ward_ID = ward_ID;
     }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
     
     public String getAnURL(int id){
         return HotelImageDB.getHotelImagesByHotelID(id).get(0).getUrl();
     }
+
     @Override
     public String toString() {
-        return "Hotel{" + "hotel_ID=" + hotel_ID + ", name=" + name + ", email=" + email + ", star=" + star + ", phoneNumber=" + phoneNumber + ", description=" + description + ", checkInTimeStart=" + checkInTimeStart + ", checkInTimeEnd=" + checkInTimeEnd + ", checkOutTimeStart=" + checkOutTimeStart + ", checkOutTimeEnd=" + checkOutTimeEnd + ", address=" + address + ", ward_ID=" + ward_ID + '}';
+        return "Hotel{" + "hotel_ID=" + hotel_ID + ", name=" + name + ", email=" + email + ", star=" + star + ", rating=" + rating + ", phoneNumber=" + phoneNumber + ", description=" + description + ", checkInTimeStart=" + checkInTimeStart + ", checkInTimeEnd=" + checkInTimeEnd + ", checkOutTimeStart=" + checkOutTimeStart + ", checkOutTimeEnd=" + checkOutTimeEnd + ", address=" + address + ", ward_ID=" + ward_ID + '}';
     }
+
     
 }
 

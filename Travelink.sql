@@ -35,6 +35,7 @@ CREATE TABLE Hotel (
   Name NVARCHAR(255) ,
   Email VARCHAR(255) NOT NULL UNIQUE ,
   Star TINYINT ,
+  Rating Float,
   PhoneNumber VARCHAR(20) ,
   Description NTEXT ,
   CheckInTimeStart TIME(0) ,

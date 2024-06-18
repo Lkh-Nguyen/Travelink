@@ -45,6 +45,7 @@ public class HotelDB implements DatabaseInfo {
                     hotel.setName(resultSet.getString("Name"));
                     hotel.setEmail(resultSet.getString("Email"));
                     hotel.setStar(resultSet.getInt("Star"));
+                    hotel.setRating(resultSet.getFloat("Rating"));
                     hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
                     hotel.setDescription(resultSet.getString("Description"));
                     // Convert SQL TIME to LocalTime (assuming database uses TIME datatype)
@@ -84,6 +85,7 @@ public class HotelDB implements DatabaseInfo {
                     hotel.setName(resultSet.getString("Name"));
                     hotel.setEmail(resultSet.getString("Email"));
                     hotel.setStar(resultSet.getInt("Star"));
+                    hotel.setRating(resultSet.getFloat("Rating"));
                     hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
                     hotel.setDescription(resultSet.getString("Description"));
                     // Convert SQL TIME to LocalTime
@@ -122,6 +124,7 @@ public class HotelDB implements DatabaseInfo {
                     hotel.setName(resultSet.getString("Name"));
                     hotel.setEmail(resultSet.getString("Email"));
                     hotel.setStar(resultSet.getInt("Star"));
+                    hotel.setRating(resultSet.getFloat("Rating"));
                     hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
                     hotel.setDescription(resultSet.getString("Description"));
                     // Convert SQL TIME to LocalTime
@@ -161,6 +164,7 @@ public class HotelDB implements DatabaseInfo {
                     hotel.setName(resultSet.getString("Name"));
                     hotel.setEmail(resultSet.getString("Email"));
                     hotel.setStar(resultSet.getInt("Star"));
+                    hotel.setRating(resultSet.getFloat("Rating"));
                     hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
                     hotel.setDescription(resultSet.getString("Description"));
                     // Convert SQL TIME to LocalTime

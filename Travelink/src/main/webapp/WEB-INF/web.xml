@@ -148,6 +148,10 @@
         <servlet-name>ExportBillServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.ExportBillServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HotelHostHotelServiceServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHostHotelServiceServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -283,6 +287,10 @@
     <servlet-mapping>
         <servlet-name>ExportBillServlet</servlet-name>
         <url-pattern>/ExportBillServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHostHotelServiceServlet</servlet-name>
+        <url-pattern>/HotelHostHotelServiceServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

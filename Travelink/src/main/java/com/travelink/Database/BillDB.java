@@ -381,7 +381,7 @@ public class BillDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) throws SQLException {
-        List<Bill> list = BillDB.getBillCancelByCustomerID(6);
+        List<Bill> list = BillDB.getBillByCustomerID(7);
         for (Bill b : list) {
             System.out.println(b.toString());
         }

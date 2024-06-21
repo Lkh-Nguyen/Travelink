@@ -190,14 +190,7 @@
                                         <div class="card-body" style="margin-top: 20px;
                                              padding: 0;">
                                             <p class="fw-bold lh-1">BOOKING BILL</p>
-                                            <p class="fw-bold lh-1">Date: <span class="fw-normal text-muted lh-1">
-                                                    <%
-                                                      java.util.Date date = new java.util.Date();
-                                                      String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-                                                      String dayOfWeek = days[date.getDay()];
-                                                    %>
-                                                    <%= dayOfWeek %> <%= String.format("%02d-%02d", date.getDate(), date.getMonth() + 1) %>
-                                                </span></p>
+                                            <p class="fw-bold lh-1">Date: ${requestScope.list_bill[0].reservationDate}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -247,13 +240,13 @@
                                                 <div class="row border-bottom">
                                                     <div class="col">
                                                         <p class="fw-bold lh-1">Sub Total:</p>
-                                                        <p class="fw-bold lh-1">Tax:</p>
+                                                        
                                                     </div>
                                                     <div class="col">
                                                         <c:forEach var="bill" items="${requestScope.list_bill}" varStatus="status">
                                                             <c:if test="${status.index == 0}">
                                                                 <p class="text-muted fw-normal lh-1 ps-4">${bill.total_price}</p>
-                                                                <p class="text-muted fw-normal lh-1 ps-4">0%</p>
+                                                                
                                                             </c:if>
                                                         </c:forEach>
                                                     </div>

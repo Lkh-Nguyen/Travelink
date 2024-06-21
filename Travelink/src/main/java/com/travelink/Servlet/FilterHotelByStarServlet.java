@@ -12,12 +12,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author MSI
- */
 @WebServlet(name = "FilterHotelByStarServlet", urlPatterns = {"/filterHotelByStarServlet"})
 public class FilterHotelByStarServlet extends HttpServlet {
 
@@ -63,12 +60,18 @@ public class FilterHotelByStarServlet extends HttpServlet {
         int people = Integer.parseInt(request.getParameter("people"));
         int roomSize = Integer.parseInt(request.getParameter("room"));
         int star = Integer.parseInt(request.getParameter("star"));
-        String hotelList = request.getParameter("hotelList");
+        List<Hotel> hotelList = (List<Hotel>) request.getAttribute("hotelList");
         request.setAttribute("location", location);
         request.setAttribute("people", people);
         request.setAttribute("room", roomSize);
-        System.out.println(hotelList);
-//        request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
+        List<Hotel> filteredHotels = new ArrayList<>();
+        for (Hotel h : hotelList){
+            if (h.getStar() == star){
+                filteredHotels.add(h);
+            }
+        }
+        request.setAttribute("hotelList", filteredHotels);
+        request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
     }
 
     /**
@@ -94,5 +97,4 @@ public class FilterHotelByStarServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

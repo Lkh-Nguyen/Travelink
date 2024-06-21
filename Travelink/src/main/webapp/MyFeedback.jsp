@@ -30,7 +30,7 @@
                             <div class="shadow-sm">
                                 <div class="card card-body row">
                                     <div class="col-md-4"><img src="${f.getHotel(f.hotelID).getAnURL(f.hotelID)}" alt="Hotel Image" class="img-fluid"></div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-8 py-5">
                                         <h5 class="card-title">Hotel</h5>
                                         <p class="card-text">${f.getHotel(f.hotelID).name}</p>
                                         <p class="card-text">${f.getHotel(f.hotelID).address}</p>
@@ -45,6 +45,9 @@
                                         <img src="${f.getAccount(f.feedbackID).avatarURL}" alt="Avatar" class="rounded-circle me-3" style="width: 50px; height: 50px;">
                                         ${f.getAccount(f.feedbackID).name}
                                     </h4>
+                                    <div class="mb-3">
+                                        Date: ${f.date}
+                                    </div>
                                     <div class="card-subtitle mb-2 rating-container">
                                         Rating: 
                                         <c:forEach var="i" begin="1" end="5">

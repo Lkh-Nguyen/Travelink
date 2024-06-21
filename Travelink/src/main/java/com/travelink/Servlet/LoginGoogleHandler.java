@@ -41,6 +41,7 @@ public class LoginGoogleHandler extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String code = request.getParameter("code");
+        String registerRole = request.getParameter("role");
         String accessToken = getToken(code);
 
         //Get Account info from google
@@ -50,7 +51,7 @@ public class LoginGoogleHandler extends HttpServlet {
         //Search in database 
         Account Account = AccountDB.getAccount(userGoogle.getEmail());
 
-        //If never sign in
+        //If never sign in and use Customer form
         if (Account == null) {
             Account = new Account(userGoogle.getEmail(), userGoogle.getName(), 1);
             Account.setAvatarURL("/Travelink/img_Avatar/avatar_default.jpg");
@@ -71,17 +72,19 @@ public class LoginGoogleHandler extends HttpServlet {
             request.setAttribute("updateMessage", "Your account has been created, your password has been sent to the email you just registered, please change your new password.");
             request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
 
-            //If signed in before
-        } else {
+           
+        } 
+
+         //If signed in before and role user
+        else if (Account.getRole() == 1) {
             HttpSession session = request.getSession();
             session.setAttribute("account", Account);
             session.setMaxInactiveInterval(60 * 30);
             request.setAttribute("succesLogin", "Login successfully.");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
-            request.getRequestDispatcher("Home_Customer"
-                    + ".jsp").forward(request, response);
-        }
+            request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
+        } 
     }
 
     public static String getToken(String code) throws ClientProtocolException, IOException {

@@ -179,7 +179,7 @@ CREATE TABLE Reservation (
   Number_of_guests TINYINT NOT NULL,  -- Date reservation was made
   CheckInDate DATE NOT NULL,  -- Check-in date for the reservation
   CheckOutDate DATE NOT NULL,  -- Check-out date for the reservation
-  Total_Price DECIMAL(10,2) NOT NULL,  -- Use DECIMAL for currency with decimals
+  Total_Price INT NOT NULL,  -- Use DECIMAL for currency with decimals
   Payment_Method NVARCHAR(50) NOT NULL,  -- Payment method used (e.g., credit card, cash)
   Status NVARCHAR(50) NOT NULL, -- Paid / Canceled
   Account_ID INT NOT NULL,
@@ -220,6 +220,18 @@ CREATE TABLE Promotion (
   EndDate DATE NOT NULL
 );
 GO
+
+-- Create table Monthly Revenue
+CREATE TABLE MonthlyPayment (
+  Monthly_Payment_ID INT PRIMARY KEY IDENTITY(1,1),
+  Month TINYINT,
+  Year SMALLINT,
+  Amount INT,
+  Status NVARCHAR(50),
+  PaymentTime DATETIME,
+  Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
+);
+
 
 --Auto delete temporary reservation
 CREATE PROCEDURE DeleteExpiredReservations

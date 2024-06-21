@@ -389,7 +389,7 @@
             var pieChart = new Chart(pieCtx, {
                 type: 'pie',
                 data: {
-                    labels: ['Category 1', 'Category 2', 'Category 3'],
+                    labels: ['Paid', 'Cancel'],
                     datasets: [{
                             data: [10, 20, 30],
                             backgroundColor: [
@@ -416,10 +416,10 @@
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: { 
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                     datasets: [{
-                            label: 'Dataset 1',
-                            data: [10, 20, 30, 40, 50, 60, 70],
+                            label: 'Monthly Revenue Report 2024',
+                            data: [10, 20, 30, 40, 50, 60, 70,80, 90, 100, 110, 120],
                             backgroundColor: 'rgba(255, 99, 132, 0.2)',
                             borderColor: 'rgba(255, 99, 132, 1)',
                             borderWidth: 1

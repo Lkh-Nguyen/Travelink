@@ -104,8 +104,8 @@ public class UpdateAccountServlet extends HttpServlet {
             gender = 'F';
         }
         Account oldAccount = AccountDB.getAccount(email);
-        Account newAccount = new Account(email, cmnd, name, gender, dateOfBirth, phoneStr, address,oldAccount.getRole());
-        
+        Account newAccount = new Account(email, cmnd, name, gender, dateOfBirth, phoneStr, address, oldAccount.getRole());
+
         newAccount.setAccount_ID(oldAccount.getAccount_ID());
         newAccount.setPassword(oldAccount.getPassword());
         newAccount.setAvatarURL(oldAccount.getAvatarURL());
@@ -116,8 +116,12 @@ public class UpdateAccountServlet extends HttpServlet {
         hs.setAttribute("account", AccountUpdate);
         request.setAttribute("statusUpdate", "Update successfully Account.");
         PrintWriter printWriter = response.getWriter();
-        request.getRequestDispatcher("My_Account_Update.jsp").forward(request, response);
-
+        //If user is customer
+        if (oldAccount.getRole() == 1) {
+            request.getRequestDispatcher("My_Account_Update.jsp").forward(request, response);
+        } else if (oldAccount.getRole() == 2) {
+            request.getRequestDispatcher("HotelHost_Profile.jsp").forward(request, response);
+        }
     }
 
     /**

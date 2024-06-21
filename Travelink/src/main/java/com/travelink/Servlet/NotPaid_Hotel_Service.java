@@ -18,7 +18,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -72,10 +74,22 @@ public class NotPaid_Hotel_Service extends HttpServlet {
             return;
         }
 
+        // Assume List<Bill> listBill is already populated with data
+       
+
         List<Bill> list_bill = BillDB.getBillProcessingByCustomerID(account.getAccount_ID());
+        
+        Map<Integer, List<Bill>> groupedBills = new LinkedHashMap<>();
+        for (Bill bill : list_bill) {
+            int reservationID = bill.getReservationID();
+            if (!groupedBills.containsKey(reservationID)) {
+                groupedBills.put(reservationID, new ArrayList<>());
+            }
+            groupedBills.get(reservationID).add(bill);
+        }
+        request.setAttribute("groupedBills", groupedBills);
 
         request.setAttribute("error", "Please pay for this booking");
-
         request.setAttribute("list_bill", list_bill);
         request.getRequestDispatcher("NotPaid_Transaction.jsp").forward(request, response);
     }

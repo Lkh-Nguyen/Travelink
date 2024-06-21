@@ -50,7 +50,7 @@ public class CancelBookingServlet extends HttpServlet {
         pendingCancelReservation.setCancelDate(LocalDateTime.now());
         //Change status of that reservation
         ReservationDB.changedReservationStatusByReservationID(reservation_ID, "REFUNDING");
-        response.sendRedirect("CancelBookingSuccess.jsp");
+        response.sendRedirect("Cancel_Hotel_Service");
     }
 
     /**

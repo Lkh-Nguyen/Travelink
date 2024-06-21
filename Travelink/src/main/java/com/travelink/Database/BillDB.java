@@ -83,7 +83,7 @@ public class BillDB implements DatabaseInfo {
             conn = DatabaseInfo.getConnect();
 
             if (conn != null) {
-                String query = "SELECT * FROM Bill WHERE Account_ID = ? ORDER BY Status desc";
+                String query = "SELECT * FROM Bill WHERE Account_ID = ? ORDER BY Reservation_ID desc";
                 ps = conn.prepareStatement(query);
                 ps.setInt(1, account_ID);
                 rs = ps.executeQuery();
@@ -130,7 +130,7 @@ public class BillDB implements DatabaseInfo {
             if (conn != null) {
                 // Query to select bills based on checkInDate, checkOutDate, status 'finished' or 'processing'
                 String query = "SELECT * FROM Bill WHERE Account_ID = ? AND "
-                        + "CheckOutDate >= GETDATE() AND (Status = 'NOT PAID' OR Status = 'PAID')";
+                        + "CheckOutDate >= GETDATE() AND (Status = 'NOT PAID' OR Status = 'PAID') ORDER BY Reservation_ID desc";
                 ps = conn.prepareStatement(query);
                 ps.setInt(1, account_ID);
                 rs = ps.executeQuery();
@@ -192,7 +192,7 @@ public class BillDB implements DatabaseInfo {
             if (conn != null) {
                 // Query to select bills based on checkInDate, checkOutDate, status 'finished' or 'processing'
                 String query = "SELECT * FROM Bill WHERE Account_ID = ? AND "
-                        + "CheckOutDate < GETDATE() AND (Status = 'PAID' OR Status = 'FINISH')";
+                        + "CheckOutDate < GETDATE() AND (Status = 'PAID' OR Status = 'FINISH') ORDER BY Reservation_ID desc";
                 ps = conn.prepareStatement(query);
                 ps.setInt(1, account_ID);
                 rs = ps.executeQuery();
@@ -241,6 +241,99 @@ public class BillDB implements DatabaseInfo {
         return list_bill;
     }
 
+    public static List<Bill> getBillCancelByCustomerID(int account_ID) {
+        createBillView();
+        List<Bill> list_bill = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DatabaseInfo.getConnect();
+
+            if (conn != null) {
+                // Query to select bills based on Account_ID and status 'CANCEL' or 'REFUNDING'
+                String query = "SELECT * FROM Bill WHERE Account_ID = ? AND (Status = 'CANCEL' OR Status = 'REFUNDING') ORDER BY Reservation_ID desc";
+                ps = conn.prepareStatement(query);
+                ps.setInt(1, account_ID);
+                rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    Bill bill = new Bill();
+                    bill.setAccount_ID(rs.getInt("Account_ID"));
+                    bill.setReservationID(rs.getInt("Reservation_ID"));
+
+                    // Convert java.sql.Date to LocalDate safely
+                    java.sql.Date checkInDate = rs.getDate("CheckInDate");
+                    if (checkInDate != null) {
+                        bill.setCheckInDate(checkInDate.toLocalDate());
+                    }
+
+                    java.sql.Date checkOutDate = rs.getDate("CheckOutDate");
+                    if (checkOutDate != null) {
+                        bill.setCheckOutDate(checkOutDate.toLocalDate());
+                    }
+
+                    bill.setNumber_of_guest(rs.getInt("Number_of_guests"));
+                    bill.setReservationDate(rs.getDate("Reservation_Date").toLocalDate());
+                    bill.setRoom_ID(rs.getInt("Room_ID"));
+                    bill.setRoom_Name(rs.getString("Room_Name"));
+                    bill.setRoom_price(rs.getInt("Room_Price"));
+                    bill.setHotel_Name(rs.getString("Name"));
+
+                    // Convert java.sql.Time to LocalTime safely
+                    java.sql.Time checkInTimeStart = rs.getTime("CheckInTimeStart");
+                    if (checkInTimeStart != null) {
+                        bill.setCheckInTimeStart(checkInTimeStart.toLocalTime());
+                    }
+
+                    java.sql.Time checkInTimeEnd = rs.getTime("CheckInTimeEnd");
+                    if (checkInTimeEnd != null) {
+                        bill.setCheckInTimeEnd(checkInTimeEnd.toLocalTime());
+                    }
+
+                    java.sql.Time checkOutTimeStart = rs.getTime("CheckOutTimeStart");
+                    if (checkOutTimeStart != null) {
+                        bill.setCheckOutTimeStart(checkOutTimeStart.toLocalTime());
+                    }
+
+                    java.sql.Time checkOutTimeEnd = rs.getTime("CheckOutTimeEnd");
+                    if (checkOutTimeEnd != null) {
+                        bill.setCheckOutTimeEnd(checkOutTimeEnd.toLocalTime());
+                    }
+
+                    bill.setStatus(rs.getString("Status"));
+                    bill.setTotal_price(rs.getInt("Total_Price"));
+                    bill.setAmount(rs.getInt("Amount"));
+                    bill.setHotel_ID(rs.getInt("Hotel_ID"));
+
+                    list_bill.add(bill);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting bills: " + e);
+        } finally {
+            // Close resources
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return list_bill;
+    }
+
+    
+
+    
     public static List<Bill> getBillByCustomerIDAndReservationID(int account_ID, int reservation_ID) {
         createBillView();
         List<Bill> list_bill = new ArrayList<>();
@@ -288,7 +381,7 @@ public class BillDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) throws SQLException {
-        List<Bill> list = BillDB.getBillByCustomerID(1);
+        List<Bill> list = BillDB.getBillCancelByCustomerID(6);
         for (Bill b : list) {
             System.out.println(b.toString());
         }

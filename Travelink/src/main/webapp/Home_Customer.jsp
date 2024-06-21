@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -11,6 +10,10 @@
         <link rel="stylesheet" href="css/Alter.css">
         <link
             href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css"
+            rel="stylesheet"
+            >
+        <link
+            href="vendor/aos.css"
             rel="stylesheet"
             >    
         <title>Travelink</title>
@@ -90,19 +93,83 @@
         </c:if>
         <div class="overlay"></div>
         <%@include file="Header.jsp" %>
-        <header class="section__container header__container">
+        <header class="section__container header__container" data-aos="flip-up">
             <h1 class="section__header">Find And Book<br />A Great Experience</h1>
             <div style="position: relative">
                 <button class="booking btn btn-outline-info position-absolute border border-white p-4 rounded text-white fs-2 cursor-pointer" style="
                         bottom: 13rem;
                         left: 9rem;
+                        z-index: 1;
                         ">
                     Booking now</button>
-                <img src="img_Home/header.jpg" style="border-radius:0" alt="header" />
+                <div id="carouselExampleIndicators" class="carousel slide">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="img_Home/header.jpg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="img_Home/header1.jfif" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="img_Home/header2.jpg" class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
             </div>
         </header>
-
-        <section class="section__container booking__container">
+<!--        Best hotel-->
+                <section class="section__container travellers__container" data-aos="fade-up">
+            <h2 class="section__header">Best hotels of the month</h2>
+            <div class="travellers__grid">
+                <div class="travellers__card">
+                    <img src="img_Home/traveller-1.jpg" alt="traveller" />
+                    <div class="travellers__card__content">
+                        <img src="img_Home/best -1.jpg" alt="client" />
+                        <h4>Emily Johnson</h4>
+                        <p>Dubai</p>
+                    </div>
+                </div>
+                <div class="travellers__card">
+                    <img src="img_Home/traveller-2.jpg" alt="traveller" />
+                    <div class="travellers__card__content">
+                        <img src="img_Home/best -2.jpg" alt="client" />
+                        <h4>David Smith</h4>
+                        <p>Paris</p>
+                    </div>
+                </div>
+                <div class="travellers__card">
+                    <img src="img_Home/traveller-3.jpg" alt="traveller" />
+                    <div class="travellers__card__content">
+                        <img src="img_Home/best -3.jpg" alt="client" />
+                        <h4>Olivia Brown</h4>
+                        <p>Singapore</p>
+                    </div>
+                </div>
+                <div class="travellers__card">
+                    <img src="img_Home/traveller-4.jpg" alt="traveller" />
+                    <div class="travellers__card__content">
+                        <img src="img_Home/best -4.jpg" alt="client" />
+                        <h4>Daniel Taylor</h4>
+                        <p>Malaysia</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+<!--        Search-->
+        <section class="section__container booking__container" data-aos="fade-up">
             <form method="post" action="search">
                 <!--                    Location-->
                 <div class="form__group">
@@ -170,7 +237,7 @@
             </form>
         </section>  
 
-        <section id = "about" class="section__container plan__container ">
+        <section id = "about" class="section__container plan__container" data-aos="fade-up">
             <p class="subheader">TRAVEL SUPPORT</p>
             <h2 class="section__header">Plan your travel with confidence</h2>
             <p class="description">
@@ -203,7 +270,7 @@
             </div>
         </section>
 
-        <section class="memories">
+        <section class="memories" data-aos="fade-up">
             <div class="section__container memories__container">
                 <div class="memories__header">
                     <h2 class="section__header">
@@ -240,7 +307,7 @@
             </div>
         </section>
 
-        <section class="section__container lounge__container">
+        <section class="section__container lounge__container" data-aos="fade-up">
             <div class="lounge__image">
                 <img src="img_Home/Decor - 1.jfif" alt="lounge" />
                 <img src="img_Home/Decor - 2.jpg" alt="lounge" />
@@ -282,45 +349,9 @@
                 </div>
             </div>
         </section>
-
-        <section class="section__container travellers__container">
-            <h2 class="section__header">Best hotels of the month</h2>
-            <div class="travellers__grid">
-                <div class="travellers__card">
-                    <img src="img_Home/traveller-1.jpg" alt="traveller" />
-                    <div class="travellers__card__content">
-                        <img src="img_Home/best -1.jpg" alt="client" />
-                        <h4>Emily Johnson</h4>
-                        <p>Dubai</p>
-                    </div>
-                </div>
-                <div class="travellers__card">
-                    <img src="img_Home/traveller-2.jpg" alt="traveller" />
-                    <div class="travellers__card__content">
-                        <img src="img_Home/best -2.jpg" alt="client" />
-                        <h4>David Smith</h4>
-                        <p>Paris</p>
-                    </div>
-                </div>
-                <div class="travellers__card">
-                    <img src="img_Home/traveller-3.jpg" alt="traveller" />
-                    <div class="travellers__card__content">
-                        <img src="img_Home/best -3.jpg" alt="client" />
-                        <h4>Olivia Brown</h4>
-                        <p>Singapore</p>
-                    </div>
-                </div>
-                <div class="travellers__card">
-                    <img src="img_Home/traveller-4.jpg" alt="traveller" />
-                    <div class="travellers__card__content">
-                        <img src="img_Home/best -4.jpg" alt="client" />
-                        <h4>Daniel Taylor</h4>
-                        <p>Malaysia</p>
-                    </div>
-                </div>
-            </div>
-        </section>
         <%@include file="Footer.jsp" %>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+        <script src="bootstrap_js/js/bootstrap.bundle.min.js"></script>
         <script src="js/Home_Customer.js"></script>
         <script src="js/Alter.js"></script>
         <script>
@@ -329,6 +360,8 @@
                     behavior: 'smooth'
                 });
             });
+
+            AOS.init();
         </script>
     </body>
 </html>

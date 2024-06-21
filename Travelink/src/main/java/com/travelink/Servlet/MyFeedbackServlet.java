@@ -64,6 +64,7 @@ public class MyFeedbackServlet extends HttpServlet {
         if (account != null) {
             int accountID = account.getAccount_ID();
             List<Feedback> feedbacks = FeedbackDB.getFeedbacksByAccountID(accountID);
+            feedbacks.sort((f1, f2) -> f2.getDate().compareTo(f1.getDate()));
             request.setAttribute("feedbacks", feedbacks);
             request.getRequestDispatcher("MyFeedback.jsp").forward(request, response);
         } else {

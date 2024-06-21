@@ -287,7 +287,99 @@ public class FeedbackDB implements DatabaseInfo {
         }
         return feedbacks;
     }
+ public static boolean hasUserLikedFeedback(int accountID, int feedbackID) throws SQLException {
+        Connection conn = DatabaseInfo.getConnect();
+        String query = "SELECT Liked FROM [Travelink].[dbo].[UserFeedbackLikes] WHERE Account_ID = ? AND Feedback_ID = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, accountID);
+        ps.setInt(2, feedbackID);
+        ResultSet rs = ps.executeQuery();
+        boolean liked = false;
+        if (rs.next()) {
+            liked = rs.getBoolean("Liked");
+        }
+        rs.close();
+        ps.close();
+        conn.close();
+        return liked;
+    }
 
+    public static boolean hasUserDislikedFeedback(int accountID, int feedbackID) throws SQLException {
+        Connection conn = DatabaseInfo.getConnect();
+        String query = "SELECT Disliked FROM [Travelink].[dbo].[UserFeedbackLikes] WHERE Account_ID = ? AND Feedback_ID = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, accountID);
+        ps.setInt(2, feedbackID);
+        ResultSet rs = ps.executeQuery();
+        boolean disliked = false;
+        if (rs.next()) {
+            disliked = rs.getBoolean("Disliked");
+        }
+        rs.close();
+        ps.close();
+        conn.close();
+        return disliked;
+    }
+
+    public static void addUserFeedbackLike(int accountID, int feedbackID) throws SQLException {
+        Connection conn = DatabaseInfo.getConnect();
+        String query = "MERGE INTO [Travelink].[dbo].[UserFeedbackLikes] WITH (HOLDLOCK) AS target " +
+                "USING (SELECT ? AS Account_ID, ? AS Feedback_ID) AS source " +
+                "ON target.Account_ID = source.Account_ID AND target.Feedback_ID = source.Feedback_ID " +
+                "WHEN MATCHED THEN " +
+                "    UPDATE SET Liked = 1, Disliked = 0 " +
+                "WHEN NOT MATCHED THEN " +
+                "    INSERT (Account_ID, Feedback_ID, Liked, Disliked) VALUES (?, ?, 1, 0);";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, accountID);
+        ps.setInt(2, feedbackID);
+        ps.setInt(3, accountID);
+        ps.setInt(4, feedbackID);
+        ps.executeUpdate();
+        ps.close();
+        conn.close();
+    }
+
+    public static void addUserFeedbackDislike(int accountID, int feedbackID) throws SQLException {
+        Connection conn = DatabaseInfo.getConnect();
+        String query = "MERGE INTO [Travelink].[dbo].[UserFeedbackLikes] WITH (HOLDLOCK) AS target " +
+                "USING (SELECT ? AS Account_ID, ? AS Feedback_ID) AS source " +
+                "ON target.Account_ID = source.Account_ID AND target.Feedback_ID = source.Feedback_ID " +
+                "WHEN MATCHED THEN " +
+                "    UPDATE SET Disliked = 1, Liked = 0 " +
+                "WHEN NOT MATCHED THEN " +
+                "    INSERT (Account_ID, Feedback_ID, Liked, Disliked) VALUES (?, ?, 0, 1);";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, accountID);
+        ps.setInt(2, feedbackID);
+        ps.setInt(3, accountID);
+        ps.setInt(4, feedbackID);
+        ps.executeUpdate();
+        ps.close();
+        conn.close();
+    }
+
+    public static void removeUserLike(int accountID, int feedbackID) throws SQLException {
+        Connection conn = DatabaseInfo.getConnect();
+        String query = "UPDATE [Travelink].[dbo].[UserFeedbackLikes] SET Liked = 0 WHERE Account_ID = ? AND Feedback_ID = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, accountID);
+        ps.setInt(2, feedbackID);
+        ps.executeUpdate();
+        ps.close();
+        conn.close();
+    }
+
+    public static void removeUserDislike(int accountID, int feedbackID) throws SQLException {
+        Connection conn = DatabaseInfo.getConnect();
+        String query = "UPDATE [Travelink].[dbo].[UserFeedbackLikes] SET Disliked = 0 WHERE Account_ID = ? AND Feedback_ID = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, accountID);
+        ps.setInt(2, feedbackID);
+        ps.executeUpdate();
+        ps.close();
+        conn.close();
+    }
     public static void incrementLikesCount(int feedbackID) throws SQLException {
         Connection connection = DatabaseInfo.getConnect();
 
@@ -302,8 +394,23 @@ public class FeedbackDB implements DatabaseInfo {
             System.out.println("Error: Connection failed!");
         }
     }
+    
+        public static void decrementLikesCount(int feedbackID) throws SQLException {
+        Connection connection = DatabaseInfo.getConnect();
 
-    public static void decrementLikesCount(int feedbackID) throws SQLException {
+        if (connection != null) {
+            String query = "UPDATE Feedback SET LikesCount = LikesCount - 1 WHERE Feedback_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, feedbackID);
+
+            statement.executeUpdate();
+            connection.close();
+        } else {
+            System.out.println("Error: Connection failed!");
+        }
+    }
+        
+     public static void incrementDisLikesCount(int feedbackID) throws SQLException {
         Connection connection = DatabaseInfo.getConnect();
 
         if (connection != null) {
@@ -317,6 +424,22 @@ public class FeedbackDB implements DatabaseInfo {
             System.out.println("Error: Connection failed!");
         }
     }
+    
+        public static void decrementDisLikesCount(int feedbackID) throws SQLException {
+        Connection connection = DatabaseInfo.getConnect();
+
+        if (connection != null) {
+            String query = "UPDATE Feedback SET DislikesCount = DislikesCount - 1 WHERE Feedback_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, feedbackID);
+
+            statement.executeUpdate();
+            connection.close();
+        } else {
+            System.out.println("Error: Connection failed!");
+        }
+    }
+        
 
     public static boolean isFeedbackOwner(int feedbackID, int userID) throws SQLException {
         Connection connection = DatabaseInfo.getConnect();

@@ -145,8 +145,8 @@
                                 <input type="date" value="${sessionScope.checkOutDate}" name="check_out_date" required=""/>
                                 <label>Return</label>
                             </div>
-                                <p style="margin-bottom: 0px">Add date</p> 
-                                <p style="color: red"> ${requestScope.statusDate}</p>
+                            <p style="margin-bottom: 0px">Add date</p> 
+                            <p style="color: red"> ${requestScope.statusDate}</p>
                         </div>
                     </div>
                     <div class="form__group">
@@ -178,9 +178,12 @@
                     <div class="mb-3 mt-5">
                         <div style="border: 1px solid #ccc; height: 200px; position: relative;">
                             <!-- Đây là Google Map -->
-                            <div id="googleMap" style="width: 100%; height: 100%;"></div>
-                            <!-- Button mở bản đồ -->
-                            <button class="btn btn-primary" style="position: absolute; top: 10px; right: 10px;" onclick="openMap()">Mở bản đồ</button>
+                            <div id="googleMap" style="width: 100%; height: 100%;">
+                                <iframe src="${requestScope.url}" 
+                                        width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy" 
+                                    referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            </div>
                         </div>
                     </div>
                     <h4 style="color: #2c97d2;">Lọc khách sạn</h4>
@@ -216,15 +219,6 @@
                             </label>
                         </div>                                   
                     </form>
-
-                    <div class="container mt-3">
-                        <div class="slidecontainer">
-                            <span>min</span> <span>max</span>
-                            <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                            <p><b>Value: <span id="demo"></span>$</b></p>
-                        </div>
-                    </div>
-
                 </div>
                 <!-- Phần bên phải -->
                 <div class="col-md-9">
@@ -295,9 +289,6 @@
                 </div>
             </div>
         </div>
-        <!--        <div class="loader">
-        
-                </div>-->
         <%@include file="Footer.jsp"%>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -305,10 +296,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
         <script src="js/Search_Hotel.js"></script>
         <script>
-                                /* 
-                                 * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-                                 * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
-                                 */
                                 let thisPage = 1;
                                 let limit = 6;
                                 let list = document.querySelectorAll(".card");
@@ -358,18 +345,7 @@
                                     let scrollPosition = window.scrollY;
                                     window.scrollTo(0, scrollPosition);
                                 }
-
-//                                window.addEventListener("load", () => {
-//                                    const loader = document.querySelector(".loader");
-//
-//                                    loader.classList.add("loader-hidden");
-//
-//                                    loader.addEventListener("transitioned", () => {
-//                                        document.body.removeChild("loader");
-//                                    });
-//                                });
-
-
+                                
         </script>
     </body>
 </html>

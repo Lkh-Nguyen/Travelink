@@ -73,6 +73,46 @@ public class ProvinceDB implements DatabaseInfo {
         return province;
     }
 
+    //Get URL by Province Name
+    public static String getURLByProvinceName(String provinceName) {
+        String url = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT URL FROM province WHERE name = ?";
+                statement = connection.prepareStatement(query);
+                statement.setString(1, provinceName); // Set the province name parameter
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    url = resultSet.getString("URL");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting URL by province name: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return url;
+    }
+
     public static void main(String[] args) {
         List<Province> provinces;
         provinces = getAllProvince();
@@ -81,7 +121,7 @@ public class ProvinceDB implements DatabaseInfo {
         for (Province province : provinces) {
             System.out.println("ID: " + province.getProvince_ID() + ", Name: " + province.getName());
         }
-        
+
         int ID = 5;
         Province province = getProvinceByID(ID);
         System.out.println("Provinces with ID : " + ID);

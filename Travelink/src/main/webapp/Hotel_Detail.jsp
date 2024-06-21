@@ -36,6 +36,9 @@
                 background-color: #4CAF50;
                 color: white;
             }
+            .liked{
+                color : black;
+            }
         </style>
     </head>
     <body>
@@ -386,7 +389,7 @@
 
                                 <div class="card card-body mb-3" data-customer-id="${f.account_ID}" style="border: 1px solid rgb(227,227,227);border-radius: 5px;padding: 1rem">
                                     <div class="d-flex">
-                                        <div class="avatar"><img src="${f.getAccount(f.feedbackID).avatarURL}"></div>
+                                        <div class="avatar"><img src="${f.getAccount(f.feedbackID).avatarURL}" width="50"></div>
                                         <div class="ms-3">
                                             <div class="row">
                                                 <h6 class="mb-0" style="font-size: 20px;font-weight: bold">${f.getAccount(f.feedbackID).name}</h6>
@@ -452,21 +455,21 @@
                                                 <c:choose>
                                                     <c:when test="${sessionScope.account.account_ID != f.getAccount(f.feedbackID).account_ID}">
                                                         <!-- Like icon with count -->
-                                                        <button class="btn btn-primary mx-2" onclick="likeFeedback(${f.feedbackID})">
+                                                        <button id="likeButton-${f.feedbackID}" class="btn btn-primary mx-2" onclick="likeFeedback(${f.feedbackID})">
                                                             <i class="bx bx-like mx-2"></i>
                                                             <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
                                                         </button>
-                                                        <button class="btn btn-danger" onclick="dislikeFeedback(${f.feedbackID})">
+                                                        <button id="dislikeButton-${f.feedbackID}" class="btn btn-danger" onclick="dislikeFeedback(${f.feedbackID})">
                                                             <i class="bx bx-dislike mx-2"></i>
                                                             <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
                                                         </button>
                                                     </c:when>  
                                                     <c:otherwise>
-                                                        <button class="btn btn-primary mx-2" onclick="error()">
+                                                        <button id="likeButton-${f.feedbackID}" class="btn btn-primary mx-2" onclick="error()">
                                                             <i class="bx bx-like mx-2"></i>
                                                             <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
                                                         </button>
-                                                        <button class="btn btn-danger" onclick="error()">
+                                                        <button id="dislikeButton-${f.feedbackID}" class="btn btn-danger" onclick="error()">
                                                             <i class="bx bx-dislike mx-2"></i>
                                                             <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
                                                         </button>
@@ -474,11 +477,11 @@
                                                 </c:choose>
                                             </c:when>
                                             <c:otherwise>
-                                                <button class="btn btn-primary  mx-2" onclick="errorLogin()">
+                                                <button id="likeButton-${f.feedbackID}" class="btn btn-primary  mx-2" onclick="errorLogin()">
                                                     <i class="bx bx-like mx-2"></i>
                                                     <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
                                                 </button>
-                                                <button class="btn btn-danger" onclick="errorLogin()">
+                                                <button id="dislikeButton-${f.feedbackID}" class="btn btn-danger" onclick="errorLogin()">
                                                     <i class="bx bx-dislike mx-2"></i>
                                                     <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
                                                 </button>
@@ -512,42 +515,99 @@
                                                             icon: "error"
                                                         });
                                                     }
-                                                    //Like action
-                                                    function likeFeedback(feedbackID) {
-                                                        var likesCountElement = document.getElementById('likesCount-' + feedbackID);
-                                                        var likesCount = parseInt(likesCountElement.textContent);
-
-                                                        var xhr = new XMLHttpRequest();
-                                                        xhr.open("POST", "ReactFeedbackServlet", true);
-                                                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                                                        xhr.onreadystatechange = function () {
-                                                            if (xhr.readyState === 4 && xhr.status === 200) {
-                                                                likesCount++;
-                                                                likesCountElement.textContent = likesCount;
-                                                            } else if (xhr.readyState === 4) {
-                                                                alert("Something went wrong!");
-                                                            }
+                                                    //Handle Like,Dislike
+                                                    // Add a debounce function to prevent multiple rapid clicks
+                                                    function debounce(func, wait) {
+                                                        let timeout;
+                                                        return function (...args) {
+                                                            clearTimeout(timeout);
+                                                            timeout = setTimeout(() => func.apply(this, args), wait);
                                                         };
-                                                        xhr.send("action=like&feedbackID=" + feedbackID);
                                                     }
-                                                    //Dislike action
-                                                    function dislikeFeedback(feedbackID) {
+
+                                                    const likeFeedback = debounce((feedbackID) => {
+                                                        var likesCountElement = document.getElementById('likesCount-' + feedbackID);
+                                                        var likeButton = document.getElementById('likeButton-' + feedbackID);
+                                                        var dislikeButton = document.getElementById('dislikeButton-' + feedbackID);
                                                         var dislikesCountElement = document.getElementById('dislikesCount-' + feedbackID);
+
+                                                        var likesCount = parseInt(likesCountElement.textContent);
                                                         var dislikesCount = parseInt(dislikesCountElement.textContent);
 
+                                                        var isLiking = !likeButton.classList.contains('liked');
+                                                        var isDisliking = dislikeButton.classList.contains('disliked');
+
+                                                        // Optimistically update the UI
+                                                        likesCountElement.textContent = likesCount + (isLiking ? 1 : -1);
+                                                        likeButton.classList.toggle('liked');
+
+                                                        if (isDisliking) {
+                                                            dislikesCountElement.textContent = dislikesCount - 1;
+                                                            dislikeButton.classList.remove('disliked');
+                                                        }
+
+                                                        // Send AJAX request
                                                         var xhr = new XMLHttpRequest();
                                                         xhr.open("POST", "ReactFeedbackServlet", true);
                                                         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                                                         xhr.onreadystatechange = function () {
-                                                            if (xhr.readyState === 4 && xhr.status === 200) {
-                                                                dislikesCount++;
-                                                                dislikesCountElement.textContent = dislikesCount;
-                                                            } else if (xhr.readyState === 4) {
+                                                            if (xhr.readyState === 4 && xhr.status !== 200) {
+                                                                // Revert UI changes if request fails
+                                                                likesCountElement.textContent = likesCount;
+                                                                likeButton.classList.toggle('liked');
+
+                                                                if (isDisliking) {
+                                                                    dislikesCountElement.textContent = dislikesCount;
+                                                                    dislikeButton.classList.add('disliked');
+                                                                }
+
                                                                 alert("Something went wrong!");
                                                             }
                                                         };
-                                                        xhr.send("action=dislike&feedbackID=" + feedbackID);
-                                                    }
+                                                        xhr.send("action=" + (isLiking ? "like" : "unlike") + "&feedbackID=" + feedbackID);
+                                                    }, 500);
+
+                                                    const dislikeFeedback = debounce((feedbackID) => {
+                                                        var dislikesCountElement = document.getElementById('dislikesCount-' + feedbackID);
+                                                        var dislikeButton = document.getElementById('dislikeButton-' + feedbackID);
+                                                        var likeButton = document.getElementById('likeButton-' + feedbackID);
+                                                        var likesCountElement = document.getElementById('likesCount-' + feedbackID);
+
+                                                        var dislikesCount = parseInt(dislikesCountElement.textContent);
+                                                        var likesCount = parseInt(likesCountElement.textContent);
+
+                                                        var isDisliking = !dislikeButton.classList.contains('disliked');
+                                                        var isLiking = likeButton.classList.contains('liked');
+
+                                                        // Optimistically update the UI
+                                                        dislikesCountElement.textContent = dislikesCount + (isDisliking ? 1 : -1);
+                                                        dislikeButton.classList.toggle('disliked');
+
+                                                        if (isLiking) {
+                                                            likesCountElement.textContent = likesCount - 1;
+                                                            likeButton.classList.remove('liked');
+                                                        }
+
+                                                        // Send AJAX request
+                                                        var xhr = new XMLHttpRequest();
+                                                        xhr.open("POST", "ReactFeedbackServlet", true);
+                                                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                                                        xhr.onreadystatechange = function () {
+                                                            if (xhr.readyState === 4 && xhr.status !== 200) {
+                                                                // Revert UI changes if request fails
+                                                                dislikesCountElement.textContent = dislikesCount;
+                                                                dislikeButton.classList.toggle('disliked');
+
+                                                                if (isLiking) {
+                                                                    likesCountElement.textContent = likesCount;
+                                                                    likeButton.classList.add('liked');
+                                                                }
+
+                                                                alert("Something went wrong!");
+                                                            }
+                                                        };
+                                                        xhr.send("action=" + (isDisliking ? "dislike" : "undislike") + "&feedbackID=" + feedbackID);
+                                                    }, 500);
 
         </script>
         <script src="js/Hotel_Detail.js"></script>

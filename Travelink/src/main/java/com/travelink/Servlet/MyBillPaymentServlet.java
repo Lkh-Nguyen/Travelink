@@ -87,13 +87,12 @@ public class MyBillPaymentServlet extends HttpServlet {
         }
         
         request.setAttribute("reservationID", reservation_ID);
-        
         request.setAttribute("list_bill", list_bill);
         
         // Render JSP to HTML
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/path/to/your.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("ExportBill.jsp");
         dispatcher.include(request, new HttpServletResponseWrapper(response) {
             @Override
             public PrintWriter getWriter() {

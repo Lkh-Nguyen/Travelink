@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -33,21 +34,22 @@ public class ExportBillServlet extends HttpServlet {
         // Retrieve the HTML content from session
         HttpSession session = request.getSession();
         String htmlContent = (String) session.getAttribute("htmlContent");
-
+        System.out.println(htmlContent);
         if (htmlContent == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No bill information available");
             return;
         }
 
         // Set response headers
-        response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "attachment; filename=\"output.pdf\"");
+        response.setContentType("application/pdf; charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("Content-Dispos  ition", "attachment; filename=\"output.pdf\"");
 
         // Generate PDF from HTML
         try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
             PdfRendererBuilder builder = new PdfRendererBuilder();
             builder.useFastMode();
-            builder.withHtmlContent(htmlContent, null);
+            builder.withHtmlContent(htmlContent, null); // Ensure htmlContent is UTF-8 encoded
             builder.toStream(os);
             builder.run();
 
@@ -58,14 +60,9 @@ public class ExportBillServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to generate PDF");
         }
     }
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "ExportBillServlet generates a PDF file from HTML content stored in session.";
+    }
 }

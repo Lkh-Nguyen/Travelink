@@ -27,39 +27,31 @@ public class HotelDB implements DatabaseInfo {
 
     public static List<Hotel> getAllHotels() throws SQLException {
         List<Hotel> hotels = new ArrayList<>();
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
 
-        try {
-            connection = DatabaseInfo.getConnect();
+        // Using try-with-resources to ensure resources are closed properly
+        try (Connection connection = DatabaseInfo.getConnect(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery("SELECT * FROM Hotel ORDER BY Rating DESC")) {
 
-            if (connection != null) {
-                String query = "SELECT * FROM Hotel";
-                statement = connection.createStatement();
-                resultSet = statement.executeQuery(query);
-
-                while (resultSet.next()) {
-                    Hotel hotel = new Hotel();
-                    hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
-                    hotel.setName(resultSet.getString("Name"));
-                    hotel.setEmail(resultSet.getString("Email"));
-                    hotel.setStar(resultSet.getInt("Star"));
-                    hotel.setRating(resultSet.getFloat("Rating"));
-                    hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
-                    hotel.setDescription(resultSet.getString("Description"));
-                    // Convert SQL TIME to LocalTime (assuming database uses TIME datatype)
-                    hotel.setCheckInTimeStart(resultSet.getTime("CheckInTimeStart").toLocalTime());
-                    hotel.setCheckInTimeEnd(resultSet.getTime("CheckInTimeEnd").toLocalTime());
-                    hotel.setCheckOutTimeStart(resultSet.getTime("CheckOutTimeStart").toLocalTime());
-                    hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
-                    hotel.setAddress(resultSet.getString("Address"));
-                    hotel.setWard_ID(resultSet.getInt("Ward_ID"));
-                    hotels.add(hotel);
-                }
+            while (resultSet.next()) {
+                Hotel hotel = new Hotel();
+                hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
+                hotel.setName(resultSet.getString("Name"));
+                hotel.setEmail(resultSet.getString("Email"));
+                hotel.setStar(resultSet.getInt("Star"));
+                hotel.setRating(resultSet.getFloat("Rating"));
+                hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
+                hotel.setDescription(resultSet.getString("Description"));
+                // Convert SQL TIME to LocalTime
+                hotel.setCheckInTimeStart(resultSet.getTime("CheckInTimeStart").toLocalTime());
+                hotel.setCheckInTimeEnd(resultSet.getTime("CheckInTimeEnd").toLocalTime());
+                hotel.setCheckOutTimeStart(resultSet.getTime("CheckOutTimeStart").toLocalTime());
+                hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
+                hotel.setAddress(resultSet.getString("Address"));
+                hotel.setWard_ID(resultSet.getInt("Ward_ID"));
+                hotels.add(hotel);
             }
         } catch (SQLException e) {
             System.out.println("Error getting all hotels: " + e);
+            throw e; // Rethrow the exception to adhere to the method's contract
         }
         return hotels;
     }
@@ -183,11 +175,6 @@ public class HotelDB implements DatabaseInfo {
         return hotels;
     }
 
-  
-
-
-    
-    
     public static List<Hotel> filterProvince(String location) throws SQLException {
         List<Integer> wardIDList = new ArrayList<>();
         List<Integer> districtIDList = new ArrayList<>();

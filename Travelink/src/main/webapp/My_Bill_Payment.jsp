@@ -355,6 +355,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <a href="ExportBillServlet" class="download-button">Download PDF</a>
                                         <div class="row gradient-background" style="height: 20px">
                                         </div>
                                     </div>

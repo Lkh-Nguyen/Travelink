@@ -144,6 +144,10 @@
         <servlet-name>SubmitFeedbackServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.SubmitFeedbackServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ExportBillServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.ExportBillServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -275,6 +279,10 @@
     <servlet-mapping>
         <servlet-name>SubmitFeedbackServlet</servlet-name>
         <url-pattern>/SubmitFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExportBillServlet</servlet-name>
+        <url-pattern>/ExportBillServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

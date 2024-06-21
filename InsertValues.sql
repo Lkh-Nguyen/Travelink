@@ -694,7 +694,7 @@ set status = 'PAID'
 where status = 'NOT PAID'
 
 
-DECLARE @Account_ID INT = 7;
+DECLARE @Account_ID INT = 6;
 INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
 VALUES
 --cancel

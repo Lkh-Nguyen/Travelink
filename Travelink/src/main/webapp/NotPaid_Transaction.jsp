@@ -345,8 +345,6 @@
                                                     </a>
                                                 </div>
                                             </c:if>
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -356,15 +354,13 @@
                     <nav class="justify-content-center align-items-center bg-white">
                         <ul class="pagination"></ul>
                     </nav>
+
                     <!-- Modal -->
                     <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="confirmCancelModalLabel">Confirm Cancellation</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
                                 </div>
                                 <div class="modal-body">
                                     Are you sure you want to cancel this reservation?
@@ -382,141 +378,140 @@
         </div>
 
         <%@include file="Footer.jsp" %>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
         <script>
-                                                                    document.addEventListener('DOMContentLoaded', () => {
-                                                                        const cancelButtons = document.querySelectorAll('.cancel-button');
-                                                                        const confirmCancelButton = document.getElementById('confirmCancelButton');
-                                                                        let formToSubmit;
+    document.addEventListener('DOMContentLoaded', () => {
+        const logoutButton = document.getElementById('logoutButton');
+        const overlay = document.getElementById('overlay');
+        const logoutConfirm = document.getElementById('logoutConfirm');
+        const confirmYes = document.getElementById('confirmYes');
+        const confirmNo = document.getElementById('confirmNo');
 
-                                                                        cancelButtons.forEach(button => {
-                                                                            button.addEventListener('click', () => {
-                                                                                formToSubmit = button.closest('form');
-                                                                                $('#confirmCancelModal').modal('show');
-                                                                            });
-                                                                        });
+        logoutButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            overlay.style.display = 'block';
+            logoutConfirm.style.display = 'block';
+        });
 
-                                                                        confirmCancelButton.addEventListener('click', () => {
-                                                                            formToSubmit.submit();
-                                                                        });
-                                                                    });
+        confirmYes.addEventListener('click', () => {
+            // Handle confirmation of logout
+            overlay.style.display = 'none';
+            logoutConfirm.style.display = 'none';
+        });
 
-                                                                    document.addEventListener('DOMContentLoaded', () => {
-                                                                        const logoutButton = document.getElementById('logoutButton');
-                                                                        const overlay = document.getElementById('overlay');
-                                                                        const logoutConfirm = document.getElementById('logoutConfirm');
-                                                                        const confirmYes = document.getElementById('confirmYes');
-                                                                        const confirmNo = document.getElementById('confirmNo');
+        confirmNo.addEventListener('click', (e) => {
+            e.preventDefault();
+            overlay.style.display = 'none';
+            logoutConfirm.style.display = 'none';
+        });
+    });
+    //Logout confirmation
+    document.getElementById("logoutButton").addEventListener("click", function () {
+        document.getElementById("overlay").style.display = "block";
+        var logoutConfirm = document.getElementById("logoutConfirm");
+        logoutConfirm.style.display = "block"; // Hiển thị khung xác nhận
+        setTimeout(function () {
+            logoutConfirm.classList.add("active");
+        }, 50);
+    });
 
-                                                                        logoutButton.addEventListener('click', (e) => {
-                                                                            e.preventDefault();
-                                                                            overlay.style.display = 'block';
-                                                                            logoutConfirm.style.display = 'block';
-                                                                        });
+    document.getElementById("confirmNo").addEventListener("click", function () {
+        var logoutConfirm = document.getElementById("logoutConfirm");
+        logoutConfirm.classList.remove("active");
+        setTimeout(function () {
+            logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
+            document.getElementById("overlay").style.display = "none";
+        }, 500);
+    });
 
-                                                                        confirmYes.addEventListener('click', () => {
-                                                                            // Handle confirmation of logout
-                                                                            overlay.style.display = 'none';
-                                                                            logoutConfirm.style.display = 'none';
-                                                                        });
+    document.getElementById("overlay").addEventListener("click", function () {
+        var logoutConfirm = document.getElementById("logoutConfirm");
+        logoutConfirm.classList.remove("active");
+        setTimeout(function () {
+            logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
+            document.getElementById("overlay").style.display = "none";
+        }, 500);
+    });
 
-                                                                        confirmNo.addEventListener('click', (e) => {
-                                                                            e.preventDefault();
-                                                                            overlay.style.display = 'none';
-                                                                            logoutConfirm.style.display = 'none';
-                                                                        });
-                                                                    });
-                                                                    //Logout confirmation
-                                                                    document.getElementById("logoutButton").addEventListener("click", function () {
-                                                                        document.getElementById("overlay").style.display = "block";
-                                                                        var logoutConfirm = document.getElementById("logoutConfirm");
-                                                                        logoutConfirm.style.display = "block"; // Hiển thị khung xác nhận
-                                                                        setTimeout(function () {
-                                                                            logoutConfirm.classList.add("active");
-                                                                        }, 50);
-                                                                    });
+    // Pagination
+    let thisPage = 1;
+    let limit = 4; // 2 items per page
+    let list = document.querySelectorAll(".hotel-card");
 
-                                                                    document.getElementById("confirmNo").addEventListener("click", function () {
-                                                                        var logoutConfirm = document.getElementById("logoutConfirm");
-                                                                        logoutConfirm.classList.remove("active");
-                                                                        setTimeout(function () {
-                                                                            logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
-                                                                            document.getElementById("overlay").style.display = "none";
-                                                                        }, 500);
-                                                                    });
+    function loadItem() {
+        let beginGet = limit * (thisPage - 1);
+        let endGet = limit * thisPage - 1;
 
-                                                                    document.getElementById("overlay").addEventListener("click", function () {
-                                                                        var logoutConfirm = document.getElementById("logoutConfirm");
-                                                                        logoutConfirm.classList.remove("active");
-                                                                        setTimeout(function () {
-                                                                            logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
-                                                                            document.getElementById("overlay").style.display = "none";
-                                                                        }, 500);
-                                                                    });
+        list.forEach((item, key) => {
+            if (key >= beginGet && key <= endGet) {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
 
-                                                                    // Pagination
-                                                                    let thisPage = 1;
-                                                                    let limit = 4; // 2 items per page
-                                                                    let list = document.querySelectorAll(".hotel-card");
+        listPage();
+    }
 
-                                                                    function loadItem() {
-                                                                        let beginGet = limit * (thisPage - 1);
-                                                                        let endGet = limit * thisPage - 1;
+    loadItem();
 
-                                                                        list.forEach((item, key) => {
-                                                                            if (key >= beginGet && key <= endGet) {
-                                                                                item.style.display = "block";
-                                                                            } else {
-                                                                                item.style.display = "none";
-                                                                            }
-                                                                        });
+    function listPage() {
+        let count = Math.ceil(list.length / limit);
+        document.querySelector('.pagination').innerHTML = '';
 
-                                                                        listPage();
-                                                                    }
+        if (thisPage != 1) {
+            let prev = document.createElement('li');
+            prev.classList.add('page-item');
+            prev.innerHTML = '<a class="page-link" href="#" onclick="changePage(' + (thisPage - 1) + ')">Previous</a>';
+            document.querySelector('.pagination').appendChild(prev);
+        }
 
-                                                                    loadItem();
+        for (let i = 1; i <= count; i++) {
+            let li = document.createElement('li');
+            li.classList.add('page-item');
+            if (i == thisPage) {
+                li.classList.add('active');
+            }
+            li.innerHTML = '<a class="page-link" href="#" onclick="changePage(' + i + ')">' + i + '</a>';
+            document.querySelector('.pagination').appendChild(li);
+        }
 
-                                                                    function listPage() {
-                                                                        let count = Math.ceil(list.length / limit);
-                                                                        document.querySelector('.pagination').innerHTML = '';
+        if (thisPage != count) {
+            let next = document.createElement('li');
+            next.classList.add('page-item');
+            next.innerHTML = '<a class="page-link" href="#" onclick="changePage(' + (thisPage + 1) + ')">Next</a>';
+            document.querySelector('.pagination').appendChild(next);
+        }
+    }
 
-                                                                        if (thisPage != 1) {
-                                                                            let prev = document.createElement('li');
-                                                                            prev.classList.add('page-item');
-                                                                            prev.innerHTML = '<a class="page-link" href="#" onclick="changePage(' + (thisPage - 1) + ')">Previous</a>';
-                                                                            document.querySelector('.pagination').appendChild(prev);
-                                                                        }
+    function changePage(page) {
+        thisPage = page;
+        loadItem();
+    }
 
-                                                                        for (let i = 1; i <= count; i++) {
-                                                                            let li = document.createElement('li');
-                                                                            li.classList.add('page-item');
-                                                                            if (i == thisPage) {
-                                                                                li.classList.add('active');
-                                                                            }
-                                                                            li.innerHTML = '<a class="page-link" href="#" onclick="changePage(' + i + ')">' + i + '</a>';
-                                                                            document.querySelector('.pagination').appendChild(li);
-                                                                        }
+    // Initially load the first page
+    window.onload = function () {
+        loadItem();
+    };
 
-                                                                        if (thisPage != count) {
-                                                                            let next = document.createElement('li');
-                                                                            next.classList.add('page-item');
-                                                                            next.innerHTML = '<a class="page-link" href="#" onclick="changePage(' + (thisPage + 1) + ')">Next</a>';
-                                                                            document.querySelector('.pagination').appendChild(next);
-                                                                        }
-                                                                    }
+    //Modal
+    document.addEventListener('DOMContentLoaded', () => {
+        const cancelButtons = document.querySelectorAll('.cancel-button');
+        const confirmCancelButton = document.getElementById('confirmCancelButton');
+        let formToSubmit;
 
-                                                                    function changePage(page) {
-                                                                        thisPage = page;
-                                                                        loadItem();
-                                                                    }
+        cancelButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                formToSubmit = button.closest('form');
+                $('#confirmCancelModal').modal('show');
+            });
+        });
 
-                                                                    // Initially load the first page
-                                                                    window.onload = function () {
-                                                                        loadItem();
-                                                                    };
-
+        confirmCancelButton.addEventListener('click', () => {
+            formToSubmit.submit();
+        });
+    });
         </script>
     </body>
 </html>

@@ -74,6 +74,7 @@ public class AccountDB {
                 Account.setEmail(rs.getString("Email"));
                 Account.setPassword(rs.getString("Password"));
                 Account.setName(rs.getString("Name"));
+                Account.setRole(rs.getInt("Role"));
                 // Handle potential null phone number
                 Account.setPhoneNumber(rs.getString("PhoneNumber"));
 

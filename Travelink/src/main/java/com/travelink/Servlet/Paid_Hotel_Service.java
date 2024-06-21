@@ -18,7 +18,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -76,8 +78,18 @@ public class Paid_Hotel_Service extends HttpServlet {
             response.sendRedirect("Form_Login.jsp");
             return;
         }
-
+       
         List<Bill> list_bill = BillDB.getBillFinishedByCustomerID(account.getAccount_ID());
+        
+        Map<Integer, List<Bill>> groupedBills = new LinkedHashMap<>();
+        for (Bill bill : list_bill) {
+            int reservationID = bill.getReservationID();
+            if (!groupedBills.containsKey(reservationID)) {
+                groupedBills.put(reservationID, new ArrayList<>());
+            }
+            groupedBills.get(reservationID).add(bill);
+        }
+        request.setAttribute("groupedBills", groupedBills);
 
         request.setAttribute("list_bill", list_bill);
         request.getRequestDispatcher("Paid_Transaction.jsp").forward(request, response);

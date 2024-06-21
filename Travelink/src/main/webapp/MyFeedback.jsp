@@ -7,6 +7,8 @@
         <link href="bootstrap_css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="css/listPage.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     </head>
     <style>
         .col-md-5,.col-md-7 {
@@ -15,52 +17,74 @@
 
         .col-md-5,.col-md-7:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             cursor: pointer;
         }
     </style>
     <body>
         <%@include file="Header.jsp" %>
         <div class="container my-5">
-            <h2 class="mb-4">My Feedback</h2>
+            <a href="Home_Customer.jsp" class="btn btn-outline-primary mt-2 mb-5"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
             <c:if test="${not empty feedbacks}">
                 <c:forEach var="f" items="${feedbacks}">
                     <div class="row feedback mb-4" id="feedback-${f.feedbackID}">
                         <div class="col-md-5">
-                            <div class="shadow-sm">
-                                <div class="card card-body row">
-                                    <div class="col-md-4"><img src="${f.getHotel(f.hotelID).getAnURL(f.hotelID)}" alt="Hotel Image" class="img-fluid"></div>
-                                    <div class="col-md-8">
-                                        <h5 class="card-title">Hotel</h5>
-                                        <p class="card-text">${f.getHotel(f.hotelID).name}</p>
-                                        <p class="card-text">${f.getHotel(f.hotelID).address}</p>
+                            <div class="card h-100 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4"><img src="${f.getHotel(f.hotelID).getAnURL(f.hotelID)}" alt="Hotel Image" class="img-fluid" style="width: 10rem; height: 8rem;"></div>
+                                        <div class="col-md-8">
+                                            <p class="card-text"><span class="fw-bold">Hotel Brand: </span>${f.getHotel(f.hotelID).name}</p>
+                                            <p class="card-text"><span class="fw-bold">Address: </span>${f.getHotel(f.hotelID).address}</p>
+                                            <p class="card-text"><span class="fw-bold">Overview: </span>
+                                                <img src="img_Hotel/star.svg" alt="Update" style="width: 15px; height: 15px; margin-right: 5px;">
+                                                <img src="img_Hotel/star.svg" alt="Update" style="width: 15px; height: 15px; margin-right: 5px;">
+                                                <img src="img_Hotel/star.svg" alt="Update" style="width: 15px; height: 15px; margin-right: 5px;">
+                                                <img src="img_Hotel/star.svg" alt="Update" style="width: 15px; height: 15px; margin-right: 5px;">
+                                                <img src="img_Hotel/none-star.svg" alt="Update" style="width: 15px; height: 15px; margin-right: 5px;">
+                                            </p>
+                                            <p class="card-text text-success fw-medium"><i class="bi bi-check"></i> Free canellation</p>
+                                            <p class="card-text text-success fw-medium"><i class="bi bi-check"></i> Full Facility <span class="text-muted text-success">- for customer</span></p>
+                                            <hr>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-7">
-                            <div class="shadow-sm h-100">
-                                <div class="card card-body h-100">
+                            <div class="card h-100 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+                                <div class="card-body">
                                     <h4 class="card-title d-flex align-items-center">
                                         <img src="${f.getAccount(f.feedbackID).avatarURL}" alt="Avatar" class="rounded-circle me-3" style="width: 50px; height: 50px;">
                                         ${f.getAccount(f.feedbackID).name}
                                     </h4>
-                                    <div class="card-subtitle mb-2 rating-container">
+                                    <div class="card-subtitle mt-2 mb-2 rating-container">
                                         Rating: 
                                         <c:forEach var="i" begin="1" end="5">
-                                            <i class="bx ${i <= f.rating ? 'bxs-star' : 'bx-star'} star-icon" data-rating="${i}"></i>
+                                            <i class="bx ${i <= f.rating ? 'bxs-star' : 'bx-star'} star-icon" data-rating="${i}" style="color: yellow;"></i>
                                         </c:forEach>
                                     </div>
-                                    <p class="card-text description">${f.description}</p>
-                                    <div class="d-flex justify-content-end mt-5">
+                                    <div class="row mb-3">
+                                        <p class="card-text description">${f.description}</p>
+                                    </div>
+                                </div>
+                                <div class="row p-3 justify-content-end mt-auto">
+                                    <div class="col-md-9">
+                                        <button class="btn btn-primary me-4 update-btn" data-id="${f.feedbackID}">
+                                            <img src="img_Hotel/update.svg" alt="Update" style="width: 20px; height: 20px; margin-right: 5px;"> Update
+                                        </button>
+                                        <button class="btn btn-danger me-4 delete-btn" data-id="${f.feedbackID}">
+                                            <img src="img_Hotel/delete.svg" alt="Delete" style="width: 20px; height: 20px; margin-right: 5px;"> Delete
+                                        </button>
+                                        <button class="btn btn-success me-4 save-btn d-none" data-id="${f.feedbackID}">
+                                            <img src="img_Hotel/create.svg" alt="Save" style="width: 20px; height: 20px; margin-right: 5px;"> Save
+                                        </button>
+                                        <button class="btn btn-secondary me-4 cancel-btn d-none" data-id="${f.feedbackID}">
+                                            <img src="img_Hotel/cancel_invoice.svg" alt="Cancel" style="width: 20px; height: 20px; margin-right: 5px;"> Cancel
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3">
                                         <span class="me-3"><i class="bx bx-like"></i> ${f.likesCount}</span>
                                         <span><i class="bx bx-dislike"></i> ${f.dislikesCount}</span>
-                                    </div>
-                                    <div class="mt-4">
-                                        <button class="btn btn-primary me-4 update-btn" data-id="${f.feedbackID}">Update</button>
-                                        <button class="btn btn-danger me-4 delete-btn" data-id="${f.feedbackID}">Delete</button>
-                                        <button class="btn btn-success me-4 save-btn d-none" data-id="${f.feedbackID}">Save</button>
-                                        <button class="btn btn-secondary me-4 cancel-btn d-none" data-id="${f.feedbackID}">Cancel</button>
                                     </div>
                                 </div>
                             </div>

@@ -694,7 +694,7 @@ set status = 'PAID'
 where status = 'NOT PAID'
 
 
-DECLARE @Account_ID INT = 6;
+DECLARE @Account_ID INT = 7;
 INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
 VALUES
 --cancel
@@ -723,11 +723,8 @@ VALUES
 ('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'Credit Card', 'FINISH', @Account_ID),
 
 --not paid
-('2024-05-02', 3, '2024-06-20', '2024-06-26', 25100.00, 'Credit Card', 'NOT PAID', @Account_ID),
-('2024-05-05', 2, '2024-06-21', '2024-06-27', 15100.00, 'Credit Card', 'NOT PAID', @Account_ID),
-('2024-05-04', 1, '2024-06-22', '2024-06-28', 35100.00, 'Credit Card', 'NOT PAID', @Account_ID),
-('2024-05-05', 4, '2024-06-23', '2024-06-29', 45100.00, 'Credit Card', 'NOT PAID', @Account_ID),
-('2024-05-06', 5, '2024-06-24', '2024-06-30', 55100.00, 'Credit Card', 'NOT PAID', @Account_ID);
+('2024-05-02', 3, '2024-06-20', '2024-06-26', 25100.00, 'Credit Card', 'NOT PAID', @Account_ID)
+
 
 
 

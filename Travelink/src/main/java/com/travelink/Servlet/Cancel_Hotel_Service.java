@@ -17,7 +17,9 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -71,19 +73,16 @@ public class Cancel_Hotel_Service extends HttpServlet {
             return;
         }
 
-        List<Bill> list_bill = BillDB.getBillByCustomerID(account.getAccount_ID());
-        List<Bill> cancel_List = new ArrayList<>();
-
-        for (Bill b : list_bill) {
-            if (b.getStatus().toUpperCase().equals("CANCEL")) {
-                cancel_List.add(b);
+        List<Bill> list_bill = BillDB.getBillCancelByCustomerID(account.getAccount_ID());
+        Map<Integer, List<Bill>> groupedBills = new LinkedHashMap<>();
+        for (Bill bill : list_bill) {
+            int reservationID = bill.getReservationID();
+            if (!groupedBills.containsKey(reservationID)) {
+                groupedBills.put(reservationID, new ArrayList<>());
             }
+            groupedBills.get(reservationID).add(bill);
         }
-
-        PrintWriter pw = response.getWriter();
-        pw.print(cancel_List.size());
-
-        request.setAttribute("cancel_List", cancel_List);
+        request.setAttribute("groupedBills", groupedBills);
         request.getRequestDispatcher("Cancel_Transaction.jsp").forward(request, response);
     }
 

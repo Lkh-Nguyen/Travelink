@@ -292,7 +292,6 @@
         </style>
     </head>
     <body>
-
         <!-- Dùng để đăng xuất-->
         <div id="overlay1"></div>
         <div id="logoutConfirm1">

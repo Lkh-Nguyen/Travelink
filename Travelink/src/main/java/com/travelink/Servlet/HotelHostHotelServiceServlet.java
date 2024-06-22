@@ -5,7 +5,9 @@
 
 package com.travelink.Servlet;
 
+import com.travelink.Database.OwnedHotelDB;
 import com.travelink.Model.Account;
+import com.travelink.Model.Hotel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +15,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -56,9 +60,16 @@ public class HotelHostHotelServiceServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Account account = new Account("abc@gmail.com", "ABC", 2);
-        
-        session.setAttribute("host", account);
+        Account host = null;
+        try {
+            host = (Account) session.getAttribute("account");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<Hotel> hotels = new ArrayList<>();
+        hotels = OwnedHotelDB.getHotelsByAccountID(host.getAccount_ID());
+        request.setAttribute("hotels", hotels);
+        request.getRequestDispatcher("HotelHost_HotelService.jsp").forward(request, response);
     } 
 
     /** 

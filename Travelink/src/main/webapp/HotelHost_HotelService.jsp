@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -128,142 +129,65 @@
                                 <h5 class="card-title mb-0">List Hotel Service</h5>
                             </div>
                         </h5>
-                        <div class="card-body">
-                            <table class="table-hover table align-items-center justify-content-center">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No.</th>
-                                        <th scope="col">HOTEL NAME</th>
-                                        <th scope="col">SERVICE</th>
-                                        <th scope="col">LOCATION</th>
-                                        <th scope="col">PRICE</th>
-                                        <th scope="col">HOTEL INFORMATION</th>
-                                        <th scope="col">UPDATE & DELETE & ADD</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table-group-divider">
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mường Thanh Hotel</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="img_Hotel/breakfast.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                <p class="card-title mb-0">Breakfast</p>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <img src="img_Hotel/buffet.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                <p class="card-title mb-0">Buffet</p>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <img src="img_Hotel/karaoke.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                <p class="card-title mb-0">Karaoke</p>
-                                            </div>
-                                        </td>
-                                        <td>Bắc Giang - <a href="#"><img src="img_Hotel/map.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2"></a></td>
-                                        <td>
-                                            <div>$20</div>
-                                            <div>$30</div>
-                                            <div>$50</div>
-                                        </td>
-                                        <td><a class="btn btn-outline-primary"><img src="img_Hotel/view.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">View</a></td>
-                                        <td>
-                                            <a class="btn btn-success"><img src="img_Hotel/update.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Update</a>
-                                            <a class="btn btn-danger"><img src="img_Hotel/delete.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Delete</a>
-                                            <a class="btn btn-secondary"><img src="img_Hotel/create.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Add</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Novotel</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="img_Hotel/breakfast.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                <p class="card-title mb-0">Breakfast</p>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <img src="img_Hotel/buffet.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                <p class="card-title mb-0">Buffet</p>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <img src="img_Hotel/karaoke.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                <p class="card-title mb-0">Karaoke</p>
-                                            </div>
-                                        </td>
-                                        <td>Hồ Chí Minh - <a href="#"><img src="img_Hotel/map.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2"></a></td>
-                                        <td>
-                                            <div>$25</div>
-                                            <div>$35</div>
-                                            <div>$55</div>
-                                        </td>
-                                        <td><a class="btn btn-outline-primary"><img src="img_Hotel/view.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">View</a></td>
-                                        <td>
-                                            <a class="btn btn-success"><img src="img_Hotel/update.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Update</a>
-                                            <a class="btn btn-danger"><img src="img_Hotel/delete.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Delete</a>
-                                            <a class="btn btn-secondary"><img src="img_Hotel/create.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Add</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Furama Hotel</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="img_Hotel/breakfast.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                <p class="card-title mb-0">Breakfast</p>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <img src="img_Hotel/buffet.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                <p class="card-title mb-0">Buffet</p>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <img src="img_Hotel/karaoke.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                <p class="card-title mb-0">Karaoke</p>
-                                            </div>
-                                        </td>
-                                        <td>Hà Nội - <a href="#"><img src="img_Hotel/map.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2"></a></td>
-                                        <td>
-                                            <div>$22</div>
-                                            <div>$32</div>
-                                            <div>$52</div>
-                                        </td>
-                                        <td><a class="btn btn-outline-primary"><img src="img_Hotel/view.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">View</a></td>
-                                        <td>
-                                            <a class="btn btn-success"><img src="img_Hotel/update.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Update</a>
-                                            <a class="btn btn-danger"><img src="img_Hotel/delete.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Delete</a>
-                                            <a class="btn btn-secondary"><img src="img_Hotel/create.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Add</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">4</th>
-                                        <td>Furama Hotel</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="img_Hotel/breakfast.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                <p class="card-title mb-0">Breakfast</p>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <img src="img_Hotel/buffet.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                <p class="card-title mb-0">Buffet</p>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <img src="img_Hotel/karaoke.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                <p class="card-title mb-0">Karaoke</p>
-                                            </div>
-                                        </td>
-                                        <td>Đà Nẵng - <a href="#"><img src="img_Hotel/map.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2"></a></td>
-                                        <td>
-                                            <div>$24</div>
-                                            <div>$34</div>
-                                            <div>$54</div>
-                                        </td>
-                                        <td><a class="btn btn-outline-primary"><img src="img_Hotel/view.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">View</a></td>
-                                        <td>
-                                            <a class="btn btn-success"><img src="img_Hotel/update.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Update</a>
-                                            <a class="btn btn-danger"><img src="img_Hotel/delete.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Delete</a>
-                                            <a class="btn btn-secondary"><img src="img_Hotel/create.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Add</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <c:if test="${requestScope.hotels == null || requestScope.hotels.isEmpty()}">
+                            <tr>
+                            <div class="alert alert-danger mt-4">You don't own any hotels.</div>
+                            </tr>
+                        </c:if>
+
+
+                        <c:if test="${requestScope.hotels != null}">
+                            <div class="card-body">
+                                <table class="table-hover table align-items-center justify-content-center">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No.</th>
+                                            <th scope="col">HOTEL NAME</th>
+                                            <th scope="col">SERVICE</th>
+                                            <th scope="col">LOCATION</th>
+                                            <th scope="col">PRICE</th>
+                                            <th scope="col">HOTEL INFORMATION</th>
+                                            <th scope="col">UPDATE & DELETE & ADD</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+
+
+                                        <c:forEach items="${requestScope.hotels}" var="hotel" varStatus="status">
+                                            <tr>
+                                                <th scope="row">${status.index +1}</th>
+                                                <td>${hotel.name}</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="img_Hotel/breakfast.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
+                                                        <p class="card-title mb-0">Breakfast</p>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="img_Hotel/buffet.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
+                                                        <p class="card-title mb-0">Buffet</p>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="img_Hotel/karaoke.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
+                                                        <p class="card-title mb-0">Karaoke</p>
+                                                    </div>
+                                                </td>
+                                                <td>Bắc Giang - <a href="#"><img src="img_Hotel/map.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2"></a></td>
+                                                <td>
+                                                    <div>$20</div>
+                                                    <div>$30</div>
+                                                    <div>$50</div>
+                                                </td>
+                                                <td><a class="btn btn-outline-primary"><img src="img_Hotel/view.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">View</a></td>
+                                                <td>
+                                                    <a class="btn btn-success"><img src="img_Hotel/update.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Update</a>
+                                                    <a class="btn btn-danger"><img src="img_Hotel/delete.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Delete</a>
+                                                    <a class="btn btn-secondary"><img src="img_Hotel/create.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Add</a>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </c:if>
                         </div>
                     </div>
                 </div>

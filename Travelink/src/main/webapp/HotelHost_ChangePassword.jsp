@@ -32,23 +32,22 @@
                 </ul>
                 <div class="card w-75 h-100 shadow p-lg-5 mb-5 mt-3 bg-body-tertiary border-0 equal-height" style="border-radius: 30px;">
                     <div class="row">
-                        <form action="ChangeAccountPasswordServlet" method="post">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-4">
-                                <div class="card shadow p-lg-1 mb-5 bg-body-tertiary">
-                                    <div class="card-header">
-                                        Hotel Host Information
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <img src="${account.avatarURL}" alt="Special Icon" style="width: 2rem; height: 2rem; border-radius: 50%;" class="me-2">
-                                            <p class="card-title mb-0">${account.name}</p>
-                                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4">
+                            <div class="card shadow p-lg-1 mb-5 bg-body-tertiary">
+                                <div class="card-header">
+                                    Hotel Host Information
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <img src="${account.avatarURL}" alt="Special Icon" style="width: 2rem; height: 2rem; border-radius: 50%;" class="me-2">
+                                        <p class="card-title mb-0">${account.name}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-
+                        </div>
+                        <div class="col-md-6">
+                            <form action="ChangeAccountPasswordServlet" method="post">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="input-group mb-3">
@@ -65,7 +64,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="input-group mb-3">
@@ -74,41 +72,34 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row mt-4 d-flex justify-content-center align-items-center">
-                                <div class="col-md-6 justify-content-center align-items-center">
+                                <div class="row mt-4 d-flex align-items-center">
+                                    <div class="col-md-6 ">
+                                        <button type="button" class="btn btn-outline-primary btn-block w-100" id="btn-cancel" onclick="cancel()">Cancel</button>
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <button type="submit" class="btn btn-primary btn-block w-100" id="btn-next">Next</button>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 justify-content-center align-items-center">
-                                    <button type="button" class="btn btn-outline-primary btn-block" id="btn-cancel" onclick="cancel()">Cancel</button>
-                                    <button type="submit" class="btn btn-primary btn-block" id="btn-next">Next</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-md-1">
+                            </form>
+                        </div>
+                        <div class="col-md-1"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <%@include file="Footer.jsp" %>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.2/umd/popper.min.js"></script>
-    <!-- Sử dụng Bootstrap 5 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-
-    <script>
-                                        function cancel() {
-                                            location.reload();
-                                            event.preventDefault();
-                                        }
-    </script>
-</body>
+        <%@include file="Footer.jsp" %>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.2/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+                                            function cancel() {
+                                                location.reload();
+                                                event.preventDefault();
+                                            }
+        </script>
+    </body>
 </html>

@@ -31,7 +31,7 @@
                         <img src="img_Home/logo.png" width="50" height="60" class="d-inline-block align-top" alt="">
                     </div>
                     <div class="col-auto">
-                        <div class="nav__logo"><a href="Home_Customer.jsp">Trave<span>link</span></a></div>
+                        <div class="nav__logo"><a href="Home_HotelHost.jsp">Trave<span>link</span></a></div>
                     </div>
                 </div>
             </div>

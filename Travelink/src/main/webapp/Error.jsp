@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.travelink.Model.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,9 +32,23 @@
                                     <p class="rfs-11 fw-light"> The page you are looking for was moved, removed or might never existed.</p>
                                 </div>
                             </div>
+                            <%
+                                // Assuming the account object is stored in the session
+                                Account account = (Account) session.getAttribute("account");
+                                String href = "Home_Customer.jsp"; // Default URL
+
+                                if (account != null) {
+                                    int role = account.getRole();
+                                    if (role == 2) {
+                                        href = "Home_HotelHost.jsp";
+                                    }
+                                }
+                            %>
+
                             <div class="lc-block">
-                                <a class="btn btn-lg btn-primary" href="Home_Customer.jsp" role="button">Back to homepage</a>
+                                <a class="btn btn-lg btn-primary" href="<%= href %>" role="button">Back to homepage</a>
                             </div>
+
                         </div>
                     </div><!-- /col -->
                 </div>

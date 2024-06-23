@@ -95,13 +95,13 @@
                                     <div class="col-md-6">
                                         <div class="col-md-12 d-flex">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault1" ${account.gender == 77?"checked":""} required>
+                                                <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault1" ${account.gender == 77?"checked":""} required value="Male">
                                                 <label class="form-check-label" for="flexRadioDefault1">
                                                     Male
                                                 </label>
                                             </div>
                                             <div class="form-check" style="margin-left: 70px;">
-                                                <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault2" ${account.gender == 70?"checked":""} required>
+                                                <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault2" ${account.gender == 70?"checked":""} required value="Female">
                                                 <label class="form-check-label" for="flexRadioDefault2">
                                                     Female
                                                 </label>

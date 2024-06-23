@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+<%@page import="com.travelink.Model.*" %>
+<%@page import="com.travelink.Database.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -41,6 +44,42 @@
     <body>
         <%@include file="Header_HotelHost.jsp" %>
         <div class="container-fluid py-0">
+            <form action="DashboardServlet" method="GET">
+                <input type="hidden" name="hotel_ID" value="${hotel_ID}">
+                <div class="input-group">
+                    <select id="month" name="month">
+                        <%
+                            int selectedMonth = request.getParameter("month") != null ? Integer.parseInt(request.getParameter("month")) : 0;
+                            String[] monthNames = {"January", "February", "March", "April", "May", "June", 
+                                                   "July", "August", "September", "October", "November", "December"};
+        
+                            for (int i = 1; i <= 12; i++) {
+                                if (i == selectedMonth) {
+                                    out.println("<option value=\"" + i + "\" selected>" + monthNames[i - 1] + "</option>");
+                                } else {
+                                    out.println("<option value=\"" + i + "\">" + monthNames[i - 1] + "</option>");
+                                }
+                            }
+                        %>
+                    </select>
+
+                    <select id="year" name="year">
+                        <%
+                            int currentYear = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+                            int selectedYear = request.getParameter("year") != null ? Integer.parseInt(request.getParameter("year")) : currentYear;
+                            for (int year = 2000; year <= currentYear; year++) {
+                                if (year == selectedYear) {
+                                    out.println("<option value=\"" + year + "\" selected>" + year + "</option>");
+                                } else {
+                                    out.println("<option value=\"" + year + "\">" + year + "</option>");
+                                }
+                            }
+                        %>
+                    </select>
+
+                    <button type="submit" class="btn btn-primary" style="margin-left: 10px">Search</button>
+                </div>
+            </form>
             <!-- row chính 1 -->
             <div class="row p-4 m-3 d-flex justify-content-center align-items-center row-compact">
                 <div class="col-md-3">
@@ -51,8 +90,8 @@
                                     <img src="img_Hotel/document.svg" alt="Invoice Icon" style="width: 2rem; height: 2rem;">
                                 </div>
                                 <div class="col-md-9 mt-2 px-3">
-                                    <h3>2478</h3>
-                                    <p class="fs-6">Total Invoices</p>
+                                    <h3>${totalReservations}</h3>
+                                    <p class="fs-6">Total Reservations</p>
                                 </div>
                             </div>
                         </div>
@@ -66,8 +105,8 @@
                                     <img src="img_Hotel/paid_invoice.svg" alt="Invoice Icon" style="width: 2rem; height: 2rem; color: white">
                                 </div>
                                 <div class="col-md-9 mt-2 px-3">
-                                    <h3>983</h3>
-                                    <p class="fs-6">Paid Invoices</p>
+                                    <h3>${finishedReservations}</h3>
+                                    <p class="fs-6">Finished Reservations</p>
                                 </div>
                             </div>
                         </div>
@@ -81,8 +120,8 @@
                                     <img src="img_Hotel/cancel_invoice.svg" alt="Invoice Icon" style="width: 2rem; height: 2rem;">
                                 </div>
                                 <div class="col-md-9 mt-2 px-3">
-                                    <h3>1256</h3>
-                                    <p class="fs-6">Unpaid Invoices</p>
+                                    <h3>${cancelReservations}</h3>
+                                    <p class="fs-6">Cancel Reservations</p>
                                 </div>
                             </div>
                         </div>
@@ -96,8 +135,8 @@
                                     <img src="img_Hotel/sent_invoice.svg" alt="Invoice Icon" style="width: 2rem; height: 2rem;">
                                 </div>
                                 <div class="col-md-9 mt-2 px-3">
-                                    <h3>652</h3>
-                                    <p class="fs-6">Invoices Sent</p>
+                                    <h3>${refundReservations}</h3>
+                                    <p class="fs-6">Refund Reservations</p>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +156,6 @@
                                                 <h3>$824,571.93</h3>
                                                 <div class="text-bottom">
                                                     <p class="text-muted mb-0">Wallet Balance</p>
-                                                    <p class="mb-0 text-success">+0.8% than last week</p>
                                                 </div>
                                             </div>
                                             <div class="col-md-5">
@@ -389,7 +427,7 @@
             var pieChart = new Chart(pieCtx, {
                 type: 'pie',
                 data: {
-                    labels: ['Category 1', 'Category 2', 'Category 3'],
+                    labels: ['Paid', 'Cancel'],
                     datasets: [{
                             data: [10, 20, 30],
                             backgroundColor: [
@@ -415,11 +453,11 @@
             var ctx = document.getElementById('myChart').getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'bar',
-                data: { 
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                     datasets: [{
-                            label: 'Dataset 1',
-                            data: [10, 20, 30, 40, 50, 60, 70],
+                            label: 'Monthly Revenue Report 2024',
+                            data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
                             backgroundColor: 'rgba(255, 99, 132, 0.2)',
                             borderColor: 'rgba(255, 99, 132, 1)',
                             borderWidth: 1

@@ -1,9 +1,4 @@
-<%-- 
-    Document   : HotelHost_Profile
-    Created on : Jun 16, 2024, 12:35:22 AM
-    Author     : admin
---%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,9 +7,84 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Avatar Management</title>
         <link rel="stylesheet" href="bootstrap_css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/View_Avata.css">
+        <link rel="stylesheet" href="css/Alter.css">
+        <link rel="stylesheet" href="css/Left_My_Account.css">
+        <style>
+            #ImgAvatar {
+                display: none; /* Ẩn mặc định */
+                border-radius: 10px;
+                position: fixed;
+                bottom: 250px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: #fff;
+                padding: 20px;
+                border: 1px solid #ccc;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+                transition: bottom 0.5s ease;
+            }
+
+            #ImgAvatar img {
+                width: 500px;
+                height: 500px;
+                cursor: pointer;
+            }
+
+            #ImgAvatar .close-btn {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: transparent;
+                color: #000;
+                border: none;
+                font-size: 24px;
+                font-weight: bold;
+                cursor: pointer;
+                z-index: 1001;
+            }
+            #ImgAvatar .close-btn:hover {
+                color: grey; /* Change color on hover */
+                transform: scale(1.2); /* Slightly enlarge the button on hover */
+            }
+        </style>
     </head>
     <body>
         <%@include file="Header_HotelHost.jsp" %>
+        <!-- Dùng để đăng xuất-->
+        <div id="overlay"></div>
+        <%
+            String uploadedFilePath = (String) request.getAttribute("uploadedFilePath");
+        %>
+        <div id="logoutConfirm">
+            <h2>Logging Out</h2>
+            <p>Oh, no! You’ll miss a lot of things by logging out: Travelink Points, 
+                Passenger Quick Pick, Price Alerts, and other member-only benefits.
+                Are you sure want to log out?</p>
+            <button id="confirmYes"><a href="logout">Yes</a></button>
+            <button id="confirmNo"><a href="#">No</a></button>
+        </div>
+        <!-- Dùng để đăng xuất-->
+
+        <div id="ImgAvatar">
+            <!-- Close button -->
+            <button class="close-btn" onclick="closeAvatar()">×</button>
+            <%
+                if (uploadedFilePath == null || uploadedFilePath.isEmpty()) {
+            %>
+            <img src="${account.avatarURL}" alt="alt"/>
+            <%
+                }
+            %>
+            <%
+                if (uploadedFilePath != null && !uploadedFilePath.isEmpty()) {
+            %>
+<img src="img_Avatar/<%= uploadedFilePath %>" alt="alt"/>
+            <%
+                }
+            %>
+        </div>
         <div class="container">
             <div class="card bg-secondary-subtle h-100 shadow p-lg-4 mb-5 bg-body-tertiary border-0 justify-content-center align-items-center" style="border-radius: 30px;">
                 <ul class="nav nav-underline mb-4">
@@ -31,21 +101,51 @@
                 <!-- Avatar Upload Section -->
                 <div class="card w-75 h-100 shadow p-lg-5 mb-5 mt-3 bg-body-tertiary border-0" style="border-radius: 30px;">
                     <div class="row">
-                        <div class="col-md-6 offset-md-3">
-                            <div class="avatar-upload text-center">
-                                <div class="avatar-container">
-                                    <div class="avatar-preview">
-                                        <img src="${account.avatarURL}" alt="Avatar" style="width: 15rem; height: 15rem;" class="img-fluid rounded-circle">
-                                    </div>
+                        <div id="edit_img" style="user-select: none;">
+                            <% if (uploadedFilePath == null || uploadedFilePath.isEmpty()) { %>
+                            <img src="${account.avatarURL}" alt="123"/><br>
+                            <% } else { %>
+                            <img src="img_Avatar/<%= uploadedFilePath %>" alt="123"/><br>
+                            <% } %>
+                            <button id="seeAvatar" style="width: 120px;height: 35px">View Avatar</button>
+                            <form method="post" action="UploadImageAvatar" enctype="multipart/form-data" onsubmit="return validateForm(event)">
+                                <input type="file" name="file" size="60" accept=".jpeg,.jpg,.png"/><br/>
+                                <p>Maximum file size is 1 MB.<br>Format: .JPEG, .PNG</p>
+                                <input id="submit_Input" style="margin-top:10px" type="submit" value="Upload"/>
+                                <div id="error-message">Please select a file to upload.</div>
+                            </form>
+
+                            <form method="post" action="UpdateAvatar">
+                                <c:choose>
+                                    <c:when test="${not empty uploadedFilePath}">
+                                        <input type="hidden" name="urlAvatar"  value="/Travelink/img_Avatar/${uploadedFilePath}"/>
+                                        <div class="pd_button">
+                                            <button><a href="HotelHost_ViewAvatar.jsp" style="text-decoration: none">Cancel</a></button>
+                                            <input type="submit" value="Save"/>
+                                        </div>  
+                                    </c:when>
+                                    <c:otherwise>
+<input type="hidden" name="urlAvatar" value=""/>
+                                        <div class="pd_button">
+                                            <button style="pointer-events: none;cursor: not-allowed;opacity: 0.6;">Cancel</button>
+                                            <input type="submit" value="Save" style="pointer-events: none;cursor: not-allowed;opacity: 0.6;"/>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+                            </form>
+                            <c:if test="${requestScope.updateStatus != null}">
+                                <div id="status-message" style="background-color: rgb(233,251,233)" class="hidden">
+                                    <div style="display: flex">
+                                        <div style="width: 20%">
+                                            <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                                        </div>
+                                        <div style="width: 80%;text-align: start">
+                                            <h3 style="color:green;margin-top: 5px;font-weight: 550">Success</h3>
+                                            <p style="color: black;margin-top: -15px;font-size: 14px">${updateStatus}</p>
+                                        </div>
+                                    </div>           
                                 </div>
-                                <div class="mb-3 mt-3">
-                                    <button class="btn btn-outline-primary view-avatar">View Avatar</button>
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <input type="file" class="form-control" id="avatarInput" accept="image/*">
-                                </div>
-                                <button type="button" class="btn btn-outline-primary btn-block">Upload Avatar</button>
-                            </div>
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -53,61 +153,42 @@
         </div>
         <%@include file="Footer.jsp" %>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var avatarPreview = document.querySelector('.avatar-preview');
-                var avatarImage = avatarPreview.querySelector('img');
-                var viewAvatarButton = document.querySelector('.view-avatar');
-                var avatarExpanded = document.createElement('div');
-                avatarExpanded.classList.add('modal', 'fade');
-                avatarExpanded.id = 'avatarModal';
-                avatarExpanded.setAttribute('tabindex', '-1');
-                avatarExpanded.setAttribute('aria-labelledby', 'avatarModalLabel');
-                avatarExpanded.setAttribute('aria-hidden', 'true');
-                avatarExpanded.innerHTML = `
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-body text-center">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                <img src="${account.avatarURL}" style="height: 20rem; width: 20rem" alt="Avatar" class="img-fluid rounded-circle ">
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(avatarExpanded);
-
-                var modal = new bootstrap.Modal(document.getElementById('avatarModal'));
-
-                // Handle View Avatar button click
-                viewAvatarButton.addEventListener('click', function () {
-                    modal.show();
-                });
-
-                // Handle file input change for avatar preview
-                var avatarInput = document.getElementById('avatarInput');
-                avatarInput.addEventListener('change', function () {
-                    var file = this.files[0];
-                    if (file) {
-                        var reader = new FileReader();
-                        reader.onload = function (event) {
-                            avatarImage.src = event.target.result;
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-
-                // Example of handling upload button click
-                document.querySelector('.btn-outline-primary.btn-block').addEventListener('click', function () {
-                    // Logic to upload avatar (AJAX request or form submission)
-                    alert('Avatar upload functionality goes here.');
-                });
+            document.getElementById("overlay").addEventListener("click", function () {
+                closeAvatar();
             });
+
+            document.getElementById("seeAvatar").addEventListener("click", function () {
+                document.getElementById("overlay").style.display = "block";
+                var ImgAvatar = document.getElementById("ImgAvatar");
+                ImgAvatar.style.display = "block"; // Hiển thị khung xác nhận
+                setTimeout(function () {
+                    ImgAvatar.classList.add("active");
+                }, 50);
+            });
+
+            function closeAvatar() {
+                var ImgAvatar = document.getElementById("ImgAvatar");
+                ImgAvatar.classList.remove("active");
+                setTimeout(function () {
+                    ImgAvatar.style.display = "none"; // Ẩn khung xác nhận
+                    document.getElementById("overlay").style.display = "none";
+                }, 500);
+            }
+
+            function validateForm(event) {
+                var fileInput = document.querySelector('input[name="file"]');
+                var errorMessage = document.getElementById('error-message');
+                if (!fileInput.value) {
+errorMessage.style.display = 'block';
+                    event.preventDefault();
+                    return false;
+                }
+                errorMessage.style.display = 'none';
+                return true;
+            }
         </script>
+
+        <script src="js/Alter.js"></script>
     </body>
 </html>

@@ -145,8 +145,8 @@
                                 <input type="date" value="${sessionScope.checkOutDate}" name="check_out_date" required=""/>
                                 <label>Return</label>
                             </div>
-                                <p style="margin-bottom: 0px">Add date</p> 
-                                <p style="color: red"> ${requestScope.statusDate}</p>
+                            <p style="margin-bottom: 0px">Add date</p> 
+                            <p style="color: red"> ${requestScope.statusDate}</p>
                         </div>
                     </div>
                     <div class="form__group">
@@ -184,9 +184,13 @@
                         </div>
                     </div>
                     <h4 style="color: #2c97d2;">Lọc khách sạn</h4>
-                    <form id="filterForm">
+                    <form action="filterStarServlet" method="get">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="star" value="1" id="star1">
+                            
+                            <input class="form-check-input" type="radio" name="star" value="1" id="star1"
+                                   <c:if test="${requestScope.star == 1}">
+                                       checked=""
+                                    </c:if>>
                             <label class="form-check-label" for="star1">
                                 <i class="bi bi-star-fill stars"></i>
                             </label>
@@ -214,28 +218,92 @@
                             <label class="form-check-label" for="star5">
                                 <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
                             </label>
-                        </div>                                   
+                        </div>
+                        <button>Filter</button>
+
                     </form>
 
-                    <div class="container mt-3">
-                        <div class="slidecontainer">
-                            <span>min</span> <span>max</span>
-                            <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                            <p><b>Value: <span id="demo"></span>$</b></p>
-                        </div>
-                    </div>
+                    <!--                    <div class="container mt-3">
+                                            <div class="slidecontainer">
+                                                <span>min</span> <span>max</span>
+                                                <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                                                <p><b>Value: <span id="demo"></span>$</b></p>
+                                            </div>
+                                        </div>-->
 
                 </div>
                 <!-- Phần bên phải -->
                 <div class="col-md-9">
                     <div class="row">
-                        <c:if test="${requestScope.hotelList != null}">
+                        <c:if test="${requestScope.filterStarHotelList == null}">
+                            <c:if test="${sessionScope.hotelList != null}">
+                                <div class="col-md-12 mt-5">
+                                    <c:forEach var="hotel" items="${sessionScope.hotelList}" varStatus="status">
+                                        <div class="card mb-3">
+                                            <div class="row g-0">
+                                                <div class="col-md-4">
+                                                    <img src="${requestScope.hotelImgList[status.index]}" class="img-fluid h-100 rounded-start" alt="Hotel 1">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="card-body h-100">
+                                                        <h5 class="card-title d-flex justify-content-between align-items-center">
+                                                            ${hotel.name}
+                                                            <span class="px-0">
+                                                                <c:if test="${hotel.star == 5}">
+                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
+                                                                    </c:if>
+                                                                    <c:if test="${hotel.star == 4}">
+                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i>
+                                                                    </c:if>
+                                                                    <c:if test="${hotel.star == 3}">
+                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                    </c:if>
+                                                                    <c:if test="${hotel.star == 2}">
+                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                    </c:if>
+                                                                    <c:if test="${hotel.star == 1}">
+                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                    </c:if>
+                                                            </span>
+                                                        </h5>
+                                                        <div class="row">
+                                                            <p><i class="bi bi-location"></i>Đà Nẵng - <a href="https://maps.app.goo.gl/g2auqYTqpbokyX3E7">Show on map</a></p>
+                                                        </div>
+                                                        <p class="card-text"><i class="bi bi-geo-alt"></i> Địa điểm: ${hotel.address}</p>
+                                                        <p class="card-text text-success fw-medium"><i class="bi bi-check"></i> Free canellation</p>
+                                                        <p class="card-text text-success fw-medium"><i class="bi bi-check"></i> No prepayment needed <span class="text-muted text-success">- pay at property</span></p>
+                                                        <div class="card-divider"></div>
+                                                        <form action="viewHotelDetailServlet" method="get">
+                                                            <button class="btn btn-primary">Đặt Phòng</button>
+                                                            <input type="hidden" name="hotel_ID"value="${hotel.hotel_ID}">
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                                <div class="listPage"></div>
+                            </c:if>
+
+                            <c:if test="${requestScope.status == null}">
+                                <c:if test="${requestScope.hotelList == null}">
+                                    <div class="col-md-12 mt-5 text-center">
+                                        <div class="alert alert-success" role="alert">
+                                            Không có khách sạn hợp lệ !
+                                        </div>
+                                    </div>
+                                </c:if>
+                            </c:if>
+                        </c:if>
+                        <!-- Filter star  -->
+                        <c:if test="${requestScope.filterStarHotelList != null}">
                             <div class="col-md-12 mt-5">
-                                <c:forEach var="hotel" items="${requestScope.hotelList}" varStatus="status">
+                                <c:forEach var="hotel" items="${requestScope.filterStarHotelList}" varStatus="status">
                                     <div class="card mb-3">
                                         <div class="row g-0">
                                             <div class="col-md-4">
-                                                <img src="${requestScope.hotelImgList[status.index]}" class="img-fluid h-100 rounded-start" alt="Hotel 1">
+                                                <img src="${requestScope.filterStarHotelImgList[status.index]}" class="img-fluid h-100 rounded-start" alt="Hotel 1">
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body h-100">
@@ -278,33 +346,25 @@
                             </div>
                             <div class="listPage"></div>
                         </c:if>
+                   
 
-                        <c:if test="${requestScope.status == null}">
-                            <c:if test="${requestScope.hotelList == null}">
-                                <div class="col-md-12 mt-5 text-center">
-                                    <div class="alert alert-success" role="alert">
-                                        Không có khách sạn hợp lệ !
-                                    </div>
-                                </div>
-                            </c:if>
-                        </c:if>
-                        <div class="col-md-12">
-                            <p>${requestScope.status}</p>
-                        </div>
+                    <div class="col-md-12">
+                        <p>${requestScope.status}</p>
                     </div>
                 </div>
             </div>
         </div>
-        <!--        <div class="loader">
-        
-                </div>-->
-        <%@include file="Footer.jsp"%>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
-        <script src="js/Search_Hotel.js"></script>
-        <script>
+    </div>
+    <!--        <div class="loader">
+    
+            </div>-->
+    <%@include file="Footer.jsp"%>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
+    <script src="js/Search_Hotel.js"></script>
+    <script>
                                 /* 
                                  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
                                  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
@@ -370,8 +430,8 @@
 //                                });
 
 
-        </script>
-    </body>
+    </script>
+</body>
 </html>
 
 

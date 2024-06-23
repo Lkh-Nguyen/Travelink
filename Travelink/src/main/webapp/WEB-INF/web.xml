@@ -144,6 +144,14 @@
         <servlet-name>SubmitFeedbackServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.SubmitFeedbackServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HotelHost_ViewHotelInformation</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_ViewHotelInformation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FilterStarServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.FilterStarServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -275,6 +283,14 @@
     <servlet-mapping>
         <servlet-name>SubmitFeedbackServlet</servlet-name>
         <url-pattern>/SubmitFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_ViewHotelInformation</servlet-name>
+        <url-pattern>/hotelHost_ViewHotelInformation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FilterStarServlet</servlet-name>
+        <url-pattern>/filterStarServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

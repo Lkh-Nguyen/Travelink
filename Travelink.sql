@@ -44,6 +44,7 @@ CREATE TABLE Hotel (
   CheckOutTimeEnd TIME(0) ,
   Address NVARCHAR(255) ,
   Ward_ID INT,
+  Status NVARCHAR(50),
   FOREIGN KEY (Ward_ID) REFERENCES Ward(Ward_ID)
 );
 GO
@@ -179,7 +180,7 @@ CREATE TABLE Reservation (
   Number_of_guests TINYINT NOT NULL,  -- Date reservation was made
   CheckInDate DATE NOT NULL,  -- Check-in date for the reservation
   CheckOutDate DATE NOT NULL,  -- Check-out date for the reservation
-  Total_Price DECIMAL(10,2) NOT NULL,  -- Use DECIMAL for currency with decimals
+  Total_Price INT NOT NULL,  -- Use DECIMAL for currency with decimals
   Payment_Method NVARCHAR(50) NOT NULL,  -- Payment method used (e.g., credit card, cash)
   Status NVARCHAR(50) NOT NULL, -- Paid / Canceled
   Account_ID INT NOT NULL,
@@ -201,13 +202,16 @@ CREATE TABLE Reserved_Room (
 GO
 
 
--- Create table Pending_Cancel_Reservation
-CREATE TABLE Pending_Cancel_Reservation (
-  Pending_Cancel_Reservation_ID INT IDENTITY(1,1) PRIMARY KEY,  -- Auto-incrementing unique identifier
+-- Create table Refunding_Reservation
+CREATE TABLE Refunding_Reservation (
+  Refunding_Reservation_ID INT IDENTITY(1,1) PRIMARY KEY,  -- Auto-incrementing unique identifier
   Cancel_Date DATETIME NOT NULL,  -- Date the cancellation request was submitted
+  Amount INT,
+  RefundTime DATETIME,
+  Status NVARCHAR(50),
   Reservation_ID INT NOT NULL,
   FOREIGN KEY (Reservation_ID) REFERENCES Reservation(Reservation_ID) ON DELETE CASCADE,
-  CONSTRAINT UniqueCancelRequest UNIQUE (Reservation_ID)  -- Ensures only one pending cancellation request per reservation
+  CONSTRAINT UniqueCancelRequestt UNIQUE (Reservation_ID)  -- Ensures only one pending cancellation request per reservation
 );
 GO
 
@@ -221,6 +225,19 @@ CREATE TABLE Promotion (
 );
 GO
 
+-- Create table Monthly Revenue
+CREATE TABLE MonthlyPayment (
+  Monthly_Payment_ID INT PRIMARY KEY IDENTITY(1,1),
+  Month TINYINT,
+  Year SMALLINT,
+  Amount INT,
+  Status NVARCHAR(50),
+  PaymentTime DATETIME,
+  Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
+);
+GO
+
+
 --Auto delete temporary reservation
 CREATE PROCEDURE DeleteExpiredReservations
 AS
@@ -230,4 +247,97 @@ BEGIN
       AND Payment_Method = 'VIETQR'
       AND Reservation_Date < DATEADD(MINUTE, -5, GETDATE());
 END
+GO
+
+CREATE PROCEDURE UpdateReservationStatus
+AS
+BEGIN
+    -- Update reservations where the current date is >= CheckInDate and < CheckOutDate
+    -- and the status is 'PAID' to 'PROCESSING'
+    UPDATE Reservation
+    SET Status = 'PROCESSING'
+    WHERE GETDATE() >= CheckInDate
+      AND GETDATE() < CheckOutDate
+      AND Status = 'PAID';
+
+    -- Update reservations where the current date is >= CheckOutDate
+    -- and the status is 'PROCESSING' to 'FINISHED'
+    UPDATE Reservation
+    SET Status = 'FINISHED'
+    WHERE GETDATE() >= CheckOutDate
+      AND Status = 'PROCESSING';
+END;
+GO
+
+
+--
+CREATE PROCEDURE CalculateMonthlyRevenueForAllHotelsCurrentMonthYear
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @Month TINYINT = MONTH(GETDATE());
+    DECLARE @Year SMALLINT = YEAR(GETDATE());
+    DECLARE @PaymentTime DATETIME = NULL;
+
+    -- Temporary table to hold aggregated data
+    CREATE TABLE #MonthlyRevenueData (
+        Hotel_ID INT,
+        TotalRevenue INT
+    );
+
+    -- Calculate revenue for hotels with reservations having status 'FINISHED', 'CANCEL', or 'REFUNDING'
+    INSERT INTO #MonthlyRevenueData (Hotel_ID, TotalRevenue)
+    SELECT
+        rm.Hotel_ID,
+        SUM(
+            CASE
+                WHEN r.Status = 'FINISHED' THEN r.Total_Price
+				WHEN r.Status = 'FEEDBACKED' THEN r.Total_Price
+                WHEN r.Status = 'CANCEL' THEN r.Total_Price - ISNULL(rr.Amount, 0)
+                WHEN r.Status = 'REFUNDING' THEN r.Total_Price - ISNULL(rr.Amount, 0)
+                ELSE 0
+            END
+        ) AS TotalRevenue
+    FROM
+        Reservation r
+    INNER JOIN
+        Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID
+    INNER JOIN
+        Room rm ON rr.Room_ID = rm.Room_ID
+    LEFT JOIN
+        Refunding_Reservation rf ON r.Reservation_ID = rf.Reservation_ID
+    WHERE
+        MONTH(r.CheckOutDate) = @Month
+        AND YEAR(r.CheckOutDate) = @Year
+        AND r.Status IN ('FINISHED','FEEDBACKED', 'CANCEL', 'REFUNDING')
+    GROUP BY
+        rm.Hotel_ID;
+
+    -- Insert into MonthlyPayment table
+    INSERT INTO MonthlyPayment (Month, Year, Amount, Status, PaymentTime, Hotel_ID)
+    SELECT
+        @Month,
+        @Year,
+        ISNULL(SUM(m.TotalRevenue), 0) AS Amount,
+        'NOT PAID',  -- Assuming all amounts are pending for now
+        @PaymentTime,
+        m.Hotel_ID
+    FROM
+        #MonthlyRevenueData m
+    GROUP BY
+        m.Hotel_ID;
+
+    -- Clean up temporary table
+    DROP TABLE #MonthlyRevenueData;
+
+    PRINT 'Monthly revenue calculation successful for all hotels for month ' + CAST(@Month AS VARCHAR(2)) + ', year ' + CAST(@Year AS VARCHAR(4)) + '.';
+END;
+GO
+
+EXEC CalculateMonthlyRevenueForAllHotelsCurrentMonthYear;
+
+
+
+
+
 

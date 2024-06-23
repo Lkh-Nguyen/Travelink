@@ -24,10 +24,19 @@ public class Hotel {
     private LocalTime checkOutTimeStart;
     private LocalTime checkOutTimeEnd;
     private String address;
+    private String status;
     private int ward_ID;
 
     // Constructor
     public Hotel() {}
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     // Getters and Setters
     public int getHotel_ID() {
@@ -154,9 +163,7 @@ public class Hotel {
 
     @Override
     public String toString() {
-        return "Hotel{" + "hotel_ID=" + hotel_ID + ", name=" + name + ", email=" + email + ", star=" + star + ", rating=" + rating + ", phoneNumber=" + phoneNumber + ", description=" + description + ", checkInTimeStart=" + checkInTimeStart + ", checkInTimeEnd=" + checkInTimeEnd + ", checkOutTimeStart=" + checkOutTimeStart + ", checkOutTimeEnd=" + checkOutTimeEnd + ", address=" + address + ", ward_ID=" + ward_ID + '}';
-    }
-
-    
+        return "Hotel{" + "hotel_ID=" + hotel_ID + ", name=" + name + ", email=" + email + ", star=" + star + ", rating=" + rating + ", phoneNumber=" + phoneNumber + ", description=" + description + ", checkInTimeStart=" + checkInTimeStart + ", checkInTimeEnd=" + checkInTimeEnd + ", checkOutTimeStart=" + checkOutTimeStart + ", checkOutTimeEnd=" + checkOutTimeEnd + ", address=" + address + ", status=" + status + ", ward_ID=" + ward_ID + '}';
+    }    
 }
 

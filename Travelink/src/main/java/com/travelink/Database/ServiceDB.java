@@ -73,6 +73,52 @@ public class ServiceDB implements DatabaseInfo {
         return services;
     }
 
+    public static List<Service> getServiceByHotelID(int hotelID) {
+        List<Service> services = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT s.Service_ID, s.Name "
+                        + "FROM Hotel_Service hs "
+                        + "JOIN Service s ON hs.Service_ID = s.Service_ID "
+                        + "WHERE hs.Hotel_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, hotelID); // Set the hotel ID parameter
+                resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Service service = new Service();
+                    service.setServiceID(resultSet.getInt("Service_ID"));
+                    service.setName(resultSet.getString("Name"));
+                    services.add(service);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting services by hotel ID: " + e);
+        } finally {
+            // Close resources
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return services;
+    }
+
     public static void main(String[] args) throws SQLException {
 
         // Test getServiceByID

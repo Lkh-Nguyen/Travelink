@@ -140,14 +140,14 @@
                             <div class="card-body">
                                 <table class="table-hover table align-items-center justify-content-center">
                                     <thead>
-                                        <tr>
+                                        <tr class="text-center">
                                             <th scope="col">No.</th>
                                             <th scope="col">HOTEL NAME</th>
                                             <th scope="col">SERVICE</th>
-                                            <th scope="col">LOCATION</th>
                                             <th scope="col">PRICE</th>
+                                            <th scope="col">LOCATION</th>                       
                                             <th scope="col">HOTEL INFORMATION</th>
-                                            <th scope="col">UPDATE & DELETE & ADD</th>
+                                            <th scope="col">ACTION</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-group-divider">
@@ -157,30 +157,21 @@
                                             <tr>
                                                 <th scope="row">${status.index +1}</th>
                                                 <td>${hotel.name}</td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="img_Hotel/breakfast.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                        <p class="card-title mb-0">Breakfast</p>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="img_Hotel/buffet.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                        <p class="card-title mb-0">Buffet</p>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="img_Hotel/karaoke.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                                        <p class="card-title mb-0">Karaoke</p>
-                                                    </div>
-                                                </td>
-                                                <td>Bắc Giang - <a href="#"><img src="img_Hotel/map.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2"></a></td>
-                                                <td>
-                                                    <div>$20</div>
-                                                    <div>$30</div>
-                                                    <div>$50</div>
-                                                </td>
+                                                <c:forEach items="${hotel.getService()}" var="service">
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="img_Hotel/breakfast.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
+                                                            <p class="card-title mb-0">${service.name}</p>
+                                                        </div>
+                                                    </td>                                                
+                                                    <td>
+                                                        <div>${service.getPrice(hotel.hotel_ID)}</div>
+                                                    </td>
+                                                </c:forEach>
+                                                <td>${hotel.getLocation()} - <a href="#"><img src="img_Hotel/map.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2"></a></td>
                                                 <td><a class="btn btn-outline-primary"><img src="img_Hotel/view.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">View</a></td>
                                                 <td>
                                                     <a class="btn btn-success"><img src="img_Hotel/update.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Update</a>
-                                                    <a class="btn btn-danger"><img src="img_Hotel/delete.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Delete</a>
                                                     <a class="btn btn-secondary"><img src="img_Hotel/create.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Add</a>
                                                 </td>
                                             </tr>
@@ -193,6 +184,30 @@
                 </div>
             </div>
         </div>
+        <!-- Button to trigger modal -->
+        <!--<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+          Delete Item
+        </button>-->
+
+        <!-- Modal -->
+        <!--<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to delete?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>-->
+
         <%@include file="Footer.jsp" %>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>

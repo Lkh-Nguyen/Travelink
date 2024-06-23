@@ -104,6 +104,72 @@ public class HotelServiceDB implements DatabaseInfo {
         }
         return hotels;
     }
+    public static int getPriceByHotelIDByServiceID(int hotelID, int serviceID) {
+        Integer price = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT Price FROM Hotel_Service WHERE Hotel_ID = ? AND Service_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, hotelID);
+                statement.setInt(2, serviceID);
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    price = resultSet.getInt("Price");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting price by hotel ID and service ID: " + e);
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return price;
+    }
+    
+    public static boolean insertHotelService(int hotelID, int serviceID, int price) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        boolean isInserted = false;
+
+        try {   
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "INSERT INTO Hotel_Service (Hotel_ID, Service_ID, Price) VALUES (?, ?, ?)";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, hotelID);
+                statement.setInt(2, serviceID);
+                statement.setInt(3, price);
+
+                int rowsInserted = statement.executeUpdate();
+                if (rowsInserted > 0) {
+                    isInserted = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error inserting hotel service: " + e);
+        } finally {
+            try {
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return isInserted;
+    }
 
     public static void main(String[] args) throws SQLException {
 

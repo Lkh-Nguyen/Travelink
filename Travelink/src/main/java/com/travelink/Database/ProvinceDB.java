@@ -112,6 +112,50 @@ public class ProvinceDB implements DatabaseInfo {
         }
         return url;
     }
+    //Get Province Location by Hotel_ID
+    public static String getLocationByHotelID(int hotelID) {
+        String provinceName = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT p.name AS provinceName "
+                             + "FROM Hotel h "
+                             + "JOIN Ward w ON h.Ward_ID = w.Ward_ID "
+                             + "JOIN District d ON w.District_ID = d.District_ID "
+                             + "JOIN Province p ON d.Province_ID = p.Province_ID "
+                             + "WHERE h.Hotel_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, hotelID);
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    provinceName = resultSet.getString("provinceName");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting province location by hotel ID: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return provinceName;
+    }
 
     public static void main(String[] args) {
         List<Province> provinces;

@@ -8,6 +8,7 @@ package com.travelink.Servlet;
 import com.travelink.Database.OwnedHotelDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
+import com.travelink.Model.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;

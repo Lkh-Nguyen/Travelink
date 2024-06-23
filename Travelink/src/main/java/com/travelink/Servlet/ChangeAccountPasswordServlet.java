@@ -77,24 +77,27 @@ public class ChangeAccountPasswordServlet extends HttpServlet {
         String re_newpass = request.getParameter("re_newpassword");
         HttpSession session = request.getSession();
         Account Account = (Account) session.getAttribute("account");
-
+        String forwardPath = "";
+        if (Account.getRole() == 1) forwardPath = "My_Account_Change.jsp";
+        if (Account.getRole() == 2) forwardPath = "HotelHost_ChangePassword.jsp";
+        
         if (!Account.getPassword().equals(pass)) {
             request.setAttribute("error", "The old password is incorrect.");
-            request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
+            request.getRequestDispatcher(forwardPath).forward(request, response);
         } else if (pass.equalsIgnoreCase(newpass)) {
             request.setAttribute("error", "The new password must not be the same as the old password.");
-            request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
+            request.getRequestDispatcher(forwardPath).forward(request, response);
         } else if (!newpass.equalsIgnoreCase(re_newpass)) {
             request.setAttribute("error", "The new password does not match.");
-            request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
+            request.getRequestDispatcher(forwardPath).forward(request, response);
         } else if (AccountDB.changePassword(Account, newpass)) {
             request.setAttribute("updateStatus", "Updated password successfully.");
             Account.setPassword(newpass);
             session.setAttribute("account", Account);
-            request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
+            request.getRequestDispatcher(forwardPath).forward(request, response);
         } else {
             request.setAttribute("updateStatus", "Cập nhật mật khẩu không thành công!");
-            request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
+            request.getRequestDispatcher(forwardPath).forward(request, response);
         }
     }
 

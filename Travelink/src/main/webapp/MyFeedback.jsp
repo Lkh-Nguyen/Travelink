@@ -57,6 +57,9 @@
                                         <img src="${f.getAccount(f.feedbackID).avatarURL}" alt="Avatar" class="rounded-circle me-3" style="width: 50px; height: 50px;">
                                         ${f.getAccount(f.feedbackID).name}
                                     </h4>
+                                    <div class="mb-3">
+                                        Date: ${f.date}
+                                    </div>
                                     <div class="card-subtitle mt-2 mb-2 rating-container">
                                         Rating: 
                                         <c:forEach var="i" begin="1" end="5">

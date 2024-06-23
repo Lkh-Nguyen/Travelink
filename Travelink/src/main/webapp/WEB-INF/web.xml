@@ -145,12 +145,16 @@
         <servlet-class>com.travelink.Servlet.SubmitFeedbackServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>HotelHost_ViewHotelInformation</servlet-name>
-        <servlet-class>com.travelink.Servlet.HotelHost_ViewHotelInformation</servlet-class>
+        <servlet-name>ExportBillServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.ExportBillServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>FilterStarServlet</servlet-name>
-        <servlet-class>com.travelink.Servlet.FilterStarServlet</servlet-class>
+        <servlet-name>HotelHostHotelServiceServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHostHotelServiceServlet</servlet-class>
+        </servlet>
+        <servlet>
+        <servlet-name>DashboardServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.DashboardServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -285,12 +289,16 @@
         <url-pattern>/SubmitFeedbackServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>HotelHost_ViewHotelInformation</servlet-name>
-        <url-pattern>/hotelHost_ViewHotelInformation</url-pattern>
+        <servlet-name>ExportBillServlet</servlet-name>
+        <url-pattern>/ExportBillServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>FilterStarServlet</servlet-name>
-        <url-pattern>/filterStarServlet</url-pattern>
+        <servlet-name>HotelHostHotelServiceServlet</servlet-name>
+        <url-pattern>/HotelHostHotelServiceServlet</url-pattern>
+        </servlet-mapping>
+        <servlet-mapping>
+        <servlet-name>DashboardServlet</servlet-name>
+        <url-pattern>/DashboardServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

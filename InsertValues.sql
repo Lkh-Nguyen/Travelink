@@ -9,7 +9,7 @@ INSERT INTO Account (Email, Password, Name, Gender, DateOfBirth, PhoneNumber,Ava
 VALUES 
 ('example@email.com', '123', N'Nguyễn Văn Nam', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/avatar_default.jpg',1),
 ('nguyenlkhde170387@fpt.edu.vn','123',N'Le Kim Hoang Nguyen', 'M', '2003-06-30','0934726073','/Travelink/img_Avatar/avatar_default.jpg',1),
-('example1@fpt.edu.vn','123',N'Hoang Cong Minh', 'M', '2003-06-30','0934726073','/Travelink/img_Avatar/Screenshot 2024-05-18 231810.png',1),
+('example1@fpt.edu.vn','123',N'Hoang Cong Minh', 'M', '2003-06-30','0934726073','/Travelink/img_Avatar/Screenshot 2024-05-18 231810.png',2),
 ('example2@fpt.edu.vn','123',N'Pham Trong Hung', 'M', '2003-06-30','0934726073','/Travelink/img_Avatar/Screenshot 2024-05-31 212127.png',1),
 ('example3@fpt.edu.vn','123',N'Nguyen Van Duy An', 'M', '2003-06-30','0934726073','/Travelink/img_Avatar/Screenshot 2024-05-23 123209.png',1),
 ('example4@fpt.edu.vn','123',N'Nguyen Dinh Hoang Hai', 'M', '2003-06-30','0934726073','/Travelink/img_Avatar/Screenshot 2024-05-18 231843.png',1);
@@ -20,7 +20,7 @@ select *
 from Hotel
 
 INSERT INTO Hotel (
-  Name, Email, Star, Rating, PhoneNumber, Description, CheckInTimeStart, CheckInTimeEnd, CheckOutTimeStart, CheckOutTimeEnd, Address, Ward_ID
+  Name, Email, Star, Rating, PhoneNumber, Description, CheckInTimeStart, CheckInTimeEnd, CheckOutTimeStart, CheckOutTimeEnd, Address, Ward_ID, Status
 ) VALUES 
 
 --da nang--
@@ -28,133 +28,133 @@ INSERT INTO Hotel (
  N'Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Seashore Hotel & Apartment sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
  Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Davue Hotel Da Nang sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
  Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Davue Hotel Da Nang.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15-16 Hoàng Sa, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam', 6337),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15-16 Hoàng Sa, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam', 6337, 'ACTIVE'),
 (N'Davue Hotel Da Nang', 'email2@gmail.com', 3,4, '0123456789',
  N'Davue Hotel Da Nang là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
  Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Davue Hotel Da Nang sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
  Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Davue Hotel Da Nang',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'57-59 Đỗ Bí, Mỹ An, Ngũ Hành Sơn, Đà Nẵng, Việt Nam', 6337),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'57-59 Đỗ Bí, Mỹ An, Ngũ Hành Sơn, Đà Nẵng, Việt Nam', 6337, 'ACTIVE'),
 (N'Cicilia Danang Hotels & Spa Powered by ASTON', 'email3@gmail.com', 3,5, '0123456789',
  N'Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Cicilia Danang Hotels & Spa Powered by ASTON.
  Cicilia Danang Hotels & Spa Powered by ASTON là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.
  Một trong những đặc điểm chính của khách sạn này là các liệu pháp spa đa dạng. Hãy nâng niu bản thân bằng các liệu pháp thư giãn, phục hồi giúp quý khách tươi trẻ thân, tâm.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'06-10 Đỗ Bá, Bãi Biển T20, Phường Mỹ An, Mỹ An, Ngũ Hành Sơn, Đà Nẵng, Việt Nam', 6337),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'06-10 Đỗ Bá, Bãi Biển T20, Phường Mỹ An, Mỹ An, Ngũ Hành Sơn, Đà Nẵng, Việt Nam', 6337, 'ACTIVE'),
 (N'Bay Capital Danang', 'email4@gmail.com', 1,1, '0123456789',
  N'Dù quý khách muốn tổ chức một sự kiện hay các dịp kỷ niệm đặc biệt khác, Bay Capital Danang là lựa chọn tuyệt vời cho quý khách với phòng chức năng rộng lớn, được trang bị đầy đủ để sẵn sàng đáp ứng mọi yêu cầu.
  Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Bay Capital Danang
  Bay Capital Danang là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'17 Quang Trung, Phường Hải Châu 1, Quận Hải Châu, Đà Nẵng, Việt Nam', 6337),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'17 Quang Trung, Phường Hải Châu 1, Quận Hải Châu, Đà Nẵng, Việt Nam', 6337, 'ACTIVE'),
 (N'Khu nghỉ dưỡng và Spa Mikazuki Nhật Bản', 'email5@gmail.com', 2,3, '0123456789',
  N'Từ sự kiện doanh nghiệp đến họp mặt công ty, Da Nang – Mikazuki JAPANESE RESORTS & SPA cung cấp đầy đủ các dịch vụ và tiện nghi đáp ứng mọi nhu cầu của quý khách và đồng nghiệp.
  Dù quý khách muốn tổ chức một sự kiện hay các dịp kỷ niệm đặc biệt khác, Da Nang – Mikazuki JAPANESE RESORTS & SPA là lựa chọn tuyệt vời cho quý khách với phòng chức năng rộng lớn, được trang bị đầy đủ để sẵn sàng đáp ứng mọi yêu cầu.
  Hãy tận hưởng thời gian vui vẻ cùng cả gia đình với hàng loạt tiện nghi giải trí tại Da Nang – Mikazuki JAPANESE RESORTS & SPA, một nơi nghỉ tuyệt vời phù hợp cho mọi kỳ nghỉ bên người thân.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'Đường Nguyễn Tất Thành, Phường Hòa Hiệp Nam, Hòa Hiệp Nam, Liên Chiểu, Đà Nẵng, Việt Nam', 6337),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'Đường Nguyễn Tất Thành, Phường Hòa Hiệp Nam, Hòa Hiệp Nam, Liên Chiểu, Đà Nẵng, Việt Nam', 6337, 'ACTIVE'),
 (N'Da Nang Bay', 'email6@gmail.com', 5,2, '0123456789',
 N'Không chỉ sở hữu vị trí giúp quý khách dễ dàng ghé thăm những địa điểm lý thú trong chuyến hành trình, Da Nang Bay cũng sẽ mang đến cho quý khách trải nghiệm lưu trú mỹ mãn.
 Da Nang Bay là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
 Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Da Nang Bay sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
 Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Da Nang Bay.
 Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'52 Võ Nguyên Giáp, Phường Mân Thái, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam.', 6337),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'52 Võ Nguyên Giáp, Phường Mân Thái, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam.', 6337, 'ACTIVE'),
  (N'Sel de Mer Hotel & Suites', 'email7@gmail.com', 1,1, '0123456789',
 N'Không chỉ sở hữu vị trí giúp quý khách dễ dàng ghé thăm những địa điểm lý thú trong chuyến hành trình, Da Nang Bay cũng sẽ mang đến cho quý khách trải nghiệm lưu trú mỹ mãn.
 Da Nang Bay là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
 Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Da Nang Bay sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
 Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Da Nang Bay.
 Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'92 Võ Nguyên Giáp, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam.', 6337),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'92 Võ Nguyên Giáp, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam.', 6337, 'ACTIVE'),
 (N'Dolphin Hotel and Apartment', 'email8@gmail.com', 3,2, '0123456789',
 N'Không chỉ sở hữu vị trí giúp quý khách dễ dàng ghé thăm những địa điểm lý thú trong chuyến hành trình, Da Nang Bay cũng sẽ mang đến cho quý khách trải nghiệm lưu trú mỹ mãn.
 Da Nang Bay là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
 Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Da Nang Bay sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
 Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Da Nang Bay.
 Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
-'12:00:00', '22:00:00', '10:00:00', '12:00:00', N'09 Tân Thuận, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam.', 6337),
+'12:00:00', '22:00:00', '10:00:00', '12:00:00', N'09 Tân Thuận, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam.', 6337, 'ACTIVE'),
 (N'Le Sands Oceanfront Danang Hotel', 'email9@gmail.com', 2,2, '0123456789',
 N'Không chỉ sở hữu vị trí giúp quý khách dễ dàng ghé thăm những địa điểm lý thú trong chuyến hành trình, Da Nang Bay cũng sẽ mang đến cho quý khách trải nghiệm lưu trú mỹ mãn.
 Da Nang Bay là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
 Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Da Nang Bay sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
 Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Da Nang Bay.
 Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
-'12:00:00', '22:00:00', '10:00:00', '12:00:00', N'28 Vo Nguyen Giap, Man Thai, Son Tra, Danang, Mân Thái, Sơn Trà, Đà Nẵng.', 6337),
+'12:00:00', '22:00:00', '10:00:00', '12:00:00', N'28 Vo Nguyen Giap, Man Thai, Son Tra, Danang, Mân Thái, Sơn Trà, Đà Nẵng.', 6337, 'ACTIVE'),
 (N'The Leaf Boutique', 'email10@gmail.com', 5,4, '0123456789',
 N'Không chỉ sở hữu vị trí giúp quý khách dễ dàng ghé thăm những địa điểm lý thú trong chuyến hành trình, Da Nang Bay cũng sẽ mang đến cho quý khách trải nghiệm lưu trú mỹ mãn.
 Da Nang Bay là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
 Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Da Nang Bay sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
 Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Da Nang Bay.
 Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
-'12:00:00', '22:00:00', '10:00:00', '12:00:00', N'38 Võ Nguyên Giáp, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam.', 6337),
+'12:00:00', '22:00:00', '10:00:00', '12:00:00', N'38 Võ Nguyên Giáp, Mân Thái, Sơn Trà, Đà Nẵng, Việt Nam.', 6337, 'ACTIVE'),
 
 --Ho Chi Minh-
 (N'Hotel Brilliant', 'email11@gmail.com', 4,1, '0123456789',
  N'Tọa lạc tại khu vực sầm uất của Đà Nẵng, Hotel Brilliant mang đến cho du khách trải nghiệm lưu trú tuyệt vời với dịch vụ chuyên nghiệp và không gian sang trọng.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'22 Lý Chính Thắng, Vo Thi Sau, Quận 3, Thành phố Hồ Chí Minh, Việt Nam',8670 ),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'22 Lý Chính Thắng, Vo Thi Sau, Quận 3, Thành phố Hồ Chí Minh, Việt Nam',8670, 'ACTIVE' ),
 (N'Sofia Boutique Hotel', 'email12@gmail.com', 3,1, '0123456789',
  N'Sofia Boutique Hotel là lựa chọn lý tưởng cho những du khách muốn tận hưởng kỳ nghỉ thoải mái với ngân sách tiết kiệm. Với các dịch vụ chất lượng và tiện nghi hiện đại, khách sạn này hứa hẹn mang đến cho du khách những trải nghiệm đáng nhớ.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'150 Hoa Minh, Vo Thi Sau, Quận 4, Thành phố Hồ Chí Minh, Việt Nam',8670 ),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'150 Hoa Minh, Vo Thi Sau, Quận 4, Thành phố Hồ Chí Minh, Việt Nam',8670, 'ACTIVE' ),
 (N'Balcona Hotel Da Nang', 'email13@gmail.com', 5,1, '0123456789',
  N'Balcona Hotel Da Nang là khách sạn 5 sao sang trọng, mang đến cho du khách những trải nghiệm xa hoa với dịch vụ xuất sắc và không gian đẳng cấp. Hãy tận hưởng những giây phút thư giãn tuyệt vời tại đây.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670, 'ACTIVE'),
 (N'Diamond Sea Hotel', 'email14@gmail.com', 4,1, '0123456789',
  N'Diamond Sea Hotel là lựa chọn lý tưởng cho du khách muốn tận hưởng không gian nghỉ dưỡng thoải mái với tầm nhìn tuyệt đẹp ra biển. Khách sạn cung cấp các tiện nghi cao cấp và dịch vụ chuyên nghiệp.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670, 'ACTIVE'),
 (N'Thanh Lich Hotel', 'email15@gmail.com', 3,1, '0123456789',
 N'Không chỉ sở hữu vị trí giúp quý khách dễ dàng ghé thăm những địa điểm lý thú trong chuyến hành trình, Da Nang Bay cũng sẽ mang đến cho quý khách trải nghiệm lưu trú mỹ mãn.
 Da Nang Bay là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
 Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Da Nang Bay sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
 Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Da Nang Bay.
 Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
-'12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670),
+'12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670, 'ACTIVE'),
 (N'Orange Hotel Da Nang', 'email16@gmail.com', 2,1, '0123456789',
  N'Orange Hotel Da Nang là lựa chọn phổ biến của du khách muốn khám phá Đà Nẵng với ngân sách tiết kiệm. Khách sạn cung cấp các phòng nghỉ thoải mái và dịch vụ đáng giá, giúp du khách có những trải nghiệm tuyệt vời.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670, 'ACTIVE'),
 (N'Hanoi Golden Hotel', 'email17@gmail.com', 1,2, '0123456789',
  N'Với vị trí thuận lợi và dịch vụ tận tâm, Hanoi Golden Hotel là lựa chọn phổ biến của du khách khi đến Đà Nẵng. Khách sạn cung cấp các tiện nghi cơ bản nhưng đảm bảo sự thoải mái và tiện lợi cho du khách.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670, 'ACTIVE'),
 (N'Pearl Sea Hotel', 'email18@gmail.com', 3,3, '0123456789',
  N'Với vị trí tuyệt vời ngay trung tâm thành phố, Pearl Sea Hotel là lựa chọn lý tưởng cho du khách muốn khám phá Đà Nẵng dễ dàng. Khách sạn cung cấp không gian nghỉ ngơi thoải mái và các tiện nghi tiện lợi.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670, 'ACTIVE'),
 (N'New Moon Hotel', 'email19@gmail.com', 2,3, '0123456789',
  N'New Moon Hotel là lựa chọn phù hợp cho du khách muốn khám phá Đà Nẵng với ngân sách tiết kiệm. Khách sạn cung cấp các phòng nghỉ thoải mái và dịch vụ tận tâm, đem lại cho du khách những trải nghiệm thú vị.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670, 'ACTIVE'),
 (N'Nhu Minh Plaza Hotel Da Nang', 'email20@gmail.com', 4,5, '0123456789',
  N'Nhu Minh Plaza Hotel Da Nang mang đến cho du khách trải nghiệm lưu trú sang trọng và đẳng cấp với không gian hiện đại và dịch vụ chuyên nghiệp. Hãy khám phá Đà Nẵng và tận hưởng kỳ nghỉ tuyệt vời tại đây.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'15 Tố Hữu, Vo Thi Sau, Quận 9, Thành phố Hồ Chí Minh, Việt Nam', 8670, 'ACTIVE'),
  --Ha Noi--
  (N'Khách Sạn Ha Noi Le Grand', 'email21@gmail.com', 4,5, '0123456789',
  N'Tọa lạc tại khu vực sầm uất của Đà Nẵng, Hotel Brilliant mang đến cho du khách trải nghiệm lưu trú tuyệt vời với dịch vụ chuyên nghiệp và không gian sang trọng.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam',1 ),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam',1 , 'ACTIVE'),
 (N'Sofia Hello Boutique Hotel', 'email22@gmail.com', 3,4, '0123456789',
  N'Sofia Boutique Hotel là lựa chọn lý tưởng cho những du khách muốn tận hưởng kỳ nghỉ thoải mái với ngân sách tiết kiệm. Với các dịch vụ chất lượng và tiện nghi hiện đại, khách sạn này hứa hẹn mang đến cho du khách những trải nghiệm đáng nhớ.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam',1 ),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam',1 , 'ACTIVE'),
 (N'Balcona Nice Try Hotel Da Nang', 'email23@gmail.com', 5,4, '0123456789',
  N'Balcona Hotel Da Nang là khách sạn 5 sao sang trọng, mang đến cho du khách những trải nghiệm xa hoa với dịch vụ xuất sắc và không gian đẳng cấp. Hãy tận hưởng những giây phút thư giãn tuyệt vời tại đây.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1, 'ACTIVE'),
 (N'Diamond SeaGame 21 Hotel', 'email24@gmail.com', 4,4, '0123456789',
  N'Diamond Sea Hotel là lựa chọn lý tưởng cho du khách muốn tận hưởng không gian nghỉ dưỡng thoải mái với tầm nhìn tuyệt đẹp ra biển. Khách sạn cung cấp các tiện nghi cao cấp và dịch vụ chuyên nghiệp.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1, 'ACTIVE'),
 (N'Thanh Lich Thanh Lich Hotel', 'email25@gmail.com', 3,2, '0123456789',
 N'Không chỉ sở hữu vị trí giúp quý khách dễ dàng ghé thăm những địa điểm lý thú trong chuyến hành trình, Da Nang Bay cũng sẽ mang đến cho quý khách trải nghiệm lưu trú mỹ mãn.
 Da Nang Bay là đề xuất hàng đầu dành cho những tín đồ du lịch "bụi" mong muốn được nghỉ tại một khách sạn vừa thoải mái lại hợp túi tiền.
 Dành cho những du khách muốn du lịch thoải mái cùng ngân sách tiết kiệm, Da Nang Bay sẽ là lựa chọn lưu trú hoàn hảo, nơi cung cấp các tiện nghi chất lượng và dịch vụ tuyệt vời.
 Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Da Nang Bay.
 Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm một trải nghiệm xa hoa đầy thú vị trong kỳ nghỉ của mình. Lưu trú tại đây cũng là cách để quý khách chiều chuộng bản thân với những dịch vụ xuất sắc nhất và khiến kỳ nghỉ của mình trở nên thật đáng nhớ.',
-'12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1),
+'12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1, 'ACTIVE'),
 (N'Orange Hotel Apple Da Nang', 'email26@gmail.com', 2,1, '0123456789',
  N'Orange Hotel Da Nang là lựa chọn phổ biến của du khách muốn khám phá Đà Nẵng với ngân sách tiết kiệm. Khách sạn cung cấp các phòng nghỉ thoải mái và dịch vụ đáng giá, giúp du khách có những trải nghiệm tuyệt vời.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1, 'ACTIVE'),
 (N'Hanoi Golden Master Hotel', 'email27@gmail.com', 1,2, '0123456789',
  N'Với vị trí thuận lợi và dịch vụ tận tâm, Hanoi Golden Hotel là lựa chọn phổ biến của du khách khi đến Đà Nẵng. Khách sạn cung cấp các tiện nghi cơ bản nhưng đảm bảo sự thoải mái và tiện lợi cho du khách.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1, 'ACTIVE'),
 (N'Pearlimlk Nice Sea Hotel', 'email28@gmail.com', 3,3, '0123456789',
  N'Với vị trí tuyệt vời ngay trung tâm thành phố, Pearl Sea Hotel là lựa chọn lý tưởng cho du khách muốn khám phá Đà Nẵng dễ dàng. Khách sạn cung cấp không gian nghỉ ngơi thoải mái và các tiện nghi tiện lợi.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1, 'ACTIVE'),
 (N'New Moon Sun Day Hotel', 'email29@gmail.com', 2,3, '0123456789',
  N'New Moon Hotel là lựa chọn phù hợp cho du khách muốn khám phá Đà Nẵng với ngân sách tiết kiệm. Khách sạn cung cấp các phòng nghỉ thoải mái và dịch vụ tận tâm, đem lại cho du khách những trải nghiệm thú vị.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1),
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1, 'ACTIVE'),
 (N'Nhu Minh Plaza Hello Word Hotel Da Nang', 'email30@gmail.com', 4,8, '0123456789',
  N'Nhu Minh Plaza Hotel Da Nang mang đến cho du khách trải nghiệm lưu trú sang trọng và đẳng cấp với không gian hiện đại và dịch vụ chuyên nghiệp. Hãy khám phá Đà Nẵng và tận hưởng kỳ nghỉ tuyệt vời tại đây.',
- '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1);	
+ '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1, 'ACTIVE');	
  -----------------------------------------------------------------------------------------------------------------
  --insert table Hotel_Image --
  select *
@@ -698,36 +698,33 @@ DECLARE @Account_ID INT = 6;
 INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
 VALUES
 --cancel
-('2024-06-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'Credit Card', 'CANCEL', @Account_ID),
-('2024-06-02', 3, '2024-06-12', '2024-06-17', 500.00, 'Credit Card', 'CANCEL', @Account_ID),
-('2024-06-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'Credit Card', 'CANCEL', @Account_ID),
-('2024-06-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'Credit Card', 'CANCEL', @Account_ID),
-('2024-06-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'Credit Card', 'CANCEL', @Account_ID),
-('2024-06-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'Credit Card', 'CANCEL', @Account_ID),
+('2024-06-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-02', 3, '2024-06-12', '2024-06-17', 500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'CANCEL', @Account_ID),
 
 --paid , not finish , not feedback
-('2024-06-02', 5, '2024-06-11', '2024-06-26', 2100.00, 'Credit Card', 'PAID', @Account_ID),
-('2024-06-05', 6, '2024-06-12', '2024-06-27', 4100.00, 'Credit Card', 'PAID', @Account_ID),
-('2024-06-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'Credit Card', 'PAID', @Account_ID),
-('2024-06-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'Credit Card', 'PAID', @Account_ID),
-('2024-06-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'Credit Card', 'PAID', @Account_ID),
+('2024-06-02', 5, '2024-06-11', '2024-06-26', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-06-05', 6, '2024-06-12', '2024-06-27', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-06-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-06-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-06-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'VIETQR', 'PAID', @Account_ID),
 
 --paid , finish, not feedback
-('2024-05-03', 5, '2024-05-11', '2024-05-26', 2100.00, 'Credit Card', 'PAID', @Account_ID),
-('2024-05-05', 6, '2024-05-12', '2024-05-27', 4100.00, 'Credit Card', 'PAID', @Account_ID),
-('2024-05-04', 7, '2024-05-13', '2024-05-28', 4100.00, 'Credit Card', 'PAID', @Account_ID),
-('2024-05-05', 2, '2024-05-14', '2024-05-29', 3100.00, 'Credit Card', 'PAID', @Account_ID),
-('2024-05-06', 3, '2024-05-15', '2024-05-30', 2100.00, 'Credit Card', 'PAID', @Account_ID),
+('2024-05-03', 5, '2024-05-11', '2024-05-26', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-05-05', 6, '2024-05-12', '2024-05-27', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-05-04', 7, '2024-05-13', '2024-05-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-05-05', 2, '2024-05-14', '2024-05-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-05-06', 3, '2024-05-15', '2024-05-30', 2100.00, 'VIETQR', 'PAID', @Account_ID),
 --finish,feedback
-('2024-05-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'Credit Card', 'FINISH', @Account_ID),
-('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'Credit Card', 'FINISH', @Account_ID),
+('2024-05-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FINISH', @Account_ID),
+('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISH', @Account_ID),
 
 --not paid
-('2024-05-02', 3, '2024-06-20', '2024-06-26', 25100.00, 'Credit Card', 'NOT PAID', @Account_ID),
-('2024-05-05', 2, '2024-06-21', '2024-06-27', 15100.00, 'Credit Card', 'NOT PAID', @Account_ID),
-('2024-05-04', 1, '2024-06-22', '2024-06-28', 35100.00, 'Credit Card', 'NOT PAID', @Account_ID),
-('2024-05-05', 4, '2024-06-23', '2024-06-29', 45100.00, 'Credit Card', 'NOT PAID', @Account_ID),
-('2024-05-06', 5, '2024-06-24', '2024-06-30', 55100.00, 'Credit Card', 'NOT PAID', @Account_ID);
+('2024-05-02', 3, '2024-06-20', '2024-06-26', 25100.00, 'VIETQR', 'NOT PAID', @Account_ID)
+
 
 
 

@@ -5,6 +5,7 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.ReservationDB;
+import com.travelink.Model.Account;
 import com.travelink.Model.Reservation;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -59,13 +60,21 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false); // Get existing session (don't create if not exist)
+        Account acc = (Account) session.getAttribute("account");
+        String forward = "";
+        if (acc.getRole() == 1){
+            forward = "Home_Customer.jsp";
+        }
+        else if(acc.getRole() == 2){
+            forward = "Home_HotelHost.jsp";
+        }
 
         if (session != null) {
             session.invalidate(); 
         }
         
         request.setAttribute("loggout", "Loggout account success successfully.");
-        request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
+        request.getRequestDispatcher(forward).forward(request, response);
     }
 
     /**

@@ -25,36 +25,45 @@ import java.util.Map;
  */
 public class HotelDB implements DatabaseInfo {
 
-    public static List<Hotel> getAllHotels() throws SQLException {
+    public static List<Hotel> getAllActiveHotels() throws SQLException {
         List<Hotel> hotels = new ArrayList<>();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
 
-        // Using try-with-resources to ensure resources are closed properly
-        try (Connection connection = DatabaseInfo.getConnect(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery("SELECT * FROM Hotel ORDER BY Rating DESC")) {
+        try {
+            connection = DatabaseInfo.getConnect();
 
-            while (resultSet.next()) {
-                Hotel hotel = new Hotel();
-                hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
-                hotel.setName(resultSet.getString("Name"));
-                hotel.setEmail(resultSet.getString("Email"));
-                hotel.setStar(resultSet.getInt("Star"));
-                hotel.setRating(resultSet.getFloat("Rating"));
-                hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
-                hotel.setDescription(resultSet.getString("Description"));
-                // Convert SQL TIME to LocalTime
-                hotel.setCheckInTimeStart(resultSet.getTime("CheckInTimeStart").toLocalTime());
-                hotel.setCheckInTimeEnd(resultSet.getTime("CheckInTimeEnd").toLocalTime());
-                hotel.setCheckOutTimeStart(resultSet.getTime("CheckOutTimeStart").toLocalTime());
-                hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
-                hotel.setAddress(resultSet.getString("Address"));
-                hotel.setWard_ID(resultSet.getInt("Ward_ID"));
-                hotels.add(hotel);
+            if (connection != null) {
+                String query = "SELECT * FROM Hotel WHERE status = 'ACTIVE'";
+                statement = connection.createStatement();
+                resultSet = statement.executeQuery(query);
+
+                while (resultSet.next()) {
+                    Hotel hotel = new Hotel();
+                    hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
+                    hotel.setName(resultSet.getString("Name"));
+                    hotel.setEmail(resultSet.getString("Email"));
+                    hotel.setStar(resultSet.getInt("Star"));
+                    hotel.setRating(resultSet.getFloat("Rating"));
+                    hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
+                    hotel.setDescription(resultSet.getString("Description"));
+                    // Convert SQL TIME to LocalTime (assuming database uses TIME datatype)
+                    hotel.setCheckInTimeStart(resultSet.getTime("CheckInTimeStart").toLocalTime());
+                    hotel.setCheckInTimeEnd(resultSet.getTime("CheckInTimeEnd").toLocalTime());
+                    hotel.setCheckOutTimeStart(resultSet.getTime("CheckOutTimeStart").toLocalTime());
+                    hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
+                    hotel.setAddress(resultSet.getString("Address"));
+                    hotel.setWard_ID(resultSet.getInt("Ward_ID"));
+                    hotels.add(hotel);
+                }
             }
         } catch (SQLException e) {
             System.out.println("Error getting all hotels: " + e);
-            throw e; // Rethrow the exception to adhere to the method's contract
         }
         return hotels;
     }
+
 
     public static Hotel getHotelByID(int id) {
         Hotel hotel = null;
@@ -95,7 +104,7 @@ public class HotelDB implements DatabaseInfo {
         return hotel;
     }
 
-    public static List<Hotel> getHotelsByWardID(int wardID) {
+    public static List<Hotel> getActiveHotelsByWardID(int wardID) {
         List<Hotel> hotels = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -105,7 +114,7 @@ public class HotelDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM Hotel WHERE Ward_ID = ?";
+                String query = "SELECT * FROM Hotel WHERE Ward_ID = ? AND status = 'ACTIVE'";
                 statement = connection.prepareStatement(query);
                 statement.setInt(1, wardID); // Set the ward ID parameter
                 resultSet = statement.executeQuery();
@@ -135,7 +144,7 @@ public class HotelDB implements DatabaseInfo {
         return hotels;
     }
 
-    public static List<Hotel> getHotelsByProvince(String provinceName) {
+    public static List<Hotel> getActiveHotelsByProvince(String provinceName) {
         List<Hotel> hotels = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -145,7 +154,11 @@ public class HotelDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM Hotel h INNER JOIN Ward w ON h.Ward_ID = w.Ward_ID INNER JOIN District d ON w.District_ID = d.District_ID INNER JOIN Province p ON d.Province_ID = p.Province_ID WHERE p.Name = ?";
+                String query = "SELECT * FROM Hotel h "
+                        + "INNER JOIN Ward w ON h.Ward_ID = w.Ward_ID "
+                        + "INNER JOIN District d ON w.District_ID = d.District_ID "
+                        + "INNER JOIN Province p ON d.Province_ID = p.Province_ID "
+                        + "WHERE p.Name = ? AND h.status = 'ACTIVE'";
                 statement = connection.prepareStatement(query);
                 statement.setString(1, provinceName); // Set the province name parameter
                 resultSet = statement.executeQuery();
@@ -180,7 +193,7 @@ public class HotelDB implements DatabaseInfo {
         List<Integer> districtIDList = new ArrayList<>();
         List<Province> proviceList = ProvinceDB.getAllProvince();
         List<Ward> wardList = WardDB.getAllWards();
-        List<Hotel> hotelList = HotelDB.getAllHotels();
+        List<Hotel> hotelList = HotelDB.getAllActiveHotels();
         List<Hotel> newHotelList = new ArrayList<>();
         int proviceId = 0;
         int districtId = 0;
@@ -216,7 +229,7 @@ public class HotelDB implements DatabaseInfo {
 
         // Test getAllHotels
         System.out.println("** Test getAllHotels **");
-        List<Hotel> allHotels = HotelDB.getAllHotels();
+        List<Hotel> allHotels = HotelDB.getAllActiveHotels();
         if (allHotels.isEmpty()) {
             System.out.println("No hotels found in the database.");
         } else {
@@ -240,7 +253,7 @@ public class HotelDB implements DatabaseInfo {
         // Test getHotelsByWardID
         System.out.println("\n** Test getHotelsByWardID **");
         int targetWardID = 6338; // Replace with an existing ward ID
-        List<Hotel> hotelsInWard = HotelDB.getHotelsByWardID(targetWardID);
+        List<Hotel> hotelsInWard = HotelDB.getActiveHotelsByWardID(targetWardID);
         if (hotelsInWard.isEmpty()) {
             System.out.println("No hotels found in ward " + targetWardID + ".");
         } else {

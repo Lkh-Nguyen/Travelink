@@ -78,24 +78,37 @@ public class LoginAccountServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Account cu = AccountDB.getAccount(email);
+        String roleStr = request.getParameter("role");
+        int role = Integer.parseInt(roleStr);
 //        PrintWriter printWriter = response.getWriter();
 //        printWriter.println(email);
 //        printWriter.print(password);
 //        printWriter.print(cu);
         if (cu == null) {
-            request.setAttribute("errorLogin", "Email not exist.");
-            request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
+            request.setAttribute("errorLogin", "Email does not exist.");
         } else if (!password.equals(cu.getPassword())) {
             request.setAttribute("errorLogin", "Password is incorrect.");
-            request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
         } else {
-            HttpSession session = request.getSession();
-            session.setAttribute("account", cu);
-            List<Province> locationList = ProvinceDB.getAllProvince();
-            request.setAttribute("locationList", locationList);
-            request.setAttribute("succesLogin", "Login successfully.");
-            request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
+            if (cu.getRole() != role) {
+                request.setAttribute("errorLogin", "You are logging in with the wrong permission role!");
+            } else {
+                HttpSession session = request.getSession();
+                session.setAttribute("account", cu);
+                if (role == 1) {
+                    List<Province> locationList = ProvinceDB.getAllProvince();
+                    request.setAttribute("locationList", locationList);
+                    request.setAttribute("successLogin", "Login successful.");
+                    request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
+                } else if (role == 2) {
+                    request.getRequestDispatcher("Home_HotelHost.jsp").forward(request, response);
+                }
+                return;
+            }
         }
+
+        String forwardPage = (role == 1) ? "Form_Login.jsp" : "HotelHost_Login.jsp";
+        request.getRequestDispatcher(forwardPage).forward(request, response);
+
     }
 
     /**

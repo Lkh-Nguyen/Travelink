@@ -40,7 +40,17 @@ public class OwnedHotelDB implements DatabaseInfo {
                 while (resultSet.next()) {
                     Hotel hotel = new Hotel(); // Assuming you have a Hotel model class
                     hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
-                    // Set other hotel attributes from the result set (refer to your Hotel model)
+                    hotel.setName(resultSet.getString("Name"));
+                    hotel.setEmail(resultSet.getString("Email"));
+                    hotel.setStar(resultSet.getInt("Star"));
+                    hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
+                    hotel.setDescription(resultSet.getString("Description"));
+                    hotel.setCheckInTimeStart(resultSet.getTime("CheckInTimeStart").toLocalTime());
+                    hotel.setCheckInTimeEnd(resultSet.getTime("CheckInTimeEnd").toLocalTime());
+                    hotel.setCheckOutTimeStart(resultSet.getTime("CheckOutTimeStart").toLocalTime());
+                    hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
+                    hotel.setAddress(resultSet.getString("Address"));
+                    hotel.setWard_ID(resultSet.getInt("Ward_ID"));
                     hotels.add(hotel);
                 }
             }

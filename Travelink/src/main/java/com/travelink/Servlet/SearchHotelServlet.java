@@ -40,10 +40,10 @@ public class SearchHotelServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -62,14 +62,15 @@ public class SearchHotelServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
+    // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -82,16 +83,17 @@ public class SearchHotelServlet extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String location = request.getParameter("location");
+        String url = ProvinceDB.getURLByProvinceName(location);
         int people = Integer.parseInt(request.getParameter("number_of_people"));
         int roomSize = Integer.parseInt(request.getParameter("number_of_rooms"));
         String start_date = request.getParameter("check_in_date");
@@ -105,7 +107,7 @@ public class SearchHotelServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace(); // Xử lý ngoại lệ phân tích cú pháp một cách thích hợp
         }
-        
+
         LocalDate currentDate = LocalDate.now();
         LocalDate checkInDateLocal = checkInDate.toLocalDate();
         // check điều kiện ngày hiện tại và ngày check in
@@ -115,7 +117,7 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("locationList", locationList);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         }
-        // check điều kiệu số phòng và số người 
+        // check điều kiệu số phòng và số người
         if (roomSize > people) {
             request.setAttribute("statusRoomAndPeople", "Room and People is disable");
             List<Province> locationList = ProvinceDB.getAllProvince();
@@ -123,8 +125,6 @@ public class SearchHotelServlet extends HttpServlet {
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         }
 
-
-        
         // kiểm tra điều kiện ngày bắt đầu và ngày kết thúc
         if (checkInDate.after(checkOutDate) || checkInDate.equals(checkOutDate)) {
             request.setAttribute("statusDate", "Date checkout is disable");
@@ -147,7 +147,8 @@ public class SearchHotelServlet extends HttpServlet {
                 int roomHotelAvailable = 0;
                 int capacityHotelList = 0;
                 for (Room room : RoomDB.getActiveRoomsByHotel_ID(hotel.getHotel_ID())) {
-                    roomHotelAvailable = roomHotelAvailable + RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), checkInDate, checkOutDate, check1);
+                    roomHotelAvailable = roomHotelAvailable
+                            + RoomDB.numberOfRoomAvailableByTime(room.getRoom_ID(), checkInDate, checkOutDate, check1);
                     capacityHotelList = capacityHotelList + room.getCapacity() * roomHotelAvailable;
                 }
                 hotelSizeList.add(roomHotelAvailable);

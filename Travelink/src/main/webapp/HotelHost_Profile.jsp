@@ -74,80 +74,84 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
-                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
-                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="col-md-12 d-flex">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                                            <label class="form-check-label" for="flexRadioDefault1">
-                                                Male
-                                            </label>
+                            <form action="UpdateAccountServlet" method="post">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
+                                            <input type="text" name="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="${account.name}" required>
                                         </div>
-                                        <div class="form-check" style="margin-left: 70px;">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                                            <label class="form-check-label" for="flexRadioDefault1">
-                                                Female
-                                            </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
+                                            <input type="text" name="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="${account.email}" readonly required>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">BirthDate</span>
-                                        <input type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-12 d-flex">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault1" ${account.gender == 77?"checked":""} required value="Male">
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                    Male
+                                                </label>
+                                            </div>
+                                            <div class="form-check" style="margin-left: 70px;">
+                                                <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault2" ${account.gender == 70?"checked":""} required value="Female">
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                    Female
+                                                </label>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
- 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">PhoneNumber</span>
-                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">BirthDate</span>
+                                            <input type="date" name="DOB" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="${account.dateOfBirth}" required>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">CMND</span>
-                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">PhoneNumber</span>
+                                            <input type="text" name="phone" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="${account.phoneNumber}" required>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Address</span>
-                                        <textarea class="form-control" aria-label="With textarea"></textarea>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">CMND</span>
+                                            <input type="text" name="CMND" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="${account.cmnd}" required>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row mt-4 d-flex justify-content-center align-items-center">
-                                <div class="col-md-6 justify-content-center align-items-center">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-text">Address</span>
+                                            <textarea class="form-control" aria-label="With textarea" name="address" style="resize: none" required>${account.address}</textarea>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 justify-content-center align-items-center">
-                                    <button type="button" class="btn btn-outline-primary btn-block" id="btn-update">Cancel</button>
-                                    <button type="button" class="btn btn-primary btn-block" id="btn-update">Save</button>
+                                <div class="row mt-4 d-flex justify-content-center align-items-center">
+                                    <div class="col-md-6 justify-content-center align-items-center">
+                                    </div>
+                                    <div class="col-md-6 justify-content-center align-items-center">
+                                        <button type="button" class="btn btn-outline-primary btn-block" id="btn-update" onclick="cancel()">Cancel</button>
+                                        <button type="submit" class="btn btn-primary btn-block" id="btn-update" >Save</button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                         <div class="col-md-1">
 
@@ -164,6 +168,12 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+                                            function cancel() {
+                                                location.reload();
+                                                event.preventDefault();
+                                            }
+        </script>
     </body>
 </html>
 

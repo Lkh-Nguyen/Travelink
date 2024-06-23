@@ -20,7 +20,6 @@ public class AccountDB {
         Connection con = DatabaseInfo.getConnect();
         try {
             PreparedStatement pstmt = con.prepareStatement("INSERT INTO Account (Name, Email, Password, PhoneNumber, CMND, Gender, DateOfBirth, AvatarURL, Address, Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
             // Set parameters
             pstmt.setString(1, Account.getName());
             pstmt.setString(2, Account.getEmail());
@@ -38,7 +37,6 @@ public class AccountDB {
             pstmt.setInt(10, Account.getRole());
             // Execute the SQL statement
             int rowsInserted = pstmt.executeUpdate();
-
             // Close resources
             pstmt.close();
             con.close();
@@ -74,6 +72,7 @@ public class AccountDB {
                 Account.setEmail(rs.getString("Email"));
                 Account.setPassword(rs.getString("Password"));
                 Account.setName(rs.getString("Name"));
+                Account.setRole(rs.getInt("Role"));
                 // Handle potential null phone number
                 Account.setPhoneNumber(rs.getString("PhoneNumber"));
 

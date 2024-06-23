@@ -4,6 +4,8 @@
  */
 package com.travelink.Model;
 
+import com.travelink.Database.HotelServiceDB;
+
 /**
  *
  * @author ASUS
@@ -38,7 +40,10 @@ public class Service {
     public void setName(String name) {
         this.name = name;
     }
-
+    
+    public int getPrice (int hotelID){
+        return HotelServiceDB.getPriceByHotelIDByServiceID(hotelID, serviceID);
+    }
     @Override
     public String toString() {
         return "Service{"

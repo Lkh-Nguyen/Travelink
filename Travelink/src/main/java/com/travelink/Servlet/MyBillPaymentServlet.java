@@ -7,13 +7,16 @@ package com.travelink.Servlet;
 import com.travelink.Database.BillDB;
 import com.travelink.Model.Account;
 import com.travelink.View.Bill;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 
@@ -84,9 +87,27 @@ public class MyBillPaymentServlet extends HttpServlet {
         }
         
         request.setAttribute("reservationID", reservation_ID);
-        
         request.setAttribute("list_bill", list_bill);
-        request.getRequestDispatcher("My_Bill_Payment.jsp").forward(request, response);
+        
+        // Render JSP to HTML
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("ExportBill.jsp");
+        dispatcher.include(request, new HttpServletResponseWrapper(response) {
+            @Override
+            public PrintWriter getWriter() {
+                return writer;
+            }
+        });
+        writer.flush();
+        String htmlContent = stringWriter.toString();
+
+        // Store the HTML content in session
+        session.setAttribute("htmlContent", htmlContent);
+
+        // Forward to the JSP page to show the bill details
+        dispatcher = request.getRequestDispatcher("My_Bill_Payment.jsp");
+        dispatcher.forward(request, response);        
     }
 
     /**

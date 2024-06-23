@@ -43,8 +43,8 @@
 
         <div class="container" id="container">
             <div class="form-container sign-up-container">
-
                 <form action="register" method="post">
+                    <input type="hidden" name="role" value="1">
                     <h1>Create Account</h1>
                     <div class="form-field">
                         <input type="text" class="form-input" name="name"  required>
@@ -98,6 +98,7 @@
                         <label for="password" class="form-label">Password</label>
                         <span id="toggleLoginPassword" class="toggle-password" style="font-size: 15px;user-select: none" onclick="togglePasswordVisibility('loginPassword', 'toggleLoginPassword')">&#128065;</span>
                     </div>
+                    <input type="hidden" name="role" value="1">
                     <a class="forgot-pass" href="Forgot_Password.jsp">Forgot your password?</a>
                     <p>--------- or login/register with ----------</p>
                     <div class="login-way">

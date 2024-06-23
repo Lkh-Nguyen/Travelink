@@ -5,7 +5,10 @@
 package com.travelink.Model;
 
 import com.travelink.Database.HotelImageDB;
+import com.travelink.Database.HotelServiceDB;
+import com.travelink.Database.ProvinceDB;
 import java.time.LocalTime;
+import java.util.List;
 
 /**
  *
@@ -24,10 +27,19 @@ public class Hotel {
     private LocalTime checkOutTimeStart;
     private LocalTime checkOutTimeEnd;
     private String address;
+    private String status;
     private int ward_ID;
 
     // Constructor
     public Hotel() {}
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     // Getters and Setters
     public int getHotel_ID() {
@@ -151,12 +163,17 @@ public class Hotel {
     public String getAnURL(int id){
         return HotelImageDB.getHotelImagesByHotelID(id).get(0).getUrl();
     }
-
-    @Override
-    public String toString() {
-        return "Hotel{" + "hotel_ID=" + hotel_ID + ", name=" + name + ", email=" + email + ", star=" + star + ", rating=" + rating + ", phoneNumber=" + phoneNumber + ", description=" + description + ", checkInTimeStart=" + checkInTimeStart + ", checkInTimeEnd=" + checkInTimeEnd + ", checkOutTimeStart=" + checkOutTimeStart + ", checkOutTimeEnd=" + checkOutTimeEnd + ", address=" + address + ", ward_ID=" + ward_ID + '}';
+    
+    public String getLocation(){
+        return ProvinceDB.getLocationByHotelID(hotel_ID);
     }
 
-    
+    public List<Service> getService(){
+        return HotelServiceDB.getServicesByHotelID(hotel_ID);
+    }
+    @Override
+    public String toString() {
+        return "Hotel{" + "hotel_ID=" + hotel_ID + ", name=" + name + ", email=" + email + ", star=" + star + ", rating=" + rating + ", phoneNumber=" + phoneNumber + ", description=" + description + ", checkInTimeStart=" + checkInTimeStart + ", checkInTimeEnd=" + checkInTimeEnd + ", checkOutTimeStart=" + checkOutTimeStart + ", checkOutTimeEnd=" + checkOutTimeEnd + ", address=" + address + ", status=" + status + ", ward_ID=" + ward_ID + '}';
+    }    
 }
 

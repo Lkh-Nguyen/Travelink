@@ -20,17 +20,16 @@
                         <div class="card-body">
                             <div class="form-check d-flex justify-content-between">
                                 <div>
+                                    <label class="form-check-label" for="reserved">All</label>
+                                </div>
+                                <label>5</label>
+                            </div>
+                            <div class="form-check d-flex justify-content-between">
+                                <div>
                                     <input class="form-check-input" type="checkbox" id="reserved" checked>
                                     <label class="form-check-label" for="reserved">Reserved</label>
                                 </div>
                                 <label>2</label>
-                            </div>
-                            <div class="form-check d-flex justify-content-between">
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="occupied" checked>
-                                    <label class="form-check-label" for="occupied">Occupied</label>
-                                </div>
-                                <label>3</label>
                             </div>
                             <div class="form-check d-flex justify-content-between">
                                 <div>
@@ -46,22 +45,28 @@
                         <div class="card-body">
                             <div class="form-check d-flex justify-content-between">
                                 <div>
+                                    <label class="form-check-label" for="all">All</label>
+                                </div>
+                                <label>7</label>
+                            </div>
+                            <div class="form-check d-flex justify-content-between">
+                                <div>
                                     <input class="form-check-input" type="checkbox" id="single" checked>
-                                    <label class="form-check-label" for="single">Single</label>
+                                    <label class="form-check-label" for="single">Deluxe Suite</label>
                                 </div>
                                 <label>2</label>
                             </div>
                             <div class="form-check d-flex justify-content-between">
                                 <div>
                                     <input class="form-check-input" type="checkbox" id="double" checked>
-                                    <label class="form-check-label" for="double">Double</label>
+                                    <label class="form-check-label" for="double">Family Room</label>
                                 </div>
                                 <label>1</label>
                             </div>
                             <div class="form-check d-flex justify-content-between">
                                 <div>
                                     <input class="form-check-input" type="checkbox" id="triple" checked>
-                                    <label class="form-check-label" for="triple">Triple</label>
+                                    <label class="form-check-label" for="triple">Standard Room</label>
                                 </div>
                                 <label>4</label>
                             </div>
@@ -71,103 +76,60 @@
                 </div>
                 <div class="col-md-10">
                     <div class="row mb-3">
-                        <div class="col-md-12 d-flex justify-content-between align-items-center">
-                            <h5>
-                                <form>
-                                    <label style="font-size: 20px;font-weight: bold">Select date: </label> <input type="date" style="width: 200px;height: 47px">
-                                    <button class="btn btn-outline-success" type="submit"><i class='bx bx-search-alt-2' style="font-size: 30px"></i></button>
-                                </form>
-                            </h5>
-                            <input type="text" class="form-control w-25" placeholder="Search by number room or customer name"> 
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <label style="font-size: 20px">Select Date:</label>
+                                <input type="date" name="startDate" value="${requestScope.startDate}" style="margin-right: 10px;margin-left: 10px" class="form-control w-25" placeholder="Start Date" required> 
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-6">
+                            <form action="HotelHost_BookingHistoryBillServlet" method="post" onsubmit="return validateDates()">
+                                <div class="input-group">
+                                    <label style="font-size: 20px">Start Date: </label>
+                                    <input type="date" name="startDate" value="${requestScope.startDate}" style="margin-right: 10px;margin-left: 10px" class="form-control" placeholder="Start Date" required> 
+                                    <label style="font-size: 20px">End Date: </label>
+                                    <input type="date" name="endDate" value="${requestScope.endDate}" style="margin-left: 10px" class="form-control" placeholder="End Date" required>
+                                    <button type="submit" class="btn btn-primary" style="margin-left: 10px">Search</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
+                    <div><h4>Search date: 15/03/2024</h4></div>
                     <!-- Single Rooms Section -->
-                    <div class="section-header mb-3" style="color: rgb(63,81,181); font-size: 20px;font-weight: bold">Single</div>
+                    <div class="section-header mb-3" style="color: rgb(63,81,181); font-size: 20px;font-weight: bold">Deluxe Suite</div>
                     <div class="row mb-5">
                         <div class="col-md-3 room-card">
                             <div class="card" style="background-color: rgb(63,81,181);color: white;border: none">
-                                <div class="card-header">Room 101 <span style="float:right">Available</span></div>
+                                <div class="card-header">Amount: 4 Rooms <span style="float:right">Available</span></div>
                                 <div class="card-body d-flex text-center">
                                     <i class='bx bxs-check-circle' style="font-size: 80px;margin-right: 10px"></i><h5 class="card-title mt-3" style="font-size: 30px">Free Room</h5>
                                 </div>
-
-                                <p class="card-text p-2"><label style="font-weight:bold">Total:</label>  0 days</p>
+                                <a href="#" class="btn btn btn-outline-light mt-auto" style="border-radius: 0px;border: none">
+                                    <i class='bx bx-plus-medical' ></i> Add Booking
+                                </a>
+                                <p class="card-text p-2"><label style="font-weight:bold">Status:</label>  Room is currently empty</p>
                             </div>
                         </div>
 
                         <div class="col-md-3 room-card">
-                            <div class="card" style="background-color: rgb(247,247,247);color: black;border: none">
-                                <div class="card-header">Room 102 <span style="float:right">Reserved</span></div>
+                            <div class="card" style="background-color: rgb(247,247,247);border:1px solid black;color: black">
+                                <div class="card-header">Amount: 0 Rooms <span style="float:right">Reserved</span></div>
                                 <div class="card-body d-flex text-center">
-                                    <i class='bx bx-user-circle' style="font-size: 80px;margin-right: 10px;color: orange"></i><h5 class="card-title mt-3" style="font-size: 30px;color:black">Hoang Nguyen</h5>
+                                    <i class='bx bx-user-circle' style="font-size: 80px;margin-right: 10px;color: orange"></i>
+                                    <h5 class="card-title mt-3" style="font-size: 30px;color:black">Customer</h5>
                                 </div>
-                                <p class="card-text p-2"><label style="font-weight:bold ">Total:</label> 2 days (12/03/2024 - 15/04/2024)</p>
+                                <a href="HotelHost_BookingScheduleDetail.jsp" class="btn btn-outline-secondary mt-auto" style="border-radius: 0px;border: none">
+                                    <i class='bx bx-detail'></i> View Details
+                                </a>
+                                <p class="card-text p-2"><label style="font-weight:bold ">Status:</label> A room has been booked</p>
                             </div>
-                        </div>
-                        <div class="col-md-3 room-card">
-                            <div class="card" style="background-color: rgb(247,247,247);color: black;border: none">
-                                <div class="card-header">Room 103 <span style="float:right">Occupied</span></div>
-                                <div class="card-body d-flex text-center">
-                                    <i class='bx bx-user-circle' style="font-size: 80px;margin-right: 10px;color: orange"></i><h5 class="card-title mt-3" style="font-size: 30px;color:black">Nhat Thuan</h5>
-                                </div>
-                                <p class="card-text p-2"><label style="font-weight:bold ">Total:</label> 2 days (12/03/2024 - 15/04/2024)</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 room-card">
-                            <div class="card" style="background-color: rgb(63,81,181);color: white;border: none">
-                                <div class="card-header">Room 104 <span style="float:right">Available</span></div>
-                                <div class="card-body d-flex text-center">
-                                    <i class='bx bxs-check-circle' style="font-size: 80px;margin-right: 10px"></i><h5 class="card-title mt-3" style="font-size: 30px">Free Room</h5>
-                                </div>
-
-                                <p class="card-text p-2"><label style="font-weight:bold">Total:</label>  0 days</p>
-                            </div>
-                        </div>
+                        </div>   
                     </div>
 
-                    <div class="section-header mb-3" style="color: rgb(63,81,181); font-size: 20px;font-weight: bold">Double</div>
-                    <div class="row mb-5">
-                        <div class="col-md-3 room-card">
-                            <div class="card" style="background-color: rgb(63,81,181);color: white;border: none">
-                                <div class="card-header">Room 201 <span style="float:right">Available</span></div>
-                                <div class="card-body d-flex text-center">
-                                    <i class='bx bxs-check-circle' style="font-size: 80px;margin-right: 10px"></i><h5 class="card-title mt-3" style="font-size: 30px">Free Room</h5>
-                                </div>
-
-                                <p class="card-text p-2"><label style="font-weight:bold">Total:</label>  0 days</p>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 room-card">
-                            <div class="card" style="background-color: rgb(247,247,247);color: black;border: none">
-                                <div class="card-header">Room 202 <span style="float:right">Reserved</span></div>
-                                <div class="card-body d-flex text-center">
-                                    <i class='bx bx-user-circle' style="font-size: 80px;margin-right: 10px;color: orange"></i><h5 class="card-title mt-3" style="font-size: 30px;color:black">Hoang Nguyen</h5>
-                                </div>
-                                <p class="card-text p-2"><label style="font-weight:bold ">Total:</label> 2 days (12/03/2024 - 15/04/2024)</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 room-card">
-                            <div class="card" style="background-color: rgb(247,247,247);color: black;border: none">
-                                <div class="card-header">Room 203 <span style="float:right">Occupied</span></div>
-                                <div class="card-body d-flex text-center">
-                                    <i class='bx bx-user-circle' style="font-size: 80px;margin-right: 10px;color: orange"></i><h5 class="card-title mt-3" style="font-size: 30px;color:black">Nhat Thuan</h5>
-                                </div>
-                                <p class="card-text p-2"><label style="font-weight:bold ">Total:</label> 2 days (12/03/2024 - 15/04/2024)</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 room-card">
-                            <div class="card" style="background-color: rgb(63,81,181);color: white;border: none">
-                                <div class="card-header">Room 204 <span style="float:right">Available</span></div>
-                                <div class="card-body d-flex text-center">
-                                    <i class='bx bxs-check-circle' style="font-size: 80px;margin-right: 10px"></i><h5 class="card-title mt-3" style="font-size: 30px">Free Room</h5>
-                                </div>
-
-                                <p class="card-text p-2"><label style="font-weight:bold">Total:</label>  0 days</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

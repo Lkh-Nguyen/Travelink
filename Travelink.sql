@@ -180,7 +180,7 @@ CREATE TABLE Reservation (
   Number_of_guests TINYINT NOT NULL,  -- Date reservation was made
   CheckInDate DATE NOT NULL,  -- Check-in date for the reservation
   CheckOutDate DATE NOT NULL,  -- Check-out date for the reservation
-  Total_Price INT NOT NULL,  -- Use DECIMAL for currency with decimals
+  Total_Price INT NOT NULL,  -- Use INT 
   Payment_Method NVARCHAR(50) NOT NULL,  -- Payment method used (e.g., credit card, cash)
   Status NVARCHAR(50) NOT NULL, -- Paid / Canceled
   Account_ID INT NOT NULL,
@@ -271,12 +271,12 @@ GO
 
 
 --
-CREATE PROCEDURE CalculateMonthlyRevenueForAllHotelsCurrentMonthYear
+CREATE PROCEDURE CalculateMonthlyRevenueForAllHotelsPreviousMonthYear
 AS
 BEGIN
     SET NOCOUNT ON;
-    DECLARE @Month TINYINT = MONTH(GETDATE());
-    DECLARE @Year SMALLINT = YEAR(GETDATE());
+    DECLARE @Month TINYINT = MONTH(DATEADD(MONTH, -1, GETDATE()));
+    DECLARE @Year SMALLINT = YEAR(DATEADD(MONTH, -1, GETDATE()));
     DECLARE @PaymentTime DATETIME = NULL;
 
     -- Temporary table to hold aggregated data
@@ -285,19 +285,18 @@ BEGIN
         TotalRevenue INT
     );
 
-    -- Calculate revenue for hotels with reservations having status 'FINISHED', 'CANCEL', or 'REFUNDING'
+    -- Calculate revenue for hotels with reservations
     INSERT INTO #MonthlyRevenueData (Hotel_ID, TotalRevenue)
     SELECT
         rm.Hotel_ID,
-        SUM(
+        CAST(SUM(
             CASE
-                WHEN r.Status = 'FINISHED' THEN r.Total_Price
-				WHEN r.Status = 'FEEDBACKED' THEN r.Total_Price
+                WHEN r.Status IN ('PAID', 'FINISHED', 'FEEDBACKED') THEN r.Total_Price
                 WHEN r.Status = 'CANCEL' THEN r.Total_Price - ISNULL(rr.Amount, 0)
                 WHEN r.Status = 'REFUNDING' THEN r.Total_Price - ISNULL(rr.Amount, 0)
                 ELSE 0
             END
-        ) AS TotalRevenue
+        ) * 0.9 AS INT) AS TotalRevenue  -- Apply 90% multiplier and cast to INT
     FROM
         Reservation r
     INNER JOIN
@@ -309,7 +308,7 @@ BEGIN
     WHERE
         MONTH(r.CheckOutDate) = @Month
         AND YEAR(r.CheckOutDate) = @Year
-        AND r.Status IN ('FINISHED','FEEDBACKED', 'CANCEL', 'REFUNDING')
+        AND r.Status IN ('PAID', 'FINISHED', 'FEEDBACKED', 'CANCEL', 'REFUNDING')
     GROUP BY
         rm.Hotel_ID;
 
@@ -318,7 +317,7 @@ BEGIN
     SELECT
         @Month,
         @Year,
-        ISNULL(SUM(m.TotalRevenue), 0) AS Amount,
+        SUM(m.TotalRevenue) AS Amount,  -- Sum the TotalRevenue for each hotel
         'NOT PAID',  -- Assuming all amounts are pending for now
         @PaymentTime,
         m.Hotel_ID
@@ -332,9 +331,14 @@ BEGIN
 
     PRINT 'Monthly revenue calculation successful for all hotels for month ' + CAST(@Month AS VARCHAR(2)) + ', year ' + CAST(@Year AS VARCHAR(4)) + '.';
 END;
+
 GO
 
+
 EXEC CalculateMonthlyRevenueForAllHotelsCurrentMonthYear;
+DROP PROC CalculateMonthlyRevenueForAllHotelsCurrentMonthYear;
+DROP TABLE MonthlyPayment
+
 
 
 

@@ -37,8 +37,13 @@ public class MonthlyPaymentDB {
                 monthlyPayment.setYear(resultSet.getInt("Year"));
                 monthlyPayment.setAmount(resultSet.getInt("Amount"));
                 monthlyPayment.setStatus(resultSet.getString("Status"));
-                monthlyPayment.setPaymentTime(resultSet.getTimestamp("PaymentTime").toLocalDateTime()); // Assuming LocalDateTime for PaymentTime
-                monthlyPayment.setHotel_ID(resultSet.getInt("Hotel_ID"));
+                // Check if PaymentTime is null before conversion
+                if (resultSet.getTimestamp("PaymentTime") != null) {
+                    monthlyPayment.setPaymentTime(resultSet.getTimestamp("PaymentTime").toLocalDateTime());
+                } else {
+                    // Set PaymentTime to null or a default value (e.g., LocalDateTime.MIN)
+                    monthlyPayment.setPaymentTime(null);
+                }                monthlyPayment.setHotel_ID(resultSet.getInt("Hotel_ID"));
                 //Add
                 monthlyPayments.add(monthlyPayment);
             }
@@ -64,7 +69,7 @@ public class MonthlyPaymentDB {
         Connection connection = DatabaseInfo.getConnect(); // Assuming DatabaseInfo provides a connection
 
         try {
-            String sql = "SELECT * FROM MonthlyPayment WHERE Hotel_ID = ? AND Year = ?";
+            String sql = "SELECT * FROM MonthlyPayment WHERE Hotel_ID = ? AND Year = ? ORDER BY Month";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, hotelID);
             preparedStatement.setInt(2, year);
@@ -78,7 +83,13 @@ public class MonthlyPaymentDB {
                 monthlyPayment.setYear(resultSet.getInt("Year"));
                 monthlyPayment.setAmount(resultSet.getInt("Amount"));
                 monthlyPayment.setStatus(resultSet.getString("Status"));
-                monthlyPayment.setPaymentTime(resultSet.getTimestamp("PaymentTime").toLocalDateTime()); // Assuming LocalDateTime for PaymentTime
+                // Check if PaymentTime is null before conversion
+                if (resultSet.getTimestamp("PaymentTime") != null) {
+                    monthlyPayment.setPaymentTime(resultSet.getTimestamp("PaymentTime").toLocalDateTime());
+                } else {
+                    // Set PaymentTime to null or a default value (e.g., LocalDateTime.MIN)
+                    monthlyPayment.setPaymentTime(null);
+                }
                 monthlyPayment.setHotel_ID(resultSet.getInt("Hotel_ID"));
                 //Add
                 monthlyPayments.add(monthlyPayment);
@@ -93,8 +104,8 @@ public class MonthlyPaymentDB {
         return monthlyPayments;
     }
 
-    public static List<MonthlyPayment> getAllMonthlyPaymentsByHotelID(int hotelID, int year, int month) {
-        List<MonthlyPayment> monthlyPayments = new ArrayList<>();
+    public static MonthlyPayment getMonthlyPaymentByHotelIDYearMonth(int hotelID, int year, int month) {
+        MonthlyPayment monthlyPayment = null;
         Connection connection = DatabaseInfo.getConnect(); // Assuming DatabaseInfo provides a connection
 
         try {
@@ -107,16 +118,22 @@ public class MonthlyPaymentDB {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                MonthlyPayment monthlyPayment = new MonthlyPayment();
+                monthlyPayment = new MonthlyPayment();
                 monthlyPayment.setMonthlyPaymentId(resultSet.getInt("Monthly_Payment_ID"));
                 monthlyPayment.setMonth(resultSet.getInt("Month"));
                 monthlyPayment.setYear(resultSet.getInt("Year"));
                 monthlyPayment.setAmount(resultSet.getInt("Amount"));
                 monthlyPayment.setStatus(resultSet.getString("Status"));
-                monthlyPayment.setPaymentTime(resultSet.getTimestamp("PaymentTime").toLocalDateTime()); // Assuming LocalDateTime for PaymentTime
+
+                // Check if PaymentTime is null before conversion
+                if (resultSet.getTimestamp("PaymentTime") != null) {
+                    monthlyPayment.setPaymentTime(resultSet.getTimestamp("PaymentTime").toLocalDateTime());
+                } else {
+                    // Set PaymentTime to null or a default value (e.g., LocalDateTime.MIN)
+                    monthlyPayment.setPaymentTime(null);
+                }
+
                 monthlyPayment.setHotel_ID(resultSet.getInt("Hotel_ID"));
-                //Add
-                monthlyPayments.add(monthlyPayment);
             }
 
         } catch (SQLException e) {
@@ -125,7 +142,7 @@ public class MonthlyPaymentDB {
             // Close resources in a finally block (unchanged)
         }
 
-        return monthlyPayments;
+        return monthlyPayment;
     }
 
     public static void main(String[] args) throws SQLException {
@@ -154,11 +171,9 @@ public class MonthlyPaymentDB {
 
         // Test case 3: Get all payments for hotel ID 3 in year 2024, month 6 (current month)
         System.out.println("\n** Test 3: Get all payments for Hotel ID 3 in year 2024, month 6 (current month) **");
-        List<MonthlyPayment> payments3 = MonthlyPaymentDB.getAllMonthlyPaymentsByHotelID(3, 2024, 6); // Assuming June is the current month
-        if (!payments3.isEmpty()) {
-            for (MonthlyPayment payment : payments3) {
-                System.out.println(payment);
-            }
+        MonthlyPayment payment3 = MonthlyPaymentDB.getMonthlyPaymentByHotelIDYearMonth(3, 2024, 6); // Assuming June is the current month
+        if (payment3 != null) {
+            System.out.println(payment3);
         } else {
             System.out.println("No payments found for Hotel ID 3 in June 2024.");
         }

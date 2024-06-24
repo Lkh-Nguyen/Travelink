@@ -45,6 +45,7 @@
             <div class="form-container sign-up-container">
 
                 <form action="register" method="post">
+                    <input type="hidden" name="role" value="1">
                     <h1>Create Account</h1>
                     <div class="form-field">
                         <input type="text" class="form-input" name="name"  required>
@@ -88,6 +89,7 @@
             </div>
             <div class="form-container sign-in-container">
                 <form action="LoginAccountServlet" method="post">
+                    <input type="hidden" name="role" value="1">
                     <h1>Login</h1>
                     <div class="form-field">
                         <input type="email" name="email" class="form-input" autocomplete="off">

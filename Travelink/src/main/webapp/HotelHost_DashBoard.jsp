@@ -45,19 +45,18 @@
         <%@include file="Header_HotelHost.jsp" %>
         <div class="container-fluid py-0">
             <form action="DashboardServlet" method="GET">
-                <input type="hidden" name="hotel_ID" value="${hotel_ID}">
                 <div class="input-group">
                     <select id="month" name="month">
                         <%
                             int selectedMonth = request.getParameter("month") != null ? Integer.parseInt(request.getParameter("month")) : 0;
-                            String[] monthNames = {"January", "February", "March", "April", "May", "June", 
+                            String[] monthNames = {"All", "January", "February", "March", "April", "May", "June", 
                                                    "July", "August", "September", "October", "November", "December"};
-        
-                            for (int i = 1; i <= 12; i++) {
+
+                            for (int i = 0; i <= 12; i++) {
                                 if (i == selectedMonth) {
-                                    out.println("<option value=\"" + i + "\" selected>" + monthNames[i - 1] + "</option>");
+                                    out.println("<option value=\"" + i + "\" selected>" + monthNames[i] + "</option>");
                                 } else {
-                                    out.println("<option value=\"" + i + "\">" + monthNames[i - 1] + "</option>");
+                                    out.println("<option value=\"" + i + "\">" + monthNames[i] + "</option>");
                                 }
                             }
                         %>
@@ -77,6 +76,20 @@
                         %>
                     </select>
 
+                    <select id="hotelSelect" name="hotel_ID">
+                        <%
+                            List<Hotel> hotelList = (List<Hotel>) request.getAttribute("hotelList");
+                            int selectedHotelID = request.getParameter("hotel_ID") != null ? Integer.parseInt(request.getParameter("hotel_ID")) : -1;
+
+                            for (Hotel hotel : hotelList) {
+                                int hotelID = hotel.getHotel_ID();
+                                String selected = (hotelID == selectedHotelID) ? "selected" : "";
+                        %>
+                        <option value="<%= hotelID %>" <%= selected %>><%= hotel.getName() %></option>
+                        <%
+                            }
+                        %>
+                    </select>
                     <button type="submit" class="btn btn-primary" style="margin-left: 10px">Search</button>
                 </div>
             </form>
@@ -105,8 +118,8 @@
                                     <img src="img_Hotel/paid_invoice.svg" alt="Invoice Icon" style="width: 2rem; height: 2rem; color: white">
                                 </div>
                                 <div class="col-md-9 mt-2 px-3">
-                                    <h3>${finishedReservations}</h3>
-                                    <p class="fs-6">Finished Reservations</p>
+                                    <h3>${paidReservations}</h3>
+                                    <p class="fs-6">Paid Reservations</p>
                                 </div>
                             </div>
                         </div>
@@ -153,9 +166,9 @@
                                     <div class="card-body d-flex flex-column justify-content-end">
                                         <div class="row">
                                             <div class="col-md-7 p-lg-5">
-                                                <h3>$824,571.93</h3>
+                                                <h3>${balance} VND</h3>
                                                 <div class="text-bottom">
-                                                    <p class="text-muted mb-0">Wallet Balance</p>
+                                                    <p class="text-muted mb-0">Balance</p>
                                                 </div>
                                             </div>
                                             <div class="col-md-5">
@@ -169,48 +182,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="card text-center py-2 px-2"><h4>Hotel Overview</h4>
-                                            <p class="text-muted">Show chart overview</p></div>
-                                        <div class="row align-items-center hover-row" id="title-chart">
-                                            <div class="col-md-9 d-flex align-items-center">
-                                                <span><img src="img_Hotel/account.svg" alt="Invoice Icon" style="width: 1rem; height: 1rem;"></span>
-                                                <p class="mb-0 ms-2 py-2">Account</p>
-                                            </div>
-                                            <div class="col-md-3 d-flex justify-content-end align-items-center">
-                                                <p class="mb-0 py-2 px-0 text-end">20%</p>
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center hover-row">
-                                            <div class="col-md-9 d-flex align-items-center">
-                                                <span><img src="img_Hotel/hotel.svg" alt="Invoice Icon" style="width: 1rem; height: 1rem;"></span>
-                                                <p class="mb-0 ms-2 py-2">Hotel</p>
-                                            </div>
-                                            <div class="col-md-3 d-flex align-items-center justify-content-end">
-                                                <p class="mb-0 py-2 px-0 text-end">40%</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="row align-items-center hover-row">
-                                            <div class="col-md-9 d-flex align-items-center">
-                                                <span><img src="img_Hotel/service.svg" alt="Invoice Icon" style="width: 1rem; height: 1rem;"></span>
-                                                <p class="mb-0 ms-2 py-2">Service</p>
-                                            </div>
-                                            <div class="col-md-3 align-items-center">
-                                                <p class="mb-0 py-2 px-0 text-end">15%</p>
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center hover-row">
-                                            <div class="col-md-9 d-flex align-items-center">
-                                                <span><img src="img_Hotel/other.svg" alt="Invoice Icon" style="width: 1rem; height: 1rem;"></span>
-                                                <p class="mb-0 ms-2 py-2">Account</p>
-                                            </div>
-                                            <div class="col-md-3 align-items-center">
-                                                <p class="mb-0 py-2 px-0 text-end">15%</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="card card-flex">
                                             <div class="card-body">
                                                 <canvas id="myChart" width="500" height="550"></canvas>
@@ -233,203 +205,42 @@
             </div>
 
 
-            <div class="row mt-3 p-4 m-3 py-0 my-0 mt-0 d-flex justify-content-center align-items-center row-compact">
-                <div class="col-md-6">
-                    <div class="card bg-secondary-subtle h-100 shadow p-lg-4 mb-5 bg-body-tertiary border-0 equal-height" style="border-radius: 30px;">
-                        <div class="row  align-items-center">
-                            <div class="col-md-2">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card custom-card border border-0 align-items-center" style="border-radius: 30px;">
-                                    <div class="card-body d-flex flex-column align-items-center">
-                                        <img src="img_Hotel/staff.svg" alt="Hotel Service Image" class="img-fluid mb-3" style="max-width: 50px;">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-md-6">
-                                                <h6 class="card-title text-center mt-1">Members Overview</h6>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="card text-center align-items-center justify-content-center" id="average">5.0</div>
-                                            </div>
-                                        </div>
-                                        <p class="card-text text-muted text-center">Description of the hotel service overview.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                            </div>
-                        </div>
-                        <div class="card mt-5 bg-secondary-subtle h-100 shadow p-lg-4 mb-2 bg-body-tertiary border-0 equal-height" style="border-radius: 30px;" id="containTable">
-                            <table class="table-hover caption-top table" >
-                                <caption class="mb-2"><img src="img_Hotel/account.svg" alt="Star" style="width: 2rem;"><span>From 5 users latest:</span></caption>
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No.</th>
-                                        <th scope="col">Requests</th>
-                                        <th scope="col">Star</th>
-                                        <th scope="col">Notes</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Service Attitude</td>
-                                        <td>
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                        </td>
-                                        <td>Very Good</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Skills</td>
-                                        <td>
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/none-star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/none-star.svg" alt="Star" style="width: 10px;">
-                                        </td>
-                                        <td>Training More</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Clean</td>
-                                        <td>
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                        </td>
-                                        <td>Very clean</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Attendance</td>
-                                        <td>
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                        </td>
-                                        <td>I will come back</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card bg-secondary-subtle h-100 shadow p-lg-4 mb-5 bg-body-tertiary border-0 equal-height" style="border-radius: 30px;" >
-                        <div class="row  align-items-center">
-                            <div class="col-md-2">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card custom-card border border-0 align-items-center" style="border-radius: 30px;">
-                                    <div class="card-body d-flex flex-column align-items-center">
-                                        <img src="img_Hotel/hotel-feedbacl.svg" alt="Hotel Service Image" class="img-fluid mb-3" style="max-width: 50px;">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-md-6">
-                                                <h6 class="card-title text-center mt-1">Service Overview</h6>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="card text-center align-items-center justify-content-center" id="average">4.2</div>
-                                            </div>
-                                        </div>
-                                        <p class="card-text text-muted text-center">Description of the hotel service overview.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                            </div>
-                        </div>
-                        <div class="card mt-5 bg-secondary-subtle h-100 shadow p-lg-4 mb-2 bg-body-tertiary border-0 equal-height" style="border-radius: 30px;" id="containTable">
-                            <table class="table-hover caption-top table">
-                                <caption class="mb-2">
-                                    <img src="img_Hotel/account.svg" alt="Star" style="width: 2rem;">
-                                    <span>From 5 users latest:</span>
-                                </caption>
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No.</th>
-                                        <th scope="col">Amenity</th>
-                                        <th scope="col">Rating</th>
-                                        <th scope="col">Feedback</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Food Quality</td>
-                                        <td>
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                        </td>
-                                        <td>Excellent food quality</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Bed Quality</td>
-                                        <td>
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/none-star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/none-star.svg" alt="Star" style="width: 10px;">
-                                        </td>
-                                        <td>Comfortable beds, could be softer</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Breakfast</td>
-                                        <td>
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                        </td>
-                                        <td>Delicious and varied breakfast options</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">4</th>
-                                        <td>Pool</td>
-                                        <td>
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/star.svg" alt="Star" style="width: 10px;">
-                                            <img src="img_Hotel/none-star.svg" alt="Star" style="width: 10px;">
-                                        </td>
-                                        <td>Great pool area, could be cleaner</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <canvas id="lineChart" width="300" height="300"></canvas>
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
+            var month = '${param.month}';
+            var monthLabel = month ? month : '${requestScope.month}';
+            var year = '${param.year}';
+            var yearLabel = year ? year : '${requestScope.year}';
+            // Function to convert month number to month name
+            function getMonthName(month) {
+                const monthNames = [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ];
+                return monthNames[month - 1];
+            }
+
+            // Convert month number to month name if month is not 0
+            var pieChartLabel;
+            if (monthLabel != 0) {
+                pieChartLabel = 'Income Distribution in ' + getMonthName(parseInt(monthLabel)) + ' ' + yearLabel;
+            } else {
+                pieChartLabel = 'Income Distribution in ' + yearLabel;
+            }
+
             // Khởi tạo biểu đồ tròn
             var pieCtx = document.getElementById('pieChart').getContext('2d');
             var pieChart = new Chart(pieCtx, {
                 type: 'pie',
                 data: {
-                    labels: ['Paid', 'Cancel'],
+                    labels: ['Paid Reservation Income', 'Refunded Reservation Income'],
                     datasets: [{
-                            data: [10, 20, 30],
+                            data: [${paidReservationIncome}, ${refundedReservationIncome}],
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(54, 162, 235, 0.2)',
@@ -446,8 +257,15 @@
                 options: {
                     responsive: false, // Disable responsiveness to control the size manually
                     maintainAspectRatio: false, // Disable aspect ratio to allow custom width and height
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: pieChartLabel
+                        }
+                    }
                 }
             });
+
 
             // Khởi tạo biểu đồ khác
             var ctx = document.getElementById('myChart').getContext('2d');
@@ -456,8 +274,8 @@
                 data: {
                     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                     datasets: [{
-                            label: 'Monthly Revenue Report 2024',
-                            data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
+                            label: 'Monthly Revenue Report ' + yearLabel,
+                            data: ${barDataString},
                             backgroundColor: 'rgba(255, 99, 132, 0.2)',
                             borderColor: 'rgba(255, 99, 132, 1)',
                             borderWidth: 1

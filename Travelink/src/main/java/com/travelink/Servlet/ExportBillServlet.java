@@ -43,7 +43,7 @@ public class ExportBillServlet extends HttpServlet {
         // Set response headers
         response.setContentType("application/pdf; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
-        response.setHeader("Content-Dispos  ition", "attachment; filename=\"output.pdf\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"output.pdf\"");
 
         // Generate PDF from HTML
         try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {

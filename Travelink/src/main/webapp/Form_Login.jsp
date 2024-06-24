@@ -88,6 +88,7 @@
             </div>
             <div class="form-container sign-in-container">
                 <form action="LoginAccountServlet" method="post">
+                    <input type="hidden" name="role" value="1">
                     <h1>Login</h1>
                     <div class="form-field">
                         <input type="email" name="email" class="form-input" autocomplete="off">

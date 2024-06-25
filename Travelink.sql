@@ -238,7 +238,7 @@ CREATE TABLE MonthlyPayment (
 GO
 
 
---Auto delete temporary reservation
+--Auto delete temporary online reservation
 CREATE PROCEDURE DeleteExpiredReservations
 AS
 BEGIN
@@ -249,6 +249,7 @@ BEGIN
 END
 GO
 
+--Apply for all reservation
 CREATE PROCEDURE UpdateReservationStatus
 AS
 BEGIN
@@ -285,7 +286,7 @@ BEGIN
         TotalRevenue INT
     );
 
-    -- Calculate revenue for hotels with reservations
+    -- Calculate revenue for hotels with reservations using VIETQR payment method
     INSERT INTO #MonthlyRevenueData (Hotel_ID, TotalRevenue)
     SELECT
         rm.Hotel_ID,
@@ -309,6 +310,7 @@ BEGIN
         MONTH(r.CheckOutDate) = @Month
         AND YEAR(r.CheckOutDate) = @Year
         AND r.Status IN ('PAID', 'FINISHED', 'FEEDBACKED', 'CANCEL', 'REFUNDING')
+        AND r.Payment_Method = 'VIETQR'  -- Filter by payment method VIETQR
     GROUP BY
         rm.Hotel_ID;
 
@@ -335,8 +337,8 @@ END;
 GO
 
 
-EXEC CalculateMonthlyRevenueForAllHotelsCurrentMonthYear;
-DROP PROC CalculateMonthlyRevenueForAllHotelsCurrentMonthYear;
+EXEC CalculateMonthlyRevenueForAllHotelsPreviousMonthYear;
+DROP PROC CalculateMonthlyRevenueForAllHotelsPreviousMonthYear;
 DROP TABLE MonthlyPayment
 
 

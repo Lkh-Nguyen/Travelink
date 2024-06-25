@@ -5,8 +5,7 @@
 
 package com.travelink.Servlet;
 
-import com.travelink.Database.FeedbackDB;
-import com.travelink.Model.Feedback;
+import com.travelink.Database.HotelServiceDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author DUYAN
  */
-public class UpdateFeedbackServlet extends HttpServlet {
+public class DeleteServiceServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,10 +34,10 @@ public class UpdateFeedbackServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateFeedbackServlet</title>");  
+            out.println("<title>Servlet DeleteServiceServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateFeedbackServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DeleteServiceServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -68,22 +67,18 @@ public class UpdateFeedbackServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        int feedbackID = Integer.parseInt(request.getParameter("feedbackID"));
-        String description = request.getParameter("description");
-        byte rating = Byte.parseByte(request.getParameter("rating"));
-
-        Feedback feedback = FeedbackDB.getFeedbackByID(feedbackID);
-        feedback.setDescription(description);
-        feedback.setRating(rating);
-
+        String hotelIDStr = request.getParameter("hotelID");
+        String serviceIDStr = request.getParameter("serviceID");
+        int hotelID = 0; int serviceID = 0;
         try {
-            FeedbackDB.updateFeedback(feedback);
+            hotelID = Integer.parseInt(hotelIDStr);
+            serviceID = Integer.parseInt(serviceIDStr);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect("MyFeedback.jsp");
+        boolean success = HotelServiceDB.deleteHotelService(hotelID, serviceID);
+        response.sendRedirect("HotelHostHotelServiceServlet");
     }
-    
 
     /** 
      * Returns a short description of the servlet.

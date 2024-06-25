@@ -5,20 +5,22 @@
 
 package com.travelink.Servlet;
 
-import com.travelink.Database.FeedbackDB;
-import com.travelink.Model.Feedback;
+import com.travelink.Database.HotelServiceDB;
+import com.travelink.Model.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author DUYAN
  */
-public class UpdateFeedbackServlet extends HttpServlet {
+public class AddServiceServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,10 +37,10 @@ public class UpdateFeedbackServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateFeedbackServlet</title>");  
+            out.println("<title>Servlet AddServiceServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateFeedbackServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet AddServiceServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,25 +68,24 @@ public class UpdateFeedbackServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        int feedbackID = Integer.parseInt(request.getParameter("feedbackID"));
-        String description = request.getParameter("description");
-        byte rating = Byte.parseByte(request.getParameter("rating"));
-
-        Feedback feedback = FeedbackDB.getFeedbackByID(feedbackID);
-        feedback.setDescription(description);
-        feedback.setRating(rating);
-
-        try {
-            FeedbackDB.updateFeedback(feedback);
-        } catch (Exception e) {
-            e.printStackTrace();
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ///GEt data
+        int hotelId = Integer.parseInt(request.getParameter("hotelId"));
+        String[] selectedServices = request.getParameterValues("selectedServices");
+        
+        //handle insert
+        if (selectedServices != null) {
+            for (String serviceIdStr : selectedServices) {
+                int serviceId = Integer.parseInt(serviceIdStr);
+                String priceParam = request.getParameter("service" + serviceId + "Price");
+                int price = Integer.parseInt(priceParam);
+                
+                boolean success = HotelServiceDB.insertHotelService(hotelId, serviceId, price);
+            }
         }
-        response.sendRedirect("MyFeedback.jsp");
-    }
-    
-
+        response.sendRedirect("HotelHostHotelServiceServlet");
+}
     /** 
      * Returns a short description of the servlet.
      * @return a String containing servlet description

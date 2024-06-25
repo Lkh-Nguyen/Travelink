@@ -1,12 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
 package com.travelink.Servlet;
 
-import com.travelink.Database.FeedbackDB;
-import com.travelink.Model.Feedback;
+import com.travelink.Database.HotelServiceDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author DUYAN
  */
-public class UpdateFeedbackServlet extends HttpServlet {
+public class UpdateServiceServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,10 +29,10 @@ public class UpdateFeedbackServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateFeedbackServlet</title>");  
+            out.println("<title>Servlet UpdateServiceServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateFeedbackServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UpdateServiceServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -68,20 +62,17 @@ public class UpdateFeedbackServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        int feedbackID = Integer.parseInt(request.getParameter("feedbackID"));
-        String description = request.getParameter("description");
-        byte rating = Byte.parseByte(request.getParameter("rating"));
-
-        Feedback feedback = FeedbackDB.getFeedbackByID(feedbackID);
-        feedback.setDescription(description);
-        feedback.setRating(rating);
-
-        try {
-            FeedbackDB.updateFeedback(feedback);
-        } catch (Exception e) {
-            e.printStackTrace();
+        int serviceId = Integer.parseInt(request.getParameter("serviceId"));
+        int hotelId = Integer.parseInt(request.getParameter("hotelId"));
+        int newPrice = Integer.parseInt(request.getParameter("price"));
+        boolean success = HotelServiceDB.updateService(hotelId, serviceId, newPrice);
+        
+        if (success) {
+            response.sendRedirect("HotelHost_HotelService.jsp");
+        } else {
+            request.setAttribute("errorMessage", "Failed to update the service price.");
+            request.getRequestDispatcher("HotelHost_HotelService.jsp").forward(request, response);
         }
-        response.sendRedirect("MyFeedback.jsp");
     }
     
 

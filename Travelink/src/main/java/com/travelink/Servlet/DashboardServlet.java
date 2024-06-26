@@ -83,7 +83,7 @@ public class DashboardServlet extends HttpServlet {
         }
 
         //Check if the hotel does not exist or the month is invalid
-        Hotel hotel = HotelDB.getHotelByHotelID(hotel_ID);
+        Hotel hotel = HotelDB.getHotelByID(hotel_ID);
         if (month < 0 || month > 12 || hotel == null) {
             response.sendRedirect("Error.jsp");
             return;

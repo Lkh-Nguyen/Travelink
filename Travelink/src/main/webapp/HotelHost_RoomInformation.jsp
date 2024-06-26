@@ -44,7 +44,7 @@
     <body>
         <%@include file="Header_HotelHost.jsp" %>
         <div class="container-fluid">
-            <a href="Home_HotelHost.jsp" class="btn btn-outline-primary mt-2"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
+            <a href="UpdateHotelRoom" class="btn btn-outline-primary mt-2"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
             <div class="row p-4 d-flex align-items-center row-compact">
                 <div class="col-md-12">
                     <div class="card">
@@ -60,68 +60,22 @@
                                     <tr class="text-center">
                                         <th scope="col">No.</th>
                                         <th scope="col">NAME</th>
-                                        <th scope="col">EMAIL</th>
-                                        <th scope="col">STAR</th>
-                                        <th scope="col">PHONE</th>
-                                        <th scope="col">DESCRIPTION</th>
-                                        <th scope="col">ADDRESS</th>
+                                        <th scope="col">CAPACITY</th>
+                                        <th scope="col">TOTAL ROOMS</th>
+                                        <th scope="col">PRICE</th>
                                         <th scope="col">STATUS</th>
                                         <th scope="col">ACTION</th>
                                     </tr>
                                 </thead>
-                                <c:forEach var="h" items="${requestScope.hotel_list}" varStatus="loopStatus">
+                                <c:forEach var="h" items="${requestScope.room_list}" varStatus="loopStatus">
                                     <tbody class="table-group-divider align-items-center text-center mt-2">
                                         <tr>
                                             <th scope="row">${loopStatus.index + 1}</th>
                                             <td>${h.name}</td>
-                                            <td>${h.email}</td>
-                                            <td>
-                                                <div style="width: 8rem;">
-                                                    <c:if test="${h.star == 5}">
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                    </c:if>
-                                                    <c:if test="${h.star == 4}">
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star'></i>
-                                                    </c:if>
-                                                    <c:if test="${h.star == 3}">
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star'></i>
-                                                        <i class='bx bxs-star'></i>
-                                                    </c:if>
-                                                    <c:if test="${h.star == 2}">
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star'></i>
-                                                        <i class='bx bxs-star'></i>
-                                                        <i class='bx bxs-star'></i>
-                                                    </c:if>
-                                                    <c:if test="${h.star == 1}">
-                                                        <i class='bx bxs-star' style="color: yellow"></i>
-                                                        <i class='bx bxs-star'></i>
-                                                        <i class='bx bxs-star'></i>
-                                                        <i class='bx bxs-star'></i>
-                                                        <i class='bx bxs-star'></i>
-                                                    </c:if>
-                                                </div>
-                                            </td>
-                                            <td>${h.phoneNumber}</td>
-                                            <td class="justify-content-start">
-                                                <div class="card-text">${h.description}</div>
-                                            </td>
-                                            <td>
-                                                <div style="width: 15rem;">${h.address}</div>
-                                            </td>
-                                            <td>Active</td>
+                                            <td>${h.capacity}</td>
+                                            <td>${h.totalRooms}</td>
+                                            <td>${h.price}</td>
+                                            <td>${h.status}</td>
                                             <td>
                                                 <form class="row m-1 p-1" action="#" method="#" id="cancelForm">
                                                     <button type="button" class="btn btn-outline-primary mb-1 w-100 cancel-button" data-reservation-id="${entry.key}">
@@ -146,8 +100,8 @@
                                                 </form>
                                                 <div class="row">
                                                     <div class="col-md-12 m-2">
-                                                        <a class="btn btn-outline-primary" href="UpdateHotelRoomServlet?hotelID=${h.hotel_ID}">
-                                                            Room Detail
+                                                        <a class="btn btn-outline-primary" href="UpdateHotelBed?room_ID=${h.room_ID}">
+                                                            Bed Detail
                                                         </a>                                                    
                                                     </div>
                                                 </div>

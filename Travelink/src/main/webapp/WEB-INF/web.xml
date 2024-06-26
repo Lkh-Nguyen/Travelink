@@ -167,10 +167,26 @@
     <servlet>
         <servlet-name>DeleteServiceServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.DeleteServiceServlet</servlet-class>
-        </servlet>
-        <servlet>
+    </servlet>
+    <servlet>
         <servlet-name>OfflineBookingServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.OfflineBookingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NotYet_Hotel_Service</servlet-name>
+        <servlet-class>com.travelink.Servlet.NotYet_Hotel_Service</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateHotelRoomServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateHotelRoomServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateHotelInformationServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateHotelInformationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateHotelBedServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateHotelBedServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -328,9 +344,25 @@
         <servlet-name>DeleteServiceServlet</servlet-name>
         <url-pattern>/DeleteServiceServlet</url-pattern>
     </servlet-mapping>
-        <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>OfflineBookingServlet</servlet-name>
         <url-pattern>/OfflineBookingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotYet_Hotel_Service</servlet-name>
+        <url-pattern>/NotYet_Hotel_Service</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateHotelRoomServlet</servlet-name>
+        <url-pattern>/UpdateHotelRoomServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateHotelInformationServlet</servlet-name>
+        <url-pattern>/UpdateHotelInformationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateHotelBedServlet</servlet-name>
+        <url-pattern>/UpdateHotelBedServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

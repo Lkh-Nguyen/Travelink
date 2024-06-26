@@ -73,7 +73,7 @@ public class ViewRoom extends HttpServlet {
         request.setAttribute("roomImgList", roomImgList);
         //hotel
         int hotelId = Integer.parseInt(request.getParameter("hotelId"));
-        Hotel hotel = HotelDB.getHotelByHotelID(hotelId);
+        Hotel hotel = HotelDB.getHotelByID(hotelId);
         request.setAttribute("hotel_view", hotel);
         List<Facility> hotelFacilityList = HotelFacilityDB.getFacilitiesByHotelID(hotelId);
         request.setAttribute("hotelFacilityList", hotelFacilityList);

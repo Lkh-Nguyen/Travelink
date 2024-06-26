@@ -43,7 +43,7 @@ public class OfflineBookingServlet extends HttpServlet {
         //Getting data from the form
         String hotel_IDStr = request.getParameter("hotel_ID");
         int hotel_ID = Integer.parseInt(hotel_IDStr);
-        Hotel hotel = HotelDB.getHotelByHotelID(hotel_ID);
+        Hotel hotel = HotelDB.getHotelByID(hotel_ID);
         String checkInDateStr = request.getParameter("checkInDate");
         String checkOutDateStr = request.getParameter("checkOutDate");
 

@@ -48,7 +48,7 @@ public class CheckoutServlet extends HttpServlet {
         int hotel_ID = Integer.parseInt(hotel_IDStr);
         
         //Set Attribute
-        Hotel hotel = HotelDB.getHotelByHotelID(hotel_ID);
+        Hotel hotel = HotelDB.getHotelByID(hotel_ID);
         Map<Room, Integer> bookingMap = getBookingsFromBookingString(bookingStr);
         int totalPriceInt = calculateTotalPrice(bookingMap);
         String totalPriceStr = Integer.valueOf(totalPriceInt).toString();

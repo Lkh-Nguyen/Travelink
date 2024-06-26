@@ -157,6 +157,18 @@
         <servlet-class>com.travelink.Servlet.DashboardServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>UpdateServiceServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateServiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddServiceServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.AddServiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteServiceServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.DeleteServiceServlet</servlet-class>
+        </servlet>
+        <servlet>
         <servlet-name>OfflineBookingServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.OfflineBookingServlet</servlet-class>
     </servlet>
@@ -305,6 +317,18 @@
         <url-pattern>/DashboardServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>UpdateServiceServlet</servlet-name>
+        <url-pattern>/UpdateServiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddServiceServlet</servlet-name>
+        <url-pattern>/AddServiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteServiceServlet</servlet-name>
+        <url-pattern>/DeleteServiceServlet</url-pattern>
+    </servlet-mapping>
+        <servlet-mapping>
         <servlet-name>OfflineBookingServlet</servlet-name>
         <url-pattern>/OfflineBookingServlet</url-pattern>
     </servlet-mapping>

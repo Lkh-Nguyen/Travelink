@@ -347,7 +347,7 @@ public class AccountDB {
     }
 
     public static void main(String[] args) {
-        Account account = AccountDB.getAccount("example@email.com");
+        Account account = AccountDB.getAccountByFeedbackID(2);
         System.out.println(account.toString());
     }
 }

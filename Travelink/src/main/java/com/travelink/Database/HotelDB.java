@@ -318,4 +318,63 @@ public class HotelDB implements DatabaseInfo {
         return hotel;
     }
 
+    public static Hotel getHotelByFeedbackID(int feedbackID) {
+        Hotel hotel = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT h.*" +
+                     "FROM Feedback f " +
+                     "JOIN Reservation r ON f.Reservation_ID = r.Reservation_ID " +
+                     "JOIN Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID " +
+                     "JOIN Room ro ON rr.Room_ID = ro.Room_ID " +
+                     "JOIN Hotel h ON ro.Hotel_ID = h.Hotel_ID " +
+                     "WHERE f.Feedback_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, feedbackID); 
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    hotel = new Hotel();
+                    hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
+                    hotel.setName(resultSet.getString("Name"));
+                    hotel.setEmail(resultSet.getString("Email"));
+                    hotel.setStar(resultSet.getInt("Star"));
+                    hotel.setRating(resultSet.getFloat("Rating"));
+                    hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
+                    hotel.setDescription(resultSet.getString("Description"));
+                    // Convert SQL TIME to LocalTime
+                    hotel.setCheckInTimeStart(resultSet.getTime("CheckInTimeStart").toLocalTime());
+                    hotel.setCheckInTimeEnd(resultSet.getTime("CheckInTimeEnd").toLocalTime());
+                    hotel.setCheckOutTimeStart(resultSet.getTime("CheckOutTimeStart").toLocalTime());
+                    hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
+                    hotel.setAddress(resultSet.getString("Address"));
+                    hotel.setWard_ID(resultSet.getInt("Ward_ID"));
+                    hotel.setStatus(resultSet.getString("Status"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting hotel by Room ID: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return hotel;
+}
 }

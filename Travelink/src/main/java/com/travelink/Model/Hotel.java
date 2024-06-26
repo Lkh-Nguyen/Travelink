@@ -160,8 +160,8 @@ public class Hotel {
         this.rating = rating;
     }
     
-    public String getAnURL(int id){
-        return HotelImageDB.getHotelImagesByHotelID(id).get(0).getUrl();
+    public String getAnURL(){
+        return HotelImageDB.getHotelImagesByHotelID(this.hotel_ID).get(0).getUrl();
     }
     
     public String getLocation(){

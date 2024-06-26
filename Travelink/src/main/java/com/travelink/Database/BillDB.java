@@ -192,7 +192,7 @@ public class BillDB implements DatabaseInfo {
             if (conn != null) {
                 // Query to select bills based on checkInDate, checkOutDate, status 'finished' or 'processing'
                 String query = "SELECT * FROM Bill WHERE Account_ID = ? AND "
-                        + "CheckOutDate < GETDATE() AND (Status = 'PAID' OR Status = 'FINISH') ORDER BY Reservation_ID desc";
+                        + "CheckOutDate < GETDATE() AND (Status = 'FINISHED' OR Status = 'FEEDBACKED') ORDER BY Reservation_ID desc";
                 ps = conn.prepareStatement(query);
                 ps.setInt(1, account_ID);
                 rs = ps.executeQuery();

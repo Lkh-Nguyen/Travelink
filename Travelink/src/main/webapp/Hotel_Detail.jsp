@@ -387,7 +387,7 @@
                         <c:forEach var="f" items="${requestScope.feedbacks}">
                             <div class="w-100 mb-3">
 
-                                <div class="card card-body mb-3" data-customer-id="${f.account_ID}" style="border: 1px solid rgb(227,227,227);border-radius: 5px;padding: 1rem">
+                                <div class="card card-body mb-3" data-customer-id="${f.getAccount(f.feedbackID).account_ID}" style="border: 1px solid rgb(227,227,227);border-radius: 5px;padding: 1rem">
                                     <div class="d-flex">
                                         <div class="avatar"><img src="${f.getAccount(f.feedbackID).avatarURL}" width="50"></div>
                                         <div class="ms-3">

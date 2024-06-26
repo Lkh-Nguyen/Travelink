@@ -4,7 +4,7 @@
  */
 package com.travelink.Model;
 
-import com.travelink.Database.FeedbackDB;
+import com.travelink.Database.AccountDB;
 import com.travelink.Database.HotelDB;
 import java.sql.Date;
 
@@ -91,6 +91,13 @@ public class Feedback {
         this.reservation_ID = reservation_ID;
     }
 
+    public Account getAccount(int feedbackID){
+        return AccountDB.getAccountByFeedbackID(feedbackID);
+    }
+    
+    public Hotel getHotel(int feedbackID){
+        return HotelDB.getHotelByFeedbackID(feedbackID);
+    }
     @Override
     public String toString() {
         return "Feedback{" + "feedbackID=" + feedbackID + ", description=" + description + ", rating=" + rating + ", date=" + date + ", likesCount=" + likesCount + ", dislikesCount=" + dislikesCount + ", reservation_ID=" + reservation_ID + '}';

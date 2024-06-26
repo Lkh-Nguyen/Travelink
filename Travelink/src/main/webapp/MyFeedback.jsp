@@ -26,15 +26,16 @@
             <a href="Home_Customer.jsp" class="btn btn-outline-primary mt-2 mb-5"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
             <c:if test="${not empty feedbacks}">
                 <c:forEach var="f" items="${feedbacks}">
-                    <div class="row feedback mb-4" id="feedback-${f.feedbackID}">
+                    <c:set var="id" value="${f.feedbackID}"/>
+                    <div class="row feedback mb-4" id="feedback-${id}">
                         <div class="col-md-5">
                             <div class="card h-100 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-4"><img src="${f.getHotel(f.hotelID).getAnURL(f.hotelID)}" alt="Hotel Image" class="img-fluid" style="width: 10rem; height: 8rem;"></div>
+                                        <div class="col-md-4"><img src="${f.getHotel(id).getAnURL()}" alt="Hotel Image" class="img-fluid" style="width: 10rem; height: 8rem;"></div>
                                         <div class="col-md-8">
-                                            <p class="card-text"><span class="fw-bold">Hotel Brand: </span>${f.getHotel(f.hotelID).name}</p>
-                                            <p class="card-text"><span class="fw-bold">Address: </span>${f.getHotel(f.hotelID).address}</p>
+                                            <p class="card-text"><span class="fw-bold">Hotel Brand: </span>${f.getHotel(id).name}</p>
+                                            <p class="card-text"><span class="fw-bold">Address: </span>${f.getHotel(id).address}</p>
                                             <p class="card-text"><span class="fw-bold">Overview: </span>
                                                 <img src="img_Hotel/star.svg" alt="Update" style="width: 15px; height: 15px; margin-right: 5px;">
                                                 <img src="img_Hotel/star.svg" alt="Update" style="width: 15px; height: 15px; margin-right: 5px;">
@@ -54,8 +55,8 @@
                             <div class="card h-100 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
                                 <div class="card-body">
                                     <h4 class="card-title d-flex align-items-center">
-                                        <img src="${f.getAccount(f.feedbackID).avatarURL}" alt="Avatar" class="rounded-circle me-3" style="width: 50px; height: 50px;">
-                                        ${f.getAccount(f.feedbackID).name}
+                                        <img src="${f.getAccount(id).avatarURL}" alt="Avatar" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                                        ${f.getAccount(id).name}
                                     </h4>
                                     <div class="mb-3">
                                         Date: ${f.date}
@@ -72,16 +73,16 @@
                                 </div>
                                 <div class="row p-3 justify-content-end mt-auto">
                                     <div class="col-md-9">
-                                        <button class="btn btn-primary me-4 update-btn" data-id="${f.feedbackID}">
+                                        <button class="btn btn-primary me-4 update-btn" data-id="${id}">
                                             <img src="img_Hotel/update.svg" alt="Update" style="width: 20px; height: 20px; margin-right: 5px;"> Update
                                         </button>
-                                        <button class="btn btn-danger me-4 delete-btn" data-id="${f.feedbackID}">
+                                        <button class="btn btn-danger me-4 delete-btn" data-id="${id}">
                                             <img src="img_Hotel/delete.svg" alt="Delete" style="width: 20px; height: 20px; margin-right: 5px;"> Delete
                                         </button>
-                                        <button class="btn btn-success me-4 save-btn d-none" data-id="${f.feedbackID}">
+                                        <button class="btn btn-success me-4 save-btn d-none" data-id="${id}">
                                             <img src="img_Hotel/create.svg" alt="Save" style="width: 20px; height: 20px; margin-right: 5px;"> Save
                                         </button>
-                                        <button class="btn btn-secondary me-4 cancel-btn d-none" data-id="${f.feedbackID}">
+                                        <button class="btn btn-secondary me-4 cancel-btn d-none" data-id="${id}">
                                             <img src="img_Hotel/cancel_invoice.svg" alt="Cancel" style="width: 20px; height: 20px; margin-right: 5px;"> Cancel
                                         </button>
                                     </div>

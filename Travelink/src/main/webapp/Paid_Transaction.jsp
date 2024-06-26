@@ -244,17 +244,20 @@
                 <div class="container mb-5">
                     <h1 class="fw-bold fs-1">History</h1>
                     <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col-md-3 d-flex align-items-center justify-content-center">
+                       <div class="row mb-3">
+                            <div class="col-md-2 d-flex align-items-center justify-content-center">
                                 <a href="All_Hotel_Service" class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px">ALL</a>
                             </div>
                             <div class="col-md-3 d-flex align-items-center justify-content-center">
                                 <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="Paid_Hotel_Service">FINISHED</a>
                             </div>
-                            <div class="col-md-3 d-flex align-items-center justify-content-center">
-                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="NotPaid_Hotel_Service">PROCESSING</a>
+                            <div class="col-md-2 d-flex align-items-center justify-content-center">
+                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="NotPaid_Hotel_Service">PAID</a>
                             </div>
                             <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="NotYet_Hotel_Service">PROCESSING</a>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-center justify-content-center">
                                 <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="Cancel_Hotel_Service">CANCEL</a>
                             </div>
                         </div>
@@ -287,13 +290,13 @@
                                             <p class="card-text">
                                                 <i class='bx bx-dollar-circle'></i> Total Price: ${entry.value[0].total_price}
                                             </p>
-                                            <c:if test="${entry.value[0].status == 'PAID'}">
+                                            <c:if test="${entry.value[0].status == 'FINISHED'}">
                                                 <p class="card-text">
                                                     <i class='bx bx-check-square'></i>
                                                     <span class="badge text-bg-success">${entry.value[0].status}</span>
                                                 </p>
                                             </c:if>
-                                                <c:if test="${entry.value[0].status == 'FINISH'}">
+                                                <c:if test="${entry.value[0].status == 'FEEDBACKED'}">
                                                 <p class="card-text">
                                                     <i class='bx bx-check-square'></i>
                                                     <span class="badge text-bg-primary">${entry.value[0].status}</span>
@@ -303,14 +306,14 @@
                                                 <i class='bx bx-detail'></i> View Details
                                             </a>
                                                 <hr>
-                                            <c:if test="${entry.value[0].status == 'PAID'}">
+                                            <c:if test="${entry.value[0].status == 'FINISHED'}">
                                                 <div class="row m-1"> 
                                                         <a class="btn btn-outline-primary mb-2" href="CreateFeedback.jsp?reservation_ID=${h.reservationID}&hotel_ID=${h.hotel_ID}">
                                                             <i class="fa-regular fa-comment"></i> Feedback
                                                         </a>
                                                 </div>
                                             </c:if>
-                                            <c:if test="${entry.value[0].status == 'FINISH'}">
+                                            <c:if test="${entry.value[0].status == 'FEEDBACKED'}">
                                                 <div class="row"> 
                                                     <div class="col-md-12">
                                                         <button class="btn btn-outline-primary mb-2 w-100" style="height: 61px" disabled>

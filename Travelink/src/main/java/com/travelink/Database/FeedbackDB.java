@@ -208,7 +208,7 @@ public class FeedbackDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT DISTINCT f.* FROM Feedback f "
+                String query = "SELECT f.* FROM Feedback f "
                         + "JOIN Reservation r ON f.Reservation_ID = r.Reservation_ID "
                         + "JOIN Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID "
                         + "JOIN Room ro ON rr.Room_ID = ro.Room_ID "
@@ -492,6 +492,10 @@ public class FeedbackDB implements DatabaseInfo {
             System.out.println("Error: Connection failed!");
         }
         return false;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(getFeedbacksByAccountID(6));
     }
 
     // You can add more functions as needed, such as:

@@ -4,6 +4,7 @@
  */
 package com.travelink.Database;
 
+import com.travelink.Model.RefundingReservation;
 import com.travelink.Model.Reservation;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -414,11 +415,11 @@ public class ReservationDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) {
-        int testHotelID = 1; // Replace with a valid Hotel_ID to test
+        int testHotelID = 3; // Replace with a valid Hotel_ID to test
         List<Reservation> reservationList = ReservationDB.getVietQRReservationsByHotelID(testHotelID);
 
         // Retrieve the list of reservations with Payment Method 'VIETQR' for the given Hotel_ID
-        List<Reservation> filteredReservations = ReservationDB.filterByCheckoutMonthAndYear(reservationList, 6, 2024);
+        List<Reservation> filteredReservations = ReservationDB.filterByCheckoutMonthAndYear(reservationList, 5, 2024);
         List<Reservation> finishedReservations = ReservationDB.filterByStatus(filteredReservations, "FINISHED");
         List<Reservation> cancelReservations = ReservationDB.filterByStatus(filteredReservations, "CANCEL");
         List<Reservation> refundingReservations = ReservationDB.filterByStatus(filteredReservations, "REFUNDING");
@@ -458,6 +459,7 @@ public class ReservationDB implements DatabaseInfo {
         }
 
         // Print sizes of lists
+        System.out.println("All VietQR reservations: " + reservationList.size());
         System.out.println("\nFiltered Reservations Size: " + filteredReservations.size());
         System.out.println("Finished Reservations Size: " + finishedReservations.size());
         System.out.println("Canceled Reservations Size: " + cancelReservations.size());
@@ -477,4 +479,25 @@ public class ReservationDB implements DatabaseInfo {
         System.out.println(); // Print a blank line for separation
     }
 
+    public static List<Reservation> getReservationsInRefundingReservations(List<RefundingReservation> refundingReservations2) {
+        List<Reservation> matchingReservations = new ArrayList<>();
+        List<Integer> reservationIds = new ArrayList<>();
+
+        // Extract reservation IDs from refundingReservations2
+        for (RefundingReservation refundingReservation : refundingReservations2) {
+            reservationIds.add(refundingReservation.getReservationId());
+        }
+
+        // Get all reservations
+        List<Reservation> allReservations = getAllReservations();
+
+        // Find matching reservations by ID
+        for (Reservation reservation : allReservations) {
+            if (reservationIds.contains(reservation.getReservationID())) {
+                matchingReservations.add(reservation);
+            }
+        }
+
+        return matchingReservations;
+    }
 }

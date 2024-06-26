@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-
 /**
  *
  * @author HELLO
@@ -34,7 +33,7 @@ public class UpdateAvatar extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ChangeAvatar</title>");            
+            out.println("<title>Servlet ChangeAvatar</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ChangeAvatar at " + request.getContextPath() + "</h1>");
@@ -69,18 +68,23 @@ public class UpdateAvatar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            String urlAvatar = request.getParameter("urlAvatar");
-            HttpSession session = request.getSession();
-            Account sessionAccount = (Account) session.getAttribute("account");
-            
-            // Update the user's information
-        if (AccountDB.updateAvatarAccount(sessionAccount,urlAvatar)) {
+        String urlAvatar = request.getParameter("urlAvatar");
+        HttpSession session = request.getSession();
+        Account sessionAccount = (Account) session.getAttribute("account");
+
+        // Update the user's information
+        if (AccountDB.updateAvatarAccount(sessionAccount, urlAvatar)) {
             sessionAccount.setAvatarURL(urlAvatar);
             request.setAttribute("updateStatus", "Change avatar successfully.");
             // Update the session with the new user information
             session.setAttribute("account", sessionAccount);
         }
-        request.getRequestDispatcher("View_Avatar.jsp").forward(request, response);
+
+        if (sessionAccount.getRole() == 1) {
+            request.getRequestDispatcher("View_Avatar.jsp").forward(request, response);
+        } else if (sessionAccount.getRole() == 2) {
+            request.getRequestDispatcher("HotelHost_ViewAvatar.jsp").forward(request, response);
+        }
     }
 
     /**

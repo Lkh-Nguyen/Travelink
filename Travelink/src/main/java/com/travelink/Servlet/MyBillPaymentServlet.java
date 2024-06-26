@@ -86,6 +86,7 @@ public class MyBillPaymentServlet extends HttpServlet {
             }
         }
         
+        //Needed for Export Bill
         request.setAttribute("reservationID", reservation_ID);
         request.setAttribute("list_bill", list_bill);
         

@@ -1,5 +1,6 @@
-
 package com.travelink.Servlet;
+
+import com.travelink.Model.Account;
 import java.io.File;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -12,9 +13,9 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 
 @WebServlet("/UploadFileServlet")
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, 
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,
         maxFileSize = 1024 * 1024 * 50,
-        maxRequestSize = 1024 * 1024 * 50) 
+        maxRequestSize = 1024 * 1024 * 50)
 public class UploadImageAvatar extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -25,17 +26,25 @@ public class UploadImageAvatar extends HttpServlet {
             String fileName = extractFileName(part);
             fileName = new File(fileName).getName();
             File imagesDir = new File(getServletContext().getRealPath("/img_Avatar"));
-                if (!imagesDir.exists()) {
+            if (!imagesDir.exists()) {
                 imagesDir.mkdirs();
             }
-           
+
             String uploadPath = getServletContext().getRealPath("/img_Avatar") + File.separator + fileName;
-            part.write(uploadPath);    
+            part.write(uploadPath);
             request.setAttribute("uploadedFilePath", fileName);
             break;
         }
-        getServletContext().getRequestDispatcher("/View_Avatar.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        Account sessionAccount = (Account) session.getAttribute("account");
+        if (sessionAccount.getRole() == 1) {
+            getServletContext().getRequestDispatcher("/View_Avatar.jsp").forward(request, response);
+        } else if (sessionAccount.getRole() == 2) {
+            getServletContext().getRequestDispatcher("/HotelHost_ViewAvatar.jsp").forward(request, response);
+        }
+       
     }
+
     private String extractFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");
         String[] items = contentDisp.split(";");

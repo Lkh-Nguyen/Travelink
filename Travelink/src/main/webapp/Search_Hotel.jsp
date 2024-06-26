@@ -131,18 +131,19 @@
                         <span><i class="ri-calendar-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
-                                <input type="date" name="check_in_date" value="${sessionScope.checkInDate}"required=""/>
+                                <input id="checkInDate" type="date" name="check_in_date" value="${sessionScope.checkInDate}"
+                                        onchange="validateDates()" required=""/>
                                 <label>Departure</label>
                             </div>
                             <p style="margin-bottom: 0px">Add date</p>
                             <p style="color: red"> ${requestScope.statusBeginDate}</p>
                         </div>
                     </div>
-                    <div class="form__group">
+                    <div class="form__group" >
                         <span><i class="ri-calendar-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
-                                <input type="date" value="${sessionScope.checkOutDate}" name="check_out_date" required=""/>
+                                <input id="checkOutDate" onchange="validateDates()" type="date" value="${sessionScope.checkOutDate}" name="check_out_date" required=""/>
                                 <label>Return</label>
                             </div>
                             <p style="margin-bottom: 0px">Add date</p> 
@@ -181,7 +182,7 @@
                             <div id="googleMap" style="width: 100%; height: 100%;">
                                 <iframe src="${requestScope.url}" 
                                         width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy" 
-                                    referrerpolicy="no-referrer-when-downgrade">
+                                        referrerpolicy="no-referrer-when-downgrade">
                                 </iframe>
                             </div>
                         </div>
@@ -296,56 +297,82 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
         <script src="js/Search_Hotel.js"></script>
         <script>
-                                let thisPage = 1;
-                                let limit = 6;
-                                let list = document.querySelectorAll(".card");
-                                function loadItem() {
-                                    let beginGet = limit * (thisPage - 1);
-                                    let endGet = limit * thisPage - 1;
-                                    list.forEach((item, key) => {
-                                        if (key >= beginGet && key <= endGet) {
-                                            item.style.display = "block";
-                                        } else {
-                                            item.style.display = "none";
-                                        }
-                                    });
-                                    listPage();
-                                }
-                                loadItem();
-                                function listPage() {
-                                    let count = Math.ceil(list.length / limit);
-                                    document.querySelector('.listPage').innerHTML = '';
+            let thisPage = 1;
+            let limit = 6;
+            let list = document.querySelectorAll(".card");
+            function loadItem() {
+                let beginGet = limit * (thisPage - 1);
+                let endGet = limit * thisPage - 1;
+                list.forEach((item, key) => {
+                    if (key >= beginGet && key <= endGet) {
+                        item.style.display = "block";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+                listPage();
+            }
+            loadItem();
+            function listPage() {
+                let count = Math.ceil(list.length / limit);
+                document.querySelector('.listPage').innerHTML = '';
 
-                                    if (thisPage != 1) {
-                                        let prev = document.createElement('li');
-                                        prev.innerText = 'PREV';
-                                        prev.setAttribute('onclick', "changePage(" + (thisPage - 1) + ")");
-                                        document.querySelector('.listPage').appendChild(prev);
-                                    }
-                                    for (i = 1; i <= count; i++) {
-                                        let newPage = document.createElement('li');
-                                        newPage.innerText = i;
-                                        if (i == thisPage) {
-                                            newPage.classList.add('active');
-                                        }
-                                        newPage.setAttribute('onclick', "changePage(" + i + ")");
-                                        document.querySelector('.listPage').appendChild(newPage);
-                                    }
+                if (thisPage != 1) {
+                    let prev = document.createElement('li');
+                    prev.innerText = 'PREV';
+                    prev.setAttribute('onclick', "changePage(" + (thisPage - 1) + ")");
+                    document.querySelector('.listPage').appendChild(prev);
+                }
+                for (i = 1; i <= count; i++) {
+                    let newPage = document.createElement('li');
+                    newPage.innerText = i;
+                    if (i == thisPage) {
+                        newPage.classList.add('active');
+                    }
+                    newPage.setAttribute('onclick', "changePage(" + i + ")");
+                    document.querySelector('.listPage').appendChild(newPage);
+                }
 
-                                    if (thisPage != count) {
-                                        let next = document.createElement('li');
-                                        next.innerText = 'NEXT';
-                                        next.setAttribute('onclick', "changePage(" + (thisPage + 1) + ")");
-                                        document.querySelector('.listPage').appendChild(next);
-                                    }
-                                }
-                                function changePage(i) {
-                                    thisPage = i;
-                                    loadItem();
-                                    let scrollPosition = window.scrollY;
-                                    window.scrollTo(0, scrollPosition);
-                                }
-                                
+                if (thisPage != count) {
+                    let next = document.createElement('li');
+                    next.innerText = 'NEXT';
+                    next.setAttribute('onclick', "changePage(" + (thisPage + 1) + ")");
+                    document.querySelector('.listPage').appendChild(next);
+                }
+            }
+            function changePage(i) {
+                thisPage = i;
+                loadItem();
+                let scrollPosition = window.scrollY;
+                window.scrollTo(0, scrollPosition);
+            }
+            //Check validate Date
+            function validateDates() {
+                var today = new Date();
+                var checkInDate = new Date(document.getElementById("checkInDate").value);
+                var checkOutDate = new Date(document.getElementById("checkOutDate").value);
+
+                // Set hours to 0 to compare dates without considering time
+                today.setHours(0, 0, 0, 0);
+                checkInDate.setHours(0, 0, 0, 0);
+                checkOutDate.setHours(0, 0, 0, 0);
+
+                // Check if checkInDate is today or later
+                if (checkInDate < today) {
+                    alert("Check-in date must be today or a future date.");
+                    document.getElementById("checkInDate").value = ''; // Clear incorrect date
+                    return false;
+                }
+
+                // Check if checkOutDate is after checkInDate
+                if (checkOutDate <= checkInDate) {
+                    alert("Check-out date must be after check-in date.");
+                    document.getElementById("checkOutDate").value = ''; // Clear incorrect date
+                    return false;
+                }
+
+                return true;
+            }
         </script>
     </body>
 </html>

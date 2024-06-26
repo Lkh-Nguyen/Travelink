@@ -82,7 +82,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
         HttpSession session = request.getSession();
         if (session.getAttribute("checkInDate") == null && session.getAttribute("checkOutDate") == null) {
             int hotel_ID = Integer.parseInt(request.getParameter("hotel_ID"));
-            Hotel hotel = HotelDB.getHotelByHotelID(hotel_ID);
+            Hotel hotel = HotelDB.getHotelByID(hotel_ID);
             request.setAttribute("hotel_view", hotel);
             List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(hotel_ID);
             // image center
@@ -139,7 +139,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
             request.getRequestDispatcher("Hotel_Detail.jsp").forward(request, response);
         } else if (session.getAttribute("checkInDate") != null && session.getAttribute("checkOutDate") != null) {
             int hotel_ID = Integer.parseInt(request.getParameter("hotel_ID"));
-            Hotel hotel = HotelDB.getHotelByHotelID(hotel_ID);
+            Hotel hotel = HotelDB.getHotelByID(hotel_ID);
             request.setAttribute("hotel_view", hotel);
             List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(hotel_ID);
             // image center
@@ -242,7 +242,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
                 }
             }
         }
-        Hotel hotel = HotelDB.getHotelByHotelID(hotelId);
+        Hotel hotel = HotelDB.getHotelByID(hotelId);
         request.setAttribute("hotel_view", hotel);
         List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(hotelId);
         // image center

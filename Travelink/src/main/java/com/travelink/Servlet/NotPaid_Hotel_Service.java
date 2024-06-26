@@ -77,7 +77,7 @@ public class NotPaid_Hotel_Service extends HttpServlet {
         // Assume List<Bill> listBill is already populated with data
        
 
-        List<Bill> list_bill = BillDB.getBillProcessingByCustomerID(account.getAccount_ID());
+        List<Bill> list_bill = BillDB.getBillNotYetStayByCustomerID(account.getAccount_ID());
         
         Map<Integer, List<Bill>> groupedBills = new LinkedHashMap<>();
         for (Bill bill : list_bill) {

@@ -291,13 +291,7 @@
                                             <p class="card-text">
                                                 <i class='bx bx-dollar-circle'></i> Total Price: ${entry.value[0].total_price}
                                             </p>
-                                            <c:if test="${entry.value[0].status == 'NOT PAID'}">
-                                                <p class="card-text">
-                                                    <i class='bx bx-check-square'></i>
-                                                    <span class="badge text-bg-warning">${entry.value[0].status}</span>
-                                                </p>
-                                            </c:if>
-                                            <c:if test="${entry.value[0].status == 'PAID'}">
+                                            <c:if test="${entry.value[0].status == 'PROCESSING'}">
                                                 <p class="card-text">
                                                     <i class='bx bx-check-square'></i>
                                                     <span class="badge text-bg-success">${entry.value[0].status}</span>
@@ -306,48 +300,6 @@
                                             <a href="MyBillPaymentServlet?reservation_ID=${entry.key}" class="btn btn-outline-primary mt-auto">
                                                 <i class='bx bx-detail'></i> View Details
                                             </a>
-                                            <hr>
-                                            <c:if test="${entry.value[0].status == 'NOT PAID'}">
-                                                <div class="row m-1">
-                                                    <c:if test="${requestScope.error != null}">
-                                                        <div class="alert alert-success" role="alert">
-                                                            ${requestScope.error}
-                                                        </div>
-                                                    </c:if>
-                                                </div>
-                                            </c:if>
-                                            <c:if test="${entry.value[0].status == 'PAID'}">
-                                                <div class="row">
-                                                    <c:if test="${requestScope.error != null}">
-                                                        <c:set var="checkInDate" value="${entry.value[0].checkInDate}" />
-                                                        <c:set var="currentDatePlusOne" value="${java.time.LocalDate.now().plusDays(1)}" />
-
-                                                        <c:choose>
-                                                            <c:when test="${currentDatePlusOne > checkInDate}">
-                                                                <a class="btn btn-outline-primary mb-2 disabled" href="#" onclick="return false;">
-                                                                    <i class="fa-solid fa-ban"></i> Cancel
-                                                                </a>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <form class="row m-1" action="CancelBookingServlet" method="post" id="cancelForm">
-                                                                    <button type="button" class="btn btn-outline-primary mb-1 w-100 cancel-button" data-reservation-id="${entry.key}">
-                                                                        <i class="fa-solid fa-ban"></i> Cancel
-                                                                    </button>
-                                                                    <input type="hidden" name="reservation_ID" value="${entry.key}"/>
-                                                                </form>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:if>
-                                                </div>
-                                            </c:if>
-
-                                            <c:if test="${entry.value[0].status == 'NOT PAID' && cookie.checkoutUrl.value != null}">
-                                                <div class="row m-1">
-                                                    <a class="btn btn-outline-warning mb-2" href="${cookie.checkoutUrl.value}" >
-                                                        <i class="fas fa-money-check-alt"></i> Pay Now
-                                                    </a>
-                                                </div>
-                                            </c:if>
                                         </div>
                                     </div>
                                 </div>

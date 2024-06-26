@@ -172,6 +172,22 @@
         <servlet-name>MyFeedbackServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.MyFeedbackServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NotYet_Hotel_Service</servlet-name>
+        <servlet-class>com.travelink.Servlet.NotYet_Hotel_Service</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateHotelRoomServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateHotelRoomServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateHotelInformationServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateHotelInformationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateHotelBedServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateHotelBedServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -331,6 +347,22 @@
     <servlet-mapping>
         <servlet-name>MyFeedbackServlet</servlet-name>
         <url-pattern>/MyFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotYet_Hotel_Service</servlet-name>
+        <url-pattern>/NotYet_Hotel_Service</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateHotelRoomServlet</servlet-name>
+        <url-pattern>/UpdateHotelRoomServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateHotelInformationServlet</servlet-name>
+        <url-pattern>/UpdateHotelInformationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateHotelBedServlet</servlet-name>
+        <url-pattern>/UpdateHotelBedServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

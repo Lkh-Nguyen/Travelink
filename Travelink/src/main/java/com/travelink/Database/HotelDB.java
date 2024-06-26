@@ -263,4 +263,59 @@ public class HotelDB implements DatabaseInfo {
         }
     }
 
+    public static Hotel getHotelByRoomID(int roomID) {
+        Hotel hotel = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT h.* FROM Hotel h "
+                        + "INNER JOIN Room r ON h.Hotel_ID = r.Hotel_ID "
+                        + "WHERE r.Room_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, roomID); // Set the Room_ID parameter
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    hotel = new Hotel();
+                    hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
+                    hotel.setName(resultSet.getString("Name"));
+                    hotel.setEmail(resultSet.getString("Email"));
+                    hotel.setStar(resultSet.getInt("Star"));
+                    hotel.setRating(resultSet.getFloat("Rating"));
+                    hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
+                    hotel.setDescription(resultSet.getString("Description"));
+                    // Convert SQL TIME to LocalTime
+                    hotel.setCheckInTimeStart(resultSet.getTime("CheckInTimeStart").toLocalTime());
+                    hotel.setCheckInTimeEnd(resultSet.getTime("CheckInTimeEnd").toLocalTime());
+                    hotel.setCheckOutTimeStart(resultSet.getTime("CheckOutTimeStart").toLocalTime());
+                    hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
+                    hotel.setAddress(resultSet.getString("Address"));
+                    hotel.setWard_ID(resultSet.getInt("Ward_ID"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting hotel by Room ID: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return hotel;
+    }
+
 }

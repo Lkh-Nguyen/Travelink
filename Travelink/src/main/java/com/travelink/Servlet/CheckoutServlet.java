@@ -48,7 +48,7 @@ public class CheckoutServlet extends HttpServlet {
         int hotel_ID = Integer.parseInt(hotel_IDStr);
         
         //Set Attribute
-        Hotel hotel = HotelDB.getHotelByID(hotel_ID);
+        Hotel hotel = HotelDB.getHotelByHotelID(hotel_ID);
         Map<Room, Integer> bookingMap = getBookingsFromBookingString(bookingStr);
         int totalPriceInt = calculateTotalPrice(bookingMap);
         String totalPriceStr = Integer.valueOf(totalPriceInt).toString();
@@ -69,7 +69,7 @@ public class CheckoutServlet extends HttpServlet {
             String[] detail = s.split(",");
             String room_IDStr = detail[0];
             String quantityStr = detail[1];
-            Room room = RoomDB.getRoomByID(takeValue(room_IDStr));
+            Room room = RoomDB.getRoomByRoomID(takeValue(room_IDStr));
             int quantity = takeValue(quantityStr);
             map.put(room, quantity);
             totalPrice = quantity * room.getPrice();

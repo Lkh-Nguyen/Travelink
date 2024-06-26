@@ -67,7 +67,7 @@ public class ViewRoom extends HttpServlet {
     throws ServletException, IOException {
         //room
         int roomId = Integer.parseInt(request.getParameter("roomId"));
-        Room room_view = RoomDB.getRoomByID(roomId);
+        Room room_view = RoomDB.getRoomByRoomID(roomId);
         request.setAttribute("room_view", room_view);
         List<RoomImage> roomImgList = RoomImageDB.getRoomImagesByRoom_ID(roomId);
         request.setAttribute("roomImgList", roomImgList);

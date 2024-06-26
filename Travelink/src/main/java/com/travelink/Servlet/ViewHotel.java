@@ -64,7 +64,7 @@ public class ViewHotel extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         int hotelId = Integer.parseInt(request.getParameter("hotelId"));
-        Hotel hotel = HotelDB.getHotelByID(hotelId);
+        Hotel hotel = HotelDB.getHotelByHotelID(hotelId);
         request.setAttribute("hotel_view", hotel);
         List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(hotelId);
         request.setAttribute("hotelImgList", hotelImgList);

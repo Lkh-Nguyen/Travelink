@@ -65,17 +65,7 @@ CREATE TABLE Owned_Hotel (
 );
 GO
 
--- Create table Feedback
-CREATE TABLE Feedback (
-  Feedback_ID INT IDENTITY(1,1) PRIMARY KEY,
-  Description NTEXT,
-  Rating TINYINT,
-  Date DATE,
-  LikesCount INT,
-  DislikesCount INT,
-  Account_ID INT FOREIGN KEY REFERENCES Account(Account_ID) ON DELETE CASCADE,
-  Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
-);
+
 
 -- Create table Room
 CREATE TABLE Room (
@@ -224,6 +214,17 @@ CREATE TABLE Promotion (
   EndDate DATE NOT NULL
 );
 GO
+
+-- Create table Feedback
+CREATE TABLE Feedback (
+  Feedback_ID INT IDENTITY(1,1) PRIMARY KEY,
+  Description NTEXT,
+  Rating TINYINT,
+  Date DATE,
+  LikesCount INT,
+  DislikesCount INT,
+  Reservation_ID INT FOREIGN KEY REFERENCES Reservation(Reservation_ID) ON DELETE CASCADE,
+);
 
 -- Create table Monthly Revenue
 CREATE TABLE MonthlyPayment (

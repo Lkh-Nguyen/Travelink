@@ -104,7 +104,7 @@ public class Feedback {
         return FeedbackDB.getAccountByFeedbackID(id);
     }
     public Hotel getHotel(int id){
-        return HotelDB.getHotelByID(id);
+        return HotelDB.getHotelByHotelID(id);
     }
     @Override
     public String toString() {

@@ -58,7 +58,7 @@ public class RoomDB implements DatabaseInfo {
         return Rooms;
     }
 
-    public static Room getRoomByID(int id) {
+    public static Room getRoomByRoomID(int id) {
         Room Room = null;
         Connection connection = null;
         PreparedStatement statement = null;
@@ -142,7 +142,7 @@ public class RoomDB implements DatabaseInfo {
     }
 
     public static List<Reservation> reservationCoincide(Date userCheck_in_date, Date userCheck_out_date) {
-        List<Reservation> reservationList = ReservationDB.getAllReservations();
+        List<Reservation> reservationList = ReservationDB.getAllReservationsExcludingCancelledAndRefunding();
         List<Reservation> reservationCoincideList = new ArrayList<>();
         for (Reservation reservation : reservationList) {
             if (checkOverlap(reservation.getCheckInDate(), getDateBefore(reservation.getCheckOutDate(), 1), userCheck_in_date, userCheck_out_date)) {
@@ -162,9 +162,9 @@ public class RoomDB implements DatabaseInfo {
             }
         }
         if (check) {
-            return RoomDB.getRoomByID(RoomID).getTotalRooms();
+            return RoomDB.getRoomByRoomID(RoomID).getTotalRooms();
         } else {
-            int roomAvalable = RoomDB.getRoomByID(RoomID).getTotalRooms();
+            int roomAvalable = RoomDB.getRoomByRoomID(RoomID).getTotalRooms();
             for (Reservation reservation : reservationList) {
                 if (checkOverlap(date, reservation.getCheckInDate(), getDateBefore(reservation.getCheckOutDate(), 1))) {
                     List<ReservedRoom> reservedRoomList = reservedRoomsByReservation.get(reservation.getReservationID());
@@ -190,9 +190,9 @@ public class RoomDB implements DatabaseInfo {
             }
         }
         if (check == true) {
-            return RoomDB.getRoomByID(RoomID).getTotalRooms();
+            return RoomDB.getRoomByRoomID(RoomID).getTotalRooms();
         } else {
-            int roomAvalable = RoomDB.getRoomByID(RoomID).getTotalRooms();
+            int roomAvalable = RoomDB.getRoomByRoomID(RoomID).getTotalRooms();
             for (Reservation reservation : reservationList) {
                 if (checkOverlap(date, reservation.getCheckInDate(), reservation.getCheckOutDate())) {
                     int reservationID = reservation.getReservationID();
@@ -209,7 +209,7 @@ public class RoomDB implements DatabaseInfo {
     }
 
     public static int numberOfRoomAvailableByTime(int RoomID, Date beginDate, Date endDate, List<Reservation> reservationList) {
-        Room room = RoomDB.getRoomByID(RoomID);
+        Room room = RoomDB.getRoomByRoomID(RoomID);
         List<Date> dateList = getDateRange(beginDate, endDate);
         List<Integer> numberRoomList = new ArrayList<>();
         for (Date date : dateList) {
@@ -232,13 +232,13 @@ public class RoomDB implements DatabaseInfo {
         }
         return dateList;
     }
-        public static Date getDateBefore(Date date, int days) {
+
+    public static Date getDateBefore(Date date, int days) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DAY_OF_MONTH, -days);
         return cal.getTime();
     }
-
 
     public static void main(String[] args) throws SQLException {
 
@@ -257,7 +257,7 @@ public class RoomDB implements DatabaseInfo {
         // Test getRoomByID
         System.out.println("\n** Test getRoomByID **");
         int specificID = 3; // Replace with an existing room type ID
-        Room RoomByID = RoomDB.getRoomByID(specificID);
+        Room RoomByID = RoomDB.getRoomByRoomID(specificID);
         if (RoomByID != null) {
             System.out.println("Room Type Details (ID: " + specificID + "):");
             System.out.println(RoomByID);

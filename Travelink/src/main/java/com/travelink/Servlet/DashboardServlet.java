@@ -4,6 +4,7 @@
  */
 package com.travelink.Servlet;
 
+import com.travelink.Database.HotelDB;
 import com.travelink.Database.MonthlyPaymentDB;
 import com.travelink.Database.OwnedHotelDB;
 import com.travelink.Database.RefundingReservationDB;
@@ -81,11 +82,18 @@ public class DashboardServlet extends HttpServlet {
             return;
         }
 
-        //Check if the hotel is owned
+        //Check if the hotel does not exist or the month is invalid
+        Hotel hotel = HotelDB.getHotelByHotelID(hotel_ID);
+        if (month < 0 || month > 12 || hotel == null) {
+            response.sendRedirect("Error.jsp");
+            return;
+        }
+
+        //Check the owner of the hotel 
         System.out.println("Hotel id: " + hotel_ID);
         Account hotelOwner = OwnedHotelDB.getAccountByHotelID(hotel_ID);
         //If the login hotel host not the owner 
-        if (hotelOwner == null || !hotelOwner.getEmail().equalsIgnoreCase(account.getEmail())) {
+        if (!hotelOwner.getEmail().equalsIgnoreCase(account.getEmail())) {
             System.out.println("Not equals");
             response.sendRedirect("Error.jsp");
             return;

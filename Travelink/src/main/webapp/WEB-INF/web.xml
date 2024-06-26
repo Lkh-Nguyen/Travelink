@@ -151,10 +151,14 @@
     <servlet>
         <servlet-name>HotelHostHotelServiceServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.HotelHostHotelServiceServlet</servlet-class>
-        </servlet>
-        <servlet>
+    </servlet>
+    <servlet>
         <servlet-name>DashboardServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.DashboardServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OfflineBookingServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.OfflineBookingServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -295,10 +299,14 @@
     <servlet-mapping>
         <servlet-name>HotelHostHotelServiceServlet</servlet-name>
         <url-pattern>/HotelHostHotelServiceServlet</url-pattern>
-        </servlet-mapping>
-        <servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>DashboardServlet</servlet-name>
         <url-pattern>/DashboardServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OfflineBookingServlet</servlet-name>
+        <url-pattern>/OfflineBookingServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

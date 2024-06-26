@@ -167,10 +167,14 @@
     <servlet>
         <servlet-name>DeleteServiceServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.DeleteServiceServlet</servlet-class>
-        </servlet>
-        <servlet>
+    </servlet>
+    <servlet>
         <servlet-name>OfflineBookingServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.OfflineBookingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertOfflineBookingServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.InsertOfflineBookingServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -328,9 +332,13 @@
         <servlet-name>DeleteServiceServlet</servlet-name>
         <url-pattern>/DeleteServiceServlet</url-pattern>
     </servlet-mapping>
-        <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>OfflineBookingServlet</servlet-name>
         <url-pattern>/OfflineBookingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertOfflineBookingServlet</servlet-name>
+        <url-pattern>/InsertOfflineBookingServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

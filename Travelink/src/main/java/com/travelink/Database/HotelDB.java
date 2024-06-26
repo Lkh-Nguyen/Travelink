@@ -64,7 +64,7 @@ public class HotelDB implements DatabaseInfo {
         return hotels;
     }
 
-    public static Hotel getHotelByID(int id) {
+    public static Hotel getHotelByHotelID(int id) {
         Hotel hotel = null;
         Connection connection = null;
         PreparedStatement statement = null;
@@ -241,7 +241,7 @@ public class HotelDB implements DatabaseInfo {
         // Test getHotelByID
         System.out.println("\n** Test getHotelByID **");
         int specificID = 3; // Replace with an existing hotel ID
-        Hotel hotelByID = HotelDB.getHotelByID(specificID);
+        Hotel hotelByID = HotelDB.getHotelByHotelID(specificID);
         if (hotelByID != null) {
             System.out.println("Hotel Details (ID: " + specificID + "):");
             System.out.println(hotelByID);

@@ -267,6 +267,85 @@ public class AccountDB {
         return null;
     }
 
+    public static Account getAccountByFeedbackID(int feedbackID) {
+        Account account = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT a.* FROM Account a "
+                        + "JOIN Reservation r ON a.Account_ID = r.Account_ID "
+                        + "JOIN Feedback f ON r.Reservation_ID = f.Reservation_ID "
+                        + "WHERE f.Feedback_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, feedbackID); // Set the Feedback_ID parameter
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    account = new Account();
+                    account.setAccount_ID(resultSet.getInt("Account_ID"));
+                    account.setEmail(resultSet.getString("Email"));
+                    account.setPassword(resultSet.getString("Password"));
+                    account.setName(resultSet.getString("Name"));
+                    account.setRole(resultSet.getInt("Role"));
+
+                    // Handle potential null phone number
+                    account.setPhoneNumber(resultSet.getString("PhoneNumber"));
+
+                    // Handle optional attributes with null checks
+                    String cmnd = resultSet.getString("CMND");
+                    if (cmnd != null) {
+                        account.setCmnd(cmnd);
+                    }
+
+                    Character gender = resultSet.getString("Gender") != null ? resultSet.getString("Gender").charAt(0) : ' ';
+                    account.setGender(gender);
+
+                    java.sql.Date dateOfBirth = resultSet.getDate("DateOfBirth");
+                    if (dateOfBirth != null) {
+                        account.setDateOfBirth(dateOfBirth);
+                    } else {
+                        account.setDateOfBirth(null);
+                    }
+
+                    String avatarURL = resultSet.getString("AvatarURL");
+                    if (avatarURL != null) {
+                        account.setAvatarURL(avatarURL);
+                    }
+
+                    String address = resultSet.getString("Address");
+                    if (address != null) {
+                        account.setAddress(address);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting account by feedback ID: " + e);
+            e.printStackTrace();
+        } finally {
+            // Close resources in a finally block
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+                e.printStackTrace();
+            }
+        }
+        return account;
+    }
+
     public static void main(String[] args) {
         Account account = AccountDB.getAccount("example@email.com");
         System.out.println(account.toString());

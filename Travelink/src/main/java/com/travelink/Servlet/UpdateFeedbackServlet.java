@@ -72,7 +72,7 @@ public class UpdateFeedbackServlet extends HttpServlet {
         String description = request.getParameter("description");
         byte rating = Byte.parseByte(request.getParameter("rating"));
 
-        Feedback feedback = FeedbackDB.getFeedbackByID(feedbackID);
+        Feedback feedback = FeedbackDB.getFeedbackByFeedbackID(feedbackID);
         feedback.setDescription(description);
         feedback.setRating(rating);
 

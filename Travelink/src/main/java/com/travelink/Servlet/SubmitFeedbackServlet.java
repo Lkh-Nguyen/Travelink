@@ -6,8 +6,10 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.FeedbackDB;
+import com.travelink.Database.ReservationDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.Feedback;
+import com.travelink.Model.Reservation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -100,7 +102,8 @@ public class SubmitFeedbackServlet extends HttpServlet {
         try {
             // Insert the feedback into the database
             FeedbackDB.insertFeedback(feedback);
-            FeedbackDB.updateStatusBill(reservationID);
+            Reservation reservation = ReservationDB.getReservationByReservationID(reservationID);
+            ReservationDB.changedReservationStatusByReservationID(reservation, "FEEDBACKED");
             response.sendRedirect("Paid_Hotel_Service?check=true");
         } catch (SQLException ex) {
             // Handle database errors

@@ -68,7 +68,7 @@ public class UpdateFeedbackServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         int feedbackID = Integer.parseInt(request.getParameter("feedbackID"));
+        int feedbackID = Integer.parseInt(request.getParameter("feedbackID"));
         String description = request.getParameter("description");
         byte rating = Byte.parseByte(request.getParameter("rating"));
 

@@ -170,6 +170,71 @@ public class HotelServiceDB implements DatabaseInfo {
         }
         return isInserted;
     }
+    
+    public static boolean updateService(int hotelID, int serviceID, int newPrice) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        boolean isUpdated = false;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "UPDATE Hotel_Service SET Price = ? WHERE Hotel_ID = ? AND Service_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, newPrice);
+                statement.setInt(2, hotelID);
+                statement.setInt(3, serviceID);
+
+                int rowsUpdated = statement.executeUpdate();
+                if (rowsUpdated > 0) {
+                    isUpdated = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating service price: " + e);
+        } finally {
+            try {
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return isUpdated;
+    }
+    
+    public static boolean deleteHotelService(int hotelID,int serviceID) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        boolean isDeleted = false;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "DELETE FROM Hotel_Service WHERE Hotel_ID = ? AND Service_ID =?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, hotelID);
+                statement.setInt(2,serviceID);
+
+                int rowsDeleted = statement.executeUpdate();
+                if (rowsDeleted > 0) {
+                    isDeleted = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error deleting hotel service: " + e);
+        } finally {
+            try {
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return isDeleted;
+    }
 
     public static void main(String[] args) throws SQLException {
 

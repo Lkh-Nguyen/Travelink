@@ -6,6 +6,7 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.OwnedHotelDB;
+import com.travelink.Database.ServiceDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.Service;
@@ -68,8 +69,11 @@ public class HotelHostHotelServiceServlet extends HttpServlet {
             e.printStackTrace();
         }
         List<Hotel> hotels = new ArrayList<>();
+        List<Service> services = new ArrayList<>();
         hotels = OwnedHotelDB.getHotelsByAccountID(host.getAccount_ID());
+        services = ServiceDB.getAllServices();
         request.setAttribute("hotels", hotels);
+        session.setAttribute("allServices", services);
         request.getRequestDispatcher("HotelHost_HotelService.jsp").forward(request, response);
     } 
 

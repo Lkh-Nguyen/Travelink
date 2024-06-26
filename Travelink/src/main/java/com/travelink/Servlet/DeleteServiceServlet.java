@@ -1,51 +1,51 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
+
 package com.travelink.Servlet;
 
-import com.travelink.Database.AccountDB;
-import com.travelink.Model.Account;
+import com.travelink.Database.HotelServiceDB;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  *
- * @author HELLO
+ * @author DUYAN
  */
-public class UpdateAvatar extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+public class DeleteServiceServlet extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ChangeAvatar</title>");
+            out.println("<title>Servlet DeleteServiceServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ChangeAvatar at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteServiceServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -53,13 +53,12 @@ public class UpdateAvatar extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.getRequestDispatcher("View_Avatar.jsp").forward(request, response);
-    }
+    throws ServletException, IOException {
+        processRequest(request, response);
+    } 
 
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -67,29 +66,22 @@ public class UpdateAvatar extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String urlAvatar = request.getParameter("urlAvatar");
-        HttpSession session = request.getSession();
-        Account sessionAccount = (Account) session.getAttribute("account");
-
-        // Update the user's information
-        if (AccountDB.updateAvatarAccount(sessionAccount, urlAvatar)) {
-            sessionAccount.setAvatarURL(urlAvatar);
-            request.setAttribute("updateStatus", "Change avatar successfully.");
-            // Update the session with the new user information
-            session.setAttribute("account", sessionAccount);
+    throws ServletException, IOException {
+        String hotelIDStr = request.getParameter("hotelID");
+        String serviceIDStr = request.getParameter("serviceID");
+        int hotelID = 0; int serviceID = 0;
+        try {
+            hotelID = Integer.parseInt(hotelIDStr);
+            serviceID = Integer.parseInt(serviceIDStr);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        if (sessionAccount.getRole() == 1) {
-            request.getRequestDispatcher("View_Avatar.jsp").forward(request, response);
-        } else if (sessionAccount.getRole() == 2) {
-            request.getRequestDispatcher("HotelHost_ViewAvatar.jsp").forward(request, response);
-        }
+        boolean success = HotelServiceDB.deleteHotelService(hotelID, serviceID);
+        response.sendRedirect("HotelHostHotelServiceServlet");
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

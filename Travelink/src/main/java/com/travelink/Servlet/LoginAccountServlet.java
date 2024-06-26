@@ -61,7 +61,18 @@ public class LoginAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String roleStr = (String) request.getSession().getAttribute("role");
+        int role = 0;
+        try {
+            role = Integer.parseInt("roleStr");
+        } catch (Exception e) {
+        }
+        if(role == 1){
+            request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
+        }
+        else if (role == 2){
+            request.getRequestDispatcher("HotelHost_Login.jsp").forward(request, response);
+        }
     }
 
     /**

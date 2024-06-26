@@ -96,16 +96,15 @@ public class SubmitFeedbackServlet extends HttpServlet {
         feedback.setDescription(description);
         feedback.setRating(rating);
         feedback.setDate(java.sql.Date.valueOf(dateStr)); 
-        feedback.setAccount_ID(accountID);
-        feedback.setHotelID(hotelID);
+        feedback.setReservation_ID(reservationID);
 
         try {
             // Insert the feedback into the database
             FeedbackDB.insertFeedback(feedback);
             Reservation reservation = ReservationDB.getReservationByReservationID(reservationID);
-            ReservationDB.changedReservationStatusByReservationID(reservation, "FEEDBACKED");
+            ReservationDB.changedReservationStatusByReservationID(reservationID, "FEEDBACKED");
             response.sendRedirect("Paid_Hotel_Service?check=true");
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             // Handle database errors
             ex.printStackTrace();
             response.sendRedirect("Error.jsp");

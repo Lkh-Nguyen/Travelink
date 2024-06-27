@@ -4,6 +4,7 @@
     Author     : HELLO
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -60,11 +61,32 @@
                             <div class="card border-0">
                                 <div class="card-body" style="margin-top: 20px;
                                      padding: 0;">
-                                    <p class="fw-bold lh-1">Reservation ID:<span class="fw-normal text-muted lh-1"> 17</span>
+                                    <p class="fw-bold lh-1">Reservation ID:<span class="fw-normal text-muted lh-1"> ${requestScope.list_bill.get(0).reservationID}</span>
                                     <p class="fw-bold lh-1">Date Booking: 
                                         <span class="fw-normal text-muted lh-1">
-                                            17/04/2024
+                                            ${requestScope.list_bill.get(0).reservationDate}
                                         </span>
+                                    </p>
+                                    <p class="fw-bold lh-1">
+                                        Status: 
+                                        <c:if test="${requestScope.list_bill.get(0).status == 'FEEDBACKED'}">
+                                            <span class="badge text-bg-info">FEEDBACKED</span>
+                                        </c:if>
+                                        <c:if test="${requestScope.list_bill.get(0).status == 'CANCEL'}">
+                                            <span class="badge text-bg-danger">CANCEL</span>
+                                        </c:if>
+                                        <c:if test="${requestScope.list_bill.get(0).status == 'PAID'}">
+                                            <span class="badge text-bg-success">PAID</span>
+                                        </c:if>
+                                        <c:if test="${requestScope.list_bill.get(0).status == 'FINISHED'}">
+                                            <span class="badge text-bg-primary">FINISHED</span>
+                                        </c:if>
+                                        <c:if test="${requestScope.list_bill.get(0).status == 'PROCESSING'}">
+                                            <span class="badge text-bg-warning">PROCESSING</span>
+                                        </c:if>
+                                        <c:if test="${requestScope.list_bill.get(0).status == 'REFUNDING'}">
+                                            <span class="badge text-bg-warning">REFUNDING</span>
+                                        </c:if>
                                     </p>
                                 </div>
                             </div>
@@ -86,30 +108,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th scope="row" class="col-1">1</th>
-                                                <td class="col-3">Deluxe Suite</td>
-                                                <td class="col-1">2</td>
-                                                <td class="col-3">150.000 VND</td>
-                                                <td class="col-2">12/06/2024</td>
-                                                <td class="col-2">14/06/2024</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row" class="col-1">2</th>
-                                                <td class="col-3">Family Room</td>
-                                                <td class="col-1">1</td>
-                                                <td class="col-3">150.000 VND</td>
-                                                <td class="col-2">11/06/2024</td>
-                                                <td class="col-2">15/06/2024</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row" class="col-1">3</th>
-                                                <td class="col-3">Standard Room</td>
-                                                <td class="col-1">3</td>
-                                                <td class="col-3">350.000 VND</td>
-                                                <td class="col-2">12/06/2024</td>
-                                                <td class="col-2">15/06/2024</td>
-                                            </tr>
+
+                                            <c:forEach items="${requestScope.list_bill}" var="c" varStatus="status">
+                                                <tr>
+                                                    <th scope="row" class="col-1">${status.index + 1} </th>
+                                                    <td class="col-3">${c.room_Name}</td>
+                                                    <td class="col-1">${c.amount}</td>
+                                                    <td class="col-3"><span class="formatted-price">${requestScope.list_bill.get(0).room_price}</span> VND</td>
+                                                    <td class="col-2">${requestScope.list_bill.get(0).checkInDate}</td>
+                                                    <td class="col-2">${requestScope.list_bill.get(0).checkOutDate}</td>
+                                                </tr>
+                                            </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
@@ -124,34 +133,46 @@
                                     <div class="col-md-6 ">
                                         <h3 class="fw-bold">Information Customer:</h3>
                                         <div class="card-body p-2">
-                                            <p class="fw-bold lh-1">Name: <span class="fw-normal text-muted lh-1">Lê Kim Hoàng Nguyên</span></p>
-                                            <p class="fw-bold lh-1">Contact: <span class="fw-normal text-muted lh-1">46412395202</span></p>
-                                            <p class="fw-bold lh-1">Contact: <span class="fw-normal text-muted lh-1">0934726073</span></p>
-                                            <p class="fw-bold lh-1">Email: <span class="fw-normal text-muted lh-1">lkhnguyen3006@gmail.com</span></p>
-                                            <p class="fw-bold lh-1">Address: <span class="fw-normal text-muted lh-1">650 Trần Cao Vân, Thanh Khê, Đà Nẵng.</span></p>
+
+                                            <div class="row info-row mb-2">
+                                                <div class="col-4 fw-bold lh-1 ">Name Customer:</div>
+                                                <div class="col-7 fw-normal text-muted lh-1 px-0 ">${requestScope.user.name}</div>
+                                            </div>
+
+                                            <div class="row info-row mb-2">
+                                                <div class="col-4 fw-bold lh-1 ">PhoneNumber:</div>
+                                                <div class="col-7 fw-normal text-muted lh-1 px-0 ">${requestScope.user.phoneNumber}</div>
+                                            </div>
+                                            <div class="row info-row mb-2">
+                                                <div class="col-4 fw-bold lh-1">Email Customer:</div>
+                                                <div class="col-7 fw-normal text-muted lh-1 px-0">${requestScope.user.email}</div>
+                                            </div>
+                                            <c:if test="${requestScope.user.address != ''}">
+                                                <div class="row info-row mb-2">
+                                                    <div class="col-4 fw-bold lh-1">Address Customer:</div>
+                                                    <div class="col-7 fw-normal text-muted lh-1 px-0">${requestScope.user.address}</div>
+                                                </div>
+                                            </c:if>
+                                            <c:if test="${requestScope.user.cmnd != ''}">
+                                                <div class="row info-row mb-2">
+                                                    <div class="col-4 fw-bold lh-1">Contact Customer:</div>
+                                                    <div class="col-7 fw-normal text-muted lh-1 px-0">${requestScope.user.cmnd}</div>
+                                                </div>
+                                            </c:if>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mt-2">
                                         <div class="row">
-                                            <div class="col-md-3">
-                                                <p class="fw-bold lh-1">Sub Total:</p>
-                                                <p class="fw-bold lh-1">Tax:</p>
+                                            <div class="col-md-5">
+                                                <h3 class="fw-bold lh-1">Total Price:</h3>
                                             </div>
-                                            <div class="col-md-4">
-                                                <p class="text-muted fw-normal lh-1 ps-4">550.000 VND</p>
-                                                <p class="text-muted fw-normal lh-1 ps-4">0%</p>
+                                            <div class="col-md-6">
+                                                <h3 class="text-muted fw-normal lh-1 ps-4" style="margin-left: -70px"><span class="formatted-price">${requestScope.list_bill.get(0).total_price}</span> VNĐ</h3>
                                             </div>
-                                            <hr>
-                                            <div class="row mt-2">
-                                                <div class="col-md-3">
-                                                    <p class="fw-bold lh-1">Grand Total:</p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <p class="text-muted fw-normal lh-1 ps-4">550.000 VND</p>
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </div>
+                                    <a href="ExportBillServlet" class="btn btn-secondary">Download PDF <i class='bx bxs-download'></i></a>
                                     <div class="row gradient-background" style="height: 20px">
                                     </div>
                                 </div>
@@ -167,5 +188,21 @@
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
             <script src="bootstrap_css/bootstrap.min.js"></script>
+            <script>
+                // Lấy tất cả các phần tử có class là "formatted-price"
+                var priceElements = document.getElementsByClassName('formatted-price');
+
+                // Hàm định dạng tiền tệ
+                function formatCurrency(number) {
+                    return number.toLocaleString('vi-VN');
+                }
+
+                // Duyệt qua tất cả các phần tử và định dạng lại giá trị
+                for (var i = 0; i < priceElements.length; i++) {
+                    var rawPrice = priceElements[i].textContent;
+                    var totalPrice = parseInt(rawPrice, 10);
+                    priceElements[i].textContent = formatCurrency(totalPrice);
+                }
+            </script>
     </body>
 </html>

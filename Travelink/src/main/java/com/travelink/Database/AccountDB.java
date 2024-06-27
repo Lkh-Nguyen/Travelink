@@ -57,7 +57,73 @@ public class AccountDB {
         }
         return false;
     }
+    
+    public static Account getAccountByAccountID(int accountID) {
+        Connection con = DatabaseInfo.getConnect();
+        try {
+            Account Account = null;
+            PreparedStatement st = con.prepareStatement("SELECT * FROM Account WHERE Account_ID = ?");
+            st.setInt(1, accountID);
+            java.sql.ResultSet rs = st.executeQuery();
 
+            if (rs.next()) {
+                Account = new Account();
+                Account.setAccount_ID(rs.getInt("Account_ID"));
+                Account.setEmail(rs.getString("Email"));
+                Account.setPassword(rs.getString("Password"));
+                Account.setName(rs.getString("Name"));
+                // Handle potential null phone number
+                Account.setPhoneNumber(rs.getString("PhoneNumber"));
+
+                // Handle optional attributes with null checks (unchanged)
+                String cmnd = rs.getString("CMND");
+                if (cmnd != null) {
+                    Account.setCmnd(cmnd);
+                }
+
+                Character gender = rs.getString("Gender") != null ? rs.getString("Gender").charAt(0) : ' ';
+                Account.setGender(gender);
+
+                java.sql.Date dateOfBirth = rs.getDate("DateOfBirth");
+                if (dateOfBirth != null) {
+                    Account.setDateOfBirth(dateOfBirth);
+                } else {
+                    Account.setDateOfBirth(null);
+                }
+
+                String avatarURL = rs.getString("avatarURL");
+                if (avatarURL != null) {
+                    Account.setAvatarURL(avatarURL);
+                }
+
+                String address = rs.getString("Address");
+                if (address != null) {
+                    Account.setAddress(address);
+                }
+
+                int role = rs.getInt("Role");
+                Account.setRole(role);
+            }
+
+            return Account;
+        } catch (SQLException ex) {
+            // Handle exceptions appropriately (log or throw)
+            ex.printStackTrace();
+        } finally {
+            // Close resources in a finally block
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                // Handle exceptions appropriately (log or throw)
+                ex.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+    
     public static Account getAccount(String email) {
         Connection con = DatabaseInfo.getConnect();
         try {

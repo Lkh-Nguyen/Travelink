@@ -29,7 +29,7 @@ public class FeedbackDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM Feedback WHERE Feedback_ID = ?";
+                String query = "SELECT * FROM Feedback WHERE Feedback_ID = ? Order by date desc";
                 statement = connection.prepareStatement(query);
                 statement.setInt(1, feedbackID); // Set the ID parameter
                 resultSet = statement.executeQuery();
@@ -75,7 +75,7 @@ public class FeedbackDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM Feedback WHERE Reservation_ID = ?";
+                String query = "SELECT * FROM Feedback WHERE Reservation_ID = ? Order by date desc";
                 statement = connection.prepareStatement(query);
                 statement.setInt(1, reservationID); // Set the ID parameter
                 resultSet = statement.executeQuery();

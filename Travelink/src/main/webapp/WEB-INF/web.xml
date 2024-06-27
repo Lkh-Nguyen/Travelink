@@ -188,6 +188,18 @@
         <servlet-name>UpdateHotelBedServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.UpdateHotelBedServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HotelHost_BookingHistoryBillDetailServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_BookingHistoryBillDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelHost_BookingHistoryBillServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_BookingHistoryBillServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelHost_FeedbackServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_FeedbackServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -363,6 +375,18 @@
     <servlet-mapping>
         <servlet-name>UpdateHotelBedServlet</servlet-name>
         <url-pattern>/UpdateHotelBedServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_BookingHistoryBillDetailServlet</servlet-name>
+        <url-pattern>/HotelHost_BookingHistoryBillDetailServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_BookingHistoryBillServlet</servlet-name>
+        <url-pattern>/HotelHost_BookingHistoryBillServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_FeedbackServlet</servlet-name>
+        <url-pattern>/HotelHost_FeedbackServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -538,6 +538,7 @@
                                                         var isDisliking = dislikeButton.classList.contains('disliked');
 
                                                         // Optimistically update the UI
+                                                        
                                                         likesCountElement.textContent = likesCount + (isLiking ? 1 : -1);
                                                         likeButton.classList.toggle('liked');
 

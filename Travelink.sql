@@ -228,6 +228,23 @@ CREATE TABLE Feedback (
   Reservation_ID INT FOREIGN KEY REFERENCES Reservation(Reservation_ID) ON DELETE CASCADE,
 );
 
+CREATE TABLE UserFeedbackLikes (
+    Like_ID INT IDENTITY(1,1) PRIMARY KEY, -- Primary key with auto-increment
+    Account_ID INT NOT NULL, -- Foreign key to Account table
+    Feedback_ID INT NOT NULL, -- Foreign key to Feedback table
+    Liked BIT DEFAULT 0, -- 0 or 1 indicating whether the feedback is liked
+    Disliked BIT DEFAULT 0, -- 0 or 1 indicating whether the feedback is disliked
+    CONSTRAINT FK_UserFeedbackLikes_Account FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID) ON DELETE CASCADE,
+    CONSTRAINT FK_UserFeedbackLikes_Feedback 
+	FOREIGN KEY (Feedback_ID) REFERENCES Feedback(Feedback_ID) ON DELETE NO ACTION,
+    CONSTRAINT CK_Like_Dislike_Exclusive CHECK (
+        (Liked = 1 AND Disliked = 0) OR
+        (Liked = 0 AND Disliked = 1) OR
+        (Liked = 0 AND Disliked = 0)
+    )
+);
+
+
 -- Create table Monthly Revenue
 CREATE TABLE MonthlyPayment (
   Monthly_Payment_ID INT PRIMARY KEY IDENTITY(1,1),

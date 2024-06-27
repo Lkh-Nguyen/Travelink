@@ -64,10 +64,7 @@ public class PaymentServlet extends HttpServlet {
         //Else check again available room
         Date checkInDate = (Date) session.getAttribute("checkInDate");
         Date checkOutDate = (Date) session.getAttribute("checkOutDate");
-        
-        //
         List<Reservation> check1 = RoomDB.reservationCoincide(checkInDate, checkOutDate);
-        //
         Map<Room, Integer> bookingMap = (Map<Room, Integer>) session.getAttribute("bookingMap");
         for (Map.Entry<Room, Integer> entry : bookingMap.entrySet()) {
             Room room = entry.getKey();
@@ -79,7 +76,6 @@ public class PaymentServlet extends HttpServlet {
                 response.sendRedirect("Error.jsp");
                 return;
             }
-
         }
 
         //Get booking details from session

@@ -187,6 +187,10 @@
     <servlet>
         <servlet-name>UpdateHotelBedServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.UpdateHotelBedServlet</servlet-class>
+        </servlet>
+        <servlet>
+        <servlet-name>InsertOfflineBookingServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.InsertOfflineBookingServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -363,6 +367,10 @@
     <servlet-mapping>
         <servlet-name>UpdateHotelBedServlet</servlet-name>
         <url-pattern>/UpdateHotelBedServlet</url-pattern>
+        </servlet-mapping>
+        <servlet-mapping>
+        <servlet-name>InsertOfflineBookingServlet</servlet-name>
+        <url-pattern>/InsertOfflineBookingServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -208,11 +208,12 @@ public class FeedbackDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT f.* FROM Feedback f "
-                        + "JOIN Reservation r ON f.Reservation_ID = r.Reservation_ID "
-                        + "JOIN Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID "
-                        + "JOIN Room ro ON rr.Room_ID = ro.Room_ID "
-                        + "WHERE ro.Hotel_ID = ?";
+                    String query = "SELECT DISTINCT f.Feedback_ID,f.Description, f.Rating, f.Date, f.LikesCount, f.DislikesCount, f.Reservation_ID "
+                                    + "FROM Feedback f "
+                                    + "JOIN Reservation r ON f.Reservation_ID = r.Reservation_ID "
+                                    + "JOIN Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID "
+                                    + "JOIN Room ro ON rr.Room_ID = ro.Room_ID "
+                                    + "WHERE ro.Hotel_ID = ?";
                 statement = connection.prepareStatement(query);
                 statement.setInt(1, hotelID); // Set the Hotel_ID parameter
                 resultSet = statement.executeQuery();
@@ -472,7 +473,8 @@ public class FeedbackDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) {
-        System.out.println(getFeedbacksByAccountID(6));
+        List<Feedback> listFeedbacks =FeedbackDB.getFeedbacksByHotelID(1);
+        System.out.println(listFeedbacks.size());
     }
 
     // You can add more functions as needed, such as:

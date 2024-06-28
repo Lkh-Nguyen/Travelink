@@ -1,4 +1,4 @@
-﻿--Use the Travelink database
+﻿e--Use the Travelink database
 USE Travelink;
 GO
 
@@ -220,7 +220,7 @@ GO
 -- Create table Feedback
 CREATE TABLE Feedback (
   Feedback_ID INT IDENTITY(1,1) PRIMARY KEY,
-  Description NTEXT,
+  Description NVARCHAR(MAX),
   Rating TINYINT,
   Date DATE,
   LikesCount INT,
@@ -294,7 +294,7 @@ GO
 CREATE PROCEDURE CalculateMonthlyRevenueForAllHotelsPreviousMonthYear
 AS
 BEGIN
-    SET NOCOUNT ON;
+   SET NOCOUNT ON;
     DECLARE @Month TINYINT = MONTH(DATEADD(MONTH, -1, GETDATE()));
     DECLARE @Year SMALLINT = YEAR(DATEADD(MONTH, -1, GETDATE()));
     DECLARE @PaymentTime DATETIME = NULL;
@@ -388,8 +388,72 @@ END;
 GO
 
 
+CREATE VIEW HotelInfor AS
+WITH RankedHotels AS (
+    SELECT 
+        h.Hotel_ID, 
+        h.Name, 
+        h.Star, 
+        h.Address, 
+        hi.URL, 
+        fh.Account_ID,
+        ROW_NUMBER() OVER (PARTITION BY h.Hotel_ID ORDER BY (SELECT NULL)) AS rn
+    FROM 
+        Favourite_Hotel fh
+    INNER JOIN 
+        Hotel h ON fh.Hotel_ID = h.Hotel_ID
+    INNER JOIN 
+        Hotel_Image hi ON h.Hotel_ID = hi.Hotel_ID
+), 
+HotelRatings AS (
+    SELECT 
+        h.Hotel_ID,
+        COUNT(F.Rating) AS Total_Rating_Count,
+        AVG(CAST(F.Rating AS FLOAT)) AS Average_Rating
+    FROM 
+        Hotel h
+	inner JOIN 
+		Room room ON h.Hotel_ID = room.Hotel_ID
+	inner JOIN 
+		Reserved_Room rs on room.Room_ID = rs.Room_ID
+    inner JOIN 
+        Feedback F ON rs.Reserved_Room_ID = F.Reservation_ID
+    GROUP BY 
+        h.Hotel_ID
+)
+SELECT 
+    rh.Hotel_ID, 
+    rh.Name, 
+    rh.Star, 
+    rh.Address, 
+    rh.URL, 
+    rh.Account_ID,
+    COALESCE(hr.Total_Rating_Count, 0) AS RatingCount, 
+    COALESCE(hr.Average_Rating, 0) AS Average
+FROM 
+    RankedHotels rh
+LEFT JOIN 
+    HotelRatings hr ON rh.Hotel_ID = hr.Hotel_ID
+WHERE 
+    rh.rn = 1;
 
 
 
 
 
+SELECT
+    H.Hotel_ID,
+    COUNT(F.Feedback_ID) AS Total_Rating_Count,
+    AVG(CAST(F.Rating AS FLOAT)) AS Average_Rating
+FROM
+    Hotel H
+LEFT JOIN
+    Room R ON H.Hotel_ID = R.Hotel_ID
+LEFT JOIN
+    Reserved_Room RR ON R.Room_ID = RR.Room_ID
+LEFT JOIN
+    Reservation Res ON RR.Reservation_ID = Res.Reservation_ID
+LEFT JOIN
+    Feedback F ON Res.Reservation_ID = F.Reservation_ID
+GROUP BY
+    H.Hotel_ID;

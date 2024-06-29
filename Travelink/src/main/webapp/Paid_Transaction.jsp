@@ -244,7 +244,7 @@
                 <div class="container mb-5">
                     <h1 class="fw-bold fs-1">History</h1>
                     <div class="card-body">
-                       <div class="row mb-3">
+                        <div class="row mb-3">
                             <div class="col-md-2 d-flex align-items-center justify-content-center">
                                 <a href="All_Hotel_Service" class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px">ALL</a>
                             </div>
@@ -296,7 +296,7 @@
                                                     <span class="badge text-bg-success">${entry.value[0].status}</span>
                                                 </p>
                                             </c:if>
-                                                <c:if test="${entry.value[0].status == 'FEEDBACKED'}">
+                                            <c:if test="${entry.value[0].status == 'FEEDBACKED'}">
                                                 <p class="card-text">
                                                     <i class='bx bx-check-square'></i>
                                                     <span class="badge text-bg-primary">${entry.value[0].status}</span>
@@ -305,20 +305,27 @@
                                             <a href="MyBillPaymentServlet?reservation_ID=${entry.key}" class="btn btn-outline-primary mt-auto">
                                                 <i class='bx bx-detail'></i> View Details
                                             </a>
-                                                <hr>
+
                                             <c:if test="${entry.value[0].status == 'FINISHED'}">
+                                                <hr>
                                                 <div class="row m-1"> 
-                                                        <a class="btn btn-outline-primary mb-2" href="CreateFeedback.jsp?reservation_ID=${entry.key}&hotel_ID=${entry.value[0].hotel_ID}">
-                                                            <i class="fa-regular fa-comment"></i> Feedback
-                                                        </a>
+                                                    <a class="btn btn-outline-primary mb-2" href="CreateFeedback.jsp?reservation_ID=${entry.key}&hotel_ID=${entry.value[0].hotel_ID}">
+                                                        <i class="fa-regular fa-comment"></i> Feedback
+                                                    </a>
                                                 </div>
                                             </c:if>
                                             <c:if test="${entry.value[0].status == 'FEEDBACKED'}">
+                                                <hr>
                                                 <div class="row"> 
                                                     <div class="col-md-12">
-                                                        <button class="btn btn-outline-primary mb-2 w-100" style="height: 61px" disabled>
-                                                            <i class="fa-regular fa-comment"></i> Already Feedback
-                                                        </button>
+                                                        
+                                                        <form action="ViewFeedbackReservationIDServlet" method="post">
+                                                            <input type="hidden" name="reservationID" value="${entry.key}"/>
+                                                            <input type="hidden" name="role" value="1"/>
+                                                            <button class="btn btn-outline-primary mt-auto cancel-button update-button w-100">
+                                                                View Feedback
+                                                            </button> 
+                                                        </form>
                                                     </div>
                                                 </div> 
                                             </c:if>

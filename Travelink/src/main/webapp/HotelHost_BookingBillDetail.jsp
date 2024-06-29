@@ -147,13 +147,13 @@
                                                 <div class="col-4 fw-bold lh-1">Email Customer:</div>
                                                 <div class="col-7 fw-normal text-muted lh-1 px-0">${requestScope.user.email}</div>
                                             </div>
-                                            <c:if test="${requestScope.user.address != ''}">
+                                            <c:if test="${requestScope.user.address != null}">
                                                 <div class="row info-row mb-2">
                                                     <div class="col-4 fw-bold lh-1">Address Customer:</div>
                                                     <div class="col-7 fw-normal text-muted lh-1 px-0">${requestScope.user.address}</div>
                                                 </div>
                                             </c:if>
-                                            <c:if test="${requestScope.user.cmnd != ''}">
+                                            <c:if test="${requestScope.user.cmnd != null}">
                                                 <div class="row info-row mb-2">
                                                     <div class="col-4 fw-bold lh-1">Contact Customer:</div>
                                                     <div class="col-7 fw-normal text-muted lh-1 px-0">${requestScope.user.cmnd}</div>

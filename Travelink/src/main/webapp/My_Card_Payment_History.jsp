@@ -335,6 +335,29 @@
                                             <a href="MyBillPaymentServlet?reservation_ID=${entry.key}" class="btn btn-outline-primary mt-auto">
                                                 <i class='bx bx-detail'></i> View Details
                                             </a>
+                                            <c:if test="${entry.value[0].status == 'FINISHED'}">
+                                                <hr>
+                                                <div class="row m-1"> 
+                                                    <a class="btn btn-outline-primary mb-2" href="CreateFeedback.jsp?reservation_ID=${entry.key}&hotel_ID=${entry.value[0].hotel_ID}">
+                                                        <i class="fa-regular fa-comment"></i> Feedback
+                                                    </a>
+                                                </div>
+                                            </c:if>
+                                            <c:if test="${entry.value[0].status == 'FEEDBACKED'}">
+                                                <hr>
+                                                <div class="row"> 
+                                                    <div class="col-md-12">
+
+                                                        <form action="ViewFeedbackReservationIDServlet" method="post">
+                                                            <input type="hidden" name="reservationID" value="${entry.key}"/>
+                                                            <input type="hidden" name="role" value="1"/>
+                                                            <button class="btn btn-outline-primary mt-auto cancel-button update-button w-100">
+                                                                View Feedback
+                                                            </button> 
+                                                        </form>
+                                                    </div>
+                                                </div> 
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>

@@ -15,15 +15,6 @@
         <link rel="stylesheet" href="css/HotelHost_Feedback.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-        <style>
-            .hotel-card {
-                transition: transform 0.3s ease-in-out;
-            }
-
-            .hotel-card:hover {
-                transform: scale(1.05);
-            }
-        </style>
     </head>
     <body>
         <%
@@ -40,42 +31,6 @@
             }
         %>
         <%@include file="Header_HotelHost.jsp" %>
-
-        <div class="modal fade " id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
-            <div class="modal-dialog d-flex justify-content-center align-items-center" role="document" style="height: 100vh">
-                <div class="modal-content" >
-                    <div class="modal-header" >
-                        <h5 class="modal-title" id="confirmCancelModalLabel">View Feedback (Reservation ID: 60)</h5>
-                    </div>
-                    <div class="modal-body justify-content-center">
-                        <div class="modal-body">
-                            <div class="review mb-3" id="fb" style="border: 1px solid rgb(227,227,227);border-radius: 5px">
-                                <div class="d-flex">
-                                    <div class="avatar"><img src="${c.getAccount(c.feedbackID).avatarURL}"></div>
-                                    <div class="ms-3">
-                                        <div class="row">
-                                            <h6 class="mb-0">Le Kim Hoang Nguyen</h6>
-                                            <span class="text-muted" style="float: right">12-03-2004</span>
-                                        </div>
-                                        <div class="rating mt-1">                                            
-                                            <i class='bx bxs-star'></i>
-                                            <i class='bx bx-star'></i>
-                                            <i class='bx bx-star'></i>
-                                            <i class='bx bx-star'></i>
-                                            <i class='bx bx-star'></i>
-                                        </div>
-
-
-                                        <p>Chúc mừng 2k6, Đất Nước trong trái tim chúng ta... Còn mấy môn nữa thôi. Cố lên nhoé!</p>
-                                        <div><span class="badge bg-light text-dark">12 liked this view</span> <span class="badge bg-light text-dark">20 disliked this view</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="container-fluid" id="right" >
             <!-- Card History -->
             <!-- Change -->
@@ -291,9 +246,13 @@
                                                             </a>
                                                         </div>
                                                         <div class="col">
-                                                            <a class="btn btn-outline-primary mt-auto cancel-button update-button">
-                                                                View Feedback
-                                                            </a>
+                                                            <form action="ViewFeedbackReservationIDServlet" method="post">
+                                                                <input type="hidden" name="reservationID" value="${c.reservationID}"/>
+                                                                <input type="hidden" name="role" value="2"/>
+                                                                <button class="btn btn-outline-primary mt-auto cancel-button update-button">
+                                                                    View Feedback
+                                                                </button> 
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -257,6 +257,16 @@ CREATE TABLE MonthlyPayment (
 );
 GO
 
+-- Create table Reported Feedback
+CREATE TABLE Reported_Feedback (
+    Reported_Feedback_ID INT PRIMARY KEY,
+    ReportTime DATETIME,
+    Reason NVARCHAR(255),
+    Feedback_ID INT FOREIGN KEY REFERENCES Feedback(Feedback_ID),
+    Account_ID INT FOREIGN KEY REFERENCES Account(Account_ID)
+);
+
+
 
 --Auto delete temporary online reservation
 CREATE PROCEDURE DeleteExpiredReservations
@@ -306,7 +316,7 @@ BEGIN
         @Year,
         CAST(SUM(
             CASE
-                WHEN r.Status IN ('PAID', 'FINISHED', 'FEEDBACKED') THEN r.Total_Price
+                WHEN r.Status IN ('PROCESSING', 'FINISHED', 'FEEDBACKED') THEN r.Total_Price
                 WHEN r.Status = 'CANCEL' THEN r.Total_Price - ISNULL(rr.Amount, 0)
                 WHEN r.Status = 'REFUNDING' THEN r.Total_Price - ISNULL(rr.Amount, 0)
                 ELSE 0
@@ -324,9 +334,9 @@ BEGIN
     LEFT JOIN
         Refunding_Reservation rf ON r.Reservation_ID = rf.Reservation_ID
     WHERE
-        MONTH(r.CheckOutDate) = @Month
-        AND YEAR(r.CheckOutDate) = @Year
-        AND r.Status IN ('PAID', 'FINISHED', 'FEEDBACKED', 'CANCEL', 'REFUNDING')
+        MONTH(r.CheckInDate) = @Month
+        AND YEAR(r.CheckInDate) = @Year
+        AND r.Status IN ('PROCESSING', 'FINISHED', 'FEEDBACKED', 'CANCEL', 'REFUNDING')
         AND r.Payment_Method = 'VIETQR'  -- Filter by payment method VIETQR
     GROUP BY
         rm.Hotel_ID;

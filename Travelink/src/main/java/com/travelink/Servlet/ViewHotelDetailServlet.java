@@ -194,6 +194,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
                 }
             }
             request.setAttribute("numberOfRoomList", numberOfRoomList);
+            request.setAttribute("check", 123);
             List<Feedback> feedbacks = new ArrayList<>();
             try {
                 feedbacks = FeedbackDB.getFeedbacksByHotelID(hotel_ID);

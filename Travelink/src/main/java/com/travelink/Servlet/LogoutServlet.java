@@ -61,6 +61,10 @@ public class LogoutServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false); // Get existing session (don't create if not exist)
         Account acc = (Account) session.getAttribute("account");
+        if (acc == null){
+            response.sendRedirect("Home_Customer.jsp");
+            return;
+        }
         String forward = "";
         if (acc.getRole() == 1){
             forward = "Home_Customer.jsp";

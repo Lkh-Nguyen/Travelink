@@ -1,4 +1,4 @@
-﻿--Use the Travelink database
+﻿e--Use the Travelink database
 USE Travelink;
 GO
 
@@ -65,17 +65,7 @@ CREATE TABLE Owned_Hotel (
 );
 GO
 
--- Create table Feedback
-CREATE TABLE Feedback (
-  Feedback_ID INT IDENTITY(1,1) PRIMARY KEY,
-  Description NTEXT,
-  Rating TINYINT,
-  Date DATE,
-  LikesCount INT,
-  DislikesCount INT,
-  Account_ID INT FOREIGN KEY REFERENCES Account(Account_ID) ON DELETE CASCADE,
-  Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
-);
+
 
 -- Create table Room
 CREATE TABLE Room (
@@ -180,7 +170,7 @@ CREATE TABLE Reservation (
   Number_of_guests TINYINT NOT NULL,  -- Date reservation was made
   CheckInDate DATE NOT NULL,  -- Check-in date for the reservation
   CheckOutDate DATE NOT NULL,  -- Check-out date for the reservation
-  Total_Price INT NOT NULL,  -- Use DECIMAL for currency with decimals
+  Total_Price INT NOT NULL,  -- Use INT 
   Payment_Method NVARCHAR(50) NOT NULL,  -- Payment method used (e.g., credit card, cash)
   Status NVARCHAR(50) NOT NULL, -- Paid / Canceled
   Account_ID INT NOT NULL,
@@ -225,6 +215,34 @@ CREATE TABLE Promotion (
 );
 GO
 
+-- Create table Feedback
+CREATE TABLE Feedback (
+  Feedback_ID INT IDENTITY(1,1) PRIMARY KEY,
+  Description NVARCHAR(MAX),
+  Rating TINYINT,
+  Date DATE,
+  LikesCount INT,
+  DislikesCount INT,
+  Reservation_ID INT FOREIGN KEY REFERENCES Reservation(Reservation_ID) ON DELETE CASCADE,
+);
+
+CREATE TABLE UserFeedbackLikes (
+    Like_ID INT IDENTITY(1,1) PRIMARY KEY, -- Primary key with auto-increment
+    Account_ID INT NOT NULL, -- Foreign key to Account table
+    Feedback_ID INT NOT NULL, -- Foreign key to Feedback table
+    Liked BIT DEFAULT 0, -- 0 or 1 indicating whether the feedback is liked
+    Disliked BIT DEFAULT 0, -- 0 or 1 indicating whether the feedback is disliked
+    CONSTRAINT FK_UserFeedbackLikes_Account FOREIGN KEY (Account_ID) REFERENCES Account(Account_ID) ON DELETE CASCADE,
+    CONSTRAINT FK_UserFeedbackLikes_Feedback 
+	FOREIGN KEY (Feedback_ID) REFERENCES Feedback(Feedback_ID) ON DELETE NO ACTION,
+    CONSTRAINT CK_Like_Dislike_Exclusive CHECK (
+        (Liked = 1 AND Disliked = 0) OR
+        (Liked = 0 AND Disliked = 1) OR
+        (Liked = 0 AND Disliked = 0)
+    )
+);
+
+
 -- Create table Monthly Revenue
 CREATE TABLE MonthlyPayment (
   Monthly_Payment_ID INT PRIMARY KEY IDENTITY(1,1),
@@ -237,8 +255,18 @@ CREATE TABLE MonthlyPayment (
 );
 GO
 
+-- Create table Reported Feedback
+CREATE TABLE Reported_Feedback (
+    Reported_Feedback_ID INT PRIMARY KEY,
+    ReportTime DATETIME,
+    Reason NVARCHAR(255),
+    Feedback_ID INT FOREIGN KEY REFERENCES Feedback(Feedback_ID),
+    Account_ID INT FOREIGN KEY REFERENCES Account(Account_ID)
+);
 
---Auto delete temporary reservation
+
+
+--Auto delete temporary online reservation
 CREATE PROCEDURE DeleteExpiredReservations
 AS
 BEGIN
@@ -249,6 +277,7 @@ BEGIN
 END
 GO
 
+--Apply for all reservation
 CREATE PROCEDURE UpdateReservationStatus
 AS
 BEGIN
@@ -271,12 +300,12 @@ GO
 
 
 --
-CREATE PROCEDURE CalculateMonthlyRevenueForAllHotelsCurrentMonthYear
+CREATE PROCEDURE CalculateMonthlyRevenueForAllHotelsPreviousMonthYear
 AS
 BEGIN
-    SET NOCOUNT ON;
-    DECLARE @Month TINYINT = MONTH(GETDATE());
-    DECLARE @Year SMALLINT = YEAR(GETDATE());
+   SET NOCOUNT ON;
+    DECLARE @Month TINYINT = MONTH(DATEADD(MONTH, -1, GETDATE()));
+    DECLARE @Year SMALLINT = YEAR(DATEADD(MONTH, -1, GETDATE()));
     DECLARE @PaymentTime DATETIME = NULL;
 
     -- Temporary table to hold aggregated data
@@ -285,19 +314,18 @@ BEGIN
         TotalRevenue INT
     );
 
-    -- Calculate revenue for hotels with reservations having status 'FINISHED', 'CANCEL', or 'REFUNDING'
+    -- Calculate revenue for hotels with reservations using VIETQR payment method
     INSERT INTO #MonthlyRevenueData (Hotel_ID, TotalRevenue)
     SELECT
         rm.Hotel_ID,
-        SUM(
+        CAST(SUM(
             CASE
-                WHEN r.Status = 'FINISHED' THEN r.Total_Price
-				WHEN r.Status = 'FEEDBACKED' THEN r.Total_Price
+                WHEN r.Status IN ('PROCESSING', 'FINISHED', 'FEEDBACKED') THEN r.Total_Price
                 WHEN r.Status = 'CANCEL' THEN r.Total_Price - ISNULL(rr.Amount, 0)
                 WHEN r.Status = 'REFUNDING' THEN r.Total_Price - ISNULL(rr.Amount, 0)
                 ELSE 0
             END
-        ) AS TotalRevenue
+        ) * 0.9 AS INT) AS TotalRevenue  -- Apply 90% multiplier and cast to INT
     FROM
         Reservation r
     INNER JOIN
@@ -307,9 +335,10 @@ BEGIN
     LEFT JOIN
         Refunding_Reservation rf ON r.Reservation_ID = rf.Reservation_ID
     WHERE
-        MONTH(r.CheckOutDate) = @Month
-        AND YEAR(r.CheckOutDate) = @Year
-        AND r.Status IN ('FINISHED','FEEDBACKED', 'CANCEL', 'REFUNDING')
+        MONTH(r.CheckInDate) = @Month
+        AND YEAR(r.CheckInDate) = @Year
+        AND r.Status IN ('PROCESSING', 'FINISHED', 'FEEDBACKED', 'CANCEL', 'REFUNDING')
+        AND r.Payment_Method = 'VIETQR'  -- Filter by payment method VIETQR
     GROUP BY
         rm.Hotel_ID;
 
@@ -318,7 +347,7 @@ BEGIN
     SELECT
         @Month,
         @Year,
-        ISNULL(SUM(m.TotalRevenue), 0) AS Amount,
+        SUM(m.TotalRevenue) AS Amount,  -- Sum the TotalRevenue for each hotel
         'NOT PAID',  -- Assuming all amounts are pending for now
         @PaymentTime,
         m.Hotel_ID
@@ -332,12 +361,81 @@ BEGIN
 
     PRINT 'Monthly revenue calculation successful for all hotels for month ' + CAST(@Month AS VARCHAR(2)) + ', year ' + CAST(@Year AS VARCHAR(4)) + '.';
 END;
+
 GO
 
-EXEC CalculateMonthlyRevenueForAllHotelsCurrentMonthYear;
+
+EXEC CalculateMonthlyRevenueForAllHotelsPreviousMonthYear;
+DROP PROC CalculateMonthlyRevenueForAllHotelsPreviousMonthYear;
+DROP TABLE MonthlyPayment
+
+
+CREATE VIEW HotelInfor AS
+WITH RankedHotels AS (
+    SELECT 
+        h.Hotel_ID, 
+        h.Name, 
+        h.Star, 
+        h.Address, 
+        hi.URL, 
+        fh.Account_ID,
+        ROW_NUMBER() OVER (PARTITION BY h.Hotel_ID ORDER BY (SELECT NULL)) AS rn
+    FROM 
+        Favourite_Hotel fh
+    INNER JOIN 
+        Hotel h ON fh.Hotel_ID = h.Hotel_ID
+    INNER JOIN 
+        Hotel_Image hi ON h.Hotel_ID = hi.Hotel_ID
+), 
+HotelRatings AS (
+    SELECT 
+        h.Hotel_ID,
+        COUNT(F.Rating) AS Total_Rating_Count,
+        AVG(CAST(F.Rating AS FLOAT)) AS Average_Rating
+    FROM 
+        Hotel h
+	inner JOIN 
+		Room room ON h.Hotel_ID = room.Hotel_ID
+	inner JOIN 
+		Reserved_Room rs on room.Room_ID = rs.Room_ID
+    inner JOIN 
+        Feedback F ON rs.Reserved_Room_ID = F.Reservation_ID
+    GROUP BY 
+        h.Hotel_ID
+)
+SELECT 
+    rh.Hotel_ID, 
+    rh.Name, 
+    rh.Star, 
+    rh.Address, 
+    rh.URL, 
+    rh.Account_ID,
+    COALESCE(hr.Total_Rating_Count, 0) AS RatingCount, 
+    COALESCE(hr.Average_Rating, 0) AS Average
+FROM 
+    RankedHotels rh
+LEFT JOIN 
+    HotelRatings hr ON rh.Hotel_ID = hr.Hotel_ID
+WHERE 
+    rh.rn = 1;
 
 
 
 
 
-
+SELECT
+    H.Hotel_ID,
+    COUNT(F.Feedback_ID) AS Total_Rating_Count,
+    AVG(CAST(F.Rating AS FLOAT)) AS Average_Rating
+FROM
+    Hotel H
+LEFT JOIN
+    Room R ON H.Hotel_ID = R.Hotel_ID
+LEFT JOIN
+    Reserved_Room RR ON R.Room_ID = RR.Room_ID
+LEFT JOIN
+    Reservation Res ON RR.Reservation_ID = Res.Reservation_ID
+LEFT JOIN
+    Feedback F ON Res.Reservation_ID = F.Reservation_ID
+GROUP BY
+    H.Hotel_ID;

@@ -125,19 +125,32 @@
                                             <td>
                                                 <form class="row m-1 p-1" action="#" method="#" id="cancelForm">
                                                     <button type="button" class="btn btn-outline-primary mb-1 w-100 cancel-button" data-reservation-id="${entry.key}">
-                                                       Update
+                                                        Update
                                                     </button>
+                                                    <input type="hidden" name="hotel_ID" value="${h.hotel_ID}"/>
+                                                    <input type="hidden" name="action" value="update"/>
                                                 </form>       
                                                 <form class="row m-1 p-1" action="#" method="#" id="cancelForm">        
                                                     <button type="button" class="btn btn-outline-danger mb-1 w-100" id="deleteButton">
                                                         Delete
                                                     </button>
+                                                    <input type="hidden" name="hotel_ID" value="${h.hotel_ID}"/>
+                                                    <input type="hidden" name="action" value="delete"/>
                                                 </form>
                                                 <form class="row m-1 p-1" action="#" method="#" id="cancelForm">
                                                     <button type="button" class="btn btn-outline-secondary mb-1 w-100" id="addButton">
                                                         Add
                                                     </button>
+                                                    <input type="hidden" name="hotel_ID" value="${h.hotel_ID}"/>
+                                                    <input type="hidden" name="action" value="add"/>
                                                 </form>
+                                                <div class="row">
+                                                    <div class="col-md-12 m-2">
+                                                        <a class="btn btn-outline-primary" href="UpdateHotelRoomServlet?hotelID=${h.hotel_ID}">
+                                                            Room Detail
+                                                        </a>                                                    
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
@@ -147,14 +160,8 @@
                                                     <h5 class="modal-title" id="confirmCancelModalLabel">Confirm Cancellation</h5>
                                                 </div>
                                                 <div class="modal-body justify-content-center">
-                                                    <form action="hotelHost_UpdateHotelServlet" method="get">
-                                                        <button>Update Hotel</button>
-                                                        <input type="hidden" name="hotelID" value="${h.hotel_ID}">
-                                                    </form>
-                                                    <form>
-                                                        <button>Update Room</button>
-                                                        <input type="hidden" name="hotelID" value="${h.hotel_ID}">
-                                                    </form>
+                                                    <a class='btn btn-primary' href='HotelHost_UpdateHotelInformation.jsp?hotelID=${h.hotel_ID}'>Update Hotel </a>
+                                                    <a class='btn btn-primary' href='UpdateHotelRoomServlet?hotelID=${h.hotel_ID}'>Update Room </a>
                                                 </div>
                                             </div>
                                         </div>

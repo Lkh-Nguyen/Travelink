@@ -124,14 +124,14 @@ public class RoomBedDB implements DatabaseInfo {
 
     public static void main(String[] args) {
         RoomBedDB roomBedDB = new RoomBedDB();
-
-        // Test getRoomBedsByBedID method
-        int bedIDToSearch = 1; // Replace with the actual bed ID you want to search
-        List<RoomBed> roomBedsByBedID = roomBedDB.getRoomBedsByBedID(bedIDToSearch);
-        System.out.println("Room Beds for Bed ID " + bedIDToSearch + ":");
-        printRoomBeds(roomBedsByBedID);
-
-        System.out.println();
+//
+//        // Test getRoomBedsByBedID method
+//        int bedIDToSearch = 1; // Replace with the actual bed ID you want to search
+//        List<RoomBed> roomBedsByBedID = roomBedDB.getRoomBedsByBedID(bedIDToSearch);
+//        System.out.println("Room Beds for Bed ID " + bedIDToSearch + ":");
+//        printRoomBeds(roomBedsByBedID);
+//
+//        System.out.println();
 
         // Test getRoomBedsByRoomID method
         int roomIDToSearch = 1; // Replace with the actual room ID you want to search

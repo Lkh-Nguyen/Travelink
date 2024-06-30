@@ -139,6 +139,7 @@ public class SearchHotelServlet extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(SearchHotelServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
             List<Reservation> check1 = RoomDB.reservationCoincide(checkInDate, checkOutDate);
             List<Date> dateList = RoomDB.getDateRange(checkInDate, checkOutDate);
             List<Integer> hotelSizeList = new ArrayList<>();

@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class HotelDB implements DatabaseInfo {
 
-    public static List<Hotel> getAllActiveHotels() throws SQLException {
+    public static List<Hotel> getAllHotels() throws SQLException {
         List<Hotel> hotels = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
@@ -35,7 +35,7 @@ public class HotelDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM Hotel WHERE status = 'ACTIVE'";
+                String query = "SELECT * FROM Hotel";
                 statement = connection.createStatement();
                 resultSet = statement.executeQuery(query);
 
@@ -104,7 +104,7 @@ public class HotelDB implements DatabaseInfo {
         return hotel;
     }
 
-    public static List<Hotel> getActiveHotelsByWardID(int wardID) {
+    public static List<Hotel> getHotelsByWardID(int wardID) {
         List<Hotel> hotels = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -114,7 +114,7 @@ public class HotelDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM Hotel WHERE Ward_ID = ? AND status = 'ACTIVE'";
+                String query = "SELECT * FROM Hotel WHERE Ward_ID = ?";
                 statement = connection.prepareStatement(query);
                 statement.setInt(1, wardID); // Set the ward ID parameter
                 resultSet = statement.executeQuery();
@@ -144,7 +144,7 @@ public class HotelDB implements DatabaseInfo {
         return hotels;
     }
 
-    public static List<Hotel> getActiveHotelsByProvince(String provinceName) {
+    public static List<Hotel> getHotelsByProvince(String provinceName) {
         List<Hotel> hotels = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -154,11 +154,7 @@ public class HotelDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM Hotel h "
-                        + "INNER JOIN Ward w ON h.Ward_ID = w.Ward_ID "
-                        + "INNER JOIN District d ON w.District_ID = d.District_ID "
-                        + "INNER JOIN Province p ON d.Province_ID = p.Province_ID "
-                        + "WHERE p.Name = ? AND h.status = 'ACTIVE'";
+                String query = "SELECT * FROM Hotel h INNER JOIN Ward w ON h.Ward_ID = w.Ward_ID INNER JOIN District d ON w.District_ID = d.District_ID INNER JOIN Province p ON d.Province_ID = p.Province_ID WHERE p.Name = ?";
                 statement = connection.prepareStatement(query);
                 statement.setString(1, provinceName); // Set the province name parameter
                 resultSet = statement.executeQuery();
@@ -188,12 +184,17 @@ public class HotelDB implements DatabaseInfo {
         return hotels;
     }
 
+  
+
+
+    
+    
     public static List<Hotel> filterProvince(String location) throws SQLException {
         List<Integer> wardIDList = new ArrayList<>();
         List<Integer> districtIDList = new ArrayList<>();
         List<Province> proviceList = ProvinceDB.getAllProvince();
         List<Ward> wardList = WardDB.getAllWards();
-        List<Hotel> hotelList = HotelDB.getAllActiveHotels();
+        List<Hotel> hotelList = HotelDB.getAllHotels();
         List<Hotel> newHotelList = new ArrayList<>();
         int proviceId = 0;
         int districtId = 0;
@@ -229,7 +230,7 @@ public class HotelDB implements DatabaseInfo {
 
         // Test getAllHotels
         System.out.println("** Test getAllHotels **");
-        List<Hotel> allHotels = HotelDB.getAllActiveHotels();
+        List<Hotel> allHotels = HotelDB.getAllHotels();
         if (allHotels.isEmpty()) {
             System.out.println("No hotels found in the database.");
         } else {
@@ -253,7 +254,7 @@ public class HotelDB implements DatabaseInfo {
         // Test getHotelsByWardID
         System.out.println("\n** Test getHotelsByWardID **");
         int targetWardID = 6338; // Replace with an existing ward ID
-        List<Hotel> hotelsInWard = HotelDB.getActiveHotelsByWardID(targetWardID);
+        List<Hotel> hotelsInWard = HotelDB.getHotelsByWardID(targetWardID);
         if (hotelsInWard.isEmpty()) {
             System.out.println("No hotels found in ward " + targetWardID + ".");
         } else {
@@ -264,4 +265,118 @@ public class HotelDB implements DatabaseInfo {
         }
     }
 
+    public static Hotel getHotelByRoomID(int roomID) {
+        Hotel hotel = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT h.* FROM Hotel h "
+                        + "INNER JOIN Room r ON h.Hotel_ID = r.Hotel_ID "
+                        + "WHERE r.Room_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, roomID); // Set the Room_ID parameter
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    hotel = new Hotel();
+                    hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
+                    hotel.setName(resultSet.getString("Name"));
+                    hotel.setEmail(resultSet.getString("Email"));
+                    hotel.setStar(resultSet.getInt("Star"));
+                    hotel.setRating(resultSet.getFloat("Rating"));
+                    hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
+                    hotel.setDescription(resultSet.getString("Description"));
+                    // Convert SQL TIME to LocalTime
+                    hotel.setCheckInTimeStart(resultSet.getTime("CheckInTimeStart").toLocalTime());
+                    hotel.setCheckInTimeEnd(resultSet.getTime("CheckInTimeEnd").toLocalTime());
+                    hotel.setCheckOutTimeStart(resultSet.getTime("CheckOutTimeStart").toLocalTime());
+                    hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
+                    hotel.setAddress(resultSet.getString("Address"));
+                    hotel.setWard_ID(resultSet.getInt("Ward_ID"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting hotel by Room ID: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return hotel;
+    }
+
+    public static Hotel getHotelByFeedbackID(int feedbackID) {
+        Hotel hotel = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT h.*" +
+                     "FROM Feedback f " +
+                     "JOIN Reservation r ON f.Reservation_ID = r.Reservation_ID " +
+                     "JOIN Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID " +
+                     "JOIN Room ro ON rr.Room_ID = ro.Room_ID " +
+                     "JOIN Hotel h ON ro.Hotel_ID = h.Hotel_ID " +
+                     "WHERE f.Feedback_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, feedbackID); 
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    hotel = new Hotel();
+                    hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
+                    hotel.setName(resultSet.getString("Name"));
+                    hotel.setEmail(resultSet.getString("Email"));
+                    hotel.setStar(resultSet.getInt("Star"));
+                    hotel.setRating(resultSet.getFloat("Rating"));
+                    hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
+                    hotel.setDescription(resultSet.getString("Description"));
+                    // Convert SQL TIME to LocalTime
+                    hotel.setCheckInTimeStart(resultSet.getTime("CheckInTimeStart").toLocalTime());
+                    hotel.setCheckInTimeEnd(resultSet.getTime("CheckInTimeEnd").toLocalTime());
+                    hotel.setCheckOutTimeStart(resultSet.getTime("CheckOutTimeStart").toLocalTime());
+                    hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
+                    hotel.setAddress(resultSet.getString("Address"));
+                    hotel.setWard_ID(resultSet.getInt("Ward_ID"));
+                    hotel.setStatus(resultSet.getString("Status"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting hotel by Room ID: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return hotel;
+}
 }

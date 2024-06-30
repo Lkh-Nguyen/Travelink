@@ -69,7 +69,7 @@ public class CheckoutServlet extends HttpServlet {
             String[] detail = s.split(",");
             String room_IDStr = detail[0];
             String quantityStr = detail[1];
-            Room room = RoomDB.getRoomByID(takeValue(room_IDStr));
+            Room room = RoomDB.getRoomByRoomID(takeValue(room_IDStr));
             int quantity = takeValue(quantityStr);
             map.put(room, quantity);
             totalPrice = quantity * room.getPrice();

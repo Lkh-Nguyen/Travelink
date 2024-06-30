@@ -116,6 +116,7 @@
                             <span class="text-login">Continue with Google</span>
                         </a>
                     </div>
+                    <input type="hidden" name="role" value="1">
                     <button class="btn-login" id="login">Sign In</button>
 
                 </form>
@@ -140,7 +141,7 @@
             </div>
 
         </div>
-        
+
         <c:if test="${requestScope.errorLogin != null}">
             <div id="status-message" style="background-color: rgb(253,233,231);height: 80px; margin-top: 0px;" class="hidden">
                 <div style="display: flex">

@@ -72,7 +72,7 @@ public class DeleteFeedbackServlet extends HttpServlet {
 
         try {
             FeedbackDB.deleteFeedback(feedbackID);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

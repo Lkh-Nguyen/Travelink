@@ -61,9 +61,9 @@ public class LoginAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+            response.sendRedirect("Home_Customer.jsp");
     }
-
+            
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -79,6 +79,7 @@ public class LoginAccountServlet extends HttpServlet {
         String password = request.getParameter("password");
         Account cu = AccountDB.getAccount(email);
         String roleStr = request.getParameter("role");
+        String forwardPage = "Home_Customer.jsp";
         int role = Integer.parseInt(roleStr);
 //        PrintWriter printWriter = response.getWriter();
 //        printWriter.println(email);
@@ -86,11 +87,14 @@ public class LoginAccountServlet extends HttpServlet {
 //        printWriter.print(cu);
         if (cu == null) {
             request.setAttribute("errorLogin", "Email does not exist.");
+            forwardPage = (role == 2) ? "HotelHost_Login.jsp" : "Form_Login.jsp";
         } else if (!password.equals(cu.getPassword())) {
             request.setAttribute("errorLogin", "Password is incorrect.");
+            forwardPage = (role == 2) ? "HotelHost_Login.jsp" : "Form_Login.jsp";
         } else {
             if (cu.getRole() != role) {
                 request.setAttribute("errorLogin", "You are logging in with the wrong permission role!");
+                forwardPage = (role == 1) ? "HotelHost_Login.jsp" : "Form_Login.jsp";
             } else {
                 HttpSession session = request.getSession();
                 session.setAttribute("account", cu);
@@ -105,8 +109,6 @@ public class LoginAccountServlet extends HttpServlet {
                 return;
             }
         }
-
-        String forwardPage = (role == 1) ? "Form_Login.jsp" : "HotelHost_Login.jsp";
         request.getRequestDispatcher(forwardPage).forward(request, response);
 
     }

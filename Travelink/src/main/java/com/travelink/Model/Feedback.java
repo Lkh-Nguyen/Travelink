@@ -4,7 +4,7 @@
  */
 package com.travelink.Model;
 
-import com.travelink.Database.FeedbackDB;
+import com.travelink.Database.AccountDB;
 import com.travelink.Database.HotelDB;
 import java.sql.Date;
 
@@ -20,23 +20,21 @@ public class Feedback {
   private java.sql.Date date;
   private int likesCount;
   private int dislikesCount;
-  private int account_ID;
-  private int hotelID;
+  private int reservation_ID;
 
-  public Feedback() {
-    // Default constructor
-  }
+    public Feedback() {
+    }
 
-    public Feedback(String description, byte rating, Date date, int likesCount, int dislikesCount, int account_ID, int hotelID) {
+    public Feedback(String description, byte rating, Date date, int likesCount, int dislikesCount, int reservation_ID) {
         this.description = description;
         this.rating = rating;
         this.date = date;
         this.likesCount = likesCount;
         this.dislikesCount = dislikesCount;
-        this.account_ID = account_ID;
-        this.hotelID = hotelID;
+        this.reservation_ID = reservation_ID;
     }
 
+  
     public int getFeedbackID() {
         return feedbackID;
     }
@@ -85,31 +83,23 @@ public class Feedback {
         this.dislikesCount = dislikesCount;
     }
 
-    public int getAccount_ID() {
-        return account_ID;
+    public int getReservation_ID() {
+        return reservation_ID;
     }
 
-    public void setAccount_ID(int account_ID) {
-        this.account_ID = account_ID;
+    public void setReservation_ID(int reservation_ID) {
+        this.reservation_ID = reservation_ID;
     }
 
-    public int getHotelID() {
-        return hotelID;
+    public Account getAccount(int feedbackID){
+        return AccountDB.getAccountByFeedbackID(feedbackID);
     }
-
-    public void setHotelID(int hotelID) {
-        this.hotelID = hotelID;
-    }
-    public Account getAccount(int id){
-        return FeedbackDB.getAccountByFeedbackID(id);
-    }
-    public Hotel getHotel(int id){
-        return HotelDB.getHotelByID(id);
+    
+    public Hotel getHotel(int feedbackID){
+        return HotelDB.getHotelByFeedbackID(feedbackID);
     }
     @Override
     public String toString() {
-        return "Feedback{" + "feedbackID=" + feedbackID + ", description=" + description + ", rating=" + rating + ", date=" + date + ", likesCount=" + likesCount + ", dislikesCount=" + dislikesCount + ", account_ID=" + account_ID + ", hotelID=" + hotelID + '}';
-    }
-
-
+        return "Feedback{" + "feedbackID=" + feedbackID + ", description=" + description + ", rating=" + rating + ", date=" + date + ", likesCount=" + likesCount + ", dislikesCount=" + dislikesCount + ", reservation_ID=" + reservation_ID + '}';
+    } 
 }

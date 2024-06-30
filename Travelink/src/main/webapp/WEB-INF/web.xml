@@ -187,8 +187,8 @@
     <servlet>
         <servlet-name>UpdateHotelBedServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.UpdateHotelBedServlet</servlet-class>
-        </servlet>
-        <servlet>
+    </servlet>
+    <servlet>
         <servlet-name>InsertOfflineBookingServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.InsertOfflineBookingServlet</servlet-class>
     </servlet>
@@ -203,6 +203,10 @@
     <servlet>
         <servlet-name>HotelHost_FeedbackServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.HotelHost_FeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminDashBoardServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.AdminDashBoardServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -379,8 +383,8 @@
     <servlet-mapping>
         <servlet-name>UpdateHotelBedServlet</servlet-name>
         <url-pattern>/UpdateHotelBedServlet</url-pattern>
-        </servlet-mapping>
-        <servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>InsertOfflineBookingServlet</servlet-name>
         <url-pattern>/InsertOfflineBookingServlet</url-pattern>
     </servlet-mapping>
@@ -395,6 +399,10 @@
     <servlet-mapping>
         <servlet-name>HotelHost_FeedbackServlet</servlet-name>
         <url-pattern>/HotelHost_FeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminDashBoardServlet</servlet-name>
+        <url-pattern>/AdminDashBoardServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

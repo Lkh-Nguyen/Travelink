@@ -308,7 +308,7 @@
                                                 <hr>
                                             <c:if test="${entry.value[0].status == 'FINISHED'}">
                                                 <div class="row m-1"> 
-                                                        <a class="btn btn-outline-primary mb-2" href="CreateFeedback.jsp?reservation_ID=${h.reservationID}&hotel_ID=${h.hotel_ID}">
+                                                        <a class="btn btn-outline-primary mb-2" href="CreateFeedback.jsp?reservation_ID=${entry.key}&hotel_ID=${entry.value[0].hotel_ID}">
                                                             <i class="fa-regular fa-comment"></i> Feedback
                                                         </a>
                                                 </div>

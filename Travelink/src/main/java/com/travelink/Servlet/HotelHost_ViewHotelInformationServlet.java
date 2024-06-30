@@ -5,18 +5,23 @@
 
 package com.travelink.Servlet;
 
+import com.travelink.Database.OwnedHotelDB;
+import com.travelink.Model.Account;
+import com.travelink.Model.Hotel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
  * @author MSI
  */
-public class HotelHost_ViewHotelInformation extends HttpServlet {
+public class HotelHost_ViewHotelInformationServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,10 +38,10 @@ public class HotelHost_ViewHotelInformation extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HotelHost_ViewHotelInformation</title>");  
+            out.println("<title>Servlet HotelHost_ViewHotelInformationServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HotelHost_ViewHotelInformation at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet HotelHost_ViewHotelInformationServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -53,7 +58,12 @@ public class HotelHost_ViewHotelInformation extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        Account hotelHostAccount = (Account) session.getAttribute("account");
+        // check hotel is own of hotelHostAccount
+        List<Hotel> hotelAccountList = OwnedHotelDB.getHotelsByAccountID(hotelHostAccount.getAccount_ID());
+        request.setAttribute("hotel_list",hotelAccountList);
+        request.getRequestDispatcher("HotelHost_HotelInformation.jsp").forward(request, response);
     } 
 
     /** 

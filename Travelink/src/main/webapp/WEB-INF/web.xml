@@ -151,10 +151,30 @@
     <servlet>
         <servlet-name>HotelHostHotelServiceServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.HotelHostHotelServiceServlet</servlet-class>
-        </servlet>
-        <servlet>
+    </servlet>
+    <servlet>
         <servlet-name>DashboardServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.DashboardServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelHost_ViewHotelInformationServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_ViewHotelInformationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelHost_UpdateHotelServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_UpdateHotelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelHost_BookingScheduleServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_BookingScheduleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelHost_SearchBookingScheduleServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_SearchBookingScheduleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelHost_AvailableSerlvet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_AvailableSerlvet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -295,10 +315,30 @@
     <servlet-mapping>
         <servlet-name>HotelHostHotelServiceServlet</servlet-name>
         <url-pattern>/HotelHostHotelServiceServlet</url-pattern>
-        </servlet-mapping>
-        <servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>DashboardServlet</servlet-name>
         <url-pattern>/DashboardServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_ViewHotelInformationServlet</servlet-name>
+        <url-pattern>/hotelHost_ViewHotelInformationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_UpdateHotelServlet</servlet-name>
+        <url-pattern>/hotelHost_UpdateHotelServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_BookingScheduleServlet</servlet-name>
+        <url-pattern>/hotelHost_BookingScheduleServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_SearchBookingScheduleServlet</servlet-name>
+        <url-pattern>/hotelHost_SearchBookingScheduleServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_AvailableSerlvet</servlet-name>
+        <url-pattern>/hotelHost_AvailableSerlvet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

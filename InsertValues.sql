@@ -744,3 +744,7 @@ BEGIN
     SET @ReservationID = @ReservationID + 1;
 END;
 -----------------------------------------------------------------------------------------------------------------
+INSERT INTO Owned_Hotel (Hotel_ID, Account_ID) VALUES
+(1, 3),
+(2, 3);
+GO

@@ -6,13 +6,19 @@ select *
 from Account
 
 INSERT INTO Account (Email, Password, Name, Gender, DateOfBirth, PhoneNumber,AvatarURL, Role)
-VALUES 
-('example@email.com', '123', N'Nguyễn Văn Nam', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/avatar_default.jpg',1),
-('nguyenlkhde170387@fpt.edu.vn','123',N'Le Kim Hoang Nguyen', 'M', '2003-06-30','0934726073','/Travelink/img_Avatar/avatar_default.jpg',1),
-('example1@fpt.edu.vn','123',N'Hoang Cong Minh', 'M', '2003-06-30','0934726073','/Travelink/img_Avatar/Screenshot 2024-05-18 231810.png',1),
-('example2@fpt.edu.vn','123',N'Pham Trong Hung', 'M', '2003-06-30','0934726073','/Travelink/img_Avatar/Screenshot 2024-05-31 212127.png',1),
-('example3@fpt.edu.vn','123',N'Nguyen Van Duy An', 'M', '2003-06-30','0934726073','/Travelink/img_Avatar/Screenshot 2024-05-23 123209.png',1),
-('example4@fpt.edu.vn','123',N'Nguyen Dinh Hoang Hai', 'M', '2003-06-30','0934726073','/Travelink/img_Avatar/Screenshot 2024-05-18 231843.png',1);
+VALUES
+--customer
+('example1@email.com', '123', N'Lê Kim Hoàng Nguyên', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/nguyen.jpg',1),
+('example2@email.com', '123', N'Nguyễn Văn Duy An', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/an.jpg',1),
+('example3@email.com', '123', N'Phạm Trọng Hùng', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/hung.jpg',1),
+('example4@email.com', '123', N'Nguyễn Đình Hoàng Hải', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/hai.jpg',1),
+('example5@email.com', '123', N'Hoàng Công Minh', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/minh.jpg',1),
+
+--hotelhost
+('example6@email.com', '123', N'Hotel Host 1', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/nguyen.jpg',2),
+('example7@email.com', '123', N'Hotel Host 2', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/minh.jpg',2),
+--admin
+('example8@email.com', '123', N'Admin 1', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/hai.jpg',3);
 --insert table Account--
 
 --insert table hotel--
@@ -160,10 +166,16 @@ Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm m
  from Owned_Hotel
 
  insert into Owned_Hotel values
- (1,4),
- (2,4),
- (3,4),
- (4,4);
+(1,6),
+(2,6),
+(3,6),
+(4,6),
+(5,7),
+(6,7),
+(7,7),
+(8,7),
+(9,7),
+(10,7);
 
  -----------------------------------------------------------------------------------------------------------------
  --insert table Hotel_Image --
@@ -209,7 +221,7 @@ VALUES
 -- Loop to insert 15 random URLs for each Hotel_ID from 1 to 30
 DECLARE @Hotel_ID INT = 1;
 
-WHILE @Hotel_ID <= 15
+WHILE @Hotel_ID <= 10
 BEGIN
     -- Insert 15 random URLs for the current Hotel_ID
     INSERT INTO Hotel_Image (URL, Hotel_ID)
@@ -220,11 +232,6 @@ BEGIN
     -- Increment the Hotel_ID
     SET @Hotel_ID = @Hotel_ID + 1;
 END;
-
--- Clean up the temporary table
-DROP TABLE #TempURLs;
-
-
  -----------------------------------------------------------------------------------------------------------------
  -----------------------------------------------------------------------------------------------------------------
   --insert table Favourite_Hotel--
@@ -250,10 +257,7 @@ END;
 select *
 from Room
 
-INSERT INTO Room (Name, Room_Description, Capacity, Total_Rooms, Price, Hotel_ID, Status)VALUES 
-('Standard Room','This is a cozy room with one king-size bed',2,10,10000,1,'ACTIVE'),
-('Deluxe Suite','Spacious suite with a separate living area and a king-size bed',4,8,20000,1,'ACTIVE'),
-('Family Room', 'Room with two queen-size beds, suitable for families', 4,6,30000,1,'ACTIVE');
+
 
 -- Create a table variable to hold room types
 DECLARE @RoomTypes TABLE (
@@ -261,7 +265,6 @@ DECLARE @RoomTypes TABLE (
     Room_Description NVARCHAR(MAX),
     Capacity INT
 );
-
 -- Insert room types into the table variable
 INSERT INTO @RoomTypes (Name, Room_Description, Capacity)
 VALUES 
@@ -319,46 +322,10 @@ from Room_Image
 order by Room_ID
 
 
-CREATE TABLE #TempURLs (
-    URL NVARCHAR(MAX)
-);
--- Insert the URLs into the temporary table
-INSERT INTO #TempURLs (URL)
-VALUES
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-20983969df0ca0525a15f20af9488f4c.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640'),
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-ca79c5cfc41762e1963c20b8336afb05.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640'),
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-8f5a52e0864d04a9277c4e66e4743f7a.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640'),
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-f5552e5aaa82d9d1b8263b741ea12957.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640'),
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20010910-a184757c040c218aa85aed6644735011.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-640'),
-
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20011770-76da33ac4a4d1e377f606253e67c93c6.jpeg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20011770-96fdc30e525f75f478d6cf9977234d70.jpeg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20011770-8edf3caa310bfe8644baf32ac8a95e46.jpeg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20011770-6856c92e44088b0f32691dd2917067a0.jpeg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/Ixf4aptF5N2Qdfmh4fGGYhTN274kJXuNMkUAzpL5HuD9jzSxIGG5kZNhhHY-p7nw/hotel/asset/20062926-bdd09b2d0f2c9417b220faebaeb05bb4.jpeg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-
-('https://ik.imagekit.io/tvlk/apr-asset/Ixf4aptF5N2Qdfmh4fGGYhTN274kJXuNMkUAzpL5HuD9jzSxIGG5kZNhhHY-p7nw/hotel/asset/20062926-2640d0bcf268a98fc7c45cf6c322121c.jpeg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20062926-1557a5590743685128f98ad15f28b23e.jpeg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/Ixf4aptF5N2Qdfmh4fGGYhTN274kJXuNMkUAzpL5HuD9jzSxIGG5kZNhhHY-p7nw/hotel/asset/20062926-4efb40291d4870bdf6f41d5b48f79e73.jpeg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/Ixf4aptF5N2Qdfmh4fGGYhTN274kJXuNMkUAzpL5HuD9jzSxIGG5kZNhhHY-p7nw/hotel/asset/20062926-5770c550f8e19f83883844e605ab9e7d.jpeg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/Ixf4aptF5N2Qdfmh4fGGYhTN274kJXuNMkUAzpL5HuD9jzSxIGG5kZNhhHY-p7nw/hotel/asset/20062926-f65eeb99d8499329e2368ebfb454cf0d.jpeg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/10024807-b0ce24c491643118ff49e215cd5aa99a.jpeg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/10024807-f8a2fa44c2d7ba6b1d393c5283d6075d.jpeg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/10024807-5e52206ed708143cc1dc249afe8a4af6.jpeg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/TzEv3ZUmG4-4Dz22hvmO9NUDzw1DGCIdWl4oPtKumOg=/lodging/5000000/4630000/4624400/4624340/771a1a01_z.jpg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/TzEv3ZUmG4-4Dz22hvmO9NUDzw1DGCIdWl4oPtKumOg=/lodging/5000000/4630000/4624400/4624340/f8320d6c_z.jpg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-
-('https://ik.imagekit.io/tvlk/apr-asset/TzEv3ZUmG4-4Dz22hvmO9NUDzw1DGCIdWl4oPtKumOg=/lodging/5000000/4630000/4624400/4624340/570406d7_z.jpg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/TzEv3ZUmG4-4Dz22hvmO9NUDzw1DGCIdWl4oPtKumOg=/lodging/5000000/4630000/4624400/4624340/87f96b23_z.jpg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/TzEv3ZUmG4-4Dz22hvmO9NUDzw1DGCIdWl4oPtKumOg=/lodging/5000000/4630000/4624400/4624340/14698fd3_z.jpg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/TzEv3ZUmG4-4Dz22hvmO9NUDzw1DGCIdWl4oPtKumOg=/lodging/5000000/4630000/4624400/4624340/03621650_z.jpg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968'),
-('https://ik.imagekit.io/tvlk/apr-asset/TzEv3ZUmG4-4Dz22hvmO9NUDzw1DGCIdWl4oPtKumOg=/lodging/5000000/4630000/4624400/4624340/2af36bd1_z.jpg?_src=imagekit&tr=c-at_max,f-jpg,h-616,pr-true,q-100,w-968');
-
 -- Loop to insert 15 random URLs for each Hotel_ID from 1 to 30
 DECLARE @Room_ID INT = 1;
 
-WHILE @Room_ID <= 15
+WHILE @Room_ID <= 30
 BEGIN
     -- Insert 15 random URLs for the current Hotel_ID
     insert into Room_Image(URL, Room_ID)
@@ -369,9 +336,6 @@ BEGIN
     -- Increment the Hotel_ID
     SET @Room_ID = @Room_ID + 1;
 END;
-
--- Clean up the temporary table
-DROP TABLE #TempURLs;
 
  ----------------------------------------------------------------------------------------------------------------
 --INSERT INTO Facility--
@@ -498,7 +462,7 @@ select *
 from Room_Bed
 -- Declare variables for the loops
 DECLARE @Room_ID INT = 1;
-DECLARE @MaxRoom_ID INT = 15;
+DECLARE @MaxRoom_ID INT = 30;
 DECLARE @Amount INT;
 DECLARE @Bed_ID INT;
 
@@ -524,6 +488,60 @@ BEGIN
     SET @Room_ID = @Room_ID + 1;
 END;
 
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+delete Reserved_Room
+DBCC CHECKIDENT ('Reserved_Room', RESEED, 0);
+
+select *
+from Reservation
+
+DECLARE @Account_ID INT = 1;
+INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
+VALUES
+--feedback
+('2024-05-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID);
+
+
+DECLARE @Account_ID INT = 2;
+INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
+VALUES
+--feedback
+('2024-05-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID);
+
+DECLARE @Account_ID INT = 3;
+INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
+VALUES
+--feedback
+('2024-05-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID);
+
 ----------------------------------------------------------------------------------------------------------------
 select *
 from Feedback
@@ -533,7 +551,7 @@ CREATE PROCEDURE InsertRandomFeedbackData
 AS
 BEGIN
     DECLARE @ReservationID INT = 1;
-    DECLARE @MaxReservationID INT = 320;
+    DECLARE @MaxReservationID INT = 30;
     DECLARE @Rating INT;
     DECLARE @LikesCount INT;
     DECLARE @DislikesCount INT;
@@ -574,17 +592,24 @@ END;
 
 -- Execute the procedure to insert data
 EXEC InsertRandomFeedbackData;
-
-6
-
-update Reservation
-set CheckInDate = '2024-06-20', CheckOutDate = '2024-06-21', Reservation_Date = '2024-06-19'
-where Reservation_ID = 129
-
+-----------------------------------------------------------------------------------------------------------------
+delete Reserved_Room
 select *
-from Reservation
+from Reserved_Room
+order by Reservation_ID
 
-DECLARE @Account_ID INT = 5;
+-- Chèn dữ liệu vào bảng Reserved_Room với Reservation_ID từ 1 đến 21, Room_ID random từ 1 đến 90, amount từ 1 đến 2
+DECLARE @ReservationID INT = 1;
+
+WHILE @ReservationID <= 30
+BEGIN
+    INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
+    VALUES (@ReservationID, FLOOR(RAND() * 3) + 1, FLOOR(RAND() * 2) + 1);
+
+    SET @ReservationID = @ReservationID + 1;
+END;
+--------------------------------------------------------------------------------------------------------------------------------------------
+DECLARE @Account_ID INT = 1;
 INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
 VALUES
 --cancel
@@ -648,36 +673,8 @@ VALUES
 ('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FINISHED', @Account_ID),
 ('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID),
 ('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FINISHED', @Account_ID),
-('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID),
---feedback
-('2024-05-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
-('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
-('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
-('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
-('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
-('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
-('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
-('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
-('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
-('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID);
+('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID);
 
-
-
-INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
-VALUES 
-(1,1,1),
-(1,2,1),
-(1,3,1),
-(2,1,1),
-(2,2,2),
-(3,1,3),
-(4,2,2),
-(5,1,2),
-(5,2,1),
-(6,3,1),
-(7,1,4),
-(8,2,2),
-(8,3,1);
 -----------------------------------------------------------------------------------------------------------------
 delete Reserved_Room
 select *
@@ -685,29 +682,27 @@ from Reserved_Room
 order by Reservation_ID
 
 -- Chèn dữ liệu vào bảng Reserved_Room với Reservation_ID từ 1 đến 21, Room_ID random từ 1 đến 90, amount từ 1 đến 2
-DECLARE @ReservationID INT = 1;
+DECLARE @ReservationID INT = 31;
 
-WHILE @ReservationID <= 320
+WHILE @ReservationID <= 60
 BEGIN
     INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
-    VALUES (@ReservationID, FLOOR(RAND() * 15) + 1, FLOOR(RAND() * 2) + 1);
+    VALUES (@ReservationID, FLOOR(RAND() * 3) + 4, FLOOR(RAND() * 2) + 1);
+
+    SET @ReservationID = @ReservationID + 1;
+END;
+
+
+-- Chèn dữ liệu vào bảng Reserved_Room với Reservation_ID từ 1 đến 21, Room_ID random từ 1 đến 90, amount từ 1 đến 2
+DECLARE @ReservationID INT = 61;
+
+WHILE @ReservationID <= 84
+BEGIN
+    INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
+    VALUES (@ReservationID, FLOOR(RAND() * 3) + 4, FLOOR(RAND() * 2) + 1);
 
     SET @ReservationID = @ReservationID + 1;
 END;
 -----------------------------------------------------------------------------------------------------------------
-INSERT INTO Owned_Hotel (Account_ID,Hotel_ID) VALUES (3,1)
-INSERT INTO Owned_Hotel (Account_ID,Hotel_ID) VALUES (3,3)
-
-
-drop table Reported_Feedback
 select *
 from Reported_Feedback
-
-CREATE TABLE Reported_Feedback (
-    Reported_Feedback_ID INT IDENTITY(1,1) PRIMARY KEY,
-    ReportTime DATETIME,
-    Reason NVARCHAR(255),
-    Feedback_ID INT FOREIGN KEY REFERENCES Feedback(Feedback_ID),
-    Account_ID INT FOREIGN KEY REFERENCES Account(Account_ID)
-);
-

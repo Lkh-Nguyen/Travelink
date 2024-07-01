@@ -5,10 +5,11 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.FeedbackDB;
-import com.travelink.Database.ReportFeedbackDB;
+import com.travelink.Database.ReportedFeedbackDB;
+
 import com.travelink.Model.Account;
 import com.travelink.Model.Feedback;
-import com.travelink.Model.ReportFeedback;
+import com.travelink.Model.ReportedFeedback;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -97,7 +98,7 @@ public class ReportFeedbackServlet extends HttpServlet {
         String hotel_ID = request.getParameter("hotel_ID");
         HttpSession session = request.getSession();
         Account sessionAccount = (Account) session.getAttribute("account");
-        if (ReportFeedbackDB.checkReportFeedback(Integer.parseInt(feedbackID), sessionAccount.getAccount_ID())) {
+        if (ReportedFeedbackDB.checkReportFeedback(Integer.parseInt(feedbackID), sessionAccount.getAccount_ID())) {
             Feedback feedback123 = FeedbackDB.getFeedbackByFeedbackID(Integer.parseInt(feedbackID));
             request.setAttribute("feedback", feedback123);
             request.setAttribute("hotel_ID", hotel_ID);
@@ -106,8 +107,8 @@ public class ReportFeedbackServlet extends HttpServlet {
         } else {
             String reason = request.getParameter("reason");
             Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-            ReportFeedback feedback = new ReportFeedback(currentTimestamp, reason, Integer.parseInt(feedbackID), sessionAccount.getAccount_ID());
-            ReportFeedbackDB.insertReportFeedback(feedback);
+            ReportedFeedback feedback = new ReportedFeedback(currentTimestamp, reason, Integer.parseInt(feedbackID), sessionAccount.getAccount_ID());
+            ReportedFeedbackDB.insertReportFeedback(feedback);
             Feedback feedback123 = FeedbackDB.getFeedbackByFeedbackID(Integer.parseInt(feedbackID));
             request.setAttribute("feedback", feedback123);
             request.setAttribute("hotel_ID", hotel_ID);

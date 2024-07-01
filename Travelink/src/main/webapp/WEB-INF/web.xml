@@ -205,10 +205,6 @@
         <servlet-class>com.travelink.Servlet.HotelHost_FeedbackServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AdminDashBoardServlet</servlet-name>
-        <servlet-class>com.travelink.Servlet.AdminDashBoardServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ViewFeedbackReservationIDServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.ViewFeedbackReservationIDServlet</servlet-class>
     </servlet>
@@ -219,6 +215,10 @@
     <servlet>
         <servlet-name>ReportFeedbackServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.ReportFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Admin_ViewReportFeedback</servlet-name>
+        <servlet-class>com.travelink.Servlet.Admin_ViewReportFeedback</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -413,10 +413,6 @@
         <url-pattern>/HotelHost_FeedbackServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AdminDashBoardServlet</servlet-name>
-        <url-pattern>/AdminDashBoardServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ViewFeedbackReservationIDServlet</servlet-name>
         <url-pattern>/ViewFeedbackReservationIDServlet</url-pattern>
     </servlet-mapping>
@@ -427,6 +423,10 @@
     <servlet-mapping>
         <servlet-name>ReportFeedbackServlet</servlet-name>
         <url-pattern>/ReportFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Admin_ViewReportFeedback</servlet-name>
+        <url-pattern>/Admin_ViewReportFeedback</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -156,6 +156,16 @@ Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm m
  N'Nhu Minh Plaza Hotel Da Nang mang đến cho du khách trải nghiệm lưu trú sang trọng và đẳng cấp với không gian hiện đại và dịch vụ chuyên nghiệp. Hãy khám phá Đà Nẵng và tận hưởng kỳ nghỉ tuyệt vời tại đây.',
  '12:00:00', '22:00:00', '10:00:00', '12:00:00', N'3 B9 Đầm Trấu, Bạch Đằng, Quận Hai Bà Trưng, Hà Nội, Việt Nam', 1);	
  -----------------------------------------------------------------------------------------------------------------
+ select * 
+ from Owned_Hotel
+
+ insert into Owned_Hotel values
+ (1,4),
+ (2,4),
+ (3,4),
+ (4,4);
+
+ -----------------------------------------------------------------------------------------------------------------
  --insert table Hotel_Image --
  select *
  from Hotel_Image
@@ -199,11 +209,11 @@ VALUES
 -- Loop to insert 15 random URLs for each Hotel_ID from 1 to 30
 DECLARE @Hotel_ID INT = 1;
 
-WHILE @Hotel_ID <= 30
+WHILE @Hotel_ID <= 15
 BEGIN
     -- Insert 15 random URLs for the current Hotel_ID
     INSERT INTO Hotel_Image (URL, Hotel_ID)
-    SELECT TOP 15 URL, @Hotel_ID
+    SELECT TOP 5 URL, @Hotel_ID
     FROM #TempURLs
     ORDER BY NEWID();
 
@@ -214,45 +224,7 @@ END;
 -- Clean up the temporary table
 DROP TABLE #TempURLs;
 
- -----------------------------------------------------------------------------------------------------------------
- --insert table Feedback--
- select *
- from Feedback
 
-
--- Set up a counter for Hotel_ID
-DECLARE @HotelID INT = 1;
-DECLARE @MaxHotelID INT = 30;
-DECLARE @Rating INT;
-DECLARE @like INT;
-DECLARE @dislike INT;
-DECLARE @Description NVARCHAR(255);
-DECLARE @Date DATE;
-
--- Loop through Hotel_ID values from 1 to 30
-WHILE @HotelID <= @MaxHotelID
-BEGIN
-    -- Generate a random Rating between 1 and 5
-    SET @Rating = ROUND((RAND() * 4) + 1, 0);
-
-	-- Generate a random Rating between 0 and 100
-    SET @like = ROUND((RAND() * 100), 0);
-	-- Generate a random Rating between 0 and 
-    SET @dislike = ROUND((RAND() * 100), 0);
-    
-    -- Generate a random Description
-    SET @Description = 'Random Description ' + CAST(@HotelID AS NVARCHAR(10));
-    
-    -- Generate a random Date within the last month
-    SET @Date = DATEADD(DAY, -1 * FLOOR(RAND() * 30), GETDATE());
-
-    -- Insert the record into Feedback
-    INSERT INTO Feedback (Account_ID, Hotel_ID, Rating ,Description, Date, LikesCount,DislikesCount)
-    VALUES (1, @HotelID, @Rating, @Description, @Date,@like,@dislike);
-
-    -- Increment the Hotel_ID
-    SET @HotelID = @HotelID + 1;
-END;
  -----------------------------------------------------------------------------------------------------------------
  -----------------------------------------------------------------------------------------------------------------
   --insert table Favourite_Hotel--
@@ -261,7 +233,7 @@ from Favourite_Hotel
 
 -- Set up variables
 DECLARE @HotelID INT = 1;
-DECLARE @MaxHotelID INT = 30;
+DECLARE @MaxHotelID INT = 10;
 
 -- Loop through Hotel_ID values from 1 to 30 but only odd numbers
 WHILE @HotelID <= @MaxHotelID
@@ -271,7 +243,7 @@ BEGIN
     VALUES (@HotelID, 1);
 
     -- Increment the Hotel_ID by 2 to get the next odd number
-    SET @HotelID = @HotelID + 2;
+    SET @HotelID = @HotelID + 1;
 END;
  -----------------------------------------------------------------------------------------------------------------
 --insert table Room--
@@ -298,8 +270,8 @@ VALUES
 ('Family Room', 'Room with two queen-size beds, suitable for families', 4);
 
 -- Declare variables for the loop
-DECLARE @HotelID INT = 2;
-DECLARE @MaxHotelID INT = 30;
+DECLARE @HotelID INT = 1;
+DECLARE @MaxHotelID INT = 5;
 DECLARE @Price INT;
 DECLARE @TotalRooms INT;
 DECLARE @Status NVARCHAR(50) = 'ACTIVE';
@@ -386,11 +358,11 @@ VALUES
 -- Loop to insert 15 random URLs for each Hotel_ID from 1 to 30
 DECLARE @Room_ID INT = 1;
 
-WHILE @Room_ID <= 90
+WHILE @Room_ID <= 15
 BEGIN
     -- Insert 15 random URLs for the current Hotel_ID
     insert into Room_Image(URL, Room_ID)
-    SELECT TOP 15 URL, @Room_ID
+    SELECT TOP 5 URL, @Room_ID
     FROM #TempURLs
     ORDER BY NEWID();
 
@@ -443,7 +415,7 @@ from Hotel_Facility
 
 -- Declare variables for the loops
 DECLARE @Hotel_ID INT = 1;
-DECLARE @MaxHotel_ID INT = 30;
+DECLARE @MaxHotel_ID INT = 10;
 DECLARE @Facility_ID INT;
 DECLARE @InsertionCount INT;
 DECLARE @MaxInsertions INT = 10;
@@ -492,7 +464,7 @@ DECLARE @Service_ID INT;
 DECLARE @Price INT;
 
 -- Loop through Hotel_ID values from 1 to 30, excluding multiples of 5
-WHILE @Hotel_ID <= 30
+WHILE @Hotel_ID <= 10
 BEGIN
     -- Check if the current Hotel_ID is not a multiple of 5
     IF @Hotel_ID % 5 != 0
@@ -526,7 +498,7 @@ select *
 from Room_Bed
 -- Declare variables for the loops
 DECLARE @Room_ID INT = 1;
-DECLARE @MaxRoom_ID INT = 90;
+DECLARE @MaxRoom_ID INT = 15;
 DECLARE @Amount INT;
 DECLARE @Bed_ID INT;
 
@@ -553,31 +525,66 @@ BEGIN
 END;
 
 ----------------------------------------------------------------------------------------------------------------
+select *
+from Feedback
 
+-- Create a procedure to insert random data
+CREATE PROCEDURE InsertRandomFeedbackData
+AS
+BEGIN
+    DECLARE @ReservationID INT = 1;
+    DECLARE @MaxReservationID INT = 320;
+    DECLARE @Rating INT;
+    DECLARE @LikesCount INT;
+    DECLARE @DislikesCount INT;
+    DECLARE @Description NVARCHAR(255);
+    DECLARE @Date DATE;
 
+    WHILE @ReservationID <= @MaxReservationID
+    BEGIN
+        -- Generate a random Rating between 1 and 5
+        SET @Rating = ROUND((RAND() * 4) + 1, 0);
+
+        -- Generate a random LikesCount between 0 and 10
+        SET @LikesCount = ROUND((RAND() * 10), 0);
+
+        -- Generate a random DislikesCount between 0 and 10
+        SET @DislikesCount = ROUND((RAND() * 10), 0);
+
+        -- Generate a random Description with 8 to 16 words
+        SET @Description = (
+            SELECT STRING_AGG(value, ' ')
+            FROM (
+                SELECT TOP (8 + ABS(CHECKSUM(NEWID())) % 9) CAST(NEWID() AS NVARCHAR(36)) AS value
+                FROM sys.objects
+            ) AS RandomWords
+        );
+
+        -- Generate a random Date within the last month
+        SET @Date = DATEADD(DAY, -1 * FLOOR(RAND() * 30), GETDATE());
+
+        -- Insert the record into Feedback
+        INSERT INTO Feedback (Description, Rating, Date, LikesCount, DislikesCount, Reservation_ID)
+        VALUES (@Description, @Rating, @Date, @LikesCount, @DislikesCount, @ReservationID);
+
+        -- Increment the Reservation_ID
+        SET @ReservationID = @ReservationID + 1;
+    END;
+END;
+
+-- Execute the procedure to insert data
+EXEC InsertRandomFeedbackData;
+
+6
+
+update Reservation
+set CheckInDate = '2024-06-20', CheckOutDate = '2024-06-21', Reservation_Date = '2024-06-19'
+where Reservation_ID = 129
 
 select *
 from Reservation
 
-update Reservation
-set status = 'PAID'
-where Status = 'NOT PAID'
-
-
-DECLARE @Account_ID INT = 1;
-INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
-VALUES
---cancel
-('2024-04-01', 2, '2024-04-02', '2024-04-03', 60000.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-04-04', 3, '2024-04-05', '2024-04-06', 50000.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-05-01', 4, '2024-05-02', '2024-05-03', 30000.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-05-04', 1, '2024-05-05', '2024-05-06', 40000.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-06-01', 3, '2024-06-02', '2024-06-03', 40000.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-06-04', 5, '2024-06-05', '2024-06-06', 30000.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-07-01', 3, '2024-07-02', '2024-07-03', 40000.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-07-04', 5, '2024-07-05', '2024-07-06', 70000.00, 'VIETQR', 'PAID', @Account_ID);
-
-DECLARE @Account_ID INT = 6;
+DECLARE @Account_ID INT = 5;
 INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
 VALUES
 --cancel
@@ -587,26 +594,72 @@ VALUES
 ('2024-06-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'VIETQR', 'CANCEL', @Account_ID),
 ('2024-06-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'VIETQR', 'CANCEL', @Account_ID),
 ('2024-06-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-05-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-05-02', 3, '2024-06-12', '2024-06-17', 500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-04-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-03-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-02-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-01-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'CANCEL', @Account_ID),
 
---paid , not finish , not feedback
+--refunding
+('2024-06-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-02', 3, '2024-06-12', '2024-06-17', 500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-05-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-05-02', 3, '2024-06-12', '2024-06-17', 500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-04-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-03-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-02-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-01-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+
+--paid
 ('2024-06-02', 5, '2024-06-11', '2024-06-26', 2100.00, 'VIETQR', 'PAID', @Account_ID),
 ('2024-06-05', 6, '2024-06-12', '2024-06-27', 4100.00, 'VIETQR', 'PAID', @Account_ID),
 ('2024-06-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
 ('2024-06-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
 ('2024-06-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-05-02', 5, '2024-06-11', '2024-06-26', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-04-05', 6, '2024-06-12', '2024-06-27', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-03-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-02-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-01-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'VIETQR', 'PAID', @Account_ID),
 
---paid , finish, not feedback
-('2024-05-03', 5, '2024-05-11', '2024-05-26', 2100.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-05-05', 6, '2024-05-12', '2024-05-27', 4100.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-05-04', 7, '2024-05-13', '2024-05-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-05-05', 2, '2024-05-14', '2024-05-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-05-06', 3, '2024-05-15', '2024-05-30', 2100.00, 'VIETQR', 'PAID', @Account_ID),
---finish,feedback
+--Processing
+('2024-05-03', 5, '2024-06-11', '2024-07-26', 2100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-05-05', 6, '2024-06-12', '2024-07-27', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-05-04', 7, '2024-06-13', '2024-07-28', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-05-05', 2, '2024-06-14', '2024-07-29', 3100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-05-06', 3, '2024-06-15', '2024-07-30', 2100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-06-03', 5, '2024-06-11', '2024-08-26', 2100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-01-05', 6, '2024-06-12', '2024-08-27', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-02-04', 7, '2024-06-13', '2024-08-28', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-03-05', 2, '2024-06-14', '2024-08-29', 3100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-04-06', 3, '2024-06-15', '2024-08-30', 2100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+--finish
 ('2024-05-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FINISHED', @Account_ID),
 ('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID),
-
---not paid
-('2024-05-02', 3, '2024-06-20', '2024-06-26', 25100.00, 'VIETQR', 'NOT PAID', @Account_ID)
+('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID),
+--feedback
+('2024-05-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
+('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID);
 
 
 
@@ -626,6 +679,7 @@ VALUES
 (8,2,2),
 (8,3,1);
 -----------------------------------------------------------------------------------------------------------------
+delete Reserved_Room
 select *
 from Reserved_Room
 order by Reservation_ID
@@ -633,13 +687,27 @@ order by Reservation_ID
 -- Chèn dữ liệu vào bảng Reserved_Room với Reservation_ID từ 1 đến 21, Room_ID random từ 1 đến 90, amount từ 1 đến 2
 DECLARE @ReservationID INT = 1;
 
-WHILE @ReservationID <= 23
+WHILE @ReservationID <= 320
 BEGIN
     INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
-    VALUES (@ReservationID, FLOOR(RAND() * 90) + 1, FLOOR(RAND() * 2) + 1);
+    VALUES (@ReservationID, FLOOR(RAND() * 15) + 1, FLOOR(RAND() * 2) + 1);
 
     SET @ReservationID = @ReservationID + 1;
 END;
 -----------------------------------------------------------------------------------------------------------------
 INSERT INTO Owned_Hotel (Account_ID,Hotel_ID) VALUES (3,1)
 INSERT INTO Owned_Hotel (Account_ID,Hotel_ID) VALUES (3,3)
+
+
+drop table Reported_Feedback
+select *
+from Reported_Feedback
+
+CREATE TABLE Reported_Feedback (
+    Reported_Feedback_ID INT IDENTITY(1,1) PRIMARY KEY,
+    ReportTime DATETIME,
+    Reason NVARCHAR(255),
+    Feedback_ID INT FOREIGN KEY REFERENCES Feedback(Feedback_ID),
+    Account_ID INT FOREIGN KEY REFERENCES Account(Account_ID)
+);
+

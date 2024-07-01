@@ -67,57 +67,35 @@
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
                         <!-- Page Heading -->
-                        <h1 class="h3 mb-4 text-gray-800">Report Feedback List</h1>
+                        <h1 class="h3 mb-4 text-gray-800">Report Feedback Detail</h1>
 
                         <!-- Customer Account List Table -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Report Feedback List</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Report Feedback Detail</h6>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
-                                                <th style="width: 600px">Description</th>
-                                                <th>Rating</th>
-                                                <th>Date</th>
-                                                <th>Amount Likes</th>
-                                                <th>Amount Dislike</th>
-                                                <th>Reports</th>
-                                                <th style="width: 100px">Actions</th>
+                                                <th>NO.</th>
+                                                <th>Name Account</th>
+                                                <th>Date Report</th>
+                                                <th>Reason</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-
-                                            <c:forEach var="c" items="${requestScope.feedbacks}" varStatus="status">
+                                            <c:forEach var="c" items="${requestScope.list}" varStatus="status">
                                                 <!-- Sample data for demonstration purposes -->
                                                 <tr>
-                                                    <td>${c.feedbackID}</td>
-                                                    <td>${c.description}</td>
-                                                    <td>${c.date}</td>
-                                                    <td>${c.rating} star</td>
-                                                    <td>${c.likesCount} Like</td>
-                                                    <td>${c.dislikesCount} Dislike</td>
-                                                    <td>${requestScope.listCount[status.index]} reports</td>
-                                                    <td>
-                                                        <button class="btn btn-primary btn-sm custom-button" onclick="location.href = 'Admin_ViewReportFeedbackDetail?feedbackID=${c.feedbackID}'">View Report</button>
-                                                        <form action="Admin_ViewReportFeedback" method="post">
-                                                            <input type="hidden" name="action" value="delete"/>
-                                                            <input type="hidden" name="feedbackID" value="${c.feedbackID}"/>
-                                                            <button class="btn btn-danger btn-sm custom-button">Delete</button>
-                                                        </form>
-                                                        <form action="Admin_ViewReportFeedback" method="post">
-                                                            <input type="hidden" name="action" value="cancel"/>
-                                                            <input type="hidden" name="feedbackID" value="${c.feedbackID}"/>
-                                                            <button class="btn btn-secondary btn-sm custom-button">Cancel</button>
-                                                        </form>
-                                                    </td>
-
+                                                    <td>${status.index + 1}</td>
+                                                    <td>${c.getAccount(c.accountId).name}</td>
+                                                    <td>${c.reportTime}</td>
+                                                    <td>${c.reason}</td>
                                                 </tr>
+                                                <!-- End of sample data -->
                                             </c:forEach>
-                                            <!-- End of sample data -->
                                         </tbody>
                                     </table>
                                 </div>

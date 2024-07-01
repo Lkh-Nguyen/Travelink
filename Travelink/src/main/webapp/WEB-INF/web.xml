@@ -209,16 +209,16 @@
         <servlet-class>com.travelink.Servlet.ViewFeedbackReservationIDServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Admin_ViewFeedbackServlet</servlet-name>
-        <servlet-class>com.travelink.Servlet.Admin_ViewFeedbackServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ReportFeedbackServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.ReportFeedbackServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Admin_ViewReportFeedback</servlet-name>
         <servlet-class>com.travelink.Servlet.Admin_ViewReportFeedback</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Admin_ViewReportFeedbackDetail</servlet-name>
+        <servlet-class>com.travelink.Servlet.Admin_ViewReportFeedbackDetail</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -417,16 +417,16 @@
         <url-pattern>/ViewFeedbackReservationIDServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Admin_ViewFeedbackServlet</servlet-name>
-        <url-pattern>/Admin_ViewFeedbackServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ReportFeedbackServlet</servlet-name>
         <url-pattern>/ReportFeedbackServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Admin_ViewReportFeedback</servlet-name>
         <url-pattern>/Admin_ViewReportFeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Admin_ViewReportFeedbackDetail</servlet-name>
+        <url-pattern>/Admin_ViewReportFeedbackDetail</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

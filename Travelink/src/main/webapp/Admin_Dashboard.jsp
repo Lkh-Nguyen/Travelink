@@ -63,87 +63,7 @@
         <div id="wrapper">
 
             <!-- Sidebar -->
-            <ul class="navbar-nav bg-gradient-custom sidebar sidebar-dark accordion" id="accordionSidebar">
-
-                <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                    <div class="sidebar-brand-icon w-25">
-                        <!-- <i class="fas fa-laugh-wink"></i> -->
-                        <img src="img_Home/logo.png" class="w-100">
-                    </div>
-                    <div class="sidebar-brand-text mx-3">Travelink</div>
-                </a>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider my-0">
-
-                <!-- Nav Item - Dashboard -->
-                <li class="nav-item my-2 active">
-                    <a class="nav-link" href="admin-dashboard.html">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
-                </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-
-                <!-- Nav Item - Hotel Management -->
-                <li class="nav-item my-3">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHotelManagement"
-                       aria-expanded="true" aria-controls="collapseHotelManagement">
-                        <i class="fas fa-fw fa-hotel"></i>
-                        <span>Hotel Management</span>
-                    </a>
-                    <div id="collapseHotelManagement" class="collapse" aria-labelledby="headingHotelManagement"
-                         data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="admin-pending-hotel.html">Pending hotel account</a>
-                            <a class="collapse-item" href="admin-hotel-partner.html">Hotel partner</a>
-                            <a class="collapse-item" href="admin-locked-hotel.html">Locked Hotel Host account</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Nav Item - Customer Account Management -->
-                <li class="nav-item my-3">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomerAccountManagement"
-                       aria-expanded="true" aria-controls="collapseCustomerAccountManagement">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Customer Account Management</span>
-                    </a>
-                    <div id="collapseCustomerAccountManagement" class="collapse" aria-labelledby="headingCustomerAccountManagement"
-                         data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="customer-list.html">Customer List</a>
-                            <a class="collapse-item" href="locked-customer-account.html">Locked Customer account</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Nav Item - Promotion -->
-                <li class="nav-item my-3">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePromotion"
-                       aria-expanded="true" aria-controls="collapsePromotion">
-                        <i class="fas fa-fw fa-tags"></i>
-                        <span>Promotion</span>
-                    </a>
-                    <div id="collapsePromotion" class="collapse" aria-labelledby="headingPromotion" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="create-promotion.html">Create Promotion</a>
-                            <a class="collapse-item" href="promotion-list.html">Promotion list</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
-
-                <!-- Sidebar Toggler (Sidebar) -->
-                <div class="text-center d-none d-md-inline">
-                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                </div>
-
-            </ul>
+            <%@include file="Admin_Sidebar.jsp" %>
             <!-- End of Sidebar -->
 
             <!-- Content Wrapper -->
@@ -151,93 +71,9 @@
 
                 <!-- Main Content -->
                 <div id="content">
-
                     <!-- Topbar -->
-                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                        <!-- Sidebar Toggle (Topbar) -->
-                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                            <i class="fa fa-bars"></i>
-                        </button>
-
-                        <!-- Topbar Search -->
-                        <form
-                            class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            <div class="input-group">
-                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                       aria-label="Search" aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <!-- Topbar Navbar -->
-                        <ul class="navbar-nav ml-auto">
-
-                            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                            <li class="nav-item dropdown no-arrow d-sm-none">
-                                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-search fa-fw"></i>
-                                </a>
-                                <!-- Dropdown - Messages -->
-                                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                     aria-labelledby="searchDropdown">
-                                    <form class="form-inline mr-auto w-100 navbar-search">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control bg-light border-0 small"
-                                                   placeholder="Search for..." aria-label="Search"
-                                                   aria-describedby="basic-addon2">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary" type="button">
-                                                    <i class="fas fa-search fa-sm"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </li>
-                            <div class="topbar-divider d-none d-sm-block"></div>
-
-                            <!-- Nav Item - User Information -->
-                            <li class="nav-item dropdown no-arrow">
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Travelink Admin</span>
-                                    <img class="img-profile rounded-circle"
-                                         src="img/undraw_profile.svg">
-                                </a>
-                                <!-- Dropdown - User Information -->
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                     aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Profile
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Settings
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Activity Log
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Logout
-                                    </a>
-                                </div>
-                            </li>
-
-                        </ul>
-
-                    </nav>
+                    <%@include file="Admin_Header.jsp" %>
                     <!-- End of Topbar -->
-
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
 
@@ -553,5 +389,22 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <script>
+                            document.addEventListener('DOMContentLoaded', (event) => {
+                                // Init Chart object
+                                var ctx = document.getElementById('myPieChart').getContext('2d');
+                                var myPieChart = new Chart(ctx, {
+                                    type: 'pie',
+                                    data: {
+                                        labels: ['Direct', 'Social', 'Referral'],
+                                        datasets: [{
+                                                data: [55, 30, 15],
+                                                backgroundColor: ['#007bff', '#28a745', '#17a2b8'],
+                                            }],
+                                    },
+                                });
+                            });
+        </script>
     </body>
 </html>

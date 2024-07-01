@@ -181,8 +181,6 @@ CREATE TABLE Reservation (
 GO
 
 
-
-
 CREATE TABLE Reserved_Room (
   Reserved_Room_ID INT IDENTITY(1,1) PRIMARY KEY,
   Amount TINYINT,
@@ -257,6 +255,16 @@ CREATE TABLE MonthlyPayment (
 );
 GO
 
+-- Create table Reported Feedback
+CREATE TABLE Reported_Feedback (
+    Reported_Feedback_ID INT PRIMARY KEY,
+    ReportTime DATETIME,
+    Reason NVARCHAR(255),
+    Feedback_ID INT FOREIGN KEY REFERENCES Feedback(Feedback_ID),
+    Account_ID INT FOREIGN KEY REFERENCES Account(Account_ID)
+);
+
+
 
 --Auto delete temporary online reservation
 CREATE PROCEDURE DeleteExpiredReservations
@@ -291,6 +299,7 @@ END;
 GO
 
 
+--
 CREATE PROCEDURE CalculateMonthlyRevenueForAllHotelsPreviousMonthYear
 AS
 BEGIN
@@ -299,22 +308,24 @@ BEGIN
     DECLARE @Year SMALLINT = YEAR(DATEADD(MONTH, -1, GETDATE()));
     DECLARE @PaymentTime DATETIME = NULL;
 
-    -- Insert into MonthlyPayment table directly from aggregated query
-    INSERT INTO MonthlyPayment (Month, Year, Amount, Status, PaymentTime, Hotel_ID)
+    -- Temporary table to hold aggregated data
+    CREATE TABLE #MonthlyRevenueData (
+        Hotel_ID INT,
+        TotalRevenue INT
+    );
+
+    -- Calculate revenue for hotels with reservations using VIETQR payment method
+    INSERT INTO #MonthlyRevenueData (Hotel_ID, TotalRevenue)
     SELECT
-        @Month,
-        @Year,
+        rm.Hotel_ID,
         CAST(SUM(
             CASE
-                WHEN r.Status IN ('PAID', 'FINISHED', 'FEEDBACKED') THEN r.Total_Price
+                WHEN r.Status IN ('PROCESSING', 'FINISHED', 'FEEDBACKED') THEN r.Total_Price
                 WHEN r.Status = 'CANCEL' THEN r.Total_Price - ISNULL(rr.Amount, 0)
                 WHEN r.Status = 'REFUNDING' THEN r.Total_Price - ISNULL(rr.Amount, 0)
                 ELSE 0
             END
-        ) * 0.9 AS INT) AS Amount,  -- Apply 90% multiplier and cast to INT
-        'NOT PAID',  -- Assuming all amounts are pending for now
-        @PaymentTime,
-        rm.Hotel_ID
+        ) * 0.9 AS INT) AS TotalRevenue  -- Apply 90% multiplier and cast to INT
     FROM
         Reservation r
     INNER JOIN
@@ -324,16 +335,32 @@ BEGIN
     LEFT JOIN
         Refunding_Reservation rf ON r.Reservation_ID = rf.Reservation_ID
     WHERE
-        MONTH(r.CheckOutDate) = @Month
-        AND YEAR(r.CheckOutDate) = @Year
-        AND r.Status IN ('PAID', 'FINISHED', 'FEEDBACKED', 'CANCEL', 'REFUNDING')
+        MONTH(r.CheckInDate) = @Month
+        AND YEAR(r.CheckInDate) = @Year
+        AND r.Status IN ('PROCESSING', 'FINISHED', 'FEEDBACKED', 'CANCEL', 'REFUNDING')
         AND r.Payment_Method = 'VIETQR'  -- Filter by payment method VIETQR
     GROUP BY
         rm.Hotel_ID;
 
+    -- Insert into MonthlyPayment table
+    INSERT INTO MonthlyPayment (Month, Year, Amount, Status, PaymentTime, Hotel_ID)
+    SELECT
+        @Month,
+        @Year,
+        SUM(m.TotalRevenue) AS Amount,  -- Sum the TotalRevenue for each hotel
+        'NOT PAID',  -- Assuming all amounts are pending for now
+        @PaymentTime,
+        m.Hotel_ID
+    FROM
+        #MonthlyRevenueData m
+    GROUP BY
+        m.Hotel_ID;
+
+    -- Clean up temporary table
+    DROP TABLE #MonthlyRevenueData;
+
     PRINT 'Monthly revenue calculation successful for all hotels for month ' + CAST(@Month AS VARCHAR(2)) + ', year ' + CAST(@Year AS VARCHAR(4)) + '.';
 END;
-
 
 GO
 
@@ -341,51 +368,6 @@ GO
 EXEC CalculateMonthlyRevenueForAllHotelsPreviousMonthYear;
 DROP PROC CalculateMonthlyRevenueForAllHotelsPreviousMonthYear;
 DROP TABLE MonthlyPayment
-
-CREATE PROCEDURE GenerateReservationInsertStatements
-AS
-BEGIN
-    DECLARE @SQL NVARCHAR(MAX) = '';
-    DECLARE @Reservation_ID INT;
-    DECLARE @Reservation_Date DATETIME;
-    DECLARE @Number_of_guests TINYINT;
-    DECLARE @CheckInDate DATE;
-    DECLARE @CheckOutDate DATE;
-    DECLARE @Total_Price INT;
-    DECLARE @Payment_Method NVARCHAR(50);
-    DECLARE @Status NVARCHAR(50);
-    DECLARE @Account_ID INT;
-
-    DECLARE cursor_reservations CURSOR FOR
-    SELECT Reservation_ID, Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID
-    FROM Reservation;
-
-    OPEN cursor_reservations;
-    FETCH NEXT FROM cursor_reservations INTO @Reservation_ID, @Reservation_Date, @Number_of_guests, @CheckInDate, @CheckOutDate, @Total_Price, @Payment_Method, @Status, @Account_ID;
-
-    WHILE @@FETCH_STATUS = 0
-    BEGIN
-        SET @SQL = @SQL + 'INSERT INTO Reservation (Reservation_ID, Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID) VALUES (' 
-            + CAST(@Reservation_ID AS NVARCHAR) + ', ' 
-            + '''' + CONVERT(NVARCHAR, @Reservation_Date, 120) + ''', '
-            + CAST(@Number_of_guests AS NVARCHAR) + ', '
-            + '''' + CONVERT(NVARCHAR, @CheckInDate, 120) + ''', '
-            + '''' + CONVERT(NVARCHAR, @CheckOutDate, 120) + ''', '
-            + CAST(@Total_Price AS NVARCHAR) + ', '
-            + '''' + @Payment_Method + ''', '
-            + '''' + @Status + ''', '
-            + CAST(@Account_ID AS NVARCHAR) + ');' + CHAR(13);
-        
-        FETCH NEXT FROM cursor_reservations INTO @Reservation_ID, @Reservation_Date, @Number_of_guests, @CheckInDate, @CheckOutDate, @Total_Price, @Payment_Method, @Status, @Account_ID;
-    END
-
-    CLOSE cursor_reservations;
-    DEALLOCATE cursor_reservations;
-
-    -- Return the generated SQL statements
-    SELECT @SQL AS InsertStatements;
-END;
-GO
 
 
 CREATE VIEW HotelInfor AS

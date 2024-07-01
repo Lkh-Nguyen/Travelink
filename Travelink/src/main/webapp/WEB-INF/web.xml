@@ -205,6 +205,10 @@
         <servlet-class>com.travelink.Servlet.HotelHost_FeedbackServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>AdminDashBoardServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.AdminDashBoardServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ViewFeedbackReservationIDServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.ViewFeedbackReservationIDServlet</servlet-class>
     </servlet>
@@ -407,6 +411,10 @@
     <servlet-mapping>
         <servlet-name>HotelHost_FeedbackServlet</servlet-name>
         <url-pattern>/HotelHost_FeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminDashBoardServlet</servlet-name>
+        <url-pattern>/AdminDashBoardServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewFeedbackReservationIDServlet</servlet-name>

@@ -92,24 +92,25 @@ public class BedDB implements DatabaseInfo {
     }
 
     //Get Bed By Room ID
-    public static Bed getBedByRoomID(int roomID) {
-        Bed bed = null;
+    public static List<Bed> getBedsByRoomID(int roomID) {
+        List<Bed> beds = new ArrayList<>();
 
         try (Connection connection = DatabaseInfo.getConnect()) {
-            String sql = "SELECT b.* "
-                    + "FROM Bed b "
-                    + "JOIN Room r ON b.Bed_ID = r.Bed_ID "
+            String sql = "SELECT * "
+                    + "FROM Room r "
+                    + "JOIN Room_Bed rb ON r.Room_ID = rb.Room_ID "
+                    + "JOIN Bed b ON rb.Bed_ID = b.Bed_ID "
                     + "WHERE r.Room_ID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1, roomID);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        bed = new Bed();
+                    while (resultSet.next()) {
+                        Bed bed = new Bed();
                         bed.setBed_ID(resultSet.getInt("Bed_ID"));
                         bed.setName(resultSet.getString("Name"));
                         bed.setDescription(resultSet.getString("Description"));
                         bed.setUrl(resultSet.getString("URL"));
-                        // Bổ sung các thuộc tính khác nếu cần thiết
+                        beds.add(bed);
                     }
                 }
             }
@@ -117,9 +118,8 @@ public class BedDB implements DatabaseInfo {
             e.printStackTrace();
         }
 
-        return bed;
+        return beds;
     }
-    
 
     public static void main(String[] args) {
         BedDB bedDB = new BedDB();
@@ -136,14 +136,16 @@ public class BedDB implements DatabaseInfo {
 //        }
 //        System.out.println();
         // Test getBedByID method
-        int bedIDToSearch = 1; // Replace with the actual bed ID you want to search
-        System.out.println("Testing getBedByID method for Bed ID: " + bedIDToSearch);
-        Bed bedByID = bedDB.getBedByRoomID(bedIDToSearch);
-        if (bedByID == null) {
-            System.out.println("Bed with ID " + bedIDToSearch + " not found in the database.");
+        int roomIDToSearch = 2; // Replace with the actual room ID you want to search
+        System.out.println("Testing getBedsByRoomID method for Room ID: " + roomIDToSearch);
+        List<Bed> bedsByRoomID = bedDB.getBedsByRoomID(roomIDToSearch);
+        if (bedsByRoomID.isEmpty()) {
+            System.out.println("No beds found for Room ID " + roomIDToSearch + " in the database.");
         } else {
-            System.out.println("Found bed:");
-            System.out.println(bedByID);
+            System.out.println("Found beds:");
+            for (Bed bed : bedsByRoomID) {
+                System.out.println(bed);
+            }
         }
     }
 }

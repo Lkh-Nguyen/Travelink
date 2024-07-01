@@ -212,6 +212,10 @@
         <servlet-name>ViewFeedbackReservationIDServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.ViewFeedbackReservationIDServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateImageRoom</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateImageRoom</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -411,6 +415,10 @@
     <servlet-mapping>
         <servlet-name>ViewFeedbackReservationIDServlet</servlet-name>
         <url-pattern>/ViewFeedbackReservationIDServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateImageRoom</servlet-name>
+        <url-pattern>/UpdateImageRoom</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

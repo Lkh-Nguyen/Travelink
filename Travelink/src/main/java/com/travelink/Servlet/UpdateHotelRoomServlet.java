@@ -5,15 +5,18 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.RoomDB;
+import com.travelink.Database.RoomImageDB;
 import com.travelink.Model.Room;
+import com.travelink.Model.RoomImage;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 /**
  *
@@ -38,7 +41,7 @@ public class UpdateHotelRoomServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateHotelRoomServlet</title>");            
+            out.println("<title>Servlet UpdateHotelRoomServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet UpdateHotelRoomServlet at " + request.getContextPath() + "</h1>");
@@ -61,12 +64,23 @@ public class UpdateHotelRoomServlet extends HttpServlet {
             throws ServletException, IOException {
         String hotelid = request.getParameter("hotelID");
         int hotel_ID = Integer.parseInt(hotelid);
-        
+
+
         List<Room> list_rooms = RoomDB.getRoomsByHotel_ID(hotel_ID);
+
+
         request.setAttribute("room_list", list_rooms);
         request.setAttribute("hotel_id", hotel_ID);
 //        PrintWriter pw = response.getWriter();
-//        pw.print(list_rooms.size());
+//        for (Map.Entry<Integer, List<RoomImage>> entry : roomImagesMap.entrySet()) {
+//            Integer roomId = entry.getKey();
+//            List<RoomImage> images = entry.getValue();
+//            pw.println("Room ID: " + roomId);
+//            for (RoomImage image : images) {
+//                pw.println("Image URL: " + image.getUrl());
+//            }
+//        }
+
         request.getRequestDispatcher("HotelHost_RoomInformation.jsp").forward(request, response);
     }
 
@@ -81,7 +95,64 @@ public class UpdateHotelRoomServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+
+        switch (action) {
+            case "update":
+                updateRoom(request, response);
+                break;
+            case "add":
+                addRoom(request, response);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void updateRoom(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int hotelID = Integer.parseInt(request.getParameter("hotelid"));
+        int roomID = Integer.parseInt(request.getParameter("roomid"));
+        // Retrieve room details from the form
+        Room room = new Room();
+        room.setName(request.getParameter("name"));
+        room.setRoomDescription(request.getParameter("description"));
+        room.setCapacity(Integer.parseInt(request.getParameter("capacity")));
+        room.setTotalRooms(Integer.parseInt(request.getParameter("totalRooms")));
+        room.setPrice(Integer.parseInt(request.getParameter("price")));
+        room.setStatus(request.getParameter("status"));
+
+        boolean updated = RoomDB.updateRoom(hotelID, roomID, room);
+
+        if (updated) {
+            // Update successful
+            response.sendRedirect("UpdateHotelRoomServlet?hotelID=" + hotelID);
+        } else {
+            // Update failed
+            response.sendRedirect("HotelHost_RoomInformation.jsp");
+        }
+    }
+
+    private void addRoom(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int hotel_ID = Integer.parseInt(request.getParameter("hotelID"));
+        System.out.println("Hotel ID: " + hotel_ID);  // Add this line
+
+        Room room = new Room();
+        room.setName(request.getParameter("name"));
+        room.setRoomDescription(request.getParameter("description"));
+        room.setCapacity(Integer.parseInt(request.getParameter("capacity")));
+        room.setTotalRooms(Integer.parseInt(request.getParameter("totalRooms")));
+        room.setPrice(Integer.parseInt(request.getParameter("price")));
+        room.setStatus(request.getParameter("status"));
+
+        boolean added = RoomDB.addRoom(hotel_ID, room);
+
+        if (added) {
+            response.sendRedirect("UpdateHotelRoomServlet?hotelID=" + hotel_ID);
+        } else {
+            response.sendRedirect("HotelHost_RoomInformation.jsp");
+        }
     }
 
     /**

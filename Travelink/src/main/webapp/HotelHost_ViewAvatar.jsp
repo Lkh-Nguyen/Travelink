@@ -80,7 +80,7 @@
             <%
                 if (uploadedFilePath != null && !uploadedFilePath.isEmpty()) {
             %>
-<img src="img_Avatar/<%= uploadedFilePath %>" alt="alt"/>
+            <img src="img_Avatar/<%= uploadedFilePath %>" alt="alt"/>
             <%
                 }
             %>
@@ -113,6 +113,7 @@
                                 <p>Maximum file size is 1 MB.<br>Format: .JPEG, .PNG</p>
                                 <input id="submit_Input" style="margin-top:10px" type="submit" value="Upload"/>
                                 <div id="error-message">Please select a file to upload.</div>
+                                <input type="hidden" name="uploadhotelhost" value="2.1"/>
                             </form>
 
                             <form method="post" action="UpdateAvatar">
@@ -123,9 +124,10 @@
                                             <button><a href="HotelHost_ViewAvatar.jsp" style="text-decoration: none">Cancel</a></button>
                                             <input type="submit" value="Save"/>
                                         </div>  
+                                        <input type="hidden" name="uploadhotelhost" value="2.1"/>
                                     </c:when>
                                     <c:otherwise>
-<input type="hidden" name="urlAvatar" value=""/>
+                                        <input type="hidden" name="urlAvatar" value=""/>
                                         <div class="pd_button">
                                             <button style="pointer-events: none;cursor: not-allowed;opacity: 0.6;">Cancel</button>
                                             <input type="submit" value="Save" style="pointer-events: none;cursor: not-allowed;opacity: 0.6;"/>
@@ -180,7 +182,7 @@
                 var fileInput = document.querySelector('input[name="file"]');
                 var errorMessage = document.getElementById('error-message');
                 if (!fileInput.value) {
-errorMessage.style.display = 'block';
+                    errorMessage.style.display = 'block';
                     event.preventDefault();
                     return false;
                 }

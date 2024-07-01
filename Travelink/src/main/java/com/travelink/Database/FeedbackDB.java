@@ -473,8 +473,8 @@ public class FeedbackDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) {
-        List<Feedback> listFeedbacks =FeedbackDB.getFeedbacksByHotelID(1);
-        System.out.println(listFeedbacks.size());
+        Feedback feedback =FeedbackDB.getFeedbackByFeedbackID(1);
+        System.out.println(feedback);
     }
 
     // You can add more functions as needed, such as:

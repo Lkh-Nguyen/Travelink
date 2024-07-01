@@ -392,8 +392,10 @@
                                         <div class="avatar"><img src="${f.getAccount(f.feedbackID).avatarURL}" width="50"></div>
                                         <div class="ms-3">
                                             <div class="row">
-                                                <h6 class="mb-0" style="font-size: 20px;font-weight: bold">${f.getAccount(f.feedbackID).name}</h6>
-                                                <%
+                                                
+                                                <div class="col-md-11">
+                                                    <h6 class="mb-0" style="font-size: 20px;font-weight: bold">${f.getAccount(f.feedbackID).name}</h6>
+                                                    <%
                                                     // Example of how you might retrieve the date
                                                     // This should be replaced with your actual logic
                                                     // For example: Date date = f.getAccount(f.feedbackID).getDate();
@@ -405,8 +407,16 @@
                                                     if (date != null) {
                                                         formattedDate = formatter.format(date);
                                                     }
-                                                %>
-                                                <span class="text-muted" style="float: right;font-size: 18px;font-weight: bold"><%= formattedDate %></span>
+                                                    %>
+                                                    <span class="text-muted" style="float: left;font-size: 18px;font-weight: bold"><%= formattedDate %></span>
+                                                </div>
+                                                <div class="col-md-1" >
+                                                    <form action="ReportFeedbackServlet" method="get">
+                                                        <button style="background-color: white;border: none"><i class='bx bxs-error' id="reportFeedback"></i></button>
+                                                        <input type="hidden" name="feedbackID" value="${f.feedbackID}"/>
+                                                        <input type="hidden" name="hotel_ID" value="${requestScope.hotel_view.hotel_ID}"/>
+                                                    </form>
+                                                </div>
                                             </div>
                                             <div style="color: orange;font-weight: bold">
                                                 <c:if test="${f.rating eq 1}">

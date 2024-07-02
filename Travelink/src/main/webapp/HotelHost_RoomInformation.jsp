@@ -100,6 +100,19 @@
                 background-color: #007bff;
                 border: none;
             }
+            .status-dot {
+                height: 10px;
+                width: 10px;
+                border-radius: 50%;
+                display: inline-block;
+                margin-right: 5px;
+            }
+            .status-active {
+                background-color: green;
+            }
+            .status-inactive {
+                background-color: red;
+            }
         </style>
     </head>
     <body>
@@ -108,6 +121,62 @@
             <a href="UpdateHotelInformationServlet" class="btn btn-outline-primary mt-2">
                 <img src="img_Hotel/back.svg" alt="Back Icon" style="width: 1rem; height: 1rem;" class="me-2">Back
             </a>
+
+            <div class="row p-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <h5 class="card-header">
+                            <div class="d-flex align-items-center">
+                                <img src="img_Hotel/add.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
+                                <h5 class="card-title mb-0">Add New Bed</h5>
+                            </div>
+                        </h5>
+                        <div class="card-body">
+                            <form action="UpdateHotelRoomServlet" method="post" id="addRoomForm">
+                                <input type="hidden" value="${requestScope.hotel_id}" name="hotel_ID">
+                                <div class="form-group">
+                                    <label for="HotelID">Hotel ID</label>
+                                    <input type="text" class="form-control" id="newHotelID" name="hotel_ID" value="${requestScope.hotel_id}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newHotelName">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="newRoomCapacity">Capacity</label>
+                                    <input type="number" class="form-control" id="newRoomCapacity" name="capacity">
+                                </div>
+                                <div class="form-group">
+                                    <label for="newRoomDescription">Description</label>
+                                    <input type="text" class="form-control" id="newRoomDescription" name="description">
+                                </div>
+                                <div class="form-group">
+                                    <label for="newRoomTotalRooms">Total Rooms</label>
+                                    <input type="number" class="form-control" id="newRoomTotalRooms" name="totalRooms">
+                                </div>
+                                <div class="form-group">
+                                    <label for="newRoomPrice">Price</label>
+                                    <input type="text" class="form-control" id="newRoomPrice" name="price">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="modalStatus">Status</label>
+                                    <select class="form-control" id="modalStatus" name="status">
+                                        <option value="ACTIVE">ACTIVE</option>
+                                        <option value="INACTIVE">INACTIVE</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Room</button>
+                                <input type="hidden" name="action" value="add">
+                            </form>
+                            <div>
+                                <p>${requestScope.error}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="row p-4 d-flex align-items-center row-compact">
                 <div class="col-md-12">
                     <div class="card">
@@ -134,17 +203,26 @@
                                 <c:forEach var="h" items="${requestScope.room_list}" varStatus="loopStatus">
                                     <tbody class="table-group-divider align-items-center text-center mt-2">
                                         <tr>
-                                            <th scope="row">${loopStatus.index + 1}</th>
+                                            <td>${(currentPage - 1) * recordsPerPage + loopStatus.index + 1}</td>
                                             <td>${h.name}</td>
                                             <td>${h.room_ID}</td>
                                             <td>${h.capacity}</td>
                                             <td>${h.totalRooms}</td>
                                             <td>${h.price}</td>
-                                            <td>${h.status}</td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${h.status == 'ACTIVE'}">
+                                                        <span class="status-dot status-active"></span>ACTIVE
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span class="status-dot status-inactive"></span>INACTIVE
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
                                             <td>
                                                 <form class="row m-1 p-1" action="UpdateHotelRoomServlet" method="post" id="cancelForm">
                                                     <button type="button" class="btn btn-outline-primary mb-1 w-100 cancel-button update-button" 
-                                                            data-hotel-id="${h.hotel_ID}" data-name="${h.name}" data-description="${h.roomDescription}"
+                                                            data-hotel-id="${h.hotel_ID}" data-name-room="${h.name}" data-description="${h.roomDescription}"
                                                             data-capacity="${h.capacity}" data-room-id="${h.room_ID}" data-total-rooms="${h.totalRooms}"
                                                             data-price="${h.price}" data-status="${h.status}" data-reservation-id="${entry.key}">
                                                         Update Detail
@@ -156,13 +234,13 @@
                                                         Bed Detail
                                                     </a>
                                                 </div>
-                                                        
+
                                                 <div class="row m-2">
                                                     <a class="btn btn-outline-primary" href="UpdateImageRoom?room_ID=${h.room_ID}&hotel_ID=${h.hotel_ID}">
                                                         Room Image Detail
                                                     </a>
                                                 </div>
-                                                        
+
                                             </td>
                                         </tr>
                                     <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
@@ -220,44 +298,27 @@
                                     </tbody>
                                 </c:forEach>
                             </table>
-                            <div class="row m-2">
-                                <form action="UpdateHotelRoomServlet" method="post" id="addRoomForm">
-                                    <input type="hidden" value="${requestScope.hotel_id}" name="hotelID">
-                                    <div class="form-group">
-                                        <label for="HotelID">Hotel ID</label>
-                                        <input type="text" class="form-control" id="newHotelID" name="hotel_ID" value="${requestScope.hotel_id}" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="newHotelName">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="newRoomCapacity">Capacity</label>
-                                        <input type="number" class="form-control" id="newRoomCapacity" name="capacity">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="newRoomDescription">Description</label>
-                                        <input type="text" class="form-control" id="newRoomDescription" name="description">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="newRoomTotalRooms">Total Rooms</label>
-                                        <input type="number" class="form-control" id="newRoomTotalRooms" name="totalRooms">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="newRoomPrice">Price</label>
-                                        <input type="text" class="form-control" id="newRoomPrice" name="price">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="modalStatus">Status</label>
-                                        <select class="form-control" id="modalStatus" name="status">
-                                            <option value="ACTIVE">ACTIVE</option>
-                                            <option value="INACTIVE">INACTIVE</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Add Room</button>
-                                    <input type="hidden" name="action" value="add">
-                                </form>
-                            </div>
+                            <nav>
+                                <ul class="pagination">
+                                    <c:if test="${currentPage > 1}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="UpdateHotelInformationServlet?page=${currentPage - 1}">Previous</a>
+                                        </li>
+                                    </c:if>
+
+                                    <c:forEach begin="1" end="${noOfPages}" var="i">
+                                        <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                            <a class="page-link" href="UpdateHotelInformationServlet?page=${i}">${i}</a>
+                                        </li>
+                                    </c:forEach>
+
+                                    <c:if test="${currentPage < noOfPages}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="UpdateHotelInformationServlet?page=${currentPage + 1}">Next</a>
+                                        </li>
+                                    </c:if>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -270,7 +331,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             $(document).ready(function () {
                 $('#hotelTable').DataTable();
@@ -300,7 +360,7 @@
             $(document).ready(function () {
                 $('.update-button').on('click', function () {
                     var hotelId = $(this).data('hotel-id');
-                    var name = $(this).data('name');
+                    var name = $(this).data('name-room');
                     var capacity = $(this).data('capacity');
                     var roomId = $(this).data('room-id');
                     var description = $(this).data('description');
@@ -331,6 +391,34 @@
 
                     $('#updateModal').modal('show');
                 });
+            });
+
+            $(document).ready(function () {
+                var rowsPerPage = 5;
+                var rows = $('#hotelTable tbody tr');
+                var rowsCount = rows.length;
+                var pageCount = Math.ceil(rowsCount / rowsPerPage);
+                var numbers = $('.pagination');
+                for (var i = 0; i < pageCount; i++) {
+                    numbers.append('<li class="page-item"><a class="page-link" href="#">' + (i + 1) + '</a></li>');
+                }
+
+                $('.pagination li:first-child').addClass('active');
+                displayRows(1);
+                $('.pagination li').on('click', function (e) {
+                    e.preventDefault();
+                    var $this = $(this);
+                    var pageIndex = $this.index() + 1;
+                    $('.pagination li').removeClass('active');
+                    $this.addClass('active');
+                    displayRows(pageIndex);
+                });
+                function displayRows(index) {
+                    var start = (index - 1) * rowsPerPage;
+                    var end = start + rowsPerPage;
+                    rows.hide();
+                    rows.slice(start, end).show();
+                }
             });
         </script>
     </body>

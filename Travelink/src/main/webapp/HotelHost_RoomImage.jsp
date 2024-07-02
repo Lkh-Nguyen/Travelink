@@ -230,7 +230,7 @@
     <body>
         <%@include file="Header_HotelHost.jsp" %>
         <div class="container-fluid">
-            <a href="UpdateHotelRoomServlet?room_ID=${requestScope.room_ID}" class="btn btn-outline-primary mt-2"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
+            <a href="UpdateHotelRoomServlet?hotel_ID=${requestScope.hotel_ID}" class="btn btn-outline-primary mt-2"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
             <div class="row p-4 d-flex align-items-center row-compact">
                 <div class="col-md-12">
                     <div class="card">

@@ -62,25 +62,33 @@ public class UpdateHotelRoomServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String hotelid = request.getParameter("hotelID");
-        int hotel_ID = Integer.parseInt(hotelid);
+        String hotelid = request.getParameter("hotel_ID");
+        int hotelID = Integer.parseInt(hotelid);
 
+        //Phân Trang
+        int page = 1;
+        int recordsPerPage = 2;
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
 
-        List<Room> list_rooms = RoomDB.getRoomsByHotel_ID(hotel_ID);
+        List<Room> list_rooms = RoomDB.getRoomsByHotel_ID(hotelID);
+        int noOfRecords;
+        noOfRecords = list_rooms.size();
+        // Calculate total number of pages
+        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
 
+        // Calculate the start and end indices for the current page
+        int start = (page - 1) * recordsPerPage;
+        int end = Math.min(start + recordsPerPage, noOfRecords);
+        // Get the sublist for the current page
+
+        list_rooms = list_rooms.subList(start, end);
 
         request.setAttribute("room_list", list_rooms);
-        request.setAttribute("hotel_id", hotel_ID);
-//        PrintWriter pw = response.getWriter();
-//        for (Map.Entry<Integer, List<RoomImage>> entry : roomImagesMap.entrySet()) {
-//            Integer roomId = entry.getKey();
-//            List<RoomImage> images = entry.getValue();
-//            pw.println("Room ID: " + roomId);
-//            for (RoomImage image : images) {
-//                pw.println("Image URL: " + image.getUrl());
-//            }
-//        }
-
+        request.setAttribute("hotel_id", hotelID);
+        request.setAttribute("noOfPages", noOfPages);
+        request.setAttribute("currentPage", page);
         request.getRequestDispatcher("HotelHost_RoomInformation.jsp").forward(request, response);
     }
 
@@ -126,7 +134,7 @@ public class UpdateHotelRoomServlet extends HttpServlet {
 
         if (updated) {
             // Update successful
-            response.sendRedirect("UpdateHotelRoomServlet?hotelID=" + hotelID);
+            response.sendRedirect("UpdateHotelRoomServlet?hotel_ID=" + hotelID);
         } else {
             // Update failed
             response.sendRedirect("HotelHost_RoomInformation.jsp");
@@ -135,7 +143,7 @@ public class UpdateHotelRoomServlet extends HttpServlet {
 
     private void addRoom(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int hotel_ID = Integer.parseInt(request.getParameter("hotelID"));
+        int hotel_ID = Integer.parseInt(request.getParameter("hotel_ID"));
         System.out.println("Hotel ID: " + hotel_ID);  // Add this line
 
         Room room = new Room();
@@ -149,9 +157,9 @@ public class UpdateHotelRoomServlet extends HttpServlet {
         boolean added = RoomDB.addRoom(hotel_ID, room);
 
         if (added) {
-            response.sendRedirect("UpdateHotelRoomServlet?hotelID=" + hotel_ID);
+            response.sendRedirect("UpdateHotelRoomServlet?hotel_ID=" + hotel_ID);
         } else {
-            response.sendRedirect("HotelHost_RoomInformation.jsp");
+            response.sendRedirect("Error.jsp");
         }
     }
 

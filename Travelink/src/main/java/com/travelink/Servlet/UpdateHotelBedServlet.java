@@ -70,8 +70,12 @@ public class UpdateHotelBedServlet extends HttpServlet {
         request.setAttribute("beds_list", list_beds);
         request.setAttribute("hotel_ID", hotelID);
         request.setAttribute("room_ID", roomID);
+
 //        PrintWriter pw = response.getWriter();
 //        pw.print(list_beds.size());
+//        for(Bed b : list_beds){
+//            pw.print(b.toString());
+//        }
         request.getRequestDispatcher("HotelHost_BedInformation.jsp").forward(request, response);
     }
 
@@ -86,9 +90,30 @@ public class UpdateHotelBedServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String roomid = request.getParameter("room_ID");
+        int roomID = Integer.parseInt(roomid);
+
+        String hotelid = request.getParameter("hotel_ID");
+        int hotelID = Integer.parseInt(hotelid);
+
+        Bed newBed = new Bed();
+        newBed.setName(request.getParameter("name-bed"));
+        newBed.setDescription(request.getParameter("description"));
+        newBed.setUrl(request.getParameter("url"));
+//        PrintWriter pw = response.getWriter();
+//        pw.print(newBed.toString());
+
+        boolean added = BedDB.insertBedByRoomID(newBed, roomID);
+
+        if (added) {
+            response.sendRedirect("UpdateHotelBedServlet?room_ID=" + roomID + "&hotel_ID=" + hotelID);
+        } else {
+            request.setAttribute("error", "exist");
+            response.sendRedirect("Error.jsp");
+        }
+
     }
-    
+
     /**
      * Returns a short description of the servlet.
      *

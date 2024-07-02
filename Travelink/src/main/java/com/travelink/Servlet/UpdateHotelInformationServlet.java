@@ -67,10 +67,10 @@ public class UpdateHotelInformationServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
 
-        if (account == null) {
-            response.sendRedirect("HotelHost_Login.jsp");
-            return;
-        }
+//        if (account == null) {
+//            response.sendRedirect("HotelHost_Login.jsp");
+//            return;
+//        }
 
         //Phân Trang
         int page = 1;
@@ -78,31 +78,33 @@ public class UpdateHotelInformationServlet extends HttpServlet {
         if (request.getParameter("page") != null) {
             page = Integer.parseInt(request.getParameter("page"));
         }
-        
-        
+
 //        List<Hotel> hotel_list = OwnedHotelDB.getHotelsByAccountID(account.getAccount_ID());
         List<Hotel> hotel_list;
         int noOfRecords;
         try {
+            //Để list chạy thử vì chưa có dữ liệu hotel host
             hotel_list = HotelDB.getAllHotels();
+
+            //Sau khi có dữ liệu hotel host thì dùng cái này
+//            hotel_list = OwnedHotelDB.getHotelsByAccountID(account.getAccount_ID());
             noOfRecords = hotel_list.size();
             // Calculate total number of pages
             int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-            
+
             // Calculate the start and end indices for the current page
             int start = (page - 1) * recordsPerPage;
             int end = Math.min(start + recordsPerPage, noOfRecords);
             // Get the sublist for the current page
-            
+
             hotel_list = hotel_list.subList(start, end);
-            
+
             request.setAttribute("hotel_list", hotel_list);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
         } catch (SQLException ex) {
             Logger.getLogger(UpdateHotelInformationServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        request.setAttribute("hotel_list", hotel_list);
         request.getRequestDispatcher("HotelHost_HotelInformation.jsp").forward(request, response);
     }
 

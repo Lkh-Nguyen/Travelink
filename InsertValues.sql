@@ -5,20 +5,20 @@ GO
 select *
 from Account
 
-INSERT INTO Account (Email, Password, Name, Gender, DateOfBirth, PhoneNumber,AvatarURL, Role)
+INSERT INTO Account (Email, Password, Name, Gender, DateOfBirth, PhoneNumber,AvatarURL, Role, Status)
 VALUES
 --customer
-('example1@email.com', '123', N'Lê Kim Hoàng Nguyên', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/nguyen.jpg',1),
-('example2@email.com', '123', N'Nguyễn Văn Duy An', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/an.jpg',1),
-('example3@email.com', '123', N'Phạm Trọng Hùng', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/hung.jpg',1),
-('example4@email.com', '123', N'Nguyễn Đình Hoàng Hải', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/hai.jpg',1),
-('example5@email.com', '123', N'Hoàng Công Minh', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/minh.jpg',1),
+('example1@email.com', '123', N'Lê Kim Hoàng Nguyên', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/nguyen.jpg',1,1),
+('example2@email.com', '123', N'Nguyễn Văn Duy An', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/an.jpg',1,1),
+('example3@email.com', '123', N'Phạm Trọng Hùng', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/hung.jpg',1,1),
+('example4@email.com', '123', N'Nguyễn Đình Hoàng Hải', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/hai.jpg',1,1),
+('example5@email.com', '123', N'Hoàng Công Minh', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/minh.jpg',1,1),
 
 --hotelhost
-('example6@email.com', '123', N'Hotel Host 1', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/nguyen.jpg',2),
-('example7@email.com', '123', N'Hotel Host 2', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/minh.jpg',2),
+('example6@email.com', '123', N'Hotel Host 1', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/nguyen.jpg',2,1),
+('example7@email.com', '123', N'Hotel Host 2', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/minh.jpg',2,1),
 --admin
-('example8@email.com', '123', N'Admin 1', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/hai.jpg',3);
+('example8@email.com', '123', N'Admin 1', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/hai.jpg',3,1);
 --insert table Account--
 
 --insert table hotel--

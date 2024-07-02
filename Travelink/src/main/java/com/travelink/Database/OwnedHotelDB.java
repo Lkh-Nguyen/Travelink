@@ -91,6 +91,7 @@ public class OwnedHotelDB implements DatabaseInfo {
                     account.setAvatarURL(resultSet.getString("AvatarURL"));
                     account.setAddress(resultSet.getString("Address"));
                     account.setRole(resultSet.getInt("Role"));
+                    account.setStatus(resultSet.getInt("Status"));
                 }
             }
         } catch (SQLException e) {

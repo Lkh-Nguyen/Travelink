@@ -61,9 +61,9 @@ public class LoginAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            response.sendRedirect("Home_Customer.jsp");
+        response.sendRedirect("Home_Customer.jsp");
     }
-            
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -94,6 +94,9 @@ public class LoginAccountServlet extends HttpServlet {
         } else {
             if (cu.getRole() != role) {
                 request.setAttribute("errorLogin", "You are logging in with the wrong permission role!");
+                forwardPage = (role == 1) ? "HotelHost_Login.jsp" : "Form_Login.jsp";
+            } else if (cu.getStatus() == 2) {
+                request.setAttribute("errorLogin", "Your account has been banned!");
                 forwardPage = (role == 1) ? "HotelHost_Login.jsp" : "Form_Login.jsp";
             } else {
                 HttpSession session = request.getSession();

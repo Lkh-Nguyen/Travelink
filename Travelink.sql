@@ -13,7 +13,8 @@ DateOfBirth DATE,
 PhoneNumber VARCHAR(20),
 AvatarURL VARCHAR(255),
 Address NVARCHAR(255),
-Role INT NOT NULL
+Role INT NOT NULL,
+Status INT NOT NULL
 );
 
 CREATE TABLE Pending_Host (

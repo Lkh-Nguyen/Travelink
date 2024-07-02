@@ -42,6 +42,9 @@
                                     if (role == 2) {
                                         href = "Home_HotelHost.jsp";
                                     }
+                                    if (role == 3){
+                                        href = "AdminDashBoardServlet";
+                                    }
                                 }
                             %>
 

@@ -228,6 +228,14 @@
         <servlet-name>Admin_ViewReportFeedbackDetail</servlet-name>
         <servlet-class>com.travelink.Servlet.Admin_ViewReportFeedbackDetail</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminHotelPartnerServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.AdminHotelPartnerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminHotelInformationServlet</servlet-name>
+        <servlet-class>com.travelink.Database.AdminHotelInformationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -443,6 +451,14 @@
     <servlet-mapping>
         <servlet-name>Admin_ViewReportFeedbackDetail</servlet-name>
         <url-pattern>/Admin_ViewReportFeedbackDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminHotelPartnerServlet</servlet-name>
+        <url-pattern>/AdminHotelPartnerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminHotelInformationServlet</servlet-name>
+        <url-pattern>/AdminHotelInformationServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

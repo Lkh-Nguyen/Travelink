@@ -46,7 +46,7 @@ public class ProvinceDB implements DatabaseInfo {
         return provinces;
     }
 
-    public static Province getProvinceByID(int id) {
+    public static Province getProvinceByProvinceID(int id) {
         Province province = null;
         Connection connection = null;
         PreparedStatement statement = null;
@@ -112,6 +112,7 @@ public class ProvinceDB implements DatabaseInfo {
         }
         return url;
     }
+
     //Get Province Location by Hotel_ID
     public static String getLocationByHotelID(int hotelID) {
         String provinceName = null;
@@ -124,11 +125,11 @@ public class ProvinceDB implements DatabaseInfo {
 
             if (connection != null) {
                 String query = "SELECT p.name AS provinceName "
-                             + "FROM Hotel h "
-                             + "JOIN Ward w ON h.Ward_ID = w.Ward_ID "
-                             + "JOIN District d ON w.District_ID = d.District_ID "
-                             + "JOIN Province p ON d.Province_ID = p.Province_ID "
-                             + "WHERE h.Hotel_ID = ?";
+                        + "FROM Hotel h "
+                        + "JOIN Ward w ON h.Ward_ID = w.Ward_ID "
+                        + "JOIN District d ON w.District_ID = d.District_ID "
+                        + "JOIN Province p ON d.Province_ID = p.Province_ID "
+                        + "WHERE h.Hotel_ID = ?";
                 statement = connection.prepareStatement(query);
                 statement.setInt(1, hotelID);
                 resultSet = statement.executeQuery();
@@ -167,7 +168,7 @@ public class ProvinceDB implements DatabaseInfo {
         }
 
         int ID = 5;
-        Province province = getProvinceByID(ID);
+        Province province = getProvinceByProvinceID(ID);
         System.out.println("Provinces with ID : " + ID);
         System.out.println("ID: " + province.getProvince_ID() + ", Name: " + province.getName());
     }

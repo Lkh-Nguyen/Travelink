@@ -33,14 +33,6 @@ public class Hotel {
     // Constructor
     public Hotel() {}
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     // Getters and Setters
     public int getHotel_ID() {
         return hotel_ID;
@@ -137,6 +129,17 @@ public class Hotel {
     public void setWard_ID(int ward_ID) {
         this.ward_ID = ward_ID;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    
+    
 
     public Hotel(String name, String email, int star, String phoneNumber, String description, LocalTime checkInTimeStart, LocalTime checkInTimeEnd, LocalTime checkOutTimeStart, LocalTime checkOutTimeEnd, String address, int ward_ID) {
         this.name = name;

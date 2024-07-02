@@ -19,7 +19,7 @@ public class AccountDB {
     public static boolean insertAccount(Account Account) {
         Connection con = DatabaseInfo.getConnect();
         try {
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Account (Name, Email, Password, PhoneNumber, CMND, Gender, DateOfBirth, AvatarURL, Address, Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Account (Name, Email, Password, PhoneNumber, CMND, Gender, DateOfBirth, AvatarURL, Address, Role, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             // Set parameters
             pstmt.setString(1, Account.getName());
             pstmt.setString(2, Account.getEmail());
@@ -35,6 +35,7 @@ public class AccountDB {
             pstmt.setString(8, Account.getAvatarURL() != null ? Account.getAvatarURL() : null);
             pstmt.setString(9, Account.getAddress() != null ? Account.getAddress() : null);
             pstmt.setInt(10, Account.getRole());
+            pstmt.setInt(11, Account.getStatus());
             // Execute the SQL statement
             int rowsInserted = pstmt.executeUpdate();
             // Close resources
@@ -57,7 +58,7 @@ public class AccountDB {
         }
         return false;
     }
-    
+
     public static Account getAccountByAccountID(int accountID) {
         Connection con = DatabaseInfo.getConnect();
         try {
@@ -103,6 +104,9 @@ public class AccountDB {
 
                 int role = rs.getInt("Role");
                 Account.setRole(role);
+
+                int status = rs.getInt("Status");
+                Account.setStatus(status);
             }
 
             return Account;
@@ -123,7 +127,7 @@ public class AccountDB {
 
         return null;
     }
-    
+
     public static Account getAccount(String email) {
         Connection con = DatabaseInfo.getConnect();
         try {
@@ -170,6 +174,9 @@ public class AccountDB {
 
                 int role = rs.getInt("Role");
                 Account.setRole(role);
+
+                int status = rs.getInt("Status");
+                Account.setStatus(status);
             }
 
             return Account;
@@ -315,6 +322,7 @@ public class AccountDB {
                     updatedAccount.setAvatarURL(rs.getString("AvatarURL"));
                     updatedAccount.setAddress(rs.getString("Address"));
                     updatedAccount.setRole(rs.getInt("Role"));
+                    updatedAccount.setStatus(rs.getInt("Status"));
                     return updatedAccount;
                 }
             }
@@ -387,6 +395,10 @@ public class AccountDB {
                     if (address != null) {
                         account.setAddress(address);
                     }
+                    
+                    int status = resultSet.getInt("Status");
+                    account.setStatus(status);
+                    
                 }
             }
         } catch (SQLException e) {

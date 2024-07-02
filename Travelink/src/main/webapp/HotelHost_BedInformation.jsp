@@ -15,10 +15,10 @@
         <link rel="stylesheet" href="bootstrap_css/bootstrap.min.css">
         <link rel="stylesheet" href="css/HotelHost_HotelService.css">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <style>
-                        @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+            @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
             body {
                 font-family: Montserrat, sans-serif;
                 background-color: #f8f9fa;
@@ -106,6 +106,61 @@
         <%@include file="Header_HotelHost.jsp" %>
         <div class="container-fluid">
             <a href="UpdateHotelRoomServlet?hotelID=${requestScope.hotel_ID}" class="btn btn-outline-primary mt-2"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
+
+
+            <!-- Add Bed Form -->
+            <div class="row p-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <h5 class="card-header">
+                            <div class="d-flex align-items-center">
+                                <img src="img_Hotel/add.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
+                                <h5 class="card-title mb-0">Add New Bed</h5>
+                            </div>
+                        </h5>
+                        <div class="card-body">
+                            <form id="addBedForm" action="UpdateHotelBedServlet" method="post">
+                                <div class="form-group">
+                                    <label for="addRoomId">Room ID</label>
+                                    <input type="text" class="form-control" id="addRoomId" name="room_ID" value="${requestScope.room_ID}" readonly>
+                                    <input type="hidden" name="room_ID" value="${requestScope.room_ID}">
+                                    <input type="hidden" name="hotel_ID" value="${requestScope.hotel_ID}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bedSelect">Select Bed</label>
+                                    <select class="form-control" id="bedSelect">
+                                        <option value="1" data-name-bed="Giường Đơn" data-description="Rộng 90 - 130 cm" data-url="URL_for_single_bed_image" >Giường Đơn</option>
+                                        <option value="2" data-name-bed="Giường Đôi" data-description="Rộng 131 - 150 cm" data-url="URL_for_double_bed_image">Giường Đôi</option>
+                                        <option value="3" data-name-bed="Giường lớn (cỡ King)" data-description="Rộng 151 - 180 cm" data-url="URL_for_king_bed_image">Giường lớn (cỡ King)</option>
+                                        <option value="4" data-name-bed="Giường cực lớn (cỡ Super-king)" data-description="Rộng 181 - 210 cm" data-url="URL_for_super_king_bed_image">Giường cực lớn (cỡ Super-king)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="addName">Name</label>
+                                    <input type="text" class="form-control" id="addName" name="name-bed" readonly="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="addDescription">Description</label>
+                                    <input type="text" class="form-control" id="addDescription" name="description" readonly="">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="addURL">URL</label>
+                                    <input type="text" class="form-control" id="addURL" name="url" readonly="">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Bed</button>
+                            </form>
+                                <div>
+                                    <p>${requestScope.error}</p>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
             <div class="row p-4 d-flex align-items-center row-compact">
                 <div class="col-md-12">
                     <div class="card">
@@ -145,20 +200,13 @@
                                                     <input type="hidden" name="hotel_ID" value="${h.hotel_ID}"/>
                                                     <input type="hidden" name="action" value="update"/>
                                                 </form>
-                                                <form class="row m-1 p-1" action="#" method="#" id="cancelForm">        
-                                                    <button type="button" class="btn btn-outline-danger mb-1 w-100" id="deleteButton">
-                                                        Delete
-                                                    </button>
-                                                    <input type="hidden" name="hotel_ID" value="${h.hotel_ID}"/>
-                                                    <input type="hidden" name="action" value="delete"/>
-                                                </form>
                                             </td>
                                         </tr>
                                     <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="confirmCancelModalLabel">Update Bed Of Room: ${requestScope.room_ID}</h5>
+                                                    <h5 class="modal-title" id="confirmCancelModalLabel">Information Bed Of Room: ${requestScope.room_ID}</h5>
                                                 </div>
                                                 <div class="modal-body justify-content-center">
                                                     <div class="modal-body">
@@ -173,21 +221,17 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="modalName">Name</label>
-                                                                <input type="text" class="form-control" id="modalName" name="name">
+                                                                <input type="text" class="form-control" id="modalName" name="name" readonly="">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="modalDescription">Description</label>
-                                                                <input type="text" class="form-control" id="modalDescription" name="description">
+                                                                <input type="text" class="form-control" id="modalDescription" name="description" readonly="">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="modalURL">URL</label>
-                                                                <input type="text" class="form-control" id="modalURL" name="url">
+                                                                <input type="text" class="form-control" id="modalURL" name="url" readonly="">
                                                             </div>
-                                                            <input type="hidden" name="action" value="update"/>
                                                             <br>
-                                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                                            <input type="hidden" name="room_ID" id="modalRoomID" value="">
-                                                            <input type="hidden" name="bed_ID" id="modalBedID" value="">
                                                         </form>
                                                     </div>
                                                 </div>
@@ -203,17 +247,13 @@
             </div>
         </div>
         <%@include file="Footer.jsp" %>
-        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.2/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script>
-            $(document).ready(function () {
-                $('#hotelTable').DataTable();
-            });
             //ModalUpdate
             document.addEventListener('DOMContentLoaded', () => {
                 const cancelButtons = document.querySelectorAll('.cancel-button');
@@ -226,36 +266,25 @@
                         $('#confirmCancelModal').modal('show');
                     });
                 });
-
-                confirmCancelButton.addEventListener('click', () => {
-                    formToSubmit.submit();
-                });
-            });
-
-            //ModalDelete
-            document.addEventListener('DOMContentLoaded', () => {
-                const cancelButtons = document.querySelectorAll('.delete-button');
-                const confirmCancelButton = document.getElementById('confirmDeleteButton');
-                let formToSubmit;
-
-                cancelButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        formToSubmit = button.closest('form');
-                        $('#confirmDeleteModal').modal('show');
-                    });
-                });
-
-                confirmDeleteButton.addEventListener('click', () => {
-                    formToSubmit.submit();
-                });
             });
 
             function redirectToUpdatePage() {
                 window.location.href = 'HotelHost_UpdateRoom.jsp';
             }
-            
-            $(document).ready(function () {
-                // Xử lý khi nhấn nút "Update"
+
+            function initializePage() {
+                // Initialize DataTable
+                $('#hotelTable').DataTable();
+
+                // Handle bed select and input population for Add Bed form
+                $('#bedSelect').on('change', function () {
+                    var selectedOption = $(this).find('option:selected');
+                    $('#addName').val(selectedOption.data('name-bed'));
+                    $('#addDescription').val(selectedOption.data('description'));
+                    $('#addURL').val(selectedOption.data('url'));
+                });
+            }
+            function handleUpdateButtonClick() {
                 $('.update-button').on('click', function () {
                     var name = $(this).data('name');
                     var roomId = $(this).data('room-id');
@@ -263,16 +292,30 @@
                     var description = $(this).data('description');
                     var url = $(this).data('url');
 
-                    // Điền thông tin vào form update trong modal
+                    // Populate the update modal form with the selected data
                     $('#modalName').val(name);
                     $('#modalDescription').val(description);
                     $('#modalRoomID').val(roomId);
                     $('#modalURL').val(url);
                     $('#modalBedID').val(bedId);
 
-                    // Hiển thị modal
+                    // Show the update modal
                     $('#updateModal').modal('show');
                 });
+            }
+            function handleDeleteButtonClick() {
+                $('.delete-button').on('click', function () {
+                    var formToSubmit = $(this).closest('form');
+                    $('#confirmDeleteModal').modal('show');
+                    $('#confirmDeleteButton').on('click', function () {
+                        formToSubmit.submit();
+                    });
+                });
+            }
+            $(document).ready(function () {
+                initializePage();
+                handleUpdateButtonClick();
+                handleDeleteButtonClick();
             });
 
         </script>

@@ -53,7 +53,7 @@ public class LoginGoogleHandler extends HttpServlet {
 
         //If never sign in and use Customer form
         if (Account == null) {
-            Account = new Account(userGoogle.getEmail(), userGoogle.getName(), 1);
+            Account = new Account(userGoogle.getEmail(), userGoogle.getName(), 1, 1);
             Account.setAvatarURL("/Travelink/img_Avatar/avatar_default.jpg");
             String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             StringBuilder text = new StringBuilder(8);
@@ -72,11 +72,14 @@ public class LoginGoogleHandler extends HttpServlet {
             request.setAttribute("updateMessage", "Your account has been created, your password has been sent to the email you just registered, please change your new password.");
             request.getRequestDispatcher("My_Account_Change.jsp").forward(request, response);
 
-           
-        } 
-
-         //If signed in before and role user
+        } //If signed in before and role user
         else if (Account.getRole() == 1) {
+            //Account got banned
+            if (Account.getStatus() == 2) {
+                request.setAttribute("errorLogin", "Your account has been banned!");
+                request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
+                return;
+            }
             HttpSession session = request.getSession();
             session.setAttribute("account", Account);
             session.setMaxInactiveInterval(60 * 30);
@@ -84,7 +87,11 @@ public class LoginGoogleHandler extends HttpServlet {
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
             request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
-        } 
+        } //If not the right role
+        else if (Account.getRole() != 1) {
+            request.setAttribute("errorLogin", "You are logging in with the wrong permission role!");
+            request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
+        }
     }
 
     public static String getToken(String code) throws ClientProtocolException, IOException {

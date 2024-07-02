@@ -94,6 +94,19 @@
                 background-color: #007bff;
                 border: none;
             }
+            .status-dot {
+                height: 10px;
+                width: 10px;
+                border-radius: 50%;
+                display: inline-block;
+                margin-right: 5px;
+            }
+            .status-active {
+                background-color: green;
+            }
+            .status-inactive {
+                background-color: red;
+            }
         </style>
     </head>
     <body>
@@ -131,7 +144,7 @@
                                         <tbody class="table-group-divider align-items-center text-center">
                                             <c:forEach var="h" items="${requestScope.hotel_list}" varStatus="loopStatus">
                                                 <tr>
-                                                    <th scope="row">${loopStatus.index + 1}</th>
+                                                    <td>${(currentPage - 1) * recordsPerPage + loopStatus.index + 1}</td>
                                                     <td>${h.name}</td>
                                                     <td>${h.email}</td>
                                                     <td>
@@ -180,7 +193,16 @@
                                                     <td>
                                                         <div style="width: 15rem;">${h.address}</div>
                                                     </td>
-                                                    <td>Active</td>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${h.status == 'ACTIVE'}">
+                                                                <span class="status-dot status-active"></span>ACTIVE
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <span class="status-dot status-inactive"></span>INACTIVE
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </td>
                                                     <td>
                                                         <form class="row m-1 p-1" action="#" method="#" id="cancelForm">
                                                             <button type="button" class="btn btn-outline-primary mb-1 w-100 cancel-button" data-reservation-id="${entry.key}">
@@ -204,53 +226,74 @@
                                                             <input type="hidden" name="action" value="add"/>
                                                         </form>
                                                         <div class="row m-2">
-                                                            <a class="btn btn-outline-primary w-100" href="UpdateHotelRoomServlet?hotelID=${h.hotel_ID}">
+                                                            <a class="btn btn-outline-primary w-100" href="UpdateHotelRoomServlet?hotel_ID=${h.hotel_ID}">
                                                                 Room
                                                             </a>                                                    
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <!-- Modal Update-->
-                                                <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="confirmCancelModalLabel">Confirm Cancellation</h5>
-                                                            </div>
-                                                            <div class="modal-body justify-content-center">
-                                                                <a class='btn btn-primary' href='HotelHost_UpdateHotelInformation.jsp?hotelID=${h.hotel_ID}'>Update Hotel </a>
-                                                                <a class='btn btn-primary' href='UpdateHotelRoomServlet?hotelID=${h.hotel_ID}'>Update Room </a>
-                                                            </div>
+                                            <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="confirmCancelModalLabel">Confirm Cancellation</h5>
+                                                        </div>
+                                                        <div class="modal-body justify-content-center">
+                                                            <a class='btn btn-primary' href='HotelHost_UpdateHotelInformation.jsp?hotelID=${h.hotel_ID}'>Update Hotel </a>
+                                                            <a class='btn btn-primary' href='UpdateHotelRoomServlet?hotelID=${h.hotel_ID}'>Update Room </a>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- Modal Delete-->
-                                                <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
+                                            </div>
+                                            <!-- Modal Delete-->
+                                            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                                <label class="form-check-label" for="flexCheckDefault">Room 1</label>
                                                             </div>
-                                                            <div class="modal-body">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                                    <label class="form-check-label" for="flexCheckDefault">Room 1</label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                                                    <label class="form-check-label" for="flexCheckChecked">Room 2</label>
-                                                                </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                                                <label class="form-check-label" for="flexCheckChecked">Room 2</label>
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                                <button type="button" class="btn btn-primary" id="confirmDeleteButton">Delete</button>
-                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            <button type="button" class="btn btn-primary" id="confirmDeleteButton">Delete</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </c:forEach>
+                                            </div>
+                                        </c:forEach>
                                         </tbody>
                                     </table>
+                                    <nav>
+                                        <ul class="pagination">
+                                            <c:if test="${currentPage > 1}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="UpdateHotelInformationServlet?page=${currentPage - 1}">Previous</a>
+                                                </li>
+                                            </c:if>
+
+                                            <c:forEach begin="1" end="${noOfPages}" var="i">
+                                                <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                    <a class="page-link" href="UpdateHotelInformationServlet?page=${i}">${i}</a>
+                                                </li>
+                                            </c:forEach>
+
+                                            <c:if test="${currentPage < noOfPages}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="UpdateHotelInformationServlet?page=${currentPage + 1}">Next</a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </nav>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="alert alert-warning" role="alert">
@@ -270,51 +313,70 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             $(document).ready(function () {
-                $('#hotelTable').DataTable();
+            $('#hotelTable').DataTable({
             });
-
-            //ModalUpdate
-            document.addEventListener('DOMContentLoaded', () => {
-                const cancelButtons = document.querySelectorAll('.cancel-button');
-                const confirmCancelButton = document.getElementById('confirmCancelButton');
-                let formToSubmit;
-
-                cancelButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        formToSubmit = button.closest('form');
-                        $('#confirmCancelModal').modal('show');
+                    //ModalUpdate
+                    document.addEventListener('DOMContentLoaded', () => {
+                    const cancelButtons = document.querySelectorAll('.cancel-button');
+                            const confirmCancelButton = document.getElementById('confirmCancelButton');
+                            let formToSubmit;
+                            cancelButtons.forEach(button => {
+                            button.addEventListener('click', () => {
+                            formToSubmit = button.closest('form');
+                                    $('#confirmCancelModal').modal('show');
+                            });
+                            });
+                            confirmCancelButton.addEventListener('click', () => {
+                            formToSubmit.submit();
+                            });
                     });
-                });
-
-                confirmCancelButton.addEventListener('click', () => {
-                    formToSubmit.submit();
-                });
-            });
-
-            //ModalDelete
-            document.addEventListener('DOMContentLoaded', () => {
-                const deleteButtons = document.querySelectorAll('.delete-button');
-                const confirmDeleteButton = document.getElementById('confirmDeleteButton');
-                let formToSubmit;
-
-                deleteButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        formToSubmit = button.closest('form');
-                        $('#confirmDeleteModal').modal('show');
+                    //ModalDelete
+                    document.addEventListener('DOMContentLoaded', () => {
+                    const deleteButtons = document.querySelectorAll('.delete-button');
+                            const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+                            let formToSubmit;
+                            deleteButtons.forEach(button => {
+                            button.addEventListener('click', () => {
+                            formToSubmit = button.closest('form');
+                                    $('#confirmDeleteModal').modal('show');
+                            });
+                            });
+                            confirmDeleteButton.addEventListener('click', () => {
+                            formToSubmit.submit();
+                            });
                     });
-                });
-
-                confirmDeleteButton.addEventListener('click', () => {
-                    formToSubmit.submit();
-                });
-            });
-
-            function redirectToUpdatePage() {
-                window.location.href = 'HotelHost_UpdateRoom.jsp';
+                    function redirectToUpdatePage() {
+                    window.location.href = 'HotelHost_UpdateRoom.jsp';
+                    }
+            $(document).ready(function () {
+            var rowsPerPage = 5;
+                    var rows = $('#hotelTable tbody tr');
+                    var rowsCount = rows.length;
+                    var pageCount = Math.ceil(rowsCount / rowsPerPage);
+                    var numbers = $('.pagination');
+                    for (var i = 0; i < pageCount; i++) {
+            numbers.append('<li class="page-item"><a class="page-link" href="#">' + (i + 1) + '</a></li>');
             }
+
+            $('.pagination li:first-child').addClass('active');
+                    displayRows(1);
+                    $('.pagination li').on('click', function (e) {
+            e.preventDefault();
+                    var $this = $(this);
+                    var pageIndex = $this.index() + 1;
+                    $('.pagination li').removeClass('active');
+                    $this.addClass('active');
+                    displayRows(pageIndex);
+            });
+                    function displayRows(index) {
+                    var start = (index - 1) * rowsPerPage;
+                            var end = start + rowsPerPage;
+                            rows.hide();
+                            rows.slice(start, end).show();
+                    }
+            });
         </script>
     </body>
 </html>

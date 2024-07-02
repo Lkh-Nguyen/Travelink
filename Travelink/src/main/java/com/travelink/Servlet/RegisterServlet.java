@@ -99,7 +99,7 @@ public class RegisterServlet extends HttpServlet {
                 return;
             }
             //Create Account
-            c = new Account(email, password, name, phone, 1);
+            c = new Account(email, password, name, phone, 1,1);
             c.setAvatarURL("/Travelink/img_Avatar/avatar_default.jpg");
             confirmation(request, response, c, email,1);
         }
@@ -142,7 +142,7 @@ public class RegisterServlet extends HttpServlet {
                 request.getRequestDispatcher("HotelHost_Register.jsp").forward(request, response);
                 return;
             }
-            h = new Account(email, password, cmnd, name, gender, dateOfBirth, phoneStr, address, address, 2);
+            h = new Account(email, password, cmnd, name, gender, dateOfBirth, phoneStr, address, address, 2, 1);
             confirmation(request, response, h, email,2);
         }
     }

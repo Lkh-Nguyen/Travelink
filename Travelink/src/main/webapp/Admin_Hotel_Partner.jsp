@@ -4,6 +4,7 @@
     Author     : DUYAN
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -63,19 +64,21 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Example Hotel</td>
-                                                <td>John Doe</td>
-                                                <td>john.doe@example.com</td>
-                                                <td>+1 123 456 7890</td>
-                                                <td>Đà Nẵng</td>
-                                                <td class="text-primary fw-bold">Partner</td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-primary btn-sm" onclick="location.href='Admin_Hotel_Information.jsp'">View hotel</button>
-                                                    <button class="btn btn-danger btn-sm">Lock</button>
-                                                </td>
-                                            </tr>
-                                            <!-- Add more rows as needed -->
+                                            <c:forEach var="partner" items="${requestScope.partnerList}">
+                                                <tr>
+                                                    <td>${partner.hotel.name}</td>
+                                                    <td>${partner.account.name}</td>
+                                                    <td>${partner.account.email}</td>
+                                                    <td>${partner.account.phoneNumber}</td>
+                                                    <td>${partner.province}</td>
+                                                    <td class="text-primary fw-bold">${partner.hotel.status}</td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-primary btn-sm" onclick="location.href = 'AdminHotelInformationServlet?hotel_ID=${partner.hotel.hotel_ID}'">View hotel</button>
+                                                        <button class="btn btn-danger btn-sm">Lock/Unlock</button>
+                                                    </td>
+                                                </tr>
+                                                <!-- Add more rows as needed -->
+                                            </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>

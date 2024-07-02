@@ -57,11 +57,11 @@ public class UpdateImageRoom extends HttpServlet {
             throws ServletException, IOException {
         String roomID = request.getParameter("room_ID");
         int roomid = Integer.parseInt(roomID);
-        
-        
+        int hotelid = Integer.parseInt(request.getParameter("hotel_ID"));
 
         List<RoomImage> list_images = RoomImageDB.getRoomImagesByRoom_ID(roomid);
 
+        request.setAttribute("hotel_ID", hotelid);
         request.setAttribute("room_ID", roomid);
         request.setAttribute("list_images", list_images);
         request.getRequestDispatcher("HotelHost_RoomImage.jsp").forward(request, response);

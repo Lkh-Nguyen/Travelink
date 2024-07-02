@@ -6,7 +6,6 @@ package com.travelink.Database;
 
 import com.travelink.Model.Account;
 import com.travelink.Model.FavouriteHotel;
-import com.travelink.Model.Hotel;
 import com.travelink.View.HotelInfor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -222,10 +221,45 @@ public class FavouriteHotelDB implements DatabaseInfo {
                 resultSet = statement.executeQuery();
 
                 while (resultSet.next()) {
-                    Account Account = new Account(); // Assuming you have a Account model class
-                    Account.setAccount_ID(resultSet.getInt("Account_ID"));
-                    // Set other Account attributes from the result set (refer to your Account model)
-                    Accounts.add(Account);
+                    Account account = new Account();
+                    account.setAccount_ID(resultSet.getInt("Account_ID"));
+                    account.setEmail(resultSet.getString("Email"));
+                    account.setPassword(resultSet.getString("Password"));
+                    account.setName(resultSet.getString("Name"));
+                    account.setRole(resultSet.getInt("Role"));
+
+                    // Handle potential null phone number
+                    account.setPhoneNumber(resultSet.getString("PhoneNumber"));
+
+                    // Handle optional attributes with null checks
+                    String cmnd = resultSet.getString("CMND");
+                    if (cmnd != null) {
+                        account.setCmnd(cmnd);
+                    }
+
+                    Character gender = resultSet.getString("Gender") != null ? resultSet.getString("Gender").charAt(0) : ' ';
+                    account.setGender(gender);
+
+                    java.sql.Date dateOfBirth = resultSet.getDate("DateOfBirth");
+                    if (dateOfBirth != null) {
+                        account.setDateOfBirth(dateOfBirth);
+                    } else {
+                        account.setDateOfBirth(null);
+                    }
+
+                    String avatarURL = resultSet.getString("AvatarURL");
+                    if (avatarURL != null) {
+                        account.setAvatarURL(avatarURL);
+                    }
+
+                    String address = resultSet.getString("Address");
+                    if (address != null) {
+                        account.setAddress(address);
+                    }
+
+                    int status = resultSet.getInt("Status");
+                    account.setStatus(status);
+                    Accounts.add(account);
                 }
             }
         } catch (SQLException e) {

@@ -92,6 +92,7 @@ public class SearchHotelServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String location = request.getParameter("location");
+        String url = ProvinceDB.getURLByProvinceName(location);
         int people = Integer.parseInt(request.getParameter("number_of_people"));
         int roomSize = Integer.parseInt(request.getParameter("number_of_rooms"));
         String start_date = request.getParameter("check_in_date");
@@ -156,6 +157,7 @@ public class SearchHotelServlet extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(SearchHotelServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
             List<Reservation> check1 = RoomDB.reservationCoincide(checkInDate, checkOutDate);
             List<Date> dateList = RoomDB.getDateRange(checkInDate, checkOutDate);
             List<Integer> hotelSizeList = new ArrayList<>();
@@ -199,6 +201,7 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("people", people);
             request.setAttribute("room", roomSize);
             request.setAttribute("hotelImgList", hotelImageList);
+            request.setAttribute("url", url);
             PrintWriter printWriter = response.getWriter();
             printWriter.print(location);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);

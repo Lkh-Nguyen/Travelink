@@ -1,31 +1,25 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<%@page import="com.travelink.Model.*" %>
-<%@page import="com.travelink.Database.*" %>
-<%@page import="java.util.List" %>
-<%@page import="com.travelink.View.*" %>
-<%@page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>CANCEL</title>
+        <title>Booking History</title>
         <link rel="stylesheet" href="css/Right_My_Account.css">
         <link rel="stylesheet" href="css/Left_My_Account.css">
         <link rel="icon" href="img_Home/logo.png">
         <link rel="stylesheet" href="css/Alter.css">
+        <link rel="stylesheet" href="css/Loader.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link href='bootstrap_css/bootstrap.min.css' rel='stylesheet'>
-        <!-- Dùng để đăng xuất-->
         <style>
             /* Định dạng chung cho card */
             .hotel-card {
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                transition: transform 0.3s ease;
             }
 
             .hotel-card:hover {
                 transform: translateY(-5px);
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
 
             /* Định dạng nội dung trong card */
@@ -90,79 +84,8 @@
 
             .card:hover {
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-                /* Bóng đổ khi active */
-                transform: scale(1.1);
                 transition: transform 0.5s ease;
             }
-
-            #overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-                display: none;
-                z-index: 999;
-            }
-
-            #logoutConfirm {
-                display: none;
-                /* Ẩn mặc định */
-                border-radius: 10px;
-                width: 280px;
-                height: 320px;
-                position: fixed;
-                bottom: -300px;
-                left: 50%;
-                transform: translateX(-50%);
-                background-color: #fff;
-                padding: 20px;
-                border: 1px solid #ccc;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                z-index: 1000;
-                transition: bottom 0.5s ease;
-            }
-
-            #logoutConfirm h2 {
-                margin-top: -10px;
-            }
-
-            #logoutConfirm p {
-                font-size: 20px;
-                color: grey;
-            }
-
-            #logoutConfirm button {
-                background-color: rgb(247, 249, 250);
-                border: 0px;
-                margin-bottom: 15px;
-                width: 280px;
-                height: 40px;
-            }
-
-            #logoutConfirm button:hover {
-                background-color: rgb(242, 243, 243);
-            }
-
-            #logoutConfirm button:active {
-                border: 3px solid rgb(1, 148, 243);
-            }
-
-            #logoutConfirm button a {
-                font-size: 17px;
-                user-select: none;
-                color: rgb(1, 148, 243);
-                text-decoration: none;
-            }
-
-            #logoutConfirm.active {
-                bottom: 50%;
-                transform: translate(-50%, 50%);
-            }
-
-
-
             /*Change*/
             .disabled {
                 pointer-events: none;
@@ -184,44 +107,6 @@
                 cursor: pointer;
             }
 
-            .loader {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background-color: #f7f9fb;
-                transition: opacity 0.75s, visibility 0.75s;
-                z-index: 999;
-            }
-
-            .loader-hidden {
-                opacity: 0;
-                visibility: hidden;
-            }
-
-            .loader::after {
-                content: "";
-                width: 95px;
-                height: 95px;
-                border: 14px solid #dddddd;
-                border-top-color: rgb(1, 148, 243);
-                border-radius: 50%;
-                animation: loading 0.75s ease infinite;
-            }
-
-            @keyframes loading {
-                from {
-                    transform: rotate(0turn);
-                }
-
-                to {
-                    transform: rotate(1turn);
-                }
-            }
 
             .btn-primary:active {
                 background-color: rgb(247, 249, 250);
@@ -265,7 +150,6 @@
 
 
             .list1_r{
-                    justify-content: center;
                 user-select: none; /* Ngăn chặn người dùng bôi đậm nội dung */
                 pointer-events: none;
                 display: flex;
@@ -313,20 +197,17 @@
             }
         </style>
     </head>
-
     <body>
         <%@include file="Header.jsp" %>
-        <!-- Dùng để đăng xuất-->
+
         <div id="overlay"></div>
         <div id="logoutConfirm">
             <h2>Logging Out</h2>
-            <p>Oh, no! You’ll miss a lot of things by logging out: Traveloka Points,
-                Passenger Quick Pick, Price Alerts, and other member-only benefits.
-                Are you sure want to log out?</p>
+            <p>Oh, no! You’ll miss a lot of things by logging out: Traveloka Points, Passenger Quick Pick, Price Alerts, and other member-only benefits. Are you sure want to log out?</p>
             <button id="confirmYes"><a href="logout">Yes</a></button>
             <button id="confirmNo"><a href="#">No</a></button>
         </div>
-        <!-- Dùng để đăng xuất-->
+
         <div id="mid_container">
             <div id="left">
                 <div id="header_left">
@@ -349,100 +230,79 @@
                         <a href="MyFeedbackServlet"><i class='bx bx-calendar'></i> <b>My Feedback</b></a>
                     </div>
                     <div class="list1">
-                        <a href="My_Card_Payment_History.jsp"><i class='bx bx-money-withdraw'></i>
-                            <b>Booking History</b></a>
+                        <a href="My_Card_Payment_History.jsp"><i class='bx bx-money-withdraw'></i> <b>Booking History</b></a>
                     </div>
                     <div class="list0">
                         <a href="ListFavoriteHotel"><i class='bx bx-heart-circle'></i> <b>Favorite Hotel</b></a>
                     </div>
                     <div class="list0">
-                        <a href="#"><i class='bx bx-log-out'></i><b id="logoutButton">Logging
-                                Out</b></a>
+                        <a href="#"><i class='bx bx-log-out'></i><b id="logoutButton">Logging Out</b></a>
                     </div>
                 </div>
             </div>
             <div id="right">
-                <!-- Card History -->
-                <!-- Change -->
                 <div class="container mb-5">
                     <h1 class="fw-bold fs-1">History</h1>
                     <div class="card-body">
                         <div class="row mb-3">
-                            <div class="col-md-3 d-flex align-items-center justify-content-center">
+                            <div class="col-md-2 d-flex align-items-center justify-content-center">
                                 <a href="All_Hotel_Service" class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px">ALL</a>
                             </div>
-
                             <div class="col-md-3 d-flex align-items-center justify-content-center">
-                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px"" href="Paid_Hotel_Service">FINISHED</a>
+                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="Paid_Hotel_Service">FINISHED</a>
                             </div>
-                            <div class="col-md-3  d-flex align-items-center justify-content-center">
-                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px"" href="NotPaid_Hotel_Service">PROCESSING</a>
+                            <div class="col-md-2 d-flex align-items-center justify-content-center">
+                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="NotPaid_Hotel_Service">PAID</a>
                             </div>
-                            <div class="col-md-3  d-flex align-items-center justify-content-center">
-                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px"" href="Cancel_Hotel_Service">CANCEL</a>
+                            <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="NotYet_Hotel_Service">PROCESSING</a>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-center justify-content-center">
+                                <a class="list0_r btn-history w-100 text-center py-2 btn-history d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2" style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px" href="Cancel_Hotel_Service">CANCEL</a>
                             </div>
                         </div>
                     </div>
-                    <div id="noHistory" class="alert alert-danger text-center" style="display: none;">
-                        You don't have any transaction !
-                    </div>
-                    <div id="hotelList">
-                        <c:if test="${requestScope.cancel_List == null}">
-                            <div class="container">
-                                <div id="noHistory" class="alert alert-danger text-center w-100">
-                                    You don't have any transaction !
-                                </div>
-                            </div>
-                        </c:if>
-                        <div class ="row p-4">
-                            <c:forEach var="h" items="${requestScope.cancel_List}">
+
+                    <c:if test="${empty groupedBills}">
+                        <div id="noHistory" class="alert alert-danger text-center w-100">
+                            You don't have any transaction!
+                        </div>
+                    </c:if>
+
+                    <c:if test="${not empty groupedBills}">
+                        <div class="row p-4">
+                            <c:forEach var="entry" items="${groupedBills}">
                                 <div class="col-md-6 mb-4 hotel-card">
                                     <div class="card h-100 border rounded shadow">
                                         <div class="card-body d-flex flex-column custom-bg">
-                                            <div class="row h-50">
-                                                <h5 class="card-title mb-3 ">
-                                                    <i class='bx bxs-hotel'></i> ${h.hotel_Name}
-                                                </h5>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col ">
-                                                    <p class="card-text ">
-                                                        Room ID: ${h.room_ID}
-                                                    </p>
-                                                </div>
-                                                <div class="col">
-                                                    <p class="card-text">
-                                                        Reservation: ${h.reservationID}
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col">
-                                                    <p class="card-text mb-2">
-                                                        <i class='bx bx-calendar-check'></i> ${h.checkInDate}
-                                                    </p>
-                                                </div>
-                                                <div class="col">
-                                                    <p class="card-text mb-2">
-                                                        <i class='bx bx-calendar-x'></i> ${h.checkOutDate}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <p class="card-text mb-2">
-                                                        <i class='bx bx-dollar-circle'></i> ${h.total_price}
-                                                    </p>
-                                                </div>
-                                                <div class="col">
-                                                    <p class="card-text">
-                                                        <i class='bx bx-check-square'></i>
-                                                        <span class="badge text-bg-danger">${h.status}</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                             <a href="MyBillPaymentServlet?reservation_ID=${h.reservationID}" class="btn btn-outline-primary mt-auto">
+                                            <h5 class="card-title mb-3">
+                                                <i class='bx bxs-hotel'></i> Reservation ID: ${entry.key}
+                                            </h5>
+                                            <p class="card-text">
+                                                <i class='bx bx-hotel'></i> Hotel Name: ${entry.value[0].hotel_Name}
+                                            </p>
+                                            <p class="card-text">
+                                                <i class='bx bx-calendar-check'></i> Check-In: ${entry.value[0].checkInDate}
+                                            </p>
+                                            <p class="card-text">
+                                                <i class='bx bx-calendar-x'></i> Check-Out: ${entry.value[0].checkOutDate}
+                                            </p>
+                                            <p class="card-text">
+                                                <i class='bx bx-dollar-circle'></i> Total Price: ${entry.value[0].total_price}
+                                            </p>
+                                            <c:if test="${entry.value[0].status == 'CANCEL'}">
+                                                <p class="card-text">
+                                                    <i class='bx bx-check-square'></i>
+                                                    <span class="badge text-bg-danger">${entry.value[0].status}</span>
+                                                </p>
+                                            </c:if>
+                                            <c:if test="${entry.value[0].status == 'REFUNDING'}">
+                                                <p class="card-text">
+                                                    <i class='bx bx-check-square'></i>
+                                                    <span class="badge text-bg-warning">${entry.value[0].status}</span>
+                                                </p>
+                                            </c:if>
+                                            <a href="MyBillPaymentServlet?reservation_ID=${entry.key}" class="btn btn-outline-primary mt-auto">
                                                 <i class='bx bx-detail'></i> View Details
                                             </a>
                                         </div>
@@ -450,18 +310,42 @@
                                 </div>
                             </c:forEach>
                         </div>
-                    </div>
+                    </c:if>
                     <nav class="justify-content-center align-items-center bg-white">
                         <ul class="pagination"></ul>
                     </nav>
                 </div>
             </div>
         </div>
-         <%@include file="Footer.jsp"%>
-        <!--            <div class="loader">
-        
-                    </div>-->
+
+        <%@include file="Footer.jsp" %>
+
         <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const logoutButton = document.getElementById('logoutButton');
+                const overlay = document.getElementById('overlay');
+                const logoutConfirm = document.getElementById('logoutConfirm');
+                const confirmYes = document.getElementById('confirmYes');
+                const confirmNo = document.getElementById('confirmNo');
+
+                logoutButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    overlay.style.display = 'block';
+                    logoutConfirm.style.display = 'block';
+                });
+
+                confirmYes.addEventListener('click', () => {
+                    // Handle confirmation of logout
+                    overlay.style.display = 'none';
+                    logoutConfirm.style.display = 'none';
+                });
+
+                confirmNo.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    overlay.style.display = 'none';
+                    logoutConfirm.style.display = 'none';
+                });
+            });
             //Logout confirmation
             document.getElementById("logoutButton").addEventListener("click", function () {
                 document.getElementById("overlay").style.display = "block";
@@ -551,17 +435,6 @@
                 loadItem();
             };
 
-            window.addEventListener("load", () => {
-                const loader = document.querySelector(".loader");
-
-                loader.classList.add("loader-hidden");
-
-                loader.addEventListener("transitioned", () => {
-                    document.body.removeChild("loader");
-                });
-            });
         </script>
-    </div>
-</body>
-
+    </body>
 </html>

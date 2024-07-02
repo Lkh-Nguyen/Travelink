@@ -108,6 +108,36 @@ public class RoomImageDB implements DatabaseInfo {
         return images;
     }
 
+    //Update roomImages by Room_image_id
+    public static boolean updateRoomImage(int imageId, String newImagePath) {
+        String sql = "UPDATE Room_Image SET URL = ? WHERE Room_Image_ID = ?";
+        try (Connection connection = DatabaseInfo.getConnect(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, newImagePath);
+            statement.setInt(2, imageId);
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0; // Return true if at least one row was updated
+        } catch (SQLException e) {
+            System.out.println("Error updating room image: " + e);
+            return false;
+        }
+    }
+
+    //Add Image by Room_ID
+    public static boolean insertRoomImage(int roomId, String imagePath) {
+        String sql = "INSERT INTO Room_Image (URL, Room_ID) VALUES (?, ?)";
+        try (Connection connection = DatabaseInfo.getConnect(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, imagePath);
+            statement.setInt(2, roomId);
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0; // Return true if at least one row was inserted
+        } catch (SQLException e) {
+            System.out.println("Error inserting room image: " + e);
+            return false;
+        }
+    }
+
     public static void main(String[] args) throws SQLException {
 
         // Test getAllRoomImages
@@ -145,10 +175,18 @@ public class RoomImageDB implements DatabaseInfo {
                 System.out.println(image);
             }
         }
-        
-        
-        
-         
+
+        //Test insert room image
+        System.out.println("\n** Test insertRoomImage **");
+        int roomIdToInsert = 4; // Replace with an existing room ID
+        String imagePathToInsert = "ck.jpg"; // Replace with a valid image path
+        boolean insertResult = RoomImageDB.insertRoomImage(roomIdToInsert, imagePathToInsert);
+        if (insertResult) {
+            System.out.println("Room image inserted successfully.");
+        } else {
+            System.out.println("Failed to insert room image.");
+        }
+
     }
 
 }

@@ -113,7 +113,7 @@
                     <div class="error-message" id="error-message">Description cannot exceed 200 characters.</div>
                 </div>
                 <input type="hidden" id="date" name="date" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new Date()) %>">
-                <input type="hidden" id="reservationID" name="reservationID" value="${param.reservationID}">
+                <input type="hidden" id="reservationID" name="reservationID" value="${param.reservation_ID}">
                 <input type="hidden" id="hotel_ID" name="hotel_ID" value="${param.hotel_ID}">
                 <div class="d-flex justify-content-around ">
                     <button type="submit" class="btn btn-primary fw-bold" id="comfirmBtn">Submit</button>

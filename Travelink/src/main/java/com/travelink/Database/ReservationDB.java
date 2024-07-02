@@ -4,13 +4,14 @@
  */
 package com.travelink.Database;
 
+import com.travelink.Model.RefundingReservation;
 import com.travelink.Model.Reservation;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +122,6 @@ public class ReservationDB implements DatabaseInfo {
         return reservations;
     }
 
-
     public static List<Reservation> getAllReservations() {
         List<Reservation> reservations = new ArrayList<>();
         Connection connection = null;
@@ -139,7 +139,7 @@ public class ReservationDB implements DatabaseInfo {
                 while (resultSet.next()) {
                     Reservation reservation = new Reservation();
                     reservation.setReservationID(resultSet.getInt("Reservation_ID"));
-                   reservation.setReservationDate(resultSet.getTimestamp("Reservation_Date").toLocalDateTime());
+                    reservation.setReservationDate(resultSet.getTimestamp("Reservation_Date").toLocalDateTime());
                     reservation.setNumber_of_guests(resultSet.getInt("number_of_guests"));
                     reservation.setCheckInDate(resultSet.getDate("CheckInDate"));
                     reservation.setCheckOutDate(resultSet.getDate("CheckOutDate"));
@@ -171,8 +171,6 @@ public class ReservationDB implements DatabaseInfo {
         return reservations;
     }
 
-
-
 //    public static void main(String[] args) {
 //
 //        // Test getReservationByReservationID
@@ -203,7 +201,6 @@ public class ReservationDB implements DatabaseInfo {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet generatedKeys = null;
-
 
         try {
             connection = DatabaseInfo.getConnect();
@@ -309,8 +306,8 @@ public class ReservationDB implements DatabaseInfo {
 
         return false; // No such reservation found
     }
-    
-    public static void updateReservationStatusAfterFeedback(int reservationID){
+
+    public static void updateReservationStatusAfterFeedback(int reservationID) {
         Connection connection = null;
         PreparedStatement statement = null;
 
@@ -330,4 +327,226 @@ public class ReservationDB implements DatabaseInfo {
         }
     }
 
+    public static List<Reservation> getVietQRReservationsByHotelID(int hotelID) {
+        List<Reservation> reservations = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT DISTINCT r.Reservation_ID, r.Reservation_Date, r.number_of_guests, "
+                        + "r.CheckInDate, r.CheckOutDate, r.Total_Price, r.Payment_Method, r.Status, r.Account_ID "
+                        + "FROM Reservation r "
+                        + "JOIN Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID "
+                        + "JOIN Room ro ON rr.Room_ID = ro.Room_ID "
+                        + "WHERE ro.Hotel_ID = ? AND r.Payment_Method = 'VIETQR'";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, hotelID);
+                resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Reservation reservation = new Reservation();
+                    reservation.setReservationID(resultSet.getInt("Reservation_ID"));
+                    reservation.setReservationDate(resultSet.getTimestamp("Reservation_Date").toLocalDateTime());
+                    reservation.setNumber_of_guests(resultSet.getInt("Number_of_guests"));
+                    reservation.setCheckInDate(resultSet.getDate("CheckInDate"));
+                    reservation.setCheckOutDate(resultSet.getDate("CheckOutDate"));
+                    reservation.setTotalPrice(resultSet.getInt("Total_Price"));
+                    reservation.setPaymentMethod(resultSet.getString("Payment_Method"));
+                    reservation.setStatus(resultSet.getString("Status"));
+                    reservation.setAccount_ID(resultSet.getInt("Account_ID"));
+                    reservations.add(reservation);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting VIETQR reservations by Hotel ID: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+
+        return reservations;
+    }
+
+    public static List<Reservation> filterByCheckoutMonthAndYear(List<Reservation> reservationList, int month, int year) {
+        List<Reservation> filteredList = new ArrayList<>();
+
+        for (Reservation reservation : reservationList) {
+            LocalDate checkOutDate = reservation.getCheckOutDate().toLocalDate(); // Assuming getCheckOutDate() returns a Date object
+            int reservationYear = checkOutDate.getYear();
+            int reservationMonth = checkOutDate.getMonthValue();
+
+            if (month == 0 && reservationYear == year) {
+                // If month is 0, filter by year only
+                filteredList.add(reservation);
+            } else if (reservationYear == year && reservationMonth == month) {
+                // Filter by both month and year
+                filteredList.add(reservation);
+            }
+        }
+
+        return filteredList;
+    }
+
+    public static List<Reservation> filterByStatus(List<Reservation> reservationList, String status) {
+        List<Reservation> filteredList = new ArrayList<>();
+
+        for (Reservation reservation : reservationList) {
+            if (reservation.getStatus().equalsIgnoreCase(status)) {
+                filteredList.add(reservation);
+            }
+        }
+
+        return filteredList;
+    }
+
+    public static void main(String[] args) {
+        int testHotelID = 3; // Replace with a valid Hotel_ID to test
+        List<Reservation> reservationList = ReservationDB.getVietQRReservationsByHotelID(testHotelID);
+
+        // Retrieve the list of reservations with Payment Method 'VIETQR' for the given Hotel_ID
+        List<Reservation> filteredReservations = ReservationDB.filterByCheckoutMonthAndYear(reservationList, 5, 2024);
+        List<Reservation> finishedReservations = ReservationDB.filterByStatus(filteredReservations, "FINISHED");
+        List<Reservation> cancelReservations = ReservationDB.filterByStatus(filteredReservations, "CANCEL");
+        List<Reservation> refundingReservations = ReservationDB.filterByStatus(filteredReservations, "REFUNDING");
+
+        // Print filtered reservations
+        if (filteredReservations.isEmpty()) {
+            System.out.println("No reservations found for Hotel ID: " + testHotelID);
+        } else {
+            System.out.println("Filtered Reservations for Hotel ID: " + testHotelID);
+            for (Reservation reservation : filteredReservations) {
+                printReservationDetails(reservation);
+            }
+        }
+
+        // Print finished reservations
+        if (!finishedReservations.isEmpty()) {
+            System.out.println("\nFinished Reservations:");
+            for (Reservation reservation : finishedReservations) {
+                printReservationDetails(reservation);
+            }
+        }
+
+        // Print canceled reservations
+        if (!cancelReservations.isEmpty()) {
+            System.out.println("\nCanceled Reservations:");
+            for (Reservation reservation : cancelReservations) {
+                printReservationDetails(reservation);
+            }
+        }
+
+        // Print refunding reservations
+        if (!refundingReservations.isEmpty()) {
+            System.out.println("\nRefunding Reservations:");
+            for (Reservation reservation : refundingReservations) {
+                printReservationDetails(reservation);
+            }
+        }
+
+        // Print sizes of lists
+        System.out.println("All VietQR reservations: " + reservationList.size());
+        System.out.println("\nFiltered Reservations Size: " + filteredReservations.size());
+        System.out.println("Finished Reservations Size: " + finishedReservations.size());
+        System.out.println("Canceled Reservations Size: " + cancelReservations.size());
+        System.out.println("Refunding Reservations Size: " + refundingReservations.size());
+    }
+
+    private static void printReservationDetails(Reservation reservation) {
+        System.out.println("Reservation ID: " + reservation.getReservationID());
+        System.out.println("Reservation Date: " + reservation.getReservationDate());
+        System.out.println("Number of Guests: " + reservation.getNumber_of_guests());
+        System.out.println("Check-In Date: " + reservation.getCheckInDate());
+        System.out.println("Check-Out Date: " + reservation.getCheckOutDate());
+        System.out.println("Total Price: " + reservation.getTotalPrice());
+        System.out.println("Payment Method: " + reservation.getPaymentMethod());
+        System.out.println("Status: " + reservation.getStatus());
+        System.out.println("Account ID: " + reservation.getAccount_ID());
+        System.out.println(); // Print a blank line for separation
+    }
+
+    public static List<Reservation> getReservationsInRefundingReservations(List<RefundingReservation> refundingReservations2) {
+        List<Reservation> matchingReservations = new ArrayList<>();
+        List<Integer> reservationIds = new ArrayList<>();
+
+        // Extract reservation IDs from refundingReservations2
+        for (RefundingReservation refundingReservation : refundingReservations2) {
+            reservationIds.add(refundingReservation.getReservationId());
+        }
+
+        // Get all reservations
+        List<Reservation> allReservations = getAllReservations();
+
+        // Find matching reservations by ID
+        for (Reservation reservation : allReservations) {
+            if (reservationIds.contains(reservation.getReservationID())) {
+                matchingReservations.add(reservation);
+            }
+        }
+
+        return matchingReservations;
+    }
+
+    public static List<Reservation> getAllReservationsExcludingCancelledAndRefunding() {
+        List<Reservation> reservations = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT * FROM Reservation WHERE Status <> 'CANCEL' AND Status <> 'REFUNDING'";
+                statement = connection.prepareStatement(query);
+                resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Reservation reservation = new Reservation();
+                    reservation.setReservationID(resultSet.getInt("Reservation_ID"));
+                    reservation.setReservationDate(resultSet.getTimestamp("Reservation_Date").toLocalDateTime());
+                    reservation.setNumber_of_guests(resultSet.getInt("number_of_guests"));
+                    reservation.setCheckInDate(resultSet.getDate("CheckInDate"));
+                    reservation.setCheckOutDate(resultSet.getDate("CheckOutDate"));
+                    reservation.setTotalPrice(resultSet.getInt("Total_Price"));
+                    reservation.setPaymentMethod(resultSet.getString("Payment_Method"));
+                    reservation.setStatus(resultSet.getString("Status"));
+                    reservation.setAccount_ID(resultSet.getInt("Account_ID"));
+                    reservations.add(reservation);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting reservations excluding CANCEL and REFUNDING: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+
+        return reservations;
+    }
 }

@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +60,72 @@ public class FavouriteHotelDB implements DatabaseInfo {
         }
         return false;
     }
+    
+    public static void main(String[] args) {
+        createHotelInforView();
+    }
+    
+    public static void createHotelInforView() {
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = DatabaseInfo.getConnect();
+
+            if (conn != null) {
+                // Check if the view already exists
+                String checkViewQuery = "SELECT COUNT(*) FROM information_schema.views WHERE table_name = 'HotelInfor'";
+                try (Statement checkStatement = conn.createStatement(); ResultSet resultSet = checkStatement.executeQuery(checkViewQuery)) {
+                    resultSet.next();
+                    int viewCount = resultSet.getInt(1);
+
+                    // If the view doesn't exist, create it
+                    if (viewCount == 0) {
+                        String createViewQuery
+                                = "CREATE VIEW HotelInfor AS "
+                                + "WITH RankedHotels AS ( "
+                                + "SELECT h.Hotel_ID, h.Name, h.Star, h.Address, hi.URL, fh.Account_ID, "
+                                + "ROW_NUMBER() OVER (PARTITION BY h.Hotel_ID ORDER BY (SELECT NULL)) AS rn "
+                                + "FROM Favourite_Hotel fh "
+                                + "INNER JOIN Hotel h ON fh.Hotel_ID = h.Hotel_ID "
+                                + "INNER JOIN Hotel_Image hi ON h.Hotel_ID = hi.Hotel_ID "
+                                + "), "
+                                + "HotelRatings AS ( "
+                                +"SELECT " +
+                                   "   ro.Hotel_ID, " +
+                                   "   COUNT(f.Rating) AS RatingCount, " +
+                                   "   ROUND(AVG(CAST(f.Rating AS FLOAT)),1) AS Average " +
+                                   "FROM Feedback f " +
+                                   "INNER JOIN Reservation r ON f.Reservation_ID = r.Reservation_ID " +
+                                   "INNER JOIN Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID " +
+                                   "INNER JOIN Room ro ON rr.Room_ID = ro.Room_ID " +
+                                   "GROUP BY ro.Hotel_ID)"
+                                + "SELECT rh.Hotel_ID, rh.Name, rh.Star, rh.Address, rh.URL, rh.Account_ID, "
+                                + "COALESCE(hr.RatingCount, 0) AS RatingCount, COALESCE(hr.Average, 0) AS Average "
+                                + "FROM RankedHotels rh "
+                                + "LEFT JOIN HotelRatings hr ON rh.Hotel_ID = hr.Hotel_ID "
+                                + "WHERE rh.rn = 1 ";
+                        ps = conn.prepareStatement(createViewQuery);
+                        ps.execute();
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error creating view HotelInfor: " + e);
+        } finally {
+            // Close resources
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+    }
     public static boolean addFavouriteHotel(int hotelID, int accountID) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -99,6 +166,7 @@ public class FavouriteHotelDB implements DatabaseInfo {
     }
 
     public static List<HotelInfor> getHotelFavourite(int accountID) {
+        createHotelInforView();
         List<HotelInfor> cardFavouriteHotelS = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -109,21 +177,7 @@ public class FavouriteHotelDB implements DatabaseInfo {
 
             if (connection != null) {
                 String query
-                        = "WITH RankedHotels AS ( "
-                        + " SELECT  h.Hotel_ID,h.Name,h.Star,h.Address,hi.URL,ROW_NUMBER() OVER (PARTITION BY h.Hotel_ID ORDER BY (SELECT NULL)) AS rn "
-                        + " FROM Favourite_Hotel fh  INNER JOIN  Hotel h ON fh.Hotel_ID = h.Hotel_ID "
-                        + " INNER JOIN Hotel_Image hi ON h.Hotel_ID = hi.Hotel_ID "
-                        + " WHERE fh.Account_ID = ? "
-                        + "), "
-                        + " HotelRatings AS ( "
-                        + " SELECT h.Hotel_ID, COUNT(fb.Rating) AS RatingCount,ROUND(AVG(CAST(fb.Rating AS FLOAT)), 1) AS Average "
-                        + " FROM Hotel h  LEFT OUTER JOIN   Feedback fb ON h.Hotel_ID = fb.Hotel_ID "
-                        + " GROUP BY h.Hotel_ID "
-                        + ") "
-                        + " SELECT   rh.Hotel_ID,   rh.Name, rh.Star, rh.Address,  rh.URL, COALESCE(hr.RatingCount, 0) AS RatingCount, COALESCE(hr.Average, 0) AS Average "
-                        + " FROM  RankedHotels rh LEFT JOIN HotelRatings hr ON rh.Hotel_ID = hr.Hotel_ID "
-                        + " WHERE rh.rn = 1"
-                        + "ORDER BY rh.Star desc;";
+                        = "select * from HotelInfor where account_ID = ?";
 
                 statement = connection.prepareStatement(query);
                 statement.setInt(1, accountID); // Set the account ID parameter

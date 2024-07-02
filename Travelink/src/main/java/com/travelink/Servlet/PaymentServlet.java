@@ -76,7 +76,6 @@ public class PaymentServlet extends HttpServlet {
                 response.sendRedirect("Error.jsp");
                 return;
             }
-
         }
 
         //Get booking details from session

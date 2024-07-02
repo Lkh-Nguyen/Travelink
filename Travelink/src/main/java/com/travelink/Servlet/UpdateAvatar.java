@@ -1,7 +1,9 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.AccountDB;
+import com.travelink.Database.RoomImageDB;
 import com.travelink.Model.Account;
+import com.travelink.Model.RoomImage;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.util.List;
 
 /**
  *
@@ -34,7 +36,7 @@ public class UpdateAvatar extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ChangeAvatar</title>");            
+            out.println("<title>Servlet ChangeAvatar</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ChangeAvatar at " + request.getContextPath() + "</h1>");
@@ -55,7 +57,7 @@ public class UpdateAvatar extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("View_Avatar.jsp").forward(request, response);
     }
 
     /**
@@ -69,18 +71,69 @@ public class UpdateAvatar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            String urlAvatar = request.getParameter("urlAvatar");
-            HttpSession session = request.getSession();
-            Account sessionAccount = (Account) session.getAttribute("account");
-            
-            // Update the user's information
-        if (AccountDB.updateAvatarAccount(sessionAccount,urlAvatar)) {
-            sessionAccount.setAvatarURL(urlAvatar);
-            request.setAttribute("updateStatus", "Change avatar successfully.");
-            // Update the session with the new user information
-            session.setAttribute("account", sessionAccount);
+        String uploadHotelHostValue = request.getParameter("uploadhotelhost");
+        String urlAvatar = request.getParameter("urlAvatar");
+        HttpSession session = request.getSession();
+        Account sessionAccount = (Account) session.getAttribute("account");
+
+        // Update the user's information
+        if (sessionAccount.getRole() == 1) {
+            if (AccountDB.updateAvatarAccount(sessionAccount, urlAvatar)) {
+                sessionAccount.setAvatarURL(urlAvatar);
+                request.setAttribute("updateStatus", "Change avatar successfully.");
+                // Update the session with the new user information
+                session.setAttribute("account", sessionAccount);
+            }
+            request.getRequestDispatcher("View_Avatar.jsp").forward(request, response);
+        } else if (sessionAccount.getRole() == 2) {
+            if (uploadHotelHostValue.equalsIgnoreCase("2.1")) {
+                if (AccountDB.updateAvatarAccount(sessionAccount, urlAvatar)) {
+                    
+                    sessionAccount.setAvatarURL(urlAvatar);
+                    
+                    request.setAttribute("updateStatus", "Change avatar successfully.");
+                    // Update the session with the new user information
+                    session.setAttribute("account", sessionAccount);
+                }
+                request.getRequestDispatcher("HotelHost_ViewAvatar.jsp").forward(request, response);
+
+            } else if (uploadHotelHostValue.equalsIgnoreCase("2.2")) {
+
+                String room_ID = request.getParameter("roomID");
+                int roomid = Integer.parseInt(room_ID);
+                
+                String room_ImageID = request.getParameter("roomImageID");
+                int imageid = Integer.parseInt(room_ImageID);
+                
+                PrintWriter pw = response.getWriter();
+                pw.print(imageid);
+               
+                if(RoomImageDB.updateRoomImage(imageid, urlAvatar)){
+                    request.setAttribute("updateStatus", "Change avatar successfully.");
+                }
+                
+                
+                List<RoomImage> list_images = RoomImageDB.getRoomImagesByRoom_ID(roomid);
+                request.setAttribute("list_images", list_images);
+                request.setAttribute("room_ID", roomid);
+                request.getRequestDispatcher("HotelHost_RoomImage.jsp").forward(request, response);
+            } else if (uploadHotelHostValue.equalsIgnoreCase("2.3")){
+                String room_ID = request.getParameter("roomID");
+                int roomid = Integer.parseInt(room_ID);
+                
+
+               
+                if(RoomImageDB.insertRoomImage(roomid, urlAvatar)){
+                    request.setAttribute("updateStatus", "Change avatar successfully.");
+                }
+                
+                
+                List<RoomImage> list_images = RoomImageDB.getRoomImagesByRoom_ID(roomid);
+                request.setAttribute("list_images", list_images);
+                request.setAttribute("room_ID", roomid);
+                request.getRequestDispatcher("HotelHost_RoomImage.jsp").forward(request, response);
+            }
         }
-        request.getRequestDispatcher("View_Avatar.jsp").forward(request, response);
     }
 
     /**

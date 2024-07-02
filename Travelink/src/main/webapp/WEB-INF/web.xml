@@ -113,10 +113,6 @@
         <servlet-class>com.travelink.Servlet.PromotionServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>MyFeedbackServlet</servlet-name>
-        <servlet-class>com.travelink.Servlet.MyFeedbackServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>UpdateFeedbackServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.UpdateFeedbackServlet</servlet-class>
     </servlet>
@@ -143,6 +139,94 @@
     <servlet>
         <servlet-name>SubmitFeedbackServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.SubmitFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ExportBillServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.ExportBillServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelHostHotelServiceServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHostHotelServiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DashboardServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.DashboardServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateServiceServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateServiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddServiceServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.AddServiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteServiceServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.DeleteServiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OfflineBookingServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.OfflineBookingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MyFeedbackServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.MyFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NotYet_Hotel_Service</servlet-name>
+        <servlet-class>com.travelink.Servlet.NotYet_Hotel_Service</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateHotelRoomServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateHotelRoomServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateHotelInformationServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateHotelInformationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateHotelBedServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateHotelBedServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertOfflineBookingServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.InsertOfflineBookingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelHost_BookingHistoryBillDetailServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_BookingHistoryBillDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelHost_BookingHistoryBillServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_BookingHistoryBillServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelHost_FeedbackServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_FeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminDashBoardServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.AdminDashBoardServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewFeedbackReservationIDServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.ViewFeedbackReservationIDServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateImageRoom</servlet-name>
+        <servlet-class>com.travelink.Servlet.UpdateImageRoom</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportFeedbackServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.ReportFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Admin_ViewReportFeedback</servlet-name>
+        <servlet-class>com.travelink.Servlet.Admin_ViewReportFeedback</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Admin_ViewReportFeedbackDetail</servlet-name>
+        <servlet-class>com.travelink.Servlet.Admin_ViewReportFeedbackDetail</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -245,10 +329,6 @@
         <url-pattern>/PromotionServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>MyFeedbackServlet</servlet-name>
-        <url-pattern>/MyFeedbackServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>UpdateFeedbackServlet</servlet-name>
         <url-pattern>/UpdateFeedbackServlet</url-pattern>
     </servlet-mapping>
@@ -275,6 +355,94 @@
     <servlet-mapping>
         <servlet-name>SubmitFeedbackServlet</servlet-name>
         <url-pattern>/SubmitFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExportBillServlet</servlet-name>
+        <url-pattern>/ExportBillServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHostHotelServiceServlet</servlet-name>
+        <url-pattern>/HotelHostHotelServiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardServlet</servlet-name>
+        <url-pattern>/DashboardServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateServiceServlet</servlet-name>
+        <url-pattern>/UpdateServiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddServiceServlet</servlet-name>
+        <url-pattern>/AddServiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteServiceServlet</servlet-name>
+        <url-pattern>/DeleteServiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OfflineBookingServlet</servlet-name>
+        <url-pattern>/OfflineBookingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyFeedbackServlet</servlet-name>
+        <url-pattern>/MyFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotYet_Hotel_Service</servlet-name>
+        <url-pattern>/NotYet_Hotel_Service</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateHotelRoomServlet</servlet-name>
+        <url-pattern>/UpdateHotelRoomServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateHotelInformationServlet</servlet-name>
+        <url-pattern>/UpdateHotelInformationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateHotelBedServlet</servlet-name>
+        <url-pattern>/UpdateHotelBedServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertOfflineBookingServlet</servlet-name>
+        <url-pattern>/InsertOfflineBookingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_BookingHistoryBillDetailServlet</servlet-name>
+        <url-pattern>/HotelHost_BookingHistoryBillDetailServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_BookingHistoryBillServlet</servlet-name>
+        <url-pattern>/HotelHost_BookingHistoryBillServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_FeedbackServlet</servlet-name>
+        <url-pattern>/HotelHost_FeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminDashBoardServlet</servlet-name>
+        <url-pattern>/AdminDashBoardServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewFeedbackReservationIDServlet</servlet-name>
+        <url-pattern>/ViewFeedbackReservationIDServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateImageRoom</servlet-name>
+        <url-pattern>/UpdateImageRoom</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportFeedbackServlet</servlet-name>
+        <url-pattern>/ReportFeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Admin_ViewReportFeedback</servlet-name>
+        <url-pattern>/Admin_ViewReportFeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Admin_ViewReportFeedbackDetail</servlet-name>
+        <url-pattern>/Admin_ViewReportFeedbackDetail</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

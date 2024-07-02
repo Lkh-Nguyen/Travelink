@@ -87,7 +87,7 @@ public class VerifyCodeServlet extends HttpServlet {
         String cToken = (String) request.getSession().getAttribute("cToken");
         String action = (String) request.getSession().getAttribute("action");
         String email = (String) request.getSession().getAttribute("email");
-        //If inputToken right
+        int role = (int) request.getSession().getAttribute("role");
         if (inputToken.equals(cToken)) {
             if ("registerAccount".equals(action)) {
                 Account c = (Account) request.getSession().getAttribute("newAccount");
@@ -96,7 +96,10 @@ public class VerifyCodeServlet extends HttpServlet {
                 if (success) {
                     request.setAttribute("successMessage", "Register successfully! Please login account again.");
                 }
+                if (role==1)
                 request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
+                else if (role==2)
+                    request.getRequestDispatcher("HotelHost_Login.jsp").forward(request, response);
             } else if ("forgetPassword".equals(action)) {
                 String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
                 StringBuilder text = new StringBuilder(8);

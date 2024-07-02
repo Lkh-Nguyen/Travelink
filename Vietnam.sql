@@ -12,6 +12,9 @@ CREATE TABLE Province (
     Name NVARCHAR(255) NOT NULL
 );
 
+ALTER TABLE Province
+ADD URL VARCHAR(1000);
+
 INSERT INTO Province (Province_ID, Name) VALUES
 (1, N'Hà Nội'),
 (2, N'Hà Giang'),

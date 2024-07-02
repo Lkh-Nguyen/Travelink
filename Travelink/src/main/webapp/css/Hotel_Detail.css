@@ -219,3 +219,31 @@
         object-fit: cover; /* Giữ nguyên tỷ lệ gốc và cắt bớt phần thừa nếu cần */
         border-radius: 10px;
     }
+    
+    
+    
+    #reportFeedback {
+    float: right;
+    font-size: 20px;
+    color: red;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+#reportFeedback:hover {
+    color: orange;
+}
+
+#reportFeedback:hover::after {
+    content: "Report feedback";
+    position: absolute;
+    top: -10px;
+    right: 0;
+    background: black;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 3px;
+    white-space: nowrap;
+}

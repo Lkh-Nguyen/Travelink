@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="jakarta.servlet.http.HttpSession" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -292,7 +293,6 @@
         </style>
     </head>
     <body>
-
         <!-- Dùng để đăng xuất-->
         <div id="overlay1"></div>
         <div id="logoutConfirm1">
@@ -325,7 +325,7 @@
                     </div>
                 </c:if>
                 <c:if test="${empty account}">
-                    <button class="button" onclick="location.href = 'Form_Login.jsp'">
+                    <button class="button" onclick="forward()">
                         GET STARTED
                         <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
                         <path clip-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" fill-rule="evenodd"></path>
@@ -336,6 +336,10 @@
             </nav>
         </header>
         <script>
+            function forward(){
+                <%request.getSession().setAttribute("role",1);%>
+                location.href = 'Form_Login.jsp';
+            }
             function toggleDropdown() {
                 document.getElementById("dropdownMenu").classList.toggle("show");
             }

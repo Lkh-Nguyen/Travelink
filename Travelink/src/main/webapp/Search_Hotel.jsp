@@ -131,22 +131,23 @@
                         <span><i class="ri-calendar-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
-                                <input type="date" name="check_in_date" value="${sessionScope.checkInDate}"required=""/>
+                                <input id="checkInDate" type="date" name="check_in_date" value="${sessionScope.checkInDate}"
+                                        onchange="validateDates()" required=""/>
                                 <label>Departure</label>
                             </div>
                             <p style="margin-bottom: 0px">Add date</p>
                             <p style="color: red"> ${requestScope.statusBeginDate}</p>
                         </div>
                     </div>
-                    <div class="form__group">
+                    <div class="form__group" >
                         <span><i class="ri-calendar-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
-                                <input type="date" value="${sessionScope.checkOutDate}" name="check_out_date" required=""/>
+                                <input id="checkOutDate" onchange="validateDates()" type="date" value="${sessionScope.checkOutDate}" name="check_out_date" required=""/>
                                 <label>Return</label>
                             </div>
-                                <p style="margin-bottom: 0px">Add date</p> 
-                                <p style="color: red"> ${requestScope.statusDate}</p>
+                            <p style="margin-bottom: 0px">Add date</p> 
+                            <p style="color: red"> ${requestScope.statusDate}</p>
                         </div>
                     </div>
                     <div class="form__group">
@@ -178,9 +179,12 @@
                     <div class="mb-3 mt-5">
                         <div style="border: 1px solid #ccc; height: 200px; position: relative;">
                             <!-- Đây là Google Map -->
-                            <div id="googleMap" style="width: 100%; height: 100%;"></div>
-                            <!-- Button mở bản đồ -->
-                            <button class="btn btn-primary" style="position: absolute; top: 10px; right: 10px;" onclick="openMap()">Mở bản đồ</button>
+                            <div id="googleMap" style="width: 100%; height: 100%;">
+                                <iframe src="${requestScope.url}" 
+                                        width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy" 
+                                        referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            </div>
                         </div>
                     </div>
                     <h4 style="color: #2c97d2;">Lọc khách sạn</h4>
@@ -216,15 +220,6 @@
                             </label>
                         </div>                                   
                     </form>
-
-                    <div class="container mt-3">
-                        <div class="slidecontainer">
-                            <span>min</span> <span>max</span>
-                            <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                            <p><b>Value: <span id="demo"></span>$</b></p>
-                        </div>
-                    </div>
-
                 </div>
                 <!-- Phần bên phải -->
                 <div class="col-md-9">
@@ -295,9 +290,6 @@
                 </div>
             </div>
         </div>
-        <!--        <div class="loader">
-        
-                </div>-->
         <%@include file="Footer.jsp"%>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -305,71 +297,82 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
         <script src="js/Search_Hotel.js"></script>
         <script>
-                                /* 
-                                 * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-                                 * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
-                                 */
-                                let thisPage = 1;
-                                let limit = 6;
-                                let list = document.querySelectorAll(".card");
-                                function loadItem() {
-                                    let beginGet = limit * (thisPage - 1);
-                                    let endGet = limit * thisPage - 1;
-                                    list.forEach((item, key) => {
-                                        if (key >= beginGet && key <= endGet) {
-                                            item.style.display = "block";
-                                        } else {
-                                            item.style.display = "none";
-                                        }
-                                    });
-                                    listPage();
-                                }
-                                loadItem();
-                                function listPage() {
-                                    let count = Math.ceil(list.length / limit);
-                                    document.querySelector('.listPage').innerHTML = '';
+            let thisPage = 1;
+            let limit = 6;
+            let list = document.querySelectorAll(".card");
+            function loadItem() {
+                let beginGet = limit * (thisPage - 1);
+                let endGet = limit * thisPage - 1;
+                list.forEach((item, key) => {
+                    if (key >= beginGet && key <= endGet) {
+                        item.style.display = "block";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+                listPage();
+            }
+            loadItem();
+            function listPage() {
+                let count = Math.ceil(list.length / limit);
+                document.querySelector('.listPage').innerHTML = '';
 
-                                    if (thisPage != 1) {
-                                        let prev = document.createElement('li');
-                                        prev.innerText = 'PREV';
-                                        prev.setAttribute('onclick', "changePage(" + (thisPage - 1) + ")");
-                                        document.querySelector('.listPage').appendChild(prev);
-                                    }
-                                    for (i = 1; i <= count; i++) {
-                                        let newPage = document.createElement('li');
-                                        newPage.innerText = i;
-                                        if (i == thisPage) {
-                                            newPage.classList.add('active');
-                                        }
-                                        newPage.setAttribute('onclick', "changePage(" + i + ")");
-                                        document.querySelector('.listPage').appendChild(newPage);
-                                    }
+                if (thisPage != 1) {
+                    let prev = document.createElement('li');
+                    prev.innerText = 'PREV';
+                    prev.setAttribute('onclick', "changePage(" + (thisPage - 1) + ")");
+                    document.querySelector('.listPage').appendChild(prev);
+                }
+                for (i = 1; i <= count; i++) {
+                    let newPage = document.createElement('li');
+                    newPage.innerText = i;
+                    if (i == thisPage) {
+                        newPage.classList.add('active');
+                    }
+                    newPage.setAttribute('onclick', "changePage(" + i + ")");
+                    document.querySelector('.listPage').appendChild(newPage);
+                }
 
-                                    if (thisPage != count) {
-                                        let next = document.createElement('li');
-                                        next.innerText = 'NEXT';
-                                        next.setAttribute('onclick', "changePage(" + (thisPage + 1) + ")");
-                                        document.querySelector('.listPage').appendChild(next);
-                                    }
-                                }
-                                function changePage(i) {
-                                    thisPage = i;
-                                    loadItem();
-                                    let scrollPosition = window.scrollY;
-                                    window.scrollTo(0, scrollPosition);
-                                }
+                if (thisPage != count) {
+                    let next = document.createElement('li');
+                    next.innerText = 'NEXT';
+                    next.setAttribute('onclick', "changePage(" + (thisPage + 1) + ")");
+                    document.querySelector('.listPage').appendChild(next);
+                }
+            }
+            function changePage(i) {
+                thisPage = i;
+                loadItem();
+                let scrollPosition = window.scrollY;
+                window.scrollTo(0, scrollPosition);
+            }
+            //Check validate Date
+            function validateDates() {
+                var today = new Date();
+                var checkInDate = new Date(document.getElementById("checkInDate").value);
+                var checkOutDate = new Date(document.getElementById("checkOutDate").value);
 
-//                                window.addEventListener("load", () => {
-//                                    const loader = document.querySelector(".loader");
-//
-//                                    loader.classList.add("loader-hidden");
-//
-//                                    loader.addEventListener("transitioned", () => {
-//                                        document.body.removeChild("loader");
-//                                    });
-//                                });
+                // Set hours to 0 to compare dates without considering time
+                today.setHours(0, 0, 0, 0);
+                checkInDate.setHours(0, 0, 0, 0);
+                checkOutDate.setHours(0, 0, 0, 0);
 
+                // Check if checkInDate is today or later
+                if (checkInDate < today) {
+                    alert("Check-in date must be today or a future date.");
+                    document.getElementById("checkInDate").value = ''; // Clear incorrect date
+                    return false;
+                }
 
+                // Check if checkOutDate is after checkInDate
+                if (checkOutDate <= checkInDate) {
+                    alert("Check-out date must be after check-in date.");
+                    document.getElementById("checkOutDate").value = ''; // Clear incorrect date
+                    return false;
+                }
+
+                return true;
+            }
         </script>
     </body>
 </html>

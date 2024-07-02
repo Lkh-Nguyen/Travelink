@@ -104,7 +104,7 @@ public class UpdateAccountServlet extends HttpServlet {
             gender = 'F';
         }
         Account oldAccount = AccountDB.getAccount(email);
-        Account newAccount = new Account(email, cmnd, name, gender, dateOfBirth, phoneStr, address, oldAccount.getRole());
+        Account newAccount = new Account(email, cmnd, name, gender, dateOfBirth, phoneStr, address, oldAccount.getRole(), oldAccount.getStatus());
 
         newAccount.setAccount_ID(oldAccount.getAccount_ID());
         newAccount.setPassword(oldAccount.getPassword());

@@ -15,8 +15,6 @@ public class HotelService {
     private int serviceID;
     private Integer price; // Can be null for services without a price
     private Hotel hotel;
-    private Service service;
-    private Reservation reservation;
 
     public HotelService() {
         // Default constructor
@@ -65,24 +63,9 @@ public class HotelService {
         return hotel;
     }
 
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
-    }
-
-    public Service getService() {
-        return service;
-    }
-
-    public void setService(Service service) {
-        this.service = service;
     }
 
 

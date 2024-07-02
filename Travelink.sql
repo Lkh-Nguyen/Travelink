@@ -14,8 +14,11 @@ PhoneNumber VARCHAR(20),
 AvatarURL VARCHAR(255),
 Address NVARCHAR(255),
 Role INT NOT NULL,
-Status INT NOT NULL
 );
+
+ALTER TABLE Account
+ADD Status INT NOT NULL;
+
 
 CREATE TABLE Pending_Host (
 Pending_Host_ID INT IDENTITY(1,1) PRIMARY KEY, -- Primary key with auto-increment

@@ -97,7 +97,7 @@ public class LoginAccountServlet extends HttpServlet {
                 forwardPage = (role == 1) ? "HotelHost_Login.jsp" : "Form_Login.jsp";
             } else if (cu.getStatus() == 2) {
                 request.setAttribute("errorLogin", "Your account has been banned!");
-                forwardPage = (role == 1) ? "HotelHost_Login.jsp" : "Form_Login.jsp";
+                forwardPage = (role == 2) ? "HotelHost_Login.jsp" : "Form_Login.jsp";
             } else {
                 HttpSession session = request.getSession();
                 session.setAttribute("account", cu);

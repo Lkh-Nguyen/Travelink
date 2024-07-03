@@ -16,6 +16,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,9 @@ public class AdminDashBoardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String successLogin = (String) session.getAttribute("successLogin");
+        session.removeAttribute("successLogin");
         int bookings = ReservationDB.getAllReservationsMonthly().size();
         int partners = AccountDB.getHotelPartner();
         int pendings = PendingHostDB.getAllPendingHost().size();
@@ -80,6 +84,7 @@ public class AdminDashBoardServlet extends HttpServlet {
         request.setAttribute("provinces", provinces);
         request.setAttribute("count", count);
         request.setAttribute("monthlyPayments", monthlyPayments);
+        request.setAttribute("successLogin", successLogin);
         request.getRequestDispatcher("Admin_Dashboard.jsp").forward(request, response);
     } 
 

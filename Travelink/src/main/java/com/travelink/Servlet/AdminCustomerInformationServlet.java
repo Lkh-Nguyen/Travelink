@@ -2,37 +2,39 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.travelink.Database;
+package com.travelink.Servlet;
 
+import com.travelink.Database.AccountDB;
+import com.travelink.Database.FeedbackDB;
 import com.travelink.Model.Account;
-import com.travelink.Model.Hotel;
-import com.travelink.Model.HotelImage;
+import com.travelink.Model.Feedback;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  *
  * @author ASUS
  */
-public class AdminHotelInformationServlet extends HttpServlet {
+public class AdminCustomerInformationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String hotel_IDStr = request.getParameter("hotel_ID");
-        //Missing hotel_ID
-        if (hotel_IDStr == null) {
+        String account_IDStr = request.getParameter("account_ID");
+        //Missing account_ID
+        if (account_IDStr == null) {
             response.sendRedirect("Error.jsp");
             return;
         }
-        //Invalid hotel_ID
-        int hotel_ID = -1;
+        //Invalid account_ID format
+        int account_ID = -1;
         try {
-            hotel_ID = Integer.parseInt(hotel_IDStr);
-            if (hotel_ID == -1){
+            account_ID = Integer.parseInt(account_IDStr);
+            if (account_ID == -1) {
                 response.sendRedirect("Error.jsp");
                 return;
             }
@@ -41,13 +43,18 @@ public class AdminHotelInformationServlet extends HttpServlet {
             response.sendRedirect("Error.jsp");
             return;
         }
-        Hotel hotel = HotelDB.getHotelByID(hotel_ID);
-        Account account = OwnedHotelDB.getAccountByHotelID(hotel_ID);
-        String hotelImage = HotelImageDB.getHotelImagesByHotelID(hotel_ID).get(0).getUrl();
-        request.setAttribute("hotel", hotel);
+        Account account = AccountDB.getAccountByAccountID(account_ID);
+        //Account not exists or not role customer
+        if (account == null || account.getRole() != 1) {
+            response.sendRedirect("Error.jsp");
+            return;
+        }
+        
+        List<Feedback> feedbackList = FeedbackDB.getFeedbacksByAccountID(account_ID);
+                
         request.setAttribute("account", account);
-        request.setAttribute("hotelImage", hotelImage);
-        request.getRequestDispatcher("Admin_Hotel_Information.jsp").forward(request, response);
+        request.setAttribute("feedbackList", feedbackList);
+        request.getRequestDispatcher("Admin_Customer_Information.jsp").forward(request, response);
     }
 
     /**
@@ -61,6 +68,7 @@ public class AdminHotelInformationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
     }
 
     /**

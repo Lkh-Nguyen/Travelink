@@ -6,18 +6,15 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.AccountDB;
-import com.travelink.Database.MonthlyPaymentDB;
 import com.travelink.Database.PendingHostDB;
-import com.travelink.Database.ProvinceDB;
-import com.travelink.Database.ReservationDB;
+import com.travelink.Model.Account;
+import com.travelink.Model.PendingHost;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +22,7 @@ import java.util.List;
  *
  * @author DUYAN
  */
-public class AdminDashBoardServlet extends HttpServlet {
+public class AdminAcceptPendingServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -42,10 +39,10 @@ public class AdminDashBoardServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AdminDashBoardServlet</title>");  
+            out.println("<title>Servlet AdminAcceptPendingServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AdminDashBoardServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet AdminAcceptPendingServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,30 +59,15 @@ public class AdminDashBoardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String successLogin = (String) session.getAttribute("successLogin");
-        session.removeAttribute("successLogin");
-        int bookings = ReservationDB.getAllReservationsMonthly().size();
-        int partners = AccountDB.getHotelPartner();
-        int pendings = PendingHostDB.getAllPendingHost().size();
-        int amount = MonthlyPaymentDB.getTotalMonthlyPaymentsByMonthAndYear(LocalDate.now().getMonthValue()-1, LocalDate.now().getYear());
-        List<String> provinces = ProvinceDB.getTop3ProvincesWithMostReservations();
-        List<Integer> count = ProvinceDB.getTop3ProvincesReservations();
-        double revenue = Math.ceil((double) amount/9);
-        List<Integer> monthlyPayments = new ArrayList<>();
-        for (int month = 1; month <= LocalDate.now().getMonthValue(); month++) {
-            int re = MonthlyPaymentDB.getTotalMonthlyPaymentsByMonthAndYear(month, LocalDate.now().getYear());
-            monthlyPayments.add(re);
+        List<PendingHost> pendings = new ArrayList<>();
+        pendings = PendingHostDB.getAllPendingHost();
+        if (pendings == null){
+            request.setAttribute("error", "Don't have any pending host");
         }
-        request.setAttribute("bookings",bookings);
-        request.setAttribute("partners", partners);
-        request.setAttribute("pendings",pendings);
-        request.setAttribute("revenue", revenue);
-        request.setAttribute("provinces", provinces);
-        request.setAttribute("count", count);
-        request.setAttribute("monthlyPayments", monthlyPayments);
-        request.setAttribute("successLogin", successLogin);
-        request.getRequestDispatcher("Admin_Dashboard.jsp").forward(request, response);
+        else {
+            request.setAttribute("pendings", pendings);
+        }
+        request.getRequestDispatcher("Admin_Pending_Hotel.jsp").forward(request, response);
     } 
 
     /** 
@@ -98,9 +80,41 @@ public class AdminDashBoardServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
-    }
+        String method = request.getParameter("method");
+        int pendingId = Integer.parseInt(request.getParameter("pendingId"));
+        PendingHost pendingHost = PendingHostDB.getPendingHostById(pendingId);
+        SendEmail mail = new SendEmail();
+        if (method.equalsIgnoreCase("accept")){
+            if (pendingHost != null) {
+            // Tạo một Account mới từ thông tin của PendingHost
+            Account account = new Account();
+            account.setEmail(pendingHost.getEmail());
+            account.setPassword(pendingHost.getPassword());
+            account.setCmnd(pendingHost.getCmnd());
+            account.setName(pendingHost.getName());
+            account.setGender(pendingHost.getGender());
+            account.setDateOfBirth(pendingHost.getDateOfBirth());
+            account.setPhoneNumber(pendingHost.getPhoneNumber());
+            account.setAvatarURL(pendingHost.getAvatarURL());
+            account.setAddress(pendingHost.getAddress());
+            account.setRole(2); // Set role là 2
 
+            // Lưu Account mới vào bảng Account
+            AccountDB.insertAccount(account);
+
+            // Xóa PendingHost khỏi bảng Pending_Host
+            PendingHostDB.deletePendingHost(pendingId);
+
+            mail.sendHotelEmail(pendingHost.getEmail(),"accepted");
+        }
+        }
+        else{
+            PendingHostDB.deletePendingHost(pendingId);
+            mail.sendHotelEmail(pendingHost.getEmail(), "rejected");
+        }
+
+        response.sendRedirect("AdminAcceptPendingServlet");
+    }
     /** 
      * Returns a short description of the servlet.
      * @return a String containing servlet description

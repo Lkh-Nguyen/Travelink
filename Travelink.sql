@@ -374,6 +374,69 @@ EXEC CalculateMonthlyRevenueForAllHotelsPreviousMonthYear;
 DROP PROC CalculateMonthlyRevenueForAllHotelsPreviousMonthYear;
 DROP TABLE MonthlyPayment
 
+CREATE PROCEDURE CalculateMonthlyRevenueForAllHotelsCurrentMonthYear
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    DECLARE @Month TINYINT = MONTH(GETDATE());
+    DECLARE @Year SMALLINT = YEAR(GETDATE());
+    DECLARE @PaymentTime DATETIME = NULL;
+
+    -- Temporary table to hold aggregated data
+    CREATE TABLE #MonthlyRevenueData (
+        Hotel_ID INT,
+        TotalRevenue INT
+    );
+
+    -- Calculate revenue for hotels with reservations using VIETQR payment method
+    INSERT INTO #MonthlyRevenueData (Hotel_ID, TotalRevenue)
+    SELECT
+        rm.Hotel_ID,
+        CAST(SUM(
+            CASE
+                WHEN r.Status IN ('PROCESSING', 'FINISHED', 'FEEDBACKED') THEN r.Total_Price
+                WHEN r.Status = 'CANCEL' THEN r.Total_Price - ISNULL(rr.Amount, 0)
+                WHEN r.Status = 'REFUNDING' THEN r.Total_Price - ISNULL(rr.Amount, 0)
+                ELSE 0
+            END
+        ) * 0.9 AS INT) AS TotalRevenue  -- Apply 90% multiplier and cast to INT
+    FROM
+        Reservation r
+    INNER JOIN
+        Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID
+    INNER JOIN
+        Room rm ON rr.Room_ID = rm.Room_ID
+    LEFT JOIN
+        Refunding_Reservation rf ON r.Reservation_ID = rf.Reservation_ID
+    WHERE
+        MONTH(r.CheckInDate) = @Month
+        AND YEAR(r.CheckInDate) = @Year
+        AND r.Status IN ('PROCESSING', 'FINISHED', 'FEEDBACKED', 'CANCEL', 'REFUNDING')
+        AND r.Payment_Method = 'VIETQR'  -- Filter by payment method VIETQR
+    GROUP BY
+        rm.Hotel_ID;
+
+    -- Insert into MonthlyPayment table
+    INSERT INTO MonthlyPayment (Month, Year, Amount, Status, PaymentTime, Hotel_ID)
+    SELECT
+        @Month,
+        @Year,
+        SUM(m.TotalRevenue) AS Amount,  -- Sum the TotalRevenue for each hotel
+        'NOT PAID',  -- Assuming all amounts are pending for now
+        @PaymentTime,
+        m.Hotel_ID
+    FROM
+        #MonthlyRevenueData m
+    GROUP BY
+        m.Hotel_ID;
+
+    -- Clean up temporary table
+    DROP TABLE #MonthlyRevenueData;
+
+    PRINT 'Monthly revenue calculation successful for all hotels for month ' + CAST(@Month AS VARCHAR(2)) + ', year ' + CAST(@Year AS VARCHAR(4)) + '.';
+END;
+
 
 CREATE VIEW HotelInfor AS
 WITH RankedHotels AS (

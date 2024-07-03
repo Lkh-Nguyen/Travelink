@@ -104,10 +104,10 @@
 
                                                 </div>
                                             </div>
-                                            <input type="hidden" value="2" name="role">
                                             <p class="mb-1 pb-lg-2" style="color: #393f81;">Have an account? 
                                                 <a href="HotelHost_Login.jsp" id="loginRegister">Login here</a>
                                             </p>
+                                            <input type="hidden" name="role" value="2">
                                             <div class="pt-1">
                                                 <input data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-lg btn-block" type="submit" value="Register"/>
                                             </div>                           

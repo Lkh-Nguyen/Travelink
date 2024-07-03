@@ -6,7 +6,9 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.AccountDB;
+import com.travelink.Database.PendingHostDB;
 import com.travelink.Model.Account;
+import com.travelink.Model.PendingHost;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -87,19 +89,25 @@ public class VerifyCodeServlet extends HttpServlet {
         String cToken = (String) request.getSession().getAttribute("cToken");
         String action = (String) request.getSession().getAttribute("action");
         String email = (String) request.getSession().getAttribute("email");
-        int role = (int) request.getSession().getAttribute("role");
+        int role = (int) request.getSession().getAttribute("roleU");
         if (inputToken.equals(cToken)) {
             if ("registerAccount".equals(action)) {
                 Account c = (Account) request.getSession().getAttribute("newAccount");
 //              Insert Account to DB
-                boolean success = AccountDB.insertAccount(c);
-                if (success) {
-                    request.setAttribute("successMessage", "Register successfully! Please login account again.");
-                }
-                if (role==1)
-                request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
-                else if (role==2)
+                boolean success = false;
+                if (role == 1) {
+                    success = AccountDB.insertAccount(c);
+                    request.getRequestDispatcher("Form_Login.jsp").forward(request, response);
+                    return;
+                } else if (role == 2) {
+                    PendingHost pending = new PendingHost(c.getEmail(), c.getPassword(),c.getCmnd(), c.getName(), c.getGender(),c.getDateOfBirth(), c.getPhoneNumber(), c.getAvatarURL(), c.getAddress());
+                    success = PendingHostDB.insertPendingHost(pending);
                     request.getRequestDispatcher("HotelHost_Login.jsp").forward(request, response);
+                    return;
+                }
+                if (success) {
+                    request.setAttribute("successMessage", (role == 1) ? "Register successfully! Please login account again.":"Your hotel host account are in pending!!");
+                }
             } else if ("forgetPassword".equals(action)) {
                 String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
                 StringBuilder text = new StringBuilder(8);

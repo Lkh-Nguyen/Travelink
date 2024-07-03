@@ -127,7 +127,35 @@ public class AccountDB {
 
         return null;
     }
+    
+    public static int getHotelPartner(){
+        Connection con = DatabaseInfo.getConnect();
+        int hotelPartner = 0;
+        try {
+            PreparedStatement st = con.prepareStatement("SELECT COUNT(Account_ID) AS Hotel_Partner FROM Account WHERE Role = 2");
+            java.sql.ResultSet rs = st.executeQuery();
 
+            if (rs.next()) {
+                hotelPartner = rs.getInt("Hotel_Partner");
+        } 
+        }catch (SQLException ex) {
+            // Handle exceptions appropriately (log or throw)
+            ex.printStackTrace();
+        } finally {
+            // Close resources in a finally block
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                // Handle exceptions appropriately (log or throw)
+                ex.printStackTrace();
+            }
+        }
+
+        return hotelPartner;
+    }
+    
     public static Account getAccount(String email) {
         Connection con = DatabaseInfo.getConnect();
         try {

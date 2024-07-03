@@ -13,12 +13,22 @@
 
         <!-- Custom fonts for this template-->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" type="text/css">
-        <link
-            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-            rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
         <!-- Custom styles for this template-->
         <link href="vendor/css/sb-admin-2.min.css" rel="stylesheet">
+
+        <!-- Custom styles for lock/unlock functionality -->
+        <style>
+            .blurred {
+/*                filter: blur(5px);*/
+                opacity: 0.5;
+            }
+            .locked {
+                color: red;
+                font-weight: bold;
+            }
+        </style>
     </head>
     <body id="page-top">
 
@@ -38,6 +48,7 @@
                     <!-- Topbar -->
                     <%@include file="Admin_Header.jsp" %>
                     <!-- End of Topbar -->
+
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
                         <!-- Page Heading -->
@@ -58,31 +69,34 @@
                                                 <th>Phone Number</th>
                                                 <th>Address</th>
                                                 <th>Register Date</th>
+                                                <th>Status</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <!-- Sample data for demonstration purposes -->
-                                            <tr>
-                                                <td><span><img src="assets/logo.png" width="40"></span> John Doe</td>
-                                                <td>john.doe@example.com</td>
-                                                <td>(123) 456-7890</td>
-                                                <td>1234 Elm St, Springfield, IL</td>
-                                                <td>2024-06-13</td>
+                                            <tr id="customer1">
+                                                <td class="customer-info"><span><img src="assets/logo.png" width="40"></span> John Doe</td>
+                                                <td class="customer-info">john.doe@example.com</td>
+                                                <td class="customer-info">(123) 456-7890</td>
+                                                <td class="customer-info">1234 Elm St, Springfield, IL</td>
+                                                <td class="customer-info">2024-06-13</td>
+                                                <td class="status text-primary">Active</td>
                                                 <td>
                                                     <button class="btn btn-primary btn-sm" onclick="location.href='Admin_Customer_Information.jsp'">View Profile</button>
-                                                    <button class="btn btn-danger btn-sm" href="#" data-toggle="modal" data-target="#lockModal">Lock</button>
+                                                    <button class="btn btn-danger btn-sm lock-btn" onclick="lockCustomer(this)">Lock</button>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td><img src="assets/logo.png" width="40"></span> Jane Smith</td>
-                                                <td>jane.smith@example.com</td>
-                                                <td>(987) 654-3210</td>
-                                                <td>5678 Oak St, Metropolis, NY</td>
-                                                <td>2024-06-13</td>
+                                            <tr id="customer2">
+                                                <td class="customer-info"><img src="assets/logo.png" width="40"></span> Jane Smith</td>
+                                                <td class="customer-info">jane.smith@example.com</td>
+                                                <td class="customer-info">(987) 654-3210</td>
+                                                <td class="customer-info">5678 Oak St, Metropolis, NY</td>
+                                                <td class="customer-info">2024-06-13</td>
+                                                <td class="status text-primary">Active</td>
                                                 <td>
                                                     <button class="btn btn-primary btn-sm" onclick="location.href='Admin_Customer_Information.jsp'">View Profile</button>
-                                                    <button class="btn btn-danger btn-sm" href="#" data-toggle="modal" data-target="#lockModal">Lock</button>
+                                                    <button class="btn btn-danger btn-sm lock-btn" onclick="lockCustomer(this)">Lock</button>
                                                 </td>
                                             </tr>
                                             <!-- End of sample data -->
@@ -103,8 +117,72 @@
 
         </div>
         <!-- End of Page Wrapper -->
-        <!-- Lock Confirmation Modal -->
-        <div class="modal fade" id="lockModal" tabindex="-1" role="dialog" aria-labelledby="lockModalLabel" aria-hidden="true">
+
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="bootstrap_js/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Custom scripts for all pages-->
+        <script src="vendor/js/sb-admin-2.min.js"></script>
+
+        <!-- Page level plugins -->
+        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+        <!-- Page level custom scripts -->
+        <script src="vendor/demo/datatables-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- Custom script to handle lock/unlock functionality -->
+        <script>
+            function lockCustomer(button) {
+                const row = button.closest('tr');
+                const statusCell = row.querySelector('.status');
+                const lockButton = row.querySelector('.lock-btn');
+                const customerInfoCells = row.querySelectorAll('.customer-info');
+
+                if (lockButton.textContent.trim() === 'Lock') {
+                    // Change status to Locked
+                    statusCell.textContent = 'Locked';
+                    statusCell.classList.remove('text-primary');
+                    statusCell.classList.add('text-danger');
+
+                    // Change button text to Unlock
+                    lockButton.textContent = 'Unlock';
+                    lockButton.classList.remove('btn-danger');
+                    lockButton.classList.add('btn-success');
+
+                    // Blur the customer info cells
+                    customerInfoCells.forEach(cell => {
+                        cell.classList.add('blurred');
+                    });
+                } else {
+                    // Change status to Active
+                    statusCell.textContent = 'Active';
+                    statusCell.classList.remove('text-danger');
+                    statusCell.classList.add('text-primary');
+
+                    // Change button text to Lock
+                    lockButton.textContent = 'Lock';
+                    lockButton.classList.remove('btn-success');
+                    lockButton.classList.add('btn-danger');
+
+                    // Remove blur from the customer info cells
+                    customerInfoCells.forEach(cell => {
+                        cell.classList.remove('blurred');
+                    });
+                }
+            }
+        </script>
+    </body>
+</html>
+
+
+<!-- Lock Confirmation Modal -->
+<!--        <div class="modal fade" id="lockModal" tabindex="-1" role="dialog" aria-labelledby="lockModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -128,22 +206,4 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Bootstrap core JavaScript-->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="bootstrap_js/js/bootstrap.bundle.min.js"></script>
-
-        <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-        <!-- Custom scripts for all pages-->
-        <script src="vendor/js/sb-admin-2.min.js"></script>
-        <!-- Page level plugins -->
-        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-        <!-- Page level custom scripts -->
-        <script src="vendor/demo/datatables-demo.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    </body>
-</html>
+        </div>-->

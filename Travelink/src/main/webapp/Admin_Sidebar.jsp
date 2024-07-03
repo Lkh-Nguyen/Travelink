@@ -72,8 +72,7 @@
                 <div id="collapseCustomerAccountManagement" class="collapse" aria-labelledby="headingCustomerAccountManagement"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="Admin_Customer_List.jsp">Customer List</a>
-                        <a class="collapse-item" href="Admin_Locked_Customer.jsp">Locked Customer account</a>
+                        <a class="collapse-item" href="AdminCustomerListServlet">Customer List</a>
                     </div>
                 </div>
             </li>

@@ -83,7 +83,6 @@ public class UpdateHotelInformationServlet extends HttpServlet {
 //        List<Hotel> hotel_list = OwnedHotelDB.getHotelsByAccountID(account.getAccount_ID());
         List<Hotel> hotel_list;
         int noOfRecords;
-        try {
             hotel_list = HotelDB.getAllHotels();
             noOfRecords = hotel_list.size();
             // Calculate total number of pages
@@ -99,9 +98,6 @@ public class UpdateHotelInformationServlet extends HttpServlet {
             request.setAttribute("hotel_list", hotel_list);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateHotelInformationServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
 //        request.setAttribute("hotel_list", hotel_list);
         request.getRequestDispatcher("HotelHost_HotelInformation.jsp").forward(request, response);
     }

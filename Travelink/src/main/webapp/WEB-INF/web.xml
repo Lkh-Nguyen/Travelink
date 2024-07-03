@@ -236,6 +236,14 @@
         <servlet-name>AdminHotelInformationServlet</servlet-name>
         <servlet-class>com.travelink.Database.AdminHotelInformationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HotelHost_BookingScheduleServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_BookingScheduleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelHost_SearchAvailableServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_SearchAvailableServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -459,6 +467,14 @@
     <servlet-mapping>
         <servlet-name>AdminHotelInformationServlet</servlet-name>
         <url-pattern>/AdminHotelInformationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_BookingScheduleServlet</servlet-name>
+        <url-pattern>/HotelHost_BookingScheduleServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_SearchAvailableServlet</servlet-name>
+        <url-pattern>/HotelHost_SearchAvailableServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

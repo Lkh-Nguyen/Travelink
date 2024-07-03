@@ -6,34 +6,33 @@ package com.travelink.Servlet;
 
 import com.travelink.Database.HotelDB;
 import com.travelink.Database.OwnedHotelDB;
+import com.travelink.Database.RoomDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
+import com.travelink.Model.Room;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author admin
+ * @author MSI
  */
-public class UpdateHotelInformationServlet extends HttpServlet {
+public class HotelHost_BookingScheduleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -43,17 +42,16 @@ public class UpdateHotelInformationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateHotelInformationServlet</title>");
+            out.println("<title>Servlet HotelHost_BookingScheduleServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateHotelInformationServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet HotelHost_BookingScheduleServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
-    // + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -66,41 +64,10 @@ public class UpdateHotelInformationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-
-//        if (account == null) {
-//            response.sendRedirect("HotelHost_Login.jsp");
-//            return;
-//        }
-
-        //Phân Trang
-        int page = 1;
-        int recordsPerPage = 10;
-        if (request.getParameter("page") != null) {
-            page = Integer.parseInt(request.getParameter("page"));
-        }
-
-//        List<Hotel> hotel_list = OwnedHotelDB.getHotelsByAccountID(account.getAccount_ID());
-        List<Hotel> hotel_list;
-        int noOfRecords;
-        hotel_list = HotelDB.getAllHotels();
-        noOfRecords = hotel_list.size();
-        // Calculate total number of pages
-        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-
-        // Calculate the start and end indices for the current page
-        int start = (page - 1) * recordsPerPage;
-        int end = Math.min(start + recordsPerPage, noOfRecords);
-        // Get the sublist for the current page
-
-        hotel_list = hotel_list.subList(start, end);
-
-        request.setAttribute("hotel_list", hotel_list);
-        request.setAttribute("noOfPages", noOfPages);
-        request.setAttribute("currentPage", page);
-
-//        request.setAttribute("hotel_list", hotel_list);
-        request.getRequestDispatcher("HotelHost_HotelInformation.jsp").forward(request, response);
+        Account hotelHostAccount = (Account) session.getAttribute("account");
+        List<Hotel> hotelList = OwnedHotelDB.getHotelsByAccountID(hotelHostAccount.getAccount_ID());
+        request.setAttribute("hotelList", hotelList);
+        request.getRequestDispatcher("HotelHost_BookingSchedule.jsp").forward(request, response);
     }
 
     /**
@@ -111,16 +78,28 @@ public class UpdateHotelInformationServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private static final long serialVersionUID = 1L;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        Account hotelHostAccount = (Account) session.getAttribute("account");
+        List<Hotel> hotelList = OwnedHotelDB.getHotelsByAccountID(hotelHostAccount.getAccount_ID());
+        request.setAttribute("hotelList", hotelList);  
+        int hotelID = Integer.parseInt(request.getParameter("hotelID"));
+        List<Room> roomList = RoomDB.getRoomsByHotel_ID(hotelID);
+        
+        // Set the room list as a request attribute
+        request.setAttribute("roomList", roomList);
+        request.setAttribute("hotel", HotelDB.getHotelByID(hotelID));
+        // Forward the request to the JSP page
+        request.getRequestDispatcher("HotelHost_BookingSchedule.jsp").forward(request, response);
     }
 
-    /**  
+    /**
      * Returns a short description of the servlet.
      *
-     * @return a String co      taining servlet description
+     * @return a String containing servlet description
      */
     @Override
     public String getServletInfo() {

@@ -30,10 +30,10 @@ public class UpdateHotelInformationServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -52,7 +52,8 @@ public class UpdateHotelInformationServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
+    // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -67,10 +68,10 @@ public class UpdateHotelInformationServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
 
-        if (account == null) {
-            response.sendRedirect("HotelHost_Login.jsp");
-            return;
-        }
+//        if (account == null) {
+//            response.sendRedirect("HotelHost_Login.jsp");
+//            return;
+//        }
 
         //Phân Trang
         int page = 1;
@@ -78,23 +79,25 @@ public class UpdateHotelInformationServlet extends HttpServlet {
         if (request.getParameter("page") != null) {
             page = Integer.parseInt(request.getParameter("page"));
         }
-        
-        
+
 //        List<Hotel> hotel_list = OwnedHotelDB.getHotelsByAccountID(account.getAccount_ID());
         List<Hotel> hotel_list;
         int noOfRecords;
             hotel_list = HotelDB.getAllHotels();
+
+            //Sau khi có dữ liệu hotel host thì dùng cái này
+//            hotel_list = OwnedHotelDB.getHotelsByAccountID(account.getAccount_ID());
             noOfRecords = hotel_list.size();
             // Calculate total number of pages
             int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-            
+
             // Calculate the start and end indices for the current page
             int start = (page - 1) * recordsPerPage;
             int end = Math.min(start + recordsPerPage, noOfRecords);
             // Get the sublist for the current page
-            
+
             hotel_list = hotel_list.subList(start, end);
-            
+
             request.setAttribute("hotel_list", hotel_list);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
@@ -116,10 +119,10 @@ public class UpdateHotelInformationServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    /**
+    /**  
      * Returns a short description of the servlet.
      *
-     * @return a String containing servlet description
+     * @return a String co      taining servlet description
      */
     @Override
     public String getServletInfo() {

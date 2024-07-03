@@ -107,6 +107,9 @@
             .status-inactive {
                 background-color: red;
             }
+            .no-resize-textarea {
+                resize: none;
+            }
         </style>
     </head>
     <body>
@@ -204,13 +207,17 @@
                                                         </c:choose>
                                                     </td>
                                                     <td>
-                                                        <form class="row m-1 p-1" action="#" method="#" id="cancelForm">
-                                                            <button type="button" class="btn btn-outline-primary mb-1 w-100 cancel-button" data-reservation-id="${entry.key}">
+                                                        <!-- Không cần để ý form này, thực hiện trong form trong MODAL -->
+                                                        <form class="row m-1 p-1" action="#" method="post" id="cancelForm">
+                                                            <button type="button" class="btn btn-outline-primary mb-1 w-100 cancel-button update-button" 
+                                                                    data-hotel-id="${h.hotel_ID}" data-name-room="${h.name}" data-email="${h.email}"
+                                                                    data-phone="${h.phoneNumber}" data-description="${h.description}" data-address="${h.address}"
+                                                                    data-status="${h.status}" data-reservation-id="${entry.key}">
                                                                 Update
                                                             </button>
-                                                            <input type="hidden" name="hotel_ID" value="${h.hotel_ID}"/>
                                                             <input type="hidden" name="action" value="update"/>
                                                         </form>       
+
                                                         <form class="row m-1 p-1" action="#" method="#" id="cancelForm">        
                                                             <button type="button" class="btn btn-outline-danger mb-1 w-100 delete-button">
                                                                 Delete
@@ -237,35 +244,50 @@
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="confirmCancelModalLabel">Confirm Cancellation</h5>
+                                                            <h5 class="modal-title" id="confirmCancelModalLabel">Update Room</h5>
                                                         </div>
                                                         <div class="modal-body justify-content-center">
-                                                            <a class='btn btn-primary' href='HotelHost_UpdateHotelInformation.jsp?hotelID=${h.hotel_ID}'>Update Hotel </a>
-                                                            <a class='btn btn-primary' href='UpdateHotelRoomServlet?hotelID=${h.hotel_ID}'>Update Room </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Modal Delete-->
-                                            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault">Room 1</label>
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                                                <label class="form-check-label" for="flexCheckChecked">Room 2</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                            <button type="button" class="btn btn-primary" id="confirmDeleteButton">Delete</button>
+
+                                                            <!-- Nhập form thực hiện update -->
+                                                            <form id="updateForm" action="#" method="post">
+                                                                <div class="form-group">
+                                                                    <label for="modalHotelID">Hotel ID</label>
+                                                                    <input type="text" class="form-control" id="modalHotelID" name="hotelid" readonly>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="modalName">Name</label>
+                                                                    <input type="text" class="form-control" id="modalName" name="name" >
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="modalDescription">Description</label>
+                                                                    <textarea class="form-control no-resize-textarea" id="modalDescription" name="description" rows="3"></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="modalEmail">Email</label>
+                                                                    <input type="text" class="form-control" id="modalEmail" name="email" >
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="modalPhone">Phone</label>
+                                                                    <input type="text" class="form-control" id="modalPhone" name="totalRooms">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="modalAddress">Address</label>
+                                                                    <input type="text" class="form-control" id="modalAddress" name="price">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label for="modalStatus">Status</label>
+                                                                    <select class="form-control" id="modalStatus" name="status">
+                                                                        <option value="ACTIVE">ACTIVE</option>
+                                                                        <option value="INACTIVE">INACTIVE</option>
+                                                                    </select>
+                                                                </div>
+                                                                <input type="hidden" name="action" value="update">
+                                                                <button type="submit" class="btn btn-primary">Save changes</button>
+
+                                                                <!-- Đá dữ liệu tùy ý -->
+                                                                <input type="hidden" name="hotel_ID" id="modalHotelID" value="">
+                                                                <input type="hidden" name="room_ID" id="modalRoomID" value="">
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -315,68 +337,76 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
             $(document).ready(function () {
-            $('#hotelTable').DataTable({
+                $('#hotelTable').DataTable();
             });
-                    //ModalUpdate
-                    document.addEventListener('DOMContentLoaded', () => {
-                    const cancelButtons = document.querySelectorAll('.cancel-button');
-                            const confirmCancelButton = document.getElementById('confirmCancelButton');
-                            let formToSubmit;
-                            cancelButtons.forEach(button => {
-                            button.addEventListener('click', () => {
-                            formToSubmit = button.closest('form');
-                                    $('#confirmCancelModal').modal('show');
-                            });
-                            });
-                            confirmCancelButton.addEventListener('click', () => {
-                            formToSubmit.submit();
-                            });
-                    });
-                    //ModalDelete
-                    document.addEventListener('DOMContentLoaded', () => {
-                    const deleteButtons = document.querySelectorAll('.delete-button');
-                            const confirmDeleteButton = document.getElementById('confirmDeleteButton');
-                            let formToSubmit;
-                            deleteButtons.forEach(button => {
-                            button.addEventListener('click', () => {
-                            formToSubmit = button.closest('form');
-                                    $('#confirmDeleteModal').modal('show');
-                            });
-                            });
-                            confirmDeleteButton.addEventListener('click', () => {
-                            formToSubmit.submit();
-                            });
-                    });
-                    function redirectToUpdatePage() {
-                    window.location.href = 'HotelHost_UpdateRoom.jsp';
-                    }
-            $(document).ready(function () {
-            var rowsPerPage = 5;
-                    var rows = $('#hotelTable tbody tr');
-                    var rowsCount = rows.length;
-                    var pageCount = Math.ceil(rowsCount / rowsPerPage);
-                    var numbers = $('.pagination');
-                    for (var i = 0; i < pageCount; i++) {
-            numbers.append('<li class="page-item"><a class="page-link" href="#">' + (i + 1) + '</a></li>');
-            }
 
-            $('.pagination li:first-child').addClass('active');
-                    displayRows(1);
-                    $('.pagination li').on('click', function (e) {
-            e.preventDefault();
+            document.addEventListener('DOMContentLoaded', () => {
+                const cancelButtons = document.querySelectorAll('.cancel-button');
+                const confirmCancelButton = document.getElementById('confirmCancelButton');
+                let formToSubmit;
+
+                cancelButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        formToSubmit = button.closest('form');
+                        $('#confirmCancelModal').modal('show');
+                    });
+                });
+
+                confirmCancelButton.addEventListener('click', () => {
+                    formToSubmit.submit();
+                });
+            });
+            function redirectToUpdatePage() {
+                window.location.href = 'HotelHost_UpdateRoom.jsp';
+            }
+            $(document).ready(function () {
+                var rowsPerPage = 5;
+                var rows = $('#hotelTable tbody tr');
+                var rowsCount = rows.length;
+                var pageCount = Math.ceil(rowsCount / rowsPerPage);
+                var numbers = $('.pagination');
+                for (var i = 0; i < pageCount; i++) {
+                    numbers.append('<li class="page-item"><a class="page-link" href="#">' + (i + 1) + '</a></li>');
+                }
+
+                $('.pagination li:first-child').addClass('active');
+                displayRows(1);
+                $('.pagination li').on('click', function (e) {
+                    e.preventDefault();
                     var $this = $(this);
                     var pageIndex = $this.index() + 1;
                     $('.pagination li').removeClass('active');
                     $this.addClass('active');
                     displayRows(pageIndex);
-            });
-                    function displayRows(index) {
+                });
+                function displayRows(index) {
                     var start = (index - 1) * rowsPerPage;
-                            var end = start + rowsPerPage;
-                            rows.hide();
-                            rows.slice(start, end).show();
-                    }
+                    var end = start + rowsPerPage;
+                    rows.hide();
+                    rows.slice(start, end).show();
+                }
             });
+            $(document).ready(function () {
+                $('.update-button').on('click', function () {
+                    var hotelId = $(this).data('hotel-id');
+                    var name = $(this).data('name-room');
+                    var email = $(this).data('email');
+                    var description = $(this).data('description');
+                    var phone = $(this).data('phone');
+                    var address = $(this).data('address');
+                    var status = $(this).data('status');
+                    $('#modalHotelID').val(hotelId);
+                    $('#modalName').val(name);
+                    $('#modalEmail').val(email);
+                    $('#modalDescription').val(description);
+                    $('#modalPhone').val(phone);
+                    $('#modalAddress').val(address);
+                    $('#modalStatus').val(status);
+                    $('#updateModal').modal('show');
+                });
+            })
+                    ;
+
         </script>
     </body>
 </html>

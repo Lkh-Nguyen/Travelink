@@ -67,10 +67,10 @@ public class UpdateHotelInformationServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
 
-        if (account == null) {
-            response.sendRedirect("HotelHost_Login.jsp");
-            return;
-        }
+//        if (account == null) {
+//            response.sendRedirect("HotelHost_Login.jsp");
+//            return;
+//        }
 
         //Phân Trang
         int page = 1;

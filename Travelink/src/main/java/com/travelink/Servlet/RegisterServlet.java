@@ -1,4 +1,3 @@
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
@@ -101,9 +100,9 @@ public class RegisterServlet extends HttpServlet {
             //Create Account
             c = new Account(email, password, name, phone, 1);
             c.setAvatarURL("/Travelink/img_Avatar/avatar_default.jpg");
-            confirmation(request, response, c, email,1);
+            confirmation(request, response, c, email, 1);
         }
-        //role =2 => Hotel Host
+        //Role = 2 => Hotel Host
         else if (role == 2) {
             String email = request.getParameter("email");
             String name = request.getParameter("name");
@@ -143,11 +142,11 @@ public class RegisterServlet extends HttpServlet {
                 return;
             }
             h = new Account(email, password, cmnd, name, gender, dateOfBirth, phoneStr, address, address, 2);
-            confirmation(request, response, h, email,2);
+            confirmation(request, response, h, email, 2);
         }
     }
 
-    public static void confirmation(HttpServletRequest request, HttpServletResponse response, Account c, String email,int role) throws ServletException, IOException {
+    public static void confirmation(HttpServletRequest request, HttpServletResponse response, Account c, String email, int role) throws ServletException, IOException {
         //Random token
         Random rand = new Random();
         int token = rand.nextInt(900000) + 100000;
@@ -161,7 +160,7 @@ public class RegisterServlet extends HttpServlet {
         //Request to verify code jsp
         HttpSession session = request.getSession();
         session.setAttribute("action", "registerAccount");
-        session.setAttribute("role", role);
+        session.setAttribute("roleU", role);
         response.sendRedirect("Verify_Code.jsp");
     }
 

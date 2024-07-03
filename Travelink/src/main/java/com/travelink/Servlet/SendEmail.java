@@ -146,4 +146,35 @@ public class SendEmail {
             e.printStackTrace();
         }
     }
+    
+    public void sendHotelEmail(String mail, String msg) {
+        final String username = "travelink517@gmail.com";
+        final String password = "klfb cnic dgfd fcqv";
+        String fromEmail = "travelink517@gmail.com";
+        String toEmail = mail;
+        Properties properties = new Properties();
+
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        MimeMessage mgs = new MimeMessage(session);
+        try {
+
+            mgs.setFrom(new InternetAddress(fromEmail));
+            mgs.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            mgs.setSubject("Pending Hotel Host Account on Travelink Platform");
+            mgs.setText(msg);
+            Transport.send(mgs);
+            System.out.println("Sent Magess");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 }

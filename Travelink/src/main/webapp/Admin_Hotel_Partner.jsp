@@ -13,9 +13,7 @@
 
         <!-- Custom fonts for this template-->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" type="text/css">
-        <link
-            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-            rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
         <!-- Custom styles for this template-->
         <link href="vendor/css/sb-admin-2.min.css" rel="stylesheet">
@@ -63,16 +61,16 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Example Hotel</td>
-                                                <td>John Doe</td>
-                                                <td>john.doe@example.com</td>
-                                                <td>+1 123 456 7890</td>
-                                                <td>Đà Nẵng</td>
-                                                <td class="text-primary fw-bold">Partner</td>
+                                            <tr id="hotel-row">
+                                                <td class="hotel-info">Example Hotel</td>
+                                                <td class="hotel-info">John Doe</td>
+                                                <td class="hotel-info">john.doe@example.com</td>
+                                                <td class="hotel-info">+1 123 456 7890</td>
+                                                <td class="hotel-info">Đà Nẵng</td>
+                                                <td class="status text-primary fw-bold">Partner</td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-primary btn-sm" onclick="location.href='Admin_Hotel_Information.jsp'">View hotel</button>
-                                                    <button class="btn btn-danger btn-sm">Lock</button>
+                                                    <button class="btn btn-primary btn-sm view-hotel" onclick="location.href='Admin_Hotel_Information.jsp'">View hotel</button>
+                                                    <button class="btn btn-danger btn-sm lock-hotel" onclick="lockHotel(this)">Lock</button>
                                                 </td>
                                             </tr>
                                             <!-- Add more rows as needed -->
@@ -93,6 +91,7 @@
 
         </div>
         <!-- End of Page Wrapper -->
+
         <!-- Bootstrap core JavaScript-->
         <script src="vendor/jquery/jquery.min.js"></script>
         <script src="bootstrap_js/js/bootstrap.bundle.min.js"></script>
@@ -102,6 +101,7 @@
 
         <!-- Custom scripts for all pages-->
         <script src="vendor/js/sb-admin-2.min.js"></script>
+
         <!-- Page level plugins -->
         <script src="vendor/datatables/jquery.dataTables.min.js"></script>
         <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
@@ -109,5 +109,46 @@
         <!-- Page level custom scripts -->
         <script src="vendor/demo/datatables-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
+        <script>
+            function lockHotel(button) {
+                const row = button.closest('tr');
+                const statusCell = row.querySelector('.status');
+                const lockButton = row.querySelector('.lock-hotel');
+                const hotelInfoCells = row.querySelectorAll('.hotel-info');
+                
+                if (lockButton.textContent.trim() === 'Lock') {
+                    // Change status to Locked
+                    statusCell.textContent = 'Locked';
+                    statusCell.classList.remove('text-primary');
+                    statusCell.classList.add('text-danger');
+
+                    // Change button text to Unlock
+                    lockButton.textContent = 'Unlock';
+                    lockButton.classList.remove('btn-danger');
+                    lockButton.classList.add('btn-success');
+
+                    // Dim the hotel info cells
+                    hotelInfoCells.forEach(cell => {
+                        cell.style.opacity = '0.5';
+                    });
+                } else {
+                    // Change status to Partner
+                    statusCell.textContent = 'Partner';
+                    statusCell.classList.remove('text-danger');
+                    statusCell.classList.add('text-primary');
+
+                    // Change button text to Lock
+                    lockButton.textContent = 'Lock';
+                    lockButton.classList.remove('btn-success');
+                    lockButton.classList.add('btn-danger');
+
+                    // Restore the hotel info cells opacity
+                    hotelInfoCells.forEach(cell => {
+                        cell.style.opacity = '1';
+                    });
+                }
+            }
+        </script>
     </body>
 </html>

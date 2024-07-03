@@ -37,7 +37,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item my-2 active">
-                <a class="nav-link" href="Admin_Dashboard.jsp">
+                <a class="nav-link" href="AdminDashBoardServlet">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>

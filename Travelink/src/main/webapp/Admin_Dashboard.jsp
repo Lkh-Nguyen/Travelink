@@ -22,10 +22,10 @@
         <!-- Handle generate Report -->
         <script>
             const data = [
-                ['Bookings (Monthly)', '1,000'],
+                ['Bookings (Monthly)', '${requestScope.bookings}'],
                 ['Earnings (Monthly)', '$215,000'],
-                ['Hotel Partners', '50'],
-                ['Pending Requests', '18'],
+                ['Hotel Partners', '${requestScope.partners}'],
+                ['Pending Requests', '${requestScope.pendings}'],
             ];
 
             function generateReport() {
@@ -34,7 +34,7 @@
 
                 const link = document.createElement("a");
                 link.setAttribute("href", encodeURI(csvContent));
-                link.setAttribute("download", "report.csv");
+                link.setAttribute("download", "revenue-report.csv");
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -94,7 +94,7 @@
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                     Bookings (Monthly)</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">1,000</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${requestScope.bookings}</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -112,7 +112,7 @@
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                     Earnings (Monthly)</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${requestScope.revenue} VNĐ</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -132,7 +132,7 @@
                                                 </div>
                                                 <div class="row no-gutters align-items-center">
                                                     <div class="col-auto">
-                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50</div>
+                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${requestScope.partners}</div>
                                                     </div>
                                                     <div class="col">
                                                         <div class="progress progress-sm mr-2">
@@ -159,7 +159,7 @@
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                     Pending Requests</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${requestScope.pendings}</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -191,7 +191,7 @@
                                                 <div class="dropdown-header">Dropdown Header:</div>
                                                 <a class="dropdown-item" href="#">Action</a>
                                                 <a class="dropdown-item" href="#">Another action</a>
-                                                <div class="dropdown-divider"></div>
+                                                <div class="biidropdown-divider"></div>
                                                 <a class="dropdown-item" href="#">Something else here</a>
                                             </div>
                                         </div>
@@ -230,71 +230,12 @@
                                     <!-- Card Body -->
                                     <div class="card-body">
                                         <div class="chart-pie pt-4 pb-2">
-                                            <canvas id="myPieChart"></canvas>
-                                        </div>
-                                        <div class="mt-4 text-center small">
-                                            <span class="mr-2">
-                                                <i class="fas fa-circle text-primary"></i> Direct
-                                            </span>
-                                            <span class="mr-2">
-                                                <i class="fas fa-circle text-success"></i> Social
-                                            </span>
-                                            <span class="mr-2">
-                                                <i class="fas fa-circle text-info"></i> Referral
-                                            </span>
+                                            <canvas id="myPieChart" width="400" height="400"></canvas>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Content Row -->
-                        <div class="row">
-
-                            <!-- Content Column -->
-                            <div class="col-lg-6 mb-4">
-
-                                <!-- Project Card Example -->
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <h4 class="small font-weight-bold">Server Migration <span
-                                                class="float-right">20%</span></h4>
-                                        <div class="progress mb-4">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
-                                                 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <h4 class="small font-weight-bold">Sales Tracking <span
-                                                class="float-right">40%</span></h4>
-                                        <div class="progress mb-4">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
-                                                 aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <h4 class="small font-weight-bold">Customer Database <span
-                                                class="float-right">60%</span></h4>
-                                        <div class="progress mb-4">
-                                            <div class="progress-bar" role="progressbar" style="width: 60%"
-                                                 aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <h4 class="small font-weight-bold">Payout Details <span
-                                                class="float-right">80%</span></h4>
-                                        <div class="progress mb-4">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 80%"
-                                                 aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <h4 class="small font-weight-bold">Account Setup <span
-                                                class="float-right">Complete!</span></h4>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                     <!-- /.container-fluid -->
 
@@ -384,7 +325,6 @@
 
         <!-- Page level custom scripts -->
         <script src="vendor/demo/chart-area-demo.js"></script>
-        <script src="vendor/demo/chart-pie-demo.js"></script>
         <!-- Generate Report scripts -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -403,6 +343,10 @@
                                                 backgroundColor: ['#007bff', '#28a745', '#17a2b8'],
                                             }],
                                     },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false // Allow the chart to be sized based on the canvas element
+                                    }
                                 });
                             });
         </script>

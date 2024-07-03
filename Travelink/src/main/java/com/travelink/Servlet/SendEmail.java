@@ -170,7 +170,7 @@ public class SendEmail {
             mgs.setFrom(new InternetAddress(fromEmail));
             mgs.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             mgs.setSubject("Pending Hotel Host Account on Travelink Platform");
-            mgs.setText(msg);
+            mgs.setText("Your hotel has been "+msg+" by Admin");
             Transport.send(mgs);
             System.out.println("Sent Magess");
         } catch (MessagingException e) {

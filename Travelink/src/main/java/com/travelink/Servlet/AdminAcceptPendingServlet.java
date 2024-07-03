@@ -105,12 +105,12 @@ public class AdminAcceptPendingServlet extends HttpServlet {
             // Xóa PendingHost khỏi bảng Pending_Host
             PendingHostDB.deletePendingHost(pendingId);
 
-            mail.sendHotelEmail(pendingHost.getEmail(),"Your hotel are accepted by Admin");
+            mail.sendHotelEmail(pendingHost.getEmail(),"accepted");
         }
         }
         else{
             PendingHostDB.deletePendingHost(pendingId);
-            mail.sendHotelEmail(pendingHost.getEmail(), "Your hotel host are rejected by Admin");
+            mail.sendHotelEmail(pendingHost.getEmail(), "rejected");
         }
 
         response.sendRedirect("AdminAcceptPendingServlet");

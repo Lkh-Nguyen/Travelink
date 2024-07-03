@@ -55,7 +55,7 @@
                 <div id="collapseHotelManagement" class="collapse" aria-labelledby="headingHotelManagement"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="Admin_Pending_Hotel.jsp">Pending hotel account</a>
+                        <a class="collapse-item" href="AdminAcceptPendingServlet">Pending hotel account</a>
                         <a class="collapse-item" href="Admin_Hotel_Partner.jsp">Hotel partner</a>
                         <a class="collapse-item" href="Admin_Locked_Hotel.jsp">Locked Hotel Host account</a>
                     </div>

@@ -8,6 +8,7 @@ package com.travelink.Servlet;
 import com.travelink.Database.AccountDB;
 import com.travelink.Database.MonthlyPaymentDB;
 import com.travelink.Database.PendingHostDB;
+import com.travelink.Database.ProvinceDB;
 import com.travelink.Database.ReservationDB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +17,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -62,11 +65,21 @@ public class AdminDashBoardServlet extends HttpServlet {
         int partners = AccountDB.getHotelPartner();
         int pendings = PendingHostDB.getAllPendingHost().size();
         int amount = MonthlyPaymentDB.getTotalMonthlyPaymentsByMonthAndYear(LocalDate.now().getMonthValue()-1, LocalDate.now().getYear());
+        List<String> provinces = ProvinceDB.getTop3ProvincesWithMostReservations();
+        List<Integer> count = ProvinceDB.getTop3ProvincesReservations();
         double revenue = Math.ceil((double) amount/9);
+        List<Integer> monthlyPayments = new ArrayList<>();
+        for (int month = 1; month <= LocalDate.now().getMonthValue(); month++) {
+            int re = MonthlyPaymentDB.getTotalMonthlyPaymentsByMonthAndYear(month, LocalDate.now().getYear());
+            monthlyPayments.add(re);
+        }
         request.setAttribute("bookings",bookings);
         request.setAttribute("partners", partners);
         request.setAttribute("pendings",pendings);
         request.setAttribute("revenue", revenue);
+        request.setAttribute("provinces", provinces);
+        request.setAttribute("count", count);
+        request.setAttribute("monthlyPayments", monthlyPayments);
         request.getRequestDispatcher("Admin_Dashboard.jsp").forward(request, response);
     } 
 

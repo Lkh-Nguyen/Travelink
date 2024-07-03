@@ -75,6 +75,7 @@ public class LoginAccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Account cu = AccountDB.getAccount(email);
@@ -92,14 +93,18 @@ public class LoginAccountServlet extends HttpServlet {
             request.setAttribute("errorLogin", "Password is incorrect.");
             forwardPage = (role == 2) ? "HotelHost_Login.jsp" : "Form_Login.jsp";
         } else {
-            if (cu.getRole() != role) {
+            if (cu.getRole() == 3) {
+                session.setAttribute("successLogin", "Login successful.");
+                session.setAttribute("account", cu);
+                response.sendRedirect("AdminDashBoardServlet");
+                return;
+            } else if (cu.getRole() != role) {
                 request.setAttribute("errorLogin", "You are logging in with the wrong permission role!");
                 forwardPage = (role == 1) ? "HotelHost_Login.jsp" : "Form_Login.jsp";
             } else if (cu.getStatus() == 2) {
                 request.setAttribute("errorLogin", "Your account has been banned!");
                 forwardPage = (role == 2) ? "HotelHost_Login.jsp" : "Form_Login.jsp";
             } else {
-                HttpSession session = request.getSession();
                 session.setAttribute("account", cu);
                 if (role == 1) {
                     List<Province> locationList = ProvinceDB.getAllProvince();
@@ -113,7 +118,6 @@ public class LoginAccountServlet extends HttpServlet {
             }
         }
         request.getRequestDispatcher(forwardPage).forward(request, response);
-
     }
 
     /**

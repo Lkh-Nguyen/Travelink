@@ -78,30 +78,26 @@ public class UpdateHotelInformationServlet extends HttpServlet {
         if (request.getParameter("page") != null) {
             page = Integer.parseInt(request.getParameter("page"));
         }
-        
-        
+
 //        List<Hotel> hotel_list = OwnedHotelDB.getHotelsByAccountID(account.getAccount_ID());
         List<Hotel> hotel_list;
         int noOfRecords;
-        try {
-            hotel_list = HotelDB.getAllHotels();
-            noOfRecords = hotel_list.size();
-            // Calculate total number of pages
-            int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-            
-            // Calculate the start and end indices for the current page
-            int start = (page - 1) * recordsPerPage;
-            int end = Math.min(start + recordsPerPage, noOfRecords);
-            // Get the sublist for the current page
-            
-            hotel_list = hotel_list.subList(start, end);
-            
-            request.setAttribute("hotel_list", hotel_list);
-            request.setAttribute("noOfPages", noOfPages);
-            request.setAttribute("currentPage", page);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateHotelInformationServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        hotel_list = HotelDB.getAllHotels();
+        noOfRecords = hotel_list.size();
+        // Calculate total number of pages
+        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+
+        // Calculate the start and end indices for the current page
+        int start = (page - 1) * recordsPerPage;
+        int end = Math.min(start + recordsPerPage, noOfRecords);
+        // Get the sublist for the current page
+
+        hotel_list = hotel_list.subList(start, end);
+
+        request.setAttribute("hotel_list", hotel_list);
+        request.setAttribute("noOfPages", noOfPages);
+        request.setAttribute("currentPage", page);
+
 //        request.setAttribute("hotel_list", hotel_list);
         request.getRequestDispatcher("HotelHost_HotelInformation.jsp").forward(request, response);
     }

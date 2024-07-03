@@ -19,6 +19,7 @@ public class Account {
     private String avatarURL;
     private String address;
     private int role;
+    private int status;
 
     public int getAccount_ID() {
         return account_ID;
@@ -108,11 +109,15 @@ public class Account {
         this.role = role;
     }
 
-    public Account() {
+    public int getStatus() {
+        return status;
     }
 
-    //All
-    public Account(String email, String password, String cmnd, String name, char gender, Date dateOfBirth, String phoneNumber, String avatarURL, String address, int role) {
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Account(String email, String password, String cmnd, String name, char gender, Date dateOfBirth, String phoneNumber, String avatarURL, String address, int role, int status) {
         this.email = email;
         this.password = password;
         this.cmnd = cmnd;
@@ -123,30 +128,26 @@ public class Account {
         this.avatarURL = avatarURL;
         this.address = address;
         this.role = role;
+        this.status = status;
     }
 
-    //Email,name, role
-    
-    public Account(String email, String name, int role) {
+    public Account(String email, String name, int role, int status) {
         this.email = email;
         this.name = name;
         this.role = role;
+        this.status = status;
     }
 
-    //Email, pass,name,phone,role
-    
-    public Account(String email, String password, String name, String phoneNumber, int role) {
+    public Account(String email, String password, String name, String phoneNumber, int role, int status) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.role = role;
+        this.status = status;
     }
-    
-    
-//    Account newAccount = new Account(email, cmnd, name, gender, dateOfBirth, phoneStr, address,oldAccount.getRole());
 
-    public Account(String email, String cmnd, String name, char gender, Date dateOfBirth, String phoneNumber, String address, int role) {
+    public Account(String email, String cmnd, String name, char gender, Date dateOfBirth, String phoneNumber, String address, int role, int status) {
         this.email = email;
         this.cmnd = cmnd;
         this.name = name;
@@ -155,14 +156,16 @@ public class Account {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.role = role;
+        this.status = status;
+    }
+
+    public Account() {
     }
     
+    
+
     @Override
     public String toString() {
-        return "Account{" + "account_ID=" + account_ID + ", email=" + email + ", password=" + password + ", cmnd=" + cmnd + ", name=" + name + ", gender=" + gender + ", dateOfBirth=" + dateOfBirth + ", phoneNumber=" + phoneNumber + ", avatarURL=" + avatarURL + ", address=" + address + ", role=" + role + '}';
+        return "Account{" + "account_ID=" + account_ID + ", email=" + email + ", password=" + password + ", cmnd=" + cmnd + ", name=" + name + ", gender=" + gender + ", dateOfBirth=" + dateOfBirth + ", phoneNumber=" + phoneNumber + ", avatarURL=" + avatarURL + ", address=" + address + ", role=" + role + ", status=" + status + '}';
     }
-
-
-    
-    
 }

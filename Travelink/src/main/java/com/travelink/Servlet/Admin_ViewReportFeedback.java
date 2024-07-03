@@ -4,23 +4,24 @@
  */
 package com.travelink.Servlet;
 
-import com.travelink.Database.BedDB;
-import com.travelink.Database.RoomDB;
-import com.travelink.Model.Bed;
-import com.travelink.Model.Room;
+import com.travelink.Database.FeedbackDB;
+import com.travelink.Database.ReportedFeedbackDB;
+import com.travelink.Model.Feedback;
+import com.travelink.Model.ReportedFeedback;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author admin
+ * @author HELLO
  */
-public class UpdateHotelBedServlet extends HttpServlet {
+public class Admin_ViewReportFeedback extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +40,10 @@ public class UpdateHotelBedServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateHotelBedServlet</title>");
+            out.println("<title>Servlet Admin_ViewReportFeedback</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateHotelBedServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Admin_ViewReportFeedback at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,29 +55,22 @@ public class UpdateHotelBedServlet extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
+//     * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String roomid = request.getParameter("room_ID");
-        int roomID = Integer.parseInt(roomid);
-
-        String hotelid = request.getParameter("hotel_ID");
-        int hotelID = Integer.parseInt(hotelid);
-
-        List<Bed> list_beds = BedDB.getBedsByRoomID(roomID);
-        request.setAttribute("beds_list", list_beds);
-        request.setAttribute("hotel_ID", hotelID);
-        request.setAttribute("room_ID", roomID);
-
-//        PrintWriter pw = response.getWriter();
-//        pw.print(list_beds.size());
-//        for(Bed b : list_beds){
-//            pw.print(b.toString());
-//        }
-        request.getRequestDispatcher("HotelHost_BedInformation.jsp").forward(request, response);
+        List<Integer> listFeedback_ID = ReportedFeedbackDB.getAllReportedFeedback_ID();
+        ArrayList<Feedback> feedbacks = new ArrayList<>();
+        for(int i=0;i<listFeedback_ID.size();i++){
+            Feedback feedback = FeedbackDB.getFeedbackByFeedbackID(listFeedback_ID.get(i));
+            feedbacks.add(feedback);
+        }
+        List<Integer> listCount = ReportedFeedbackDB.getCountReport();
+        request.setAttribute("listCount", listCount);
+        request.setAttribute("feedbacks", feedbacks);
+        request.getRequestDispatcher("Admin_ReportFeedback.jsp").forward(request, response);
     }
 
     /**
@@ -90,28 +84,27 @@ public class UpdateHotelBedServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String roomid = request.getParameter("room_ID");
-        int roomID = Integer.parseInt(roomid);
-
-        String hotelid = request.getParameter("hotel_ID");
-        int hotelID = Integer.parseInt(hotelid);
-
-        Bed newBed = new Bed();
-        newBed.setName(request.getParameter("name-bed"));
-        newBed.setDescription(request.getParameter("description"));
-        newBed.setUrl(request.getParameter("url"));
-//        PrintWriter pw = response.getWriter();
-//        pw.print(newBed.toString());
-
-        boolean added = BedDB.insertBedByRoomID(newBed, roomID);
-
-        if (added) {
-            response.sendRedirect("UpdateHotelBedServlet?room_ID=" + roomID + "&hotel_ID=" + hotelID);
-        } else {
-            request.setAttribute("error", "exist");
-            response.sendRedirect("Error.jsp");
+        String action = request.getParameter("action");
+        int feedbackID = Integer.parseInt(request.getParameter("feedbackID"));
+        if(action.equalsIgnoreCase("cancel")){
+            ReportedFeedbackDB.deleteReportedFeedbackByFeedbackId(feedbackID);
+            request.setAttribute("cancelFeedback", "Cancel Reported Feedback Successfully");
+        }else if(action.equalsIgnoreCase("delete")){
+            ReportedFeedbackDB.deleteReportedFeedbackByFeedbackId(feedbackID);
+            FeedbackDB.deleteFeedback(feedbackID);
+            request.setAttribute("cancelFeedback", "Delete Reported Feedback Successfully");  
         }
-
+        
+        List<Integer> listFeedback_ID = ReportedFeedbackDB.getAllReportedFeedback_ID();
+        ArrayList<Feedback> feedbacks = new ArrayList<>();
+        for(int i=0;i<listFeedback_ID.size();i++){
+            Feedback feedback = FeedbackDB.getFeedbackByFeedbackID(listFeedback_ID.get(i));
+            feedbacks.add(feedback);
+        }
+        List<Integer> listCount = ReportedFeedbackDB.getCountReport();
+        request.setAttribute("listCount", listCount);
+        request.setAttribute("feedbacks", feedbacks);
+        request.getRequestDispatcher("Admin_ReportFeedback.jsp").forward(request, response);
     }
 
     /**

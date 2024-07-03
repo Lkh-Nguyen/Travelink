@@ -5,18 +5,20 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.HotelDB;
+import com.travelink.Database.OwnedHotelDB;
+import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  *
@@ -41,7 +43,7 @@ public class UpdateHotelInformationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateHotelInformationServlet</title>");            
+            out.println("<title>Servlet UpdateHotelInformationServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet UpdateHotelInformationServlet at " + request.getContextPath() + "</h1>");
@@ -62,13 +64,41 @@ public class UpdateHotelInformationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Hotel> hotel_list;
-        try {
-            hotel_list = HotelDB.getAllHotels();
-            request.setAttribute("hotel_list", hotel_list);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateHotelInformationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+
+//        if (account == null) {
+//            response.sendRedirect("HotelHost_Login.jsp");
+//            return;
+//        }
+
+        //Phân Trang
+        int page = 1;
+        int recordsPerPage = 10;
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
         }
+
+//        List<Hotel> hotel_list = OwnedHotelDB.getHotelsByAccountID(account.getAccount_ID());
+        List<Hotel> hotel_list;
+        int noOfRecords;
+        hotel_list = HotelDB.getAllHotels();
+        noOfRecords = hotel_list.size();
+        // Calculate total number of pages
+        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+
+        // Calculate the start and end indices for the current page
+        int start = (page - 1) * recordsPerPage;
+        int end = Math.min(start + recordsPerPage, noOfRecords);
+        // Get the sublist for the current page
+
+        hotel_list = hotel_list.subList(start, end);
+
+        request.setAttribute("hotel_list", hotel_list);
+        request.setAttribute("noOfPages", noOfPages);
+        request.setAttribute("currentPage", page);
+
+//        request.setAttribute("hotel_list", hotel_list);
         request.getRequestDispatcher("HotelHost_HotelInformation.jsp").forward(request, response);
     }
 

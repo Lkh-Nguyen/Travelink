@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -19,7 +21,7 @@ public class AccountDB {
     public static boolean insertAccount(Account Account) {
         Connection con = DatabaseInfo.getConnect();
         try {
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Account (Name, Email, Password, PhoneNumber, CMND, Gender, DateOfBirth, AvatarURL, Address, Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Account (Name, Email, Password, PhoneNumber, CMND, Gender, DateOfBirth, AvatarURL, Address, Role, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             // Set parameters
             pstmt.setString(1, Account.getName());
             pstmt.setString(2, Account.getEmail());
@@ -35,6 +37,7 @@ public class AccountDB {
             pstmt.setString(8, Account.getAvatarURL() != null ? Account.getAvatarURL() : null);
             pstmt.setString(9, Account.getAddress() != null ? Account.getAddress() : null);
             pstmt.setInt(10, Account.getRole());
+            pstmt.setInt(11, Account.getStatus());
             // Execute the SQL statement
             int rowsInserted = pstmt.executeUpdate();
             // Close resources
@@ -57,7 +60,7 @@ public class AccountDB {
         }
         return false;
     }
-    
+
     public static Account getAccountByAccountID(int accountID) {
         Connection con = DatabaseInfo.getConnect();
         try {
@@ -103,6 +106,9 @@ public class AccountDB {
 
                 int role = rs.getInt("Role");
                 Account.setRole(role);
+
+                int status = rs.getInt("Status");
+                Account.setStatus(status);
             }
 
             return Account;
@@ -198,6 +204,9 @@ public class AccountDB {
 
                 int role = rs.getInt("Role");
                 Account.setRole(role);
+
+                int status = rs.getInt("Status");
+                Account.setStatus(status);
             }
 
             return Account;
@@ -343,6 +352,7 @@ public class AccountDB {
                     updatedAccount.setAvatarURL(rs.getString("AvatarURL"));
                     updatedAccount.setAddress(rs.getString("Address"));
                     updatedAccount.setRole(rs.getInt("Role"));
+                    updatedAccount.setStatus(rs.getInt("Status"));
                     return updatedAccount;
                 }
             }
@@ -415,6 +425,10 @@ public class AccountDB {
                     if (address != null) {
                         account.setAddress(address);
                     }
+
+                    int status = resultSet.getInt("Status");
+                    account.setStatus(status);
+
                 }
             }
         } catch (SQLException e) {
@@ -438,6 +452,116 @@ public class AccountDB {
             }
         }
         return account;
+    }
+
+    public static List<Account> getAllCustomerAccounts() {
+        List<Account> accounts = new ArrayList<>();
+        Connection con = DatabaseInfo.getConnect();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            String query = "SELECT * FROM Account WHERE Role = 1";
+            pstmt = con.prepareStatement(query);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Account account = new Account();
+                account.setAccount_ID(rs.getInt("Account_ID"));
+                account.setEmail(rs.getString("Email"));
+                account.setPassword(rs.getString("Password"));
+                account.setName(rs.getString("Name"));
+                account.setRole(rs.getInt("Role"));
+
+                // Handle potential null phone number
+                account.setPhoneNumber(rs.getString("PhoneNumber"));
+
+                // Handle optional attributes with null checks
+                String cmnd = rs.getString("CMND");
+                if (cmnd != null) {
+                    account.setCmnd(cmnd);
+                }
+
+                Character gender = rs.getString("Gender") != null ? rs.getString("Gender").charAt(0) : ' ';
+                account.setGender(gender);
+
+                java.sql.Date dateOfBirth = rs.getDate("DateOfBirth");
+                if (dateOfBirth != null) {
+                    account.setDateOfBirth(dateOfBirth);
+                } else {
+                    account.setDateOfBirth(null);
+                }
+
+                String avatarURL = rs.getString("AvatarURL");
+                if (avatarURL != null) {
+                    account.setAvatarURL(avatarURL);
+                }
+
+                String address = rs.getString("Address");
+                if (address != null) {
+                    account.setAddress(address);
+                }
+
+                int status = rs.getInt("Status");
+                account.setStatus(status);
+
+                accounts.add(account);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return accounts;
+    }
+
+    public static boolean updateAccountStatus(int accountID, int newStatus) {
+        String sql = "UPDATE Account SET Status = ? WHERE Account_ID = ?";
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            con = DatabaseInfo.getConnect(); // Assuming DatabaseInfo.getConnect() returns a valid connection
+            pstmt = con.prepareStatement(sql);
+
+            // Set parameters for the prepared statement
+            pstmt.setInt(1, newStatus);
+            pstmt.setInt(2, accountID);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            return rowsUpdated > 0;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+
+        } finally {
+            // Close resources in finally block to ensure they are always closed
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     public static void main(String[] args) {

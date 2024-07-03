@@ -24,7 +24,7 @@
         <ul class="navbar-nav bg-gradient-custom sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="AdminDashBoardServlet">
                 <div class="sidebar-brand-icon w-25">
                     <!-- <i class="fas fa-laugh-wink"></i> -->
                     <img src="img_Home/logo.png" class="w-100">
@@ -56,7 +56,7 @@
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="AdminAcceptPendingServlet">Pending hotel account</a>
-                        <a class="collapse-item" href="Admin_Hotel_Partner.jsp">Hotel partner</a>
+                        <a class="collapse-item" href="AdminHotelPartnerServlet">Hotel partner</a>
                         <a class="collapse-item" href="Admin_Locked_Hotel.jsp">Locked Hotel Host account</a>
                     </div>
                 </div>
@@ -72,8 +72,7 @@
                 <div id="collapseCustomerAccountManagement" class="collapse" aria-labelledby="headingCustomerAccountManagement"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="Admin_Customer_List.jsp">Customer List</a>
-                        <a class="collapse-item" href="Admin_Locked_Customer.jsp">Locked Customer account</a>
+                        <a class="collapse-item" href="AdminCustomerListServlet">Customer List</a>
                     </div>
                 </div>
             </li>

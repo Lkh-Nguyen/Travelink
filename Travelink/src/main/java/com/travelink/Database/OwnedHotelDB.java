@@ -6,6 +6,7 @@ package com.travelink.Database;
 
 import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
+import com.travelink.Model.OwnedHotel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,6 +52,7 @@ public class OwnedHotelDB implements DatabaseInfo {
                     hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
                     hotel.setAddress(resultSet.getString("Address"));
                     hotel.setWard_ID(resultSet.getInt("Ward_ID"));
+                    hotel.setStatus(resultSet.getString("Status"));
                     hotels.add(hotel);
                 }
             }
@@ -91,6 +93,7 @@ public class OwnedHotelDB implements DatabaseInfo {
                     account.setAvatarURL(resultSet.getString("AvatarURL"));
                     account.setAddress(resultSet.getString("Address"));
                     account.setRole(resultSet.getInt("Role"));
+                    account.setStatus(resultSet.getInt("Status"));
                 }
             }
         } catch (SQLException e) {
@@ -114,22 +117,71 @@ public class OwnedHotelDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) {
-        // Test with a sample hotel ID
-        int hotelID = 1;  // Replace with the hotel ID you want to test
+        int accountID = 6; // Replace with the account ID you want to test
 
-        // Call the method to get the account by hotel ID
-        Account account = OwnedHotelDB.getAccountByHotelID(hotelID);
+        List<Hotel> hotels = OwnedHotelDB.getHotelsByAccountID(accountID);
 
-        // Print the account details if found
-        if (account != null) {
-            System.out.println("Account details:");
-            System.out.println("Account ID: " + account.getAccount_ID());
-            System.out.println("Email: " + account.getEmail());
-            System.out.println("Name: " + account.getName());
-            System.out.println("Role: " + account.getRole());
-            // Print other attributes as needed
+        if (hotels.isEmpty()) {
+            System.out.println("No hotels found for Account ID: " + accountID);
         } else {
-            System.out.println("No account found for hotel ID: " + hotelID);
+            System.out.println("Hotels owned by Account ID: " + accountID);
+            for (Hotel hotel : hotels) {
+                System.out.println("Hotel ID: " + hotel.getHotel_ID());
+                System.out.println("Name: " + hotel.getName());
+                System.out.println("Email: " + hotel.getEmail());
+                System.out.println("Star: " + hotel.getStar());
+                System.out.println("Phone Number: " + hotel.getPhoneNumber());
+                System.out.println("Description: " + hotel.getDescription());
+                System.out.println("Check-in Time Start: " + hotel.getCheckInTimeStart());
+                System.out.println("Check-in Time End: " + hotel.getCheckInTimeEnd());
+                System.out.println("Check-out Time Start: " + hotel.getCheckOutTimeStart());
+                System.out.println("Check-out Time End: " + hotel.getCheckOutTimeEnd());
+                System.out.println("Address: " + hotel.getAddress());
+                System.out.println("Ward ID: " + hotel.getWard_ID());
+                System.out.println("Status: " + hotel.getStatus());
+                System.out.println("----------------------------------------");
+            }
         }
+    }
+
+    public static List<OwnedHotel> getAllOwnedHotels() {
+        List<OwnedHotel> ownedHotels = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT * FROM Owned_Hotel";
+                statement = connection.prepareStatement(query);
+                resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    int hotelID = resultSet.getInt("Hotel_ID");
+                    int accountID = resultSet.getInt("Account_ID");
+                    OwnedHotel ownedHotel = new OwnedHotel(hotelID, accountID);
+                    ownedHotels.add(ownedHotel);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting all owned hotels: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Error closing resources: " + ex);
+            }
+        }
+        return ownedHotels;
     }
 }

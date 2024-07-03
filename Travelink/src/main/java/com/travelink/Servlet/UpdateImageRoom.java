@@ -2,24 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.travelink.Servlet;
 
-import com.travelink.Database.ReservationDB;
-import com.travelink.Model.Account;
-import com.travelink.Model.Reservation;
-import java.io.IOException;
-import java.io.PrintWriter;
+package com.travelink.Servlet;
+import com.travelink.Database.RoomImageDB;
+import com.travelink.Model.RoomImage;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
-/**
- *
- * @author DUYAN
- */
-public class LogoutServlet extends HttpServlet {
+
+public class UpdateImageRoom extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +34,10 @@ public class LogoutServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LogoutServlet</title>");
+            out.println("<title>Servlet UpdateImageRoomServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LogoutServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateImageRoomServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,26 +55,16 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false); // Get existing session (don't create if not exist)
-        Account acc = (Account) session.getAttribute("account");
-        if (acc == null){
-            response.sendRedirect("Home_Customer.jsp");
-            return;
-        }
-        String forward = "";
-        if (acc.getRole() == 1 && acc.getRole() == 3){
-            forward = "Home_Customer.jsp";
-        }
-        else if(acc.getRole() == 2){
-            forward = "Home_HotelHost.jsp";
-        }
+        String roomID = request.getParameter("room_ID");
+        int roomid = Integer.parseInt(roomID);
+        int hotelid = Integer.parseInt(request.getParameter("hotel_ID"));
 
-        if (session != null) {
-            session.invalidate(); 
-        }
-        
-        request.setAttribute("loggout", "Loggout account success successfully.");
-        request.getRequestDispatcher(forward).forward(request, response);
+        List<RoomImage> list_images = RoomImageDB.getRoomImagesByRoom_ID(roomid);
+
+        request.setAttribute("hotel_ID", hotelid);
+        request.setAttribute("room_ID", roomid);
+        request.setAttribute("list_images", list_images);
+        request.getRequestDispatcher("HotelHost_RoomImage.jsp").forward(request, response);
     }
 
     /**
@@ -89,20 +75,5 @@ public class LogoutServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+    
 }

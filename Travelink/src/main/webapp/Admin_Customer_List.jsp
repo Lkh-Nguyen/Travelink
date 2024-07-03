@@ -1,9 +1,4 @@
-<%-- 
-    Document   : Admin_Customer_List
-    Created on : Jun 30, 2024, 10:45:35 AM
-    Author     : DUYAN
---%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,12 +16,31 @@
         <!-- Custom styles for lock/unlock functionality -->
         <style>
             .blurred {
-/*                filter: blur(5px);*/
+                /* filter: blur(5px); */
                 opacity: 0.5;
             }
             .locked {
                 color: red;
                 font-weight: bold;
+            }
+
+            .filter-btn {
+                display: inline-block;
+                padding: 8px 16px;
+                margin-right: 10px;
+                font-size: 14px;
+                font-weight: bold;
+                text-transform: uppercase;
+                border: 2px solid #4e73df;
+                color: #4e73df;
+                background-color: transparent;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .filter-btn:hover {
+                background-color: #4e73df;
+                color: #fff;
             }
         </style>
     </head>
@@ -54,6 +68,12 @@
                         <!-- Page Heading -->
                         <h1 class="h3 mb-4 text-gray-800">Customer Account List</h1>
 
+                        <!-- Filter Buttons -->
+                        <div style="margin-bottom: 20px;">
+                            <button class="filter-btn" onclick="filterByStatus('Active')">Active Customers</button>
+                            <button class="filter-btn" onclick="filterByStatus('Locked')">Locked Customers</button>
+                            <button class="filter-btn" onclick="showAllCustomers()">Show All</button>
+                        </div>
                         <!-- Customer Account List Table -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
@@ -68,37 +88,73 @@
                                                 <th>Email</th>
                                                 <th>Phone Number</th>
                                                 <th>Address</th>
-                                                <th>Register Date</th>
+                                                <th>Date of birth</th>
                                                 <th>Status</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <!-- Sample data for demonstration purposes -->
-                                            <tr id="customer1">
-                                                <td class="customer-info"><span><img src="assets/logo.png" width="40"></span> John Doe</td>
-                                                <td class="customer-info">john.doe@example.com</td>
-                                                <td class="customer-info">(123) 456-7890</td>
-                                                <td class="customer-info">1234 Elm St, Springfield, IL</td>
-                                                <td class="customer-info">2024-06-13</td>
-                                                <td class="status text-primary">Active</td>
-                                                <td>
-                                                    <button class="btn btn-primary btn-sm" onclick="location.href='Admin_Customer_Information.jsp'">View Profile</button>
-                                                    <button class="btn btn-danger btn-sm lock-btn" onclick="lockCustomer(this)">Lock</button>
-                                                </td>
-                                            </tr>
-                                            <tr id="customer2">
-                                                <td class="customer-info"><img src="assets/logo.png" width="40"></span> Jane Smith</td>
-                                                <td class="customer-info">jane.smith@example.com</td>
-                                                <td class="customer-info">(987) 654-3210</td>
-                                                <td class="customer-info">5678 Oak St, Metropolis, NY</td>
-                                                <td class="customer-info">2024-06-13</td>
-                                                <td class="status text-primary">Active</td>
-                                                <td>
-                                                    <button class="btn btn-primary btn-sm" onclick="location.href='Admin_Customer_Information.jsp'">View Profile</button>
-                                                    <button class="btn btn-danger btn-sm lock-btn" onclick="lockCustomer(this)">Lock</button>
-                                                </td>
-                                            </tr>
+                                            <c:forEach var="account" items="${accountList}">
+                                                <tr>
+                                                    <c:choose>
+                                                        <c:when test="${empty account.name}">
+                                                            <td class="customer-info">N/A</td>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <td class="customer-info">${account.name}</td>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    <c:choose>
+                                                        <c:when test="${empty account.email}">
+                                                            <td class="customer-info">N/A</td>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <td class="customer-info">${account.email}</td>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    <c:choose>
+                                                        <c:when test="${empty account.phoneNumber}">
+                                                            <td class="customer-info">N/A</td>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <td class="customer-info">${account.phoneNumber}</td>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    <c:choose>
+                                                        <c:when test="${empty account.address}">
+                                                            <td class="customer-info">N/A</td>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <td class="customer-info">${account.address}</td>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    <c:choose>
+                                                        <c:when test="${empty account.dateOfBirth}">
+                                                            <td class="customer-info">N/A</td>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <td class="customer-info">${account.dateOfBirth}</td>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    <td class="customer-info">
+                                                        <c:if test="${account.status == 1}">
+                                                            <span class="status text-primary">Active</span>
+                                                        </c:if>
+                                                        <c:if test="${account.status != 1}">
+                                                            <span class="status text-secondary">Locked</span>
+                                                        </c:if>
+                                                    </td>
+                                                    <td>
+                                                        <form action="AdminLockCustomerServlet" method="Post">
+                                                            <button class="btn btn-primary btn-sm" onclick="location.href = 'AdminCustomerInformationServlet?account_ID=${account.account_ID}'" type="button">View Profile</button>
+                                                            <input type="hidden" value="${account.account_ID}" name="account_ID">
+                                                            <button class="btn btn-danger btn-sm lock-btn" type="Submit">Lock</button>
+                                                        </form>
+                                                    </td>
+
+                                                </tr>
+                                            </c:forEach>
                                             <!-- End of sample data -->
                                         </tbody>
                                     </table>
@@ -117,7 +173,6 @@
 
         </div>
         <!-- End of Page Wrapper -->
-
         <!-- Bootstrap core JavaScript-->
         <script src="vendor/jquery/jquery.min.js"></script>
         <script src="bootstrap_js/js/bootstrap.bundle.min.js"></script>
@@ -138,72 +193,82 @@
 
         <!-- Custom script to handle lock/unlock functionality -->
         <script>
-            function lockCustomer(button) {
-                const row = button.closest('tr');
-                const statusCell = row.querySelector('.status');
-                const lockButton = row.querySelector('.lock-btn');
-                const customerInfoCells = row.querySelectorAll('.customer-info');
+                                                                document.addEventListener('DOMContentLoaded', function () {
+                                                                    // Function to initialize lock status on page load
+                                                                    initializeLockStatus();
 
-                if (lockButton.textContent.trim() === 'Lock') {
-                    // Change status to Locked
-                    statusCell.textContent = 'Locked';
-                    statusCell.classList.remove('text-primary');
-                    statusCell.classList.add('text-danger');
+                                                                    // Function to initialize lock status of each customer account
+                                                                    function initializeLockStatus() {
+                                                                        const lockButtons = document.querySelectorAll('.lock-btn');
 
-                    // Change button text to Unlock
-                    lockButton.textContent = 'Unlock';
-                    lockButton.classList.remove('btn-danger');
-                    lockButton.classList.add('btn-success');
+                                                                        lockButtons.forEach(button => {
+                                                                            const row = button.closest('tr');
+                                                                            const statusCell = row.querySelector('.status');
+                                                                            const customerInfoCells = row.querySelectorAll('.customer-info');
 
-                    // Blur the customer info cells
-                    customerInfoCells.forEach(cell => {
-                        cell.classList.add('blurred');
-                    });
-                } else {
-                    // Change status to Active
-                    statusCell.textContent = 'Active';
-                    statusCell.classList.remove('text-danger');
-                    statusCell.classList.add('text-primary');
+                                                                            // Determine initial status and set button appearance accordingly
+                                                                            if (statusCell.textContent.trim() === 'Locked') {
+                                                                                setLockedAppearance(button, statusCell, customerInfoCells);
+                                                                            } else {
+                                                                                setActiveAppearance(button, statusCell, customerInfoCells);
+                                                                            }
+                                                                        });
+                                                                    }
 
-                    // Change button text to Lock
-                    lockButton.textContent = 'Lock';
-                    lockButton.classList.remove('btn-success');
-                    lockButton.classList.add('btn-danger');
+                                                                    // Function to set appearance when status is Locked
+                                                                    function setLockedAppearance(button, statusCell, customerInfoCells) {
+                                                                        statusCell.textContent = 'Locked';
+                                                                        statusCell.classList.remove('text-primary');
+                                                                        statusCell.classList.add('text-danger');
 
-                    // Remove blur from the customer info cells
-                    customerInfoCells.forEach(cell => {
-                        cell.classList.remove('blurred');
-                    });
-                }
-            }
+                                                                        button.textContent = 'Unlock';
+                                                                        button.classList.remove('btn-danger');
+                                                                        button.classList.add('btn-success');
+
+                                                                        customerInfoCells.forEach(cell => {
+                                                                            cell.classList.add('blurred');
+                                                                        });
+                                                                    }
+
+                                                                    // Function to set appearance when status is Active
+                                                                    function setActiveAppearance(button, statusCell, customerInfoCells) {
+                                                                        statusCell.textContent = 'Active';
+                                                                        statusCell.classList.remove('text-danger');
+                                                                        statusCell.classList.remove('text-secondary');
+                                                                        statusCell.classList.add('text-primary');
+                                                                        button.textContent = 'Lock';
+                                                                        button.classList.remove('btn-success');
+                                                                        button.classList.add('btn-danger');
+                                                                        customerInfoCells.forEach(cell => {
+                                                                            cell.classList.remove('blurred');
+                                                                        });
+                                                                    }
+                                                                });
+
+                                                                function filterByStatus(status) {
+                                                                    const rows = document.querySelectorAll('#dataTable tbody tr');
+
+                                                                    rows.forEach(row => {
+                                                                        const statusCell = row.querySelector('.status');
+
+                                                                        if (status === 'Active' && statusCell.textContent.trim() === 'Active') {
+                                                                            row.style.display = 'table-row';
+                                                                        } else if (status === 'Locked' && statusCell.textContent.trim() === 'Locked') {
+                                                                            row.style.display = 'table-row';
+                                                                        } else {
+                                                                            row.style.display = 'none';
+                                                                        }
+                                                                    });
+                                                                }
+
+                                                                function showAllCustomers() {
+                                                                    const rows = document.querySelectorAll('#dataTable tbody tr');
+
+                                                                    rows.forEach(row => {
+                                                                        row.style.display = 'table-row';
+                                                                    });
+                                                                }
         </script>
+
     </body>
 </html>
-
-
-<!-- Lock Confirmation Modal -->
-<!--        <div class="modal fade" id="lockModal" tabindex="-1" role="dialog" aria-labelledby="lockModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="lockModalLabel">Lock Customer Account</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="lockReason" class="col-form-label">Reason for locking:</label>
-                                <textarea class="form-control" id="lockReason"></textarea>
-                            </div>
-                        </form>
-                        Are you sure you want to lock this customer account?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger" id="confirmLock">Lock</button>
-                    </div>
-                </div>
-            </div>
-        </div>-->

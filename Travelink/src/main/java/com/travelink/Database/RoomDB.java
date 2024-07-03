@@ -124,7 +124,7 @@ public class RoomDB implements DatabaseInfo {
         }
         return Rooms;
     }
-    
+
     //Get Rooms By Hotel_ID
     public static List<Room> getRoomsByHotel_ID(int hotel_ID) {
         List<Room> Rooms = new ArrayList<>();
@@ -159,7 +159,6 @@ public class RoomDB implements DatabaseInfo {
         }
         return Rooms;
     }
-    
 
     public static boolean checkOverlap(Date reservationDate, Date userCheckIn, Date userCheckOut) {
         return !userCheckIn.after(reservationDate) && !userCheckOut.before(reservationDate);
@@ -268,13 +267,105 @@ public class RoomDB implements DatabaseInfo {
         }
         return dateList;
     }
-        public static Date getDateBefore(Date date, int days) {
+
+    public static Date getDateBefore(Date date, int days) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DAY_OF_MONTH, -days);
         return cal.getTime();
     }
 
+    public static boolean updateRoom(int hotelID, int roomID, Room room) {
+        boolean updated = false;
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                // Update query
+                String query = "UPDATE r "
+                        + "SET r.Name = ?, r.Room_Description = ?, r.Capacity = ?, r.Total_Rooms = ?, r.Price = ?, r.Status = ? "
+                        + "FROM Room r "
+                        + "JOIN Hotel h ON h.Hotel_ID = r.Hotel_ID "
+                        + "WHERE h.Hotel_ID = ? AND r.Room_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setString(1, room.getName());
+                statement.setString(2, room.getRoomDescription());
+                statement.setInt(3, room.getCapacity());
+                statement.setInt(4, room.getTotalRooms());
+                statement.setInt(5, room.getPrice());
+                statement.setString(6, room.getStatus());
+                statement.setInt(7, hotelID);
+                statement.setInt(8, roomID);
+
+                // Execute update
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    updated = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating room: " + e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return updated;
+    }
+
+    public static boolean addRoom(int hotelID, Room room) {
+        boolean added = false;
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                // Insert query
+                String query = "INSERT INTO Room (Hotel_ID, Name, Room_Description, Capacity, Total_Rooms, Price, Status) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, hotelID);
+                statement.setString(2, room.getName());
+                statement.setString(3, room.getRoomDescription());
+                statement.setInt(4, room.getCapacity());
+                statement.setInt(5, room.getTotalRooms());
+                statement.setInt(6, room.getPrice());
+                statement.setString(7, room.getStatus());
+
+                // Execute insert
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    added = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error adding room: " + e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return added;
+    }
 
     public static void main(String[] args) throws SQLException {
 
@@ -313,11 +404,47 @@ public class RoomDB implements DatabaseInfo {
 //                System.out.println(Room);
 //            }
 //        }
-            
-            List<Room> hotelRooms = RoomDB.getRoomsByHotel_ID(1);
-            for (Room Room : hotelRooms) {
-                System.out.println(Room);
-            }
-    }   
+//        List<Room> hotelRooms = RoomDB.getRoomsByHotel_ID(1);
+//        for (Room Room : hotelRooms) {
+//            System.out.println(Room);
+//        }
+//        System.out.println("** Test updateRoom **");
+//
+//        int hotelID = 1; // Thay thế bằng hotelID thực tế trong cơ sở dữ liệu
+//        int roomID = 1; // Thay thế bằng roomID thực tế trong cơ sở dữ liệu
+//
+//        // Tạo một đối tượng Room mới với thông tin cập nhật
+//        Room updatedRoom = new Room();
+//        updatedRoom.setName("Updated Room Name");
+//        updatedRoom.setRoomDescription("Updated Room Description");
+//        updatedRoom.setCapacity(4);
+//        updatedRoom.setTotalRooms(10);
+//        updatedRoom.setPrice(200);
+//        updatedRoom.setStatus("Available");
+//
+//        boolean updated = updateRoom(hotelID, roomID, updatedRoom);
+//        if (updated) {
+//            System.out.println("Room updated successfully.");
+//        } else {
+//            System.out.println("Failed to update room.");
+//        }
+        Room room = new Room();
+        int hotel_id = 1;
+        room.setName("SUPER KING Room");
+        room.setRoomDescription("A cozy standard room");
+        room.setCapacity(2);
+        room.setTotalRooms(10);
+        room.setPrice(100);
+        room.setStatus("Available");
+        room.setHotel_ID(1); // Replace with actual hotel ID from your database
+
+        boolean added = RoomDB.addRoom(hotel_id,room);
+
+        if (added) {
+            System.out.println("Room added successfully.");
+        } else {
+            System.out.println("Failed to add room.");
+        }
+    }
 
 }

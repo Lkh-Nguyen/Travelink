@@ -22,6 +22,7 @@ public class Feedback {
   private int dislikesCount;
   private int reservation_ID;
 
+
     public Feedback() {
     }
 

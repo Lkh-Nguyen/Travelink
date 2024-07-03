@@ -92,24 +92,25 @@ public class BedDB implements DatabaseInfo {
     }
 
     //Get Bed By Room ID
-    public static Bed getBedByRoomID(int roomID) {
-        Bed bed = null;
+    public static List<Bed> getBedsByRoomID(int roomID) {
+        List<Bed> beds = new ArrayList<>();
 
         try (Connection connection = DatabaseInfo.getConnect()) {
-            String sql = "SELECT b.* "
-                    + "FROM Bed b "
-                    + "JOIN Room r ON b.Bed_ID = r.Bed_ID "
+            String sql = "SELECT b.Bed_ID, b.name, b.Description, b.URL "
+                    + "FROM Room r "
+                    + "JOIN Room_Bed rb ON r.Room_ID = rb.Room_ID "
+                    + "JOIN Bed b ON rb.Bed_ID = b.Bed_ID "
                     + "WHERE r.Room_ID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1, roomID);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        bed = new Bed();
+                    while (resultSet.next()) {
+                        Bed bed = new Bed();
                         bed.setBed_ID(resultSet.getInt("Bed_ID"));
                         bed.setName(resultSet.getString("Name"));
                         bed.setDescription(resultSet.getString("Description"));
                         bed.setUrl(resultSet.getString("URL"));
-                        // Bổ sung các thuộc tính khác nếu cần thiết
+                        beds.add(bed);
                     }
                 }
             }
@@ -117,16 +118,110 @@ public class BedDB implements DatabaseInfo {
             e.printStackTrace();
         }
 
-        return bed;
+        return beds;
     }
-    
+
+    //Add Bed By Room ID
+    public static boolean insertBedByRoomID(Bed bed, int roomID) {
+        boolean success = false;
+        Connection connection = null;
+        PreparedStatement insertBedStatement = null;
+        PreparedStatement insertRoomBedStatement = null;
+        ResultSet generatedKeys = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+            connection.setAutoCommit(false); // Start transaction
+
+            // Check if the bed with the same name already exists
+            String checkBedSQL = "SELECT COUNT(*) FROM Bed WHERE Name = ?";
+            try (PreparedStatement checkBedStatement = connection.prepareStatement(checkBedSQL)) {
+                checkBedStatement.setString(1, bed.getName());
+                try (ResultSet resultSet = checkBedStatement.executeQuery()) {
+                    if (resultSet.next() && resultSet.getInt(1) > 0) {
+                        // Bed already exists
+                        return false;
+                    }
+                }
+            }
+
+            // Insert bed into Bed table
+            String insertBedSQL = "INSERT INTO Bed (Name, Description, URL) VALUES (?, ?, ?)";
+            insertBedStatement = connection.prepareStatement(insertBedSQL, Statement.RETURN_GENERATED_KEYS);
+            insertBedStatement.setString(1, bed.getName());
+            insertBedStatement.setString(2, bed.getDescription());
+            insertBedStatement.setString(3, bed.getUrl());
+            int affectedRows = insertBedStatement.executeUpdate();
+
+            if (affectedRows > 0) {
+                generatedKeys = insertBedStatement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int bedID = generatedKeys.getInt(1);
+
+                    // Insert association into Room_Bed table
+                    String insertRoomBedSQL = "INSERT INTO Room_Bed (Room_ID, Bed_ID) VALUES (?, ?)";
+                    insertRoomBedStatement = connection.prepareStatement(insertRoomBedSQL);
+                    insertRoomBedStatement.setInt(1, roomID);
+                    insertRoomBedStatement.setInt(2, bedID);
+                    insertRoomBedStatement.executeUpdate();
+
+                    success = true;
+                    connection.commit(); // Commit transaction
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (connection != null) {
+                try {
+                    connection.rollback(); // Rollback transaction on error
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } finally {
+            // Close resources
+            try {
+                if (generatedKeys != null) {
+                    generatedKeys.close();
+                }
+                if (insertBedStatement != null) {
+                    insertBedStatement.close();
+                }
+                if (insertRoomBedStatement != null) {
+                    insertRoomBedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return success;
+    }
+
+    public static boolean doesBedExist(String bedName) {
+        String checkBedSQL = "SELECT COUNT(*) FROM Bed b WHERE b.Name = ?";
+
+        try (Connection connection = DatabaseInfo.getConnect(); PreparedStatement checkBedStatement = connection.prepareStatement(checkBedSQL)) {
+            checkBedStatement.setString(1, bedName);
+            try (ResultSet resultSet = checkBedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0; // Return true if count is greater than 0
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         BedDB bedDB = new BedDB();
 
 //        // Test getAllBed method
 //        System.out.println("Testing getAllBeds method:");
-//        List<Bed> allBeds = bedDB.getAllBeds();
 //        if (allBeds.isEmpty()) {
 //            System.out.println("No beds found in the database.");
 //        } else {
@@ -136,14 +231,31 @@ public class BedDB implements DatabaseInfo {
 //        }
 //        System.out.println();
         // Test getBedByID method
-        int bedIDToSearch = 1; // Replace with the actual bed ID you want to search
-        System.out.println("Testing getBedByID method for Bed ID: " + bedIDToSearch);
-        Bed bedByID = bedDB.getBedByRoomID(bedIDToSearch);
-        if (bedByID == null) {
-            System.out.println("Bed with ID " + bedIDToSearch + " not found in the database.");
+//        Bed newBed = new Bed();
+//        newBed.setName("King Size Bed");
+//        newBed.setDescription("A luxurious king-size bed.");
+//        newBed.setUrl("http://example.com/king-size-bed.jpg");
+//
+//        // Room ID to associate the bed with
+//        int roomID = 91;
+//
+//        // Insert the new bed and associate it with the room
+//        boolean result = bedDB.insertBedByRoomID(newBed, roomID);
+//        if (result) {
+//            System.out.println("Bed inserted successfully and associated with Room ID " + roomID);
+//        } else {
+//            System.out.println("Failed to insert the bed.");
+//        }
+        int roomIDToSearch = 92; // Replace with the actual room ID you want to search
+        System.out.println("Testing getBedsByRoomID method for Room ID: " + roomIDToSearch);
+        List<Bed> bedsByRoomID = bedDB.getBedsByRoomID(roomIDToSearch);
+        if (bedsByRoomID.isEmpty()) {
+            System.out.println("No beds found for Room ID " + roomIDToSearch + " in the database.");
         } else {
-            System.out.println("Found bed:");
-            System.out.println(bedByID);
+            System.out.println("Found beds:");
+            for (Bed bed : bedsByRoomID) {
+                System.out.println(bed);
+            }
         }
     }
 }

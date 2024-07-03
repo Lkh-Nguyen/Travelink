@@ -4,10 +4,8 @@
  */
 package com.travelink.Servlet;
 
-import com.travelink.Database.BedDB;
-import com.travelink.Database.RoomDB;
-import com.travelink.Model.Bed;
-import com.travelink.Model.Room;
+import com.travelink.Database.ReportedFeedbackDB;
+import com.travelink.Model.ReportedFeedback;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,9 +16,9 @@ import java.util.List;
 
 /**
  *
- * @author admin
+ * @author HELLO
  */
-public class UpdateHotelBedServlet extends HttpServlet {
+public class Admin_ViewReportFeedbackDetail extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +37,10 @@ public class UpdateHotelBedServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateHotelBedServlet</title>");
+            out.println("<title>Servlet Admin_ViewReportFeedbackDetail</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateHotelBedServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Admin_ViewReportFeedbackDetail at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,23 +58,10 @@ public class UpdateHotelBedServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String roomid = request.getParameter("room_ID");
-        int roomID = Integer.parseInt(roomid);
-
-        String hotelid = request.getParameter("hotel_ID");
-        int hotelID = Integer.parseInt(hotelid);
-
-        List<Bed> list_beds = BedDB.getBedsByRoomID(roomID);
-        request.setAttribute("beds_list", list_beds);
-        request.setAttribute("hotel_ID", hotelID);
-        request.setAttribute("room_ID", roomID);
-
-//        PrintWriter pw = response.getWriter();
-//        pw.print(list_beds.size());
-//        for(Bed b : list_beds){
-//            pw.print(b.toString());
-//        }
-        request.getRequestDispatcher("HotelHost_BedInformation.jsp").forward(request, response);
+        int feedbackID = Integer.parseInt(request.getParameter("feedbackID"));
+        List<ReportedFeedback> list = ReportedFeedbackDB.getReportedFeedbackByFeedbackId(feedbackID);
+        request.setAttribute("list", list);
+        request.getRequestDispatcher("Admin_ReportFeedbackDetail.jsp").forward(request, response);
     }
 
     /**
@@ -90,28 +75,7 @@ public class UpdateHotelBedServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String roomid = request.getParameter("room_ID");
-        int roomID = Integer.parseInt(roomid);
-
-        String hotelid = request.getParameter("hotel_ID");
-        int hotelID = Integer.parseInt(hotelid);
-
-        Bed newBed = new Bed();
-        newBed.setName(request.getParameter("name-bed"));
-        newBed.setDescription(request.getParameter("description"));
-        newBed.setUrl(request.getParameter("url"));
-//        PrintWriter pw = response.getWriter();
-//        pw.print(newBed.toString());
-
-        boolean added = BedDB.insertBedByRoomID(newBed, roomID);
-
-        if (added) {
-            response.sendRedirect("UpdateHotelBedServlet?room_ID=" + roomID + "&hotel_ID=" + hotelID);
-        } else {
-            request.setAttribute("error", "exist");
-            response.sendRedirect("Error.jsp");
-        }
-
+        processRequest(request, response);
     }
 
     /**

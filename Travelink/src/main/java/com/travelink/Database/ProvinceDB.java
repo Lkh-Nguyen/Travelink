@@ -46,7 +46,7 @@ public class ProvinceDB implements DatabaseInfo {
         return provinces;
     }
 
-    public static Province getProvinceByID(int id) {
+    public static Province getProvinceByProvinceID(int id) {
         Province province = null;
         Connection connection = null;
         PreparedStatement statement = null;
@@ -266,7 +266,7 @@ public class ProvinceDB implements DatabaseInfo {
         }
 
         int ID = 5;
-        Province province = getProvinceByID(ID);
+        Province province = getProvinceByProvinceID(ID);
         System.out.println("Provinces with ID : " + ID);
         System.out.println("ID: " + province.getProvince_ID() + ", Name: " + province.getName());
     }

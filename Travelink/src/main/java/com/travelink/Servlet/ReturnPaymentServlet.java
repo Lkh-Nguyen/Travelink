@@ -5,6 +5,8 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.ReservationDB;
+import com.travelink.Model.Account;
+import com.travelink.Model.Reservation;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -24,6 +26,7 @@ public class ReturnPaymentServlet extends HttpServlet {
             throws ServletException, IOException {
         // Get data from session
         HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
         Integer pendingReservationID = (Integer) session.getAttribute("pendingReservationID");
 
         String paymentLinkId = (String) session.getAttribute("paymentLinkId");
@@ -50,6 +53,10 @@ public class ReturnPaymentServlet extends HttpServlet {
         if ("00".equals(code) && paymentLinkId.equals(id) && "false".equals(cancel) && "PAID".equals(status) && pendingReservationIDStr.equals(orderCode)) {
             // Change status of reservation
             ReservationDB.changedReservationStatusByReservationID(pendingReservationID, "PAID");
+            // Send a successful email
+            Reservation reservation = ReservationDB.getReservationByReservationID(pendingReservationID);
+            SendEmail sendEmail = new SendEmail();
+            sendEmail.sendSuccessReservation(account.getEmail(), reservation);
         }
         
         Cookie[] cookies = request.getCookies();

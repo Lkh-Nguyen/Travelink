@@ -129,8 +129,8 @@ public class AccountDB {
 
         return null;
     }
-    
-    public static int getHotelPartner(){
+
+    public static int getHotelPartner() {
         Connection con = DatabaseInfo.getConnect();
         int hotelPartner = 0;
         try {
@@ -139,8 +139,8 @@ public class AccountDB {
 
             if (rs.next()) {
                 hotelPartner = rs.getInt("Hotel_Partner");
-        } 
-        }catch (SQLException ex) {
+            }
+        } catch (SQLException ex) {
             // Handle exceptions appropriately (log or throw)
             ex.printStackTrace();
         } finally {
@@ -157,7 +157,7 @@ public class AccountDB {
 
         return hotelPartner;
     }
-    
+
     public static Account getAccount(String email) {
         Connection con = DatabaseInfo.getConnect();
         try {
@@ -562,6 +562,89 @@ public class AccountDB {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public static List<Account> getAcceptedFriendsOrderByLatestMessage(int userId) {
+        List<Account> friends = new ArrayList<>();
+        Connection con = DatabaseInfo.getConnect();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            String query = "SELECT DISTINCT a.* "
+                    + "FROM Account a "
+                    + "JOIN Message m ON (a.Account_ID = m.From_Account_ID OR a.Account_ID = m.To_Account_ID) "
+                    + "WHERE (m.From_Account_ID = ? OR m.To_Account_ID = ?) AND m.SentTime = ("
+                    + "    SELECT MAX(SentTime) FROM Message "
+                    + "    WHERE (From_Account_ID = ? AND To_Account_ID = a.Account_ID) OR (From_Account_ID = a.Account_ID AND To_Account_ID = ?)"
+                    + ")";
+            pstmt = con.prepareStatement(query);
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, userId);
+            pstmt.setInt(3, userId);
+            pstmt.setInt(4, userId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Account account = new Account();
+                account.setAccount_ID(rs.getInt("Account_ID"));
+                account.setEmail(rs.getString("Email"));
+                account.setPassword(rs.getString("Password"));
+                account.setName(rs.getString("Name"));
+                account.setRole(rs.getInt("Role"));
+                // Handle potential null phone number
+                account.setPhoneNumber(rs.getString("PhoneNumber"));
+
+                // Handle optional attributes with null checks
+                String cmnd = rs.getString("CMND");
+                if (cmnd != null) {
+                    account.setCmnd(cmnd);
+                }
+
+                Character gender = rs.getString("Gender") != null ? rs.getString("Gender").charAt(0) : ' ';
+                account.setGender(gender);
+
+                java.sql.Date dateOfBirth = rs.getDate("DateOfBirth");
+                if (dateOfBirth != null) {
+                    account.setDateOfBirth(dateOfBirth);
+                } else {
+                    account.setDateOfBirth(null);
+                }
+
+                String avatarURL = rs.getString("AvatarURL");
+                if (avatarURL != null) {
+                    account.setAvatarURL(avatarURL);
+                }
+
+                String address = rs.getString("Address");
+                if (address != null) {
+                    account.setAddress(address);
+                }
+
+                int status = rs.getInt("Status");
+                account.setStatus(status);
+
+                friends.add(account);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return friends;
     }
 
     public static void main(String[] args) {

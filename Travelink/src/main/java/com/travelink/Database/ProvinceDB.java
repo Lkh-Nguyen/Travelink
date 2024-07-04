@@ -158,6 +158,104 @@ public class ProvinceDB implements DatabaseInfo {
         return provinceName;
     }
 
+    // Get names of top 3 provinces with most reservations
+    public static List<String> getTop3ProvincesWithMostReservations() {
+        List<String> topProvinces = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT TOP 3 p.name AS provinceName, COUNT(r.Reservation_ID) AS ReservationCount "
+                        + "FROM Province p "
+                        + "JOIN District d ON p.Province_ID = d.Province_ID "
+                        + "JOIN Ward w ON d.District_ID = w.District_ID "
+                        + "JOIN Hotel h ON w.Ward_ID = h.Ward_ID "
+                        + "JOIN Room rm ON h.Hotel_ID = rm.Hotel_ID "
+                        + "JOIN Reserved_Room rr ON rm.Room_ID = rr.Room_ID "
+                        + "JOIN Reservation r ON rr.Reservation_ID = r.Reservation_ID "
+                        + "GROUP BY p.name "
+                        + "ORDER BY ReservationCount DESC";
+
+                statement = connection.prepareStatement(query);
+                resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    topProvinces.add(resultSet.getString("provinceName"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting top provinces with most reservations: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return topProvinces;
+    }
+
+    // Get the reservation counts for top 3 provinces with most reservations
+    public static List<Integer> getTop3ProvincesReservations() {
+        List<Integer> topProvincesReservations = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT TOP 3 COUNT(r.Reservation_ID) AS ReservationCount "
+                        + "FROM Province p "
+                        + "JOIN District d ON p.Province_ID = d.Province_ID "
+                        + "JOIN Ward w ON d.District_ID = w.District_ID "
+                        + "JOIN Hotel h ON w.Ward_ID = h.Ward_ID "
+                        + "JOIN Room rm ON h.Hotel_ID = rm.Hotel_ID "
+                        + "JOIN Reserved_Room rr ON rm.Room_ID = rr.Room_ID "
+                        + "JOIN Reservation r ON rr.Reservation_ID = r.Reservation_ID "
+                        + "GROUP BY p.name "
+                        + "ORDER BY ReservationCount DESC";
+
+                statement = connection.prepareStatement(query);
+                resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    topProvincesReservations.add(resultSet.getInt("ReservationCount"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting top provinces reservations: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return topProvincesReservations;
+    }
+
     public static void main(String[] args) {
         List<Province> provinces;
         provinces = getAllProvince();

@@ -26,7 +26,17 @@ public class PendingHost {
     public PendingHost() {
     }
 
-
+    public PendingHost(String email, String password, String cmnd, String name, char gender, Date dateOfBirth, String phoneNumber, String avatarURL, String address) {
+        this.email = email;
+        this.password = password;
+        this.cmnd = cmnd;
+        this.name = name;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.avatarURL = avatarURL;
+        this.address = address;
+    }
     // Getters and setters for all fields (omitted for brevity)
 
     public int getPending_Host_ID() {

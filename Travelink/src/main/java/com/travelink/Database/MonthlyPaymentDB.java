@@ -43,7 +43,8 @@ public class MonthlyPaymentDB {
                 } else {
                     // Set PaymentTime to null or a default value (e.g., LocalDateTime.MIN)
                     monthlyPayment.setPaymentTime(null);
-                }                monthlyPayment.setHotel_ID(resultSet.getInt("Hotel_ID"));
+                }
+                monthlyPayment.setHotel_ID(resultSet.getInt("Hotel_ID"));
                 //Add
                 monthlyPayments.add(monthlyPayment);
             }
@@ -145,6 +146,38 @@ public class MonthlyPaymentDB {
         return monthlyPayment;
     }
 
+    public static int getTotalMonthlyPaymentsByMonthAndYear(int month, int year) {
+        int totalAmount = 0;
+        Connection connection = DatabaseInfo.getConnect(); // Assuming DatabaseInfo provides a connection
+
+        try {
+            String sql = "SELECT SUM(Amount) AS TotalAmount FROM MonthlyPayment WHERE Month = ? AND Year = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, month);
+            preparedStatement.setInt(2, year);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalAmount = resultSet.getInt("TotalAmount");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources in a finally block
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace(); // Log or handle connection closing exception
+            }
+        }
+
+        return totalAmount;
+    }
+
     public static void main(String[] args) throws SQLException {
 
         // Test case 1: Get all payments for hotel ID 1 (no year or month specified)
@@ -177,5 +210,10 @@ public class MonthlyPaymentDB {
         } else {
             System.out.println("No payments found for Hotel ID 3 in June 2024.");
         }
+
+        // Test case 4: Get total payments for all hotels in year 2024, month 6 (current month)
+        System.out.println("\n** Test 4: Get total payments for all hotels in year 2024, month 6 (current month) **");
+        int totalPayments = MonthlyPaymentDB.getTotalMonthlyPaymentsByMonthAndYear(6, 2024); // Assuming June is the current month
+        System.out.println("Total payments for June 2024: " + totalPayments);
     }
 }

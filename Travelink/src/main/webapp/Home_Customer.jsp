@@ -65,7 +65,7 @@
         </style>
     </head>
     <body>
-        <c:if test="${requestScope.succesLogin != null}">
+        <c:if test="${requestScope.successLogin != null}">
             <div id="status-message" style="background-color: rgb(233,251,233);" class="hidden">
                 <div style="display: flex">
                     <div style="width: 20%">
@@ -73,7 +73,7 @@
                     </div>
                     <div style="width: 80%;height: 100%; text-align: start">
                         <h3 style="color:green;margin-top: 5px;font-weight: 550 ">Success</h3>
-                        <p style="color: black;font-size: 14px">${succesLogin}</p>
+                        <p style="color: black;font-size: 14px">${requestScope.successLogin}</p>
                     </div>
                 </div>           
             </div>

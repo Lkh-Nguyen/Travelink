@@ -98,7 +98,7 @@
                                             </a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="HotelHost_BookingScheduleServlet" class="btn btn-primary w-100 justify-content-center">
+                                            <a href="UpdateHotelInformationServlet" class="btn btn-primary w-100 justify-content-center">
                                                 <img src="img_Hotel/unlock.svg" alt="Check Icon" style="width: 1rem;"> Go to page
                                             </a>
                                         </c:otherwise>
@@ -124,7 +124,7 @@
                                 <div class="col-md-8 justify-content-center text-center align-items-center">
                                     <c:choose>
                                         <c:when test="${account.name == null}">
-                                            <a href="HotelHost_Login.jsp" class="btn btn-primary w-100 justify-content-center" disabled>
+                                            <a href="UpdateHotelInformationServlet" class="btn btn-primary w-100 justify-content-center" disabled>
                                                 <img src="img_Hotel/lock.svg" alt="Lock Icon" style="width: 1rem;"> Please Login
                                             </a>
                                         </c:when>

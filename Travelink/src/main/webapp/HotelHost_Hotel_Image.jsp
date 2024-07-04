@@ -325,5 +325,95 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+                            $(document).ready(function () {
+                                $('#hotelTable').DataTable();
+                            });
+
+                            $(document).on('click', '.update-button', function () {
+                                var imageId = $(this).data('image-id');
+                                var modalId = '#updateModal-' + imageId;
+                                $(modalId).modal('show');
+                            });
+
+                            $(document).on('click', '.delete-button', function () {
+                                var imageId = $(this).data('image-id');
+                                // Handle delete functionality here
+                                // You might want to show a confirmation dialog or redirect to a delete servlet
+                            });
+
+                            function previewImage(event, imageId) {
+                                var reader = new FileReader();
+                                reader.onload = function () {
+                                    var preview = document.getElementById('preview-' + imageId);
+                                    preview.innerHTML = '<img src="' + reader.result + '" alt="Image preview">';
+                                };
+                                reader.readAsDataURL(event.target.files[0]);
+                            }
+
+                            function uploadImage(imageId) {
+                                var fileInput = document.getElementById('file-' + imageId);
+                                var file = fileInput.files[0];
+                                var formData = new FormData();
+                                formData.append('file', file);
+                                formData.append('roomImageID', imageId); // Assuming you need to send the image ID
+
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('POST', 'UploadImageAvatar', true);
+
+                                xhr.onload = function () {
+                                    if (xhr.status === 200) {
+                                        // Update the image source on the page with the new image URL
+                                        var response = JSON.parse(xhr.responseText);
+                                        var preview = document.getElementById('preview-' + imageId);
+                                        preview.innerHTML = '<img src="' + response.newImageUrl + '" alt="Image preview" style="width: 150px; height: 150px; object-fit: cover;">';
+
+
+                                        // Optionally, display a success message
+                                        alert('Image uploaded successfully!');
+                                    } else {
+                                        // Display error message
+                                        var errorMessage = document.getElementById('error-message-' + imageId);
+                                        errorMessage.textContent = 'Error uploading image. Please try again.';
+                                    }
+                                };
+
+                                xhr.send(formData);
+                            }
+
+                            function validateForm(event, imageID) {
+                                const fileInput = document.getElementById('file-' + imageID);
+                                const errorMessage = document.getElementById('error-message-' + imageID);
+                                if (!fileInput.files.length) {
+                                    event.preventDefault();
+                                    errorMessage.style.display = 'block';
+                                    return false;
+                                }
+                                errorMessage.style.display = 'none';
+                                return true;
+                            }
+
+                            function previewImage2(event, id) {
+                                var input = event.target;
+                                var previewContainer;
+
+                                if (id === 'add') {
+                                    previewContainer = document.getElementById('preview-add');
+                                } else {
+                                    previewContainer = document.getElementById(`preview-${id}`);
+                                }
+
+                                if (input.files && input.files[0]) {
+                                    var reader = new FileReader();
+                                    reader.onload = function (e) {
+                                        previewContainer.innerHTML = '<img src="' + e.target.result + '" alt="Image preview" style="max-width: 100%; max-height: 200px;"/>';
+                                    };
+                                    reader.readAsDataURL(input.files[0]);
+                                } else {
+                                    previewContainer.innerHTML = '';
+                                }
+                            }
+
+        </script>
     </body>
 </html>

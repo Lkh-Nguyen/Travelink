@@ -30,10 +30,10 @@ public class UpdateHotelInformationServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request   servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException           if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -83,9 +83,6 @@ public class UpdateHotelInformationServlet extends HttpServlet {
         List<Hotel> hotel_list;
         int noOfRecords;
         hotel_list = HotelDB.getAllHotels();
-
-        //Sau khi có dữ liệu hotel host thì dùng cái này
-//            hotel_list = OwnedHotelDB.getHotelsByAccountID(account.getAccount_ID());
         noOfRecords = hotel_list.size();
         // Calculate total number of pages
         int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
@@ -100,6 +97,7 @@ public class UpdateHotelInformationServlet extends HttpServlet {
         request.setAttribute("hotel_list", hotel_list);
         request.setAttribute("noOfPages", noOfPages);
         request.setAttribute("currentPage", page);
+
 //        request.setAttribute("hotel_list", hotel_list);
         request.getRequestDispatcher("HotelHost_HotelInformation.jsp").forward(request, response);
     }
@@ -127,10 +125,10 @@ public class UpdateHotelInformationServlet extends HttpServlet {
             default:
                 break;
         }
-    }
+    }    
 
     private void updateHotel(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws Servlet           xception, IOException {
         int hotelID = Integer.parseInt(request.getParameter("hotelid"));
         String name = request.getParameter("name");
         String description = request.getParameter("description");
@@ -159,6 +157,5 @@ public class UpdateHotelInformationServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
 
-}
+          

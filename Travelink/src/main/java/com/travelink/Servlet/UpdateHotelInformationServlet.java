@@ -128,7 +128,7 @@ public class UpdateHotelInformationServlet extends HttpServlet {
     }    
 
     private void updateHotel(HttpServletRequest request, HttpServletResponse response)
-            throws Servlet           xception, IOException {
+            throws ServletException, IOException {
         int hotelID = Integer.parseInt(request.getParameter("hotelid"));
         String name = request.getParameter("name");
         String description = request.getParameter("description");
@@ -157,5 +157,7 @@ public class UpdateHotelInformationServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
+    }
+}
 
           

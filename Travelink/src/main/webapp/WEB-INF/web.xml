@@ -276,6 +276,10 @@
         <servlet-name>HotelHost_DeleteHotelImageServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.HotelHost_DeleteHotelImageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HotelHost_AddHotelServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_AddHotelServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -519,6 +523,8 @@
     <servlet-mapping>
         <servlet-name>HotelHost_SearchAvailableServlet</servlet-name>
         <url-pattern>/HotelHost_SearchAvailableServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>AdminLockCustomerServlet</servlet-name>
         <url-pattern>/AdminLockCustomerServlet</url-pattern>
     </servlet-mapping>
@@ -537,6 +543,10 @@
     <servlet-mapping>
         <servlet-name>HotelHost_DeleteHotelImageServlet</servlet-name>
         <url-pattern>/HotelHost_DeleteHotelImageServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_AddHotelServlet</servlet-name>
+        <url-pattern>/HotelHost_AddHotelServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

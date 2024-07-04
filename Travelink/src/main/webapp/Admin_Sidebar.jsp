@@ -37,7 +37,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item my-2 active">
-                <a class="nav-link" href="Admin_Dashboard.jsp">
+                <a class="nav-link" href="AdminDashBoardServlet">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -55,7 +55,7 @@
                 <div id="collapseHotelManagement" class="collapse" aria-labelledby="headingHotelManagement"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="Admin_Pending_Hotel.jsp">Pending hotel account</a>
+                        <a class="collapse-item" href="AdminAcceptPendingServlet">Pending hotel account</a>
                         <a class="collapse-item" href="AdminHotelPartnerServlet">Hotel partner</a>
                         <a class="collapse-item" href="Admin_Locked_Hotel.jsp">Locked Hotel Host account</a>
                     </div>
@@ -72,8 +72,7 @@
                 <div id="collapseCustomerAccountManagement" class="collapse" aria-labelledby="headingCustomerAccountManagement"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="Admin_Customer_List.jsp">Customer List</a>
-                        <a class="collapse-item" href="Admin_Locked_Customer.jsp">Locked Customer account</a>
+                        <a class="collapse-item" href="AdminCustomerListServlet">Customer List</a>
                     </div>
                 </div>
             </li>

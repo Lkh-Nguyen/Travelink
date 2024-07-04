@@ -4,7 +4,9 @@
  */
 package com.travelink.Database;
 
+import com.travelink.Model.Reservation;
 import com.travelink.Model.Ward;
+import com.travelink.Servlet.SendEmail;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -106,43 +108,50 @@ public class WardDB implements DatabaseInfo {
         return wards;
     }
 
-    public static void main(String[] args) throws SQLException {
-
-        // Test getAllWards
-        System.out.println("** Test getAllWards **");
-        List<Ward> allWards = WardDB.getAllWards();
-        if (allWards.isEmpty()) {
-            System.out.println("No wards found in the database.");
-        } else {
-            System.out.println("List of all wards:");
-            for (Ward ward : allWards) {
-                System.out.println(ward); // Uses toString() for informative output
-            }
-        }
-
-        // Test getWardByID
-        System.out.println("\n** Test getWardByID **");
-        int specificID = 5; // Replace with an existing ward ID
-        Ward wardByID = WardDB.getWardByID(specificID);
-        if (wardByID != null) {
-            System.out.println("Ward Details (ID: " + specificID + "):");
-            System.out.println(wardByID);
-        } else {
-            System.out.println("Ward with ID " + specificID + " not found.");
-        }
-
-        // Test getWardsByDistrictID
-        System.out.println("\n** Test getWardsByDistrictID **");
-        int targetDistrictID = 2; // Replace with an existing district ID
-        List<Ward> wardsInDistrict = WardDB.getWardsByDistrictID(targetDistrictID);
-        if (wardsInDistrict.isEmpty()) {
-            System.out.println("No wards found in district " + targetDistrictID + ".");
-        } else {
-            System.out.println("Wards in District " + targetDistrictID + ":");
-            for (Ward ward : wardsInDistrict) {
-                System.out.println(ward);
-            }
-        }
+//    public static void main(String[] args) throws SQLException {
+//
+//        // Test getAllWards
+//        System.out.println("** Test getAllWards **");
+//        List<Ward> allWards = WardDB.getAllWards();
+//        if (allWards.isEmpty()) {
+//            System.out.println("No wards found in the database.");
+//        } else {
+//            System.out.println("List of all wards:");
+//            for (Ward ward : allWards) {
+//                System.out.println(ward); // Uses toString() for informative output
+//            }
+//        }
+//
+//        // Test getWardByID
+//        System.out.println("\n** Test getWardByID **");
+//        int specificID = 5; // Replace with an existing ward ID
+//        Ward wardByID = WardDB.getWardByID(specificID);
+//        if (wardByID != null) {
+//            System.out.println("Ward Details (ID: " + specificID + "):");
+//            System.out.println(wardByID);
+//        } else {
+//            System.out.println("Ward with ID " + specificID + " not found.");
+//        }
+//
+//        // Test getWardsByDistrictID
+//        System.out.println("\n** Test getWardsByDistrictID **");
+//        int targetDistrictID = 2; // Replace with an existing district ID
+//        List<Ward> wardsInDistrict = WardDB.getWardsByDistrictID(targetDistrictID);
+//        if (wardsInDistrict.isEmpty()) {
+//            System.out.println("No wards found in district " + targetDistrictID + ".");
+//        } else {
+//            System.out.println("Wards in District " + targetDistrictID + ":");
+//            for (Ward ward : wardsInDistrict) {
+//                System.out.println(ward);
+//            }
+//        }
+//    }
+    
+    public static void main(String[] args) {
+        SendEmail sendEmail = new SendEmail();
+        Reservation reservation = ReservationDB.getReservationByReservationID(81);
+        sendEmail.sendSuccessReservation("woolythesheepnew@gmail.com", reservation);
+        System.out.println("Send success!");
     }
-
+    
 }

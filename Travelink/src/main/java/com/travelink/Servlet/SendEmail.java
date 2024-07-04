@@ -9,6 +9,16 @@ package com.travelink.Servlet;
  *
  * @author DUYAN
  */
+import com.travelink.Database.AccountDB;
+import com.travelink.Database.BillDB;
+import com.travelink.Database.HotelDB;
+import com.travelink.Database.ReservedRoomDB;
+import com.travelink.Model.Account;
+import com.travelink.Model.Hotel;
+import com.travelink.Model.Reservation;
+import com.travelink.Model.ReservedRoom;
+import com.travelink.View.Bill;
+import java.util.List;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -49,8 +59,8 @@ public class SendEmail {
             mgs.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             mgs.setSubject("Welcome to FiveStars Cinema: Your Ticket to Entertainment Excellence!");
             mgs.setText("FiveStars Cinema Team"
-                    +"\n"
-                    +"Dear "+ name+",\n"
+                    + "\n"
+                    + "Dear " + name + ",\n"
                     + "\n"
                     + "Welcome to FiveStars Cinema! We are thrilled to have you on board and thank you for registering with us. Your journey to exceptional cinematic experiences begins now!\n"
                     + "\n"
@@ -77,14 +87,15 @@ public class SendEmail {
                     + "Warm regards,\n"
                     + "\n"
                     + "From An,\n"
-                    +"FiveStars Cinema Team");
+                    + "FiveStars Cinema Team");
             Transport.send(mgs);
             System.out.println("Sent Magess");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
-        public void sendRegisterToken(String mail, int token) {
+
+    public void sendRegisterToken(String mail, int token) {
 
         final String username = "travelink517@gmail.com";
         final String password = "klfb cnic dgfd fcqv";
@@ -115,7 +126,7 @@ public class SendEmail {
             e.printStackTrace();
         }
     }
-        
+
     public void sendForgotPassword(String mail, String token) {
         final String username = "travelink517@gmail.com";
         final String password = "klfb cnic dgfd fcqv";
@@ -146,4 +157,90 @@ public class SendEmail {
             e.printStackTrace();
         }
     }
+    
+    public void sendHotelEmail(String mail, String msg) {
+        final String username = "travelink517@gmail.com";
+        final String password = "klfb cnic dgfd fcqv";
+        String fromEmail = "travelink517@gmail.com";
+        String toEmail = mail;
+        Properties properties = new Properties();
+
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        MimeMessage mgs = new MimeMessage(session);
+        try {
+
+            mgs.setFrom(new InternetAddress(fromEmail));
+            mgs.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            mgs.setSubject("Pending Hotel Host Account on Travelink Platform");
+            mgs.setText("Your hotel has been "+msg+" by Admin");
+            Transport.send(mgs);
+            System.out.println("Sent Magess");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendSuccessReservation(String mail, Reservation reservation) {
+        final String username = "travelink517@gmail.com";
+        final String password = "klfb cnic dgfd fcqv";
+        String fromEmail = "travelink517@gmail.com";
+        String toEmail = mail;
+        Properties properties = new Properties();
+
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        Account account = AccountDB.getAccount(mail);
+        List<Bill> listBill = BillDB.getBillByCustomerIDAndReservationID(account.getAccount_ID(), reservation.getReservationID());
+
+        MimeMessage message = new MimeMessage(session);
+        try {
+            message.setFrom(new InternetAddress(fromEmail));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            message.setSubject("Your Travelink Reservation Confirmation");
+
+            StringBuilder emailContent = new StringBuilder();
+            emailContent.append("Dear ").append(account.getName()).append(",\n\n");
+            emailContent.append("Thank you for booking with Travelink! We are pleased to confirm your reservation with the following details:\n\n");
+
+            for (Bill bill : listBill) {
+                emailContent.append("Reservation ID: ").append(bill.getReservationID()).append("\n")
+                        .append("Hotel Name: ").append(bill.getHotel_Name()).append("\n")
+                        .append("Room Name: ").append(bill.getRoom_Name()).append("\n")
+                        .append("Check-In Date: ").append(bill.getCheckInDate()).append("\n")
+                        .append("Check-Out Date: ").append(bill.getCheckOutDate()).append("\n")
+                        .append("Number of Guests: ").append(bill.getNumber_of_guest()).append("\n")
+                        .append("Total Price: ").append(bill.getTotal_price()).append(" VND\n")
+                        .append("Status: ").append(bill.getStatus()).append("\n\n");
+            }
+
+            emailContent.append("If you have any questions or need to make changes to your reservation, please do not hesitate to contact us at [travelink517@gmail.com/0763905056].\n\n")
+                    .append("We look forward to welcoming you soon!\n\n")
+                    .append("Best regards,\n")
+                    .append("Travelink Team");
+
+            message.setText(emailContent.toString());
+            Transport.send(message);
+            System.out.println("Sent reservation confirmation email!");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

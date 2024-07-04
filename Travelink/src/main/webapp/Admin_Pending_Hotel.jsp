@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,20 +22,15 @@
         <link href="vendor/css/sb-admin-2.min.css" rel="stylesheet">
     </head>
     <body id="page-top">
-
         <!-- Page Wrapper -->
         <div id="wrapper">
-
             <!-- Sidebar -->
-             <%@include file="Admin_Sidebar.jsp" %>
+            <%@include file="Admin_Sidebar.jsp" %>
             <!-- End of Sidebar -->
-
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
-
                 <!-- Main Content -->
                 <div id="content">
-
                     <!-- Topbar -->
                     <%@include file="Admin_Header.jsp" %>
                     <!-- End of Topbar -->
@@ -49,48 +45,49 @@
                                 <h6 class="m-0 font-weight-bold text-primary">Pending Hotel Accounts</h6>
                             </div>
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Hotel Host Name</th>
-                                                <th>Email</th>
-                                                <th>Phone</th>
-                                                <th>Submission Date</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>AnNVD</td>
-                                                <td>duyan9646@gmail.com</td>
-                                                <td>+1 123 456 7890</td>
-                                                <td>2023-06-13</td>
-                                                <td class="text-warning fw-bold">Pending</td>
-                                                <td>
-                                                    <button class="btn btn-outline-primary btn-sm"><a href="Admin_Hotel_Information.jsp">View hotel</a></button>
-                                                    <button class="btn btn-success btn-sm" onclick="approveAction()">Approve</button>
-                                                    <button class="btn btn-danger btn-sm">Reject</button>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>HungPT</td>
-                                                <td>hungpt@gmail.com</td>
-                                                <td>+1 123 456 7890</td>
-                                                <td>2023-06-13</td>
-                                                <td class="text-warning fw-bold">Pending</td>
-                                                <td>
-                                                    <button class="btn btn-outline-primary btn-sm"><a href="Admin_Hotel_Information.jsp">View hotel</a></button>
-                                                    <button class="btn btn-success btn-sm" onclick="approveAction()">Approve</button>
-                                                    <button class="btn btn-danger btn-sm">Reject</button>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <c:if test="${requestScope.pendings == null}">
+                                    <div class="alert alert-danger mt-3">${requestScope.error}</div>
+                                </c:if>
+                                <c:if test="${requestScope.pendings != null}" >
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Hotel Host Name</th>
+                                                    <th class="text-center">Email</th>
+                                                    <th class="text-center">Phone</th>
+                                                    <th class="text-center">Address</th>
+                                                    <th class="text-center">Status</th>
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${requestScope.pendings}" var="pending">
+                                                    <tr>
+                                                        <td>${pending.name}</td>
+                                                        <td>${pending.email}</td>
+                                                        <td>${pending.phoneNumber}</td>
+                                                        <td>${pending.address}</td>
+                                                        <td class="text-warning fw-bold">Pending</td>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-outline-primary btn-sm"><a href="Admin_Hotel_Information.jsp">View Information</a></button>
+                                                            <form action="AdminAcceptPendingServlet" method="post" style="display:inline;">
+                                                                <input type="hidden" name="method" value="accept" >
+                                                                <input type="hidden" name="pendingId" value="${pending.pending_Host_ID}">
+                                                                <button type="submit" class="btn btn-success btn-sm" onclick="approveAction()">Approve</button>
+                                                            </form>
+                                                            <form action="AdminAcceptPendingServlet" method="post" style="display:inline;" onsubmit="confirmReject(event)">
+                                                                 <input type="hidden" name="method" value="reject" >
+                                                                <input type="hidden" name="pendingId" value="${pending.pending_Host_ID}">
+                                                                <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
 
@@ -118,14 +115,33 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-                                                        function approveAction() {
-                                                            Swal.fire({
-                                                                title: "Approve hotel successfully!",
-                                                                text: "Please check list hotel",
-                                                                icon: "success"
-                                                            });
-                                                        }
-        </script>
+                                                                 function approveAction() {
+                                                                     Swal.fire({
+                                                                         title: "Approve hotel successfully!",
+                                                                         text: "Please check list hotel",
+                                                                         icon: "success"
+                                                                     });
+                                                                 }
+
+
+                                                                 function confirmReject(event) {
+                                                                     event.preventDefault();
+                                                                     const form = event.target;
+                                                                     Swal.fire({
+                                                                         title: "Are you sure to reject this hotel host?",
+                                                                         text: "You won't be able to revert this!",
+                                                                         icon: "warning",
+                                                                         showCancelButton: true,
+                                                                         confirmButtonColor: "#3085d6",
+                                                                         cancelButtonColor: "#d33",
+                                                                         confirmButtonText: "Yes, reject it!"
+                                                                     }).then((result) => {
+                                                                         if (result.isConfirmed) {
+                                                                             form.submit();
+                                                                         }
+                                                                     });
+                                                                 }
+        </script>                                                               
         <!-- Page level plugins -->
         <script src="vendor/datatables/jquery.dataTables.min.js"></script>
         <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>

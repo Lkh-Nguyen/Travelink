@@ -213,6 +213,10 @@
         <servlet-class>com.travelink.Servlet.ViewFeedbackReservationIDServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>AdminAcceptPendingServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.AdminAcceptPendingServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>UpdateImageRoom</servlet-name>
         <servlet-class>com.travelink.Servlet.UpdateImageRoom</servlet-class>
     </servlet>
@@ -233,8 +237,20 @@
         <servlet-class>com.travelink.Servlet.AdminHotelPartnerServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>AdminCustomerListServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.AdminCustomerListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminCustomerInformationServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.AdminCustomerInformationServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AdminHotelInformationServlet</servlet-name>
-        <servlet-class>com.travelink.Database.AdminHotelInformationServlet</servlet-class>
+        <servlet-class>com.travelink.Servlet.AdminHotelInformationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminLockCustomerServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.AdminLockCustomerServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HotelHost_BookingScheduleServlet</servlet-name>
@@ -445,6 +461,10 @@
         <url-pattern>/ViewFeedbackReservationIDServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>AdminAcceptPendingServlet</servlet-name>
+        <url-pattern>/AdminAcceptPendingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>UpdateImageRoom</servlet-name>
         <url-pattern>/UpdateImageRoom</url-pattern>
     </servlet-mapping>
@@ -465,6 +485,14 @@
         <url-pattern>/AdminHotelPartnerServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>AdminCustomerListServlet</servlet-name>
+        <url-pattern>/AdminCustomerListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminCustomerInformationServlet</servlet-name>
+        <url-pattern>/AdminCustomerInformationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>AdminHotelInformationServlet</servlet-name>
         <url-pattern>/AdminHotelInformationServlet</url-pattern>
     </servlet-mapping>
@@ -475,6 +503,8 @@
     <servlet-mapping>
         <servlet-name>HotelHost_SearchAvailableServlet</servlet-name>
         <url-pattern>/HotelHost_SearchAvailableServlet</url-pattern>
+        <servlet-name>AdminLockCustomerServlet</servlet-name>
+        <url-pattern>/AdminLockCustomerServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

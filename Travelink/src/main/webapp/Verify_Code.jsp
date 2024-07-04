@@ -125,11 +125,11 @@
         <%@include file="Header.jsp"%>
         <main id="content" role="main">
             <div class="form-container">
+                <div>${sessionScope.roleU}</div>
                 <h1>Verify Code</h1>
                 <p>The code is sent to your email. Please check your email to receive the code.</p>
                 <form method="post" action="verify">
                     <div>
-
                         <label for="code">Verification Code</label>
                         <input type="text" id="token" name="inputToken" required aria-describedby="code-error">
                         <p class="hidden" id="token-error">Please enter the verification code sent to your email</p>

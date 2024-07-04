@@ -15,10 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -30,10 +27,10 @@ public class UpdateHotelInformationServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request   servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException           if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -79,11 +76,13 @@ public class UpdateHotelInformationServlet extends HttpServlet {
             page = Integer.parseInt(request.getParameter("page"));
         }
 
-//        List<Hotel> hotel_list = OwnedHotelDB.getHotelsByAccountID(account.getAccount_ID());
-        List<Hotel> hotel_list;
+
         int noOfRecords;
-        hotel_list = HotelDB.getAllHotels();
+        List<Hotel> hotel_list = OwnedHotelDB.getHotelsByAccountID(account.getAccount_ID());
         noOfRecords = hotel_list.size();
+        
+        
+        
         // Calculate total number of pages
         int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
 
@@ -125,7 +124,7 @@ public class UpdateHotelInformationServlet extends HttpServlet {
             default:
                 break;
         }
-    }    
+    }
 
     private void updateHotel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -137,9 +136,8 @@ public class UpdateHotelInformationServlet extends HttpServlet {
         String address = request.getParameter("address");
         String status = request.getParameter("status");
         Hotel newHotel = new Hotel(name, email, phone, address, status);
-        
-        
-        if(HotelDB.updateHotel(newHotel, HotelDB.getHotelByID(hotelID))){
+
+        if (HotelDB.updateHotel(newHotel, HotelDB.getHotelByID(hotelID))) {
             request.getRequestDispatcher("UpdateHotelInformationServlet").forward(request, response);
         }
     }
@@ -152,7 +150,7 @@ public class UpdateHotelInformationServlet extends HttpServlet {
     /**
      * Returns a short description of the servlet.
      *
-     * @return a String co taining servlet description
+     * @return a String containing servlet description
      */
     @Override
     public String getServletInfo() {

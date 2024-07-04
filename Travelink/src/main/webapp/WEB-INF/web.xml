@@ -253,28 +253,8 @@
         <servlet-class>com.travelink.Servlet.AdminLockCustomerServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>HotelHost_BookingScheduleServlet</servlet-name>
-        <servlet-class>com.travelink.Servlet.HotelHost_BookingScheduleServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>HotelHost_SearchAvailableServlet</servlet-name>
-        <servlet-class>com.travelink.Servlet.HotelHost_SearchAvailableServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>HotelHost_UpdateHotelServlet</servlet-name>
-        <servlet-class>com.travelink.Servlet.HotelHost_UpdateHotelServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>HotelHost_DeleteHotelServlet</servlet-name>
-        <servlet-class>com.travelink.Servlet.HotelHost_DeleteHotelServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>HotelHost_ViewHotelImgServlet</servlet-name>
-        <servlet-class>com.travelink.Servlet.HotelHost_ViewHotelImgServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>HotelHost_DeleteHotelImageServlet</servlet-name>
-        <servlet-class>com.travelink.Servlet.HotelHost_DeleteHotelImageServlet</servlet-class>
+        <servlet-name>homeHotelHostServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.homeHotelHostServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HotelHost_AddHotelServlet</servlet-name>
@@ -529,20 +509,8 @@
         <url-pattern>/AdminLockCustomerServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>HotelHost_UpdateHotelServlet</servlet-name>
-        <url-pattern>/HotelHost_UpdateHotelServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>HotelHost_DeleteHotelServlet</servlet-name>
-        <url-pattern>/HotelHost_DeleteHotelServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>HotelHost_ViewHotelImgServlet</servlet-name>
-        <url-pattern>/HotelHost_ViewHotelImgServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>HotelHost_DeleteHotelImageServlet</servlet-name>
-        <url-pattern>/HotelHost_DeleteHotelImageServlet</url-pattern>
+        <servlet-name>homeHotelHostServlet</servlet-name>
+        <url-pattern>/homeHotelHostServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>HotelHost_AddHotelServlet</servlet-name>

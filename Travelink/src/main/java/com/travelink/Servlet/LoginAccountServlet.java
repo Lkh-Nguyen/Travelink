@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import javax.mail.Session;
 
 /**
  *
@@ -61,7 +62,24 @@ public class LoginAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("Home_Customer.jsp");
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        if (account == null) {
+            response.sendRedirect("Error.jsp");
+        }
+        switch (account.getRole()) {
+            case 1:
+                response.sendRedirect("homeCustomerServlet");
+                break;
+            case 2:
+                response.sendRedirect("homeHotelHostServlet");
+                break;
+            case 3:
+                response.sendRedirect("AdminDashBoardServlet");
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -107,12 +125,14 @@ public class LoginAccountServlet extends HttpServlet {
             } else {
                 session.setAttribute("account", cu);
                 if (role == 1) {
-                    List<Province> locationList = ProvinceDB.getAllProvince();
-                    request.setAttribute("locationList", locationList);
-                    request.setAttribute("successLogin", "Login successful.");
-                    request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
+//                    List<Province> locationList = ProvinceDB.getAllProvince();
+//                    request.setAttribute("locationList", locationList);
+//                    request.setAttribute("successLogin", "Login successful.");
+//                    request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
+                    session.setAttribute("successLogin", "Login successful.");
+                    response.sendRedirect("homeCustomerServlet");
                 } else if (role == 2) {
-                    request.getRequestDispatcher("Home_HotelHost.jsp").forward(request, response);
+                    response.sendRedirect("homeHotelHostServlet");
                 }
                 return;
             }

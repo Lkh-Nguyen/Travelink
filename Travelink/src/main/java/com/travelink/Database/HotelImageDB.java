@@ -77,6 +77,63 @@ public class HotelImageDB implements DatabaseInfo {
         return image;
     }
 
+    public static boolean deleteHotelImgByID(int ID) {
+        boolean deleted = false;
+
+        String query = "DELETE FROM Hotel_Image WHERE Hotel_Image_ID=?";
+        try (Connection connection = DatabaseInfo.getConnect(); PreparedStatement statement = connection.prepareStatement(query)) {
+
+            if (connection != null) {
+                statement.setInt(1, ID);
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    deleted = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error deleting hotel image: " + e);
+        }
+        return deleted;
+    }
+
+    public static boolean updateImageUrl(int imageID, String newUrl) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        boolean updated = false;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "UPDATE Hotel_Image SET URL=? WHERE Hotel_Image_ID=?";
+                statement = connection.prepareStatement(query);
+
+                statement.setString(1, newUrl);
+                statement.setInt(2, imageID);
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    updated = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating hotel image URL: " + e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return updated;
+    }
+
     public static List<HotelImage> getHotelImagesByHotelID(int hotelID) {
         List<HotelImage> images = new ArrayList<>();
         Connection connection = null;

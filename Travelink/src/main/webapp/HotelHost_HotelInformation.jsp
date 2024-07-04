@@ -208,22 +208,25 @@
                                                     </td>
                                                     <td>
                                                         <!-- Không cần để ý form này, thực hiện trong form trong MODAL -->
-                                                        <form class="row m-1 p-1" action="#" method="post" id="cancelForm">
-                                                            <button type="button" class="btn btn-outline-primary mb-1 w-100 cancel-button update-button" 
-                                                                    data-hotel-id="${h.hotel_ID}" data-name-room="${h.name}" data-email="${h.email}"
-                                                                    data-phone="${h.phoneNumber}" data-description="${h.description}" data-address="${h.address}"
-                                                                    data-status="${h.status}" data-reservation-id="${entry.key}">
-                                                                Update
+                                                        <form class="row m-1 p-1" action="HotelHost_UpdateHotelServlet" method="get">
+                                                            <button class="btn btn-outline-primary mb-1 w-100">
+                                                                Hotel Information Detail
                                                             </button>
-                                                            <input type="hidden" name="action" value="update"/>
-                                                        </form>       
+                                                            <input type="hidden" name="hotelID" value="${h.hotel_ID}">
+                                                        </form>
+                                                        <form class="row m-1 p-1" action="HotelHost_ViewHotelImgServlet" method="get">
+                                                            <button class="btn btn-outline-primary mb-1 w-100">
+                                                                Hotel Image 
+                                                            </button>
+                                                            <input type="hidden" name="hotelID" value="${h.hotel_ID}">
+                                                        </form> 
 
-                                                        <form class="row m-1 p-1" action="#" method="#" id="cancelForm">        
-                                                            <button type="button" class="btn btn-outline-danger mb-1 w-100 delete-button">
+                                                        <form class="row m-1 p-1" action="HotelHost_DeleteHotelServlet" method="get" id="cancelForm">        
+                                                            <button class="btn btn-outline-danger mb-1 w-100 delete-button">
                                                                 Delete
                                                             </button>
-                                                            <input type="hidden" name="hotel_ID" value="${h.hotel_ID}"/>
-                                                            <input type="hidden" name="action" value="delete"/>
+                                                            <input type="hidden" name="hotelID" value="${h.hotel_ID}"/>
+               
                                                         </form>
                                                         <form class="row m-1 p-1" action="#" method="#" id="cancelForm">
                                                             <button type="button" class="btn btn-outline-secondary mb-1 w-100 add-button">
@@ -244,12 +247,12 @@
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="confirmCancelModalLabel">Update Room</h5>
+                                                            <h5 class="modal-title" id="confirmCancelModalLabel">Update Hotel</h5>
                                                         </div>
                                                         <div class="modal-body justify-content-center">
 
                                                             <!-- Nhập form thực hiện update -->
-                                                            <form id="updateForm" action="#" method="post">
+                                                            <form id="updateForm" action="HotelHost_UpdateHotelServlet" method="get">
                                                                 <div class="form-group">
                                                                     <label for="modalHotelID">Hotel ID</label>
                                                                     <input type="text" class="form-control" id="modalHotelID" name="hotelid" readonly>
@@ -281,12 +284,9 @@
                                                                         <option value="INACTIVE">INACTIVE</option>
                                                                     </select>
                                                                 </div>
-                                                                <input type="hidden" name="action" value="update">
                                                                 <button type="submit" class="btn btn-primary">Save changes</button>
 
                                                                 <!-- Đá dữ liệu tùy ý -->
-                                                                <input type="hidden" name="hotel_ID" id="modalHotelID" value="">
-                                                                <input type="hidden" name="room_ID" id="modalRoomID" value="">
                                                             </form>
                                                         </div>
                                                     </div>

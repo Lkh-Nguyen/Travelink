@@ -70,7 +70,9 @@ public class AdminDashBoardServlet extends HttpServlet {
         int pendings = PendingHostDB.getAllPendingHost().size();
         int amount = MonthlyPaymentDB.getTotalMonthlyPaymentsByMonthAndYear(LocalDate.now().getMonthValue()-1, LocalDate.now().getYear());
         List<String> provinces = ProvinceDB.getTop3ProvincesWithMostReservations();
+        if (provinces.size() < 3) provinces.add("");
         List<Integer> count = ProvinceDB.getTop3ProvincesReservations();
+        if (count.size() <3) count.add(0);
         double revenue = Math.ceil((double) amount/9);
         List<Integer> monthlyPayments = new ArrayList<>();
         for (int month = 1; month <= LocalDate.now().getMonthValue(); month++) {

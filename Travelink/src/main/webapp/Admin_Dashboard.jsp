@@ -58,7 +58,7 @@
     </head>
 
     <body id="page-top">
-
+        
         <!-- Page Wrapper -->
         <div id="wrapper">
 
@@ -76,7 +76,6 @@
                     <!-- End of Topbar -->
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
-
                         <!-- Page Heading -->
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
@@ -335,10 +334,10 @@
                                 var myPieChart = new Chart(ctx, {
                                     type: 'pie',
                                     data: {
-                                        labels: ['${requestScope.provinces.get(0)}', '${requestScope.provinces.get(1)}', '${requestScope.provinces.get(2)}'],
+                                        labels: ['${provinces[0]}','${provinces[1]}','${provinces[2]}'],
                                         datasets: [{
-                                                data: [${requestScope.count.get(0)}, ${requestScope.count.get(1)}, ${requestScope.count.get(2)}],
-                                                backgroundColor: ['#007bff', '#28a745', '#17a2b8'],
+                                                data: [${count[0]},${count[1]},${count[2]}],
+                                                backgroundColor: ['#007bff', '#28a745', '#ffc107'],
                                             }],
                                     },
                                     options: {
@@ -392,7 +391,7 @@
                                             pointHoverBorderColor: "rgba(78, 115, 223, 1)",
                                             pointHitRadius: 10,
                                             pointBorderWidth: 2,
-                                            data: ${requestScope.monthlyPayments},
+                                            data: ${monthlyPayments},
                                         }],
                                 },
                                 options: {

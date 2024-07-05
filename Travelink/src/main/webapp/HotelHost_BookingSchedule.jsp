@@ -89,38 +89,39 @@
                         </div>
                     </div>
                     <!-- Single Rooms Section -->
-                    <c:forEach var="room" items="${newroomList}" varStatus="status">
-                        <div class="section-header mb-3" style="color: rgb(63,81,181); font-size: 20px;font-weight: bold">${room.name}</div>
-                        <div class="row mb-5">
-                            <div class="col-md-3 room-card">
-                                <div class="card" style="background-color: rgb(63,81,181);color: white;border: none">
-                                    <div class="card-header">Amount: ${requestScope.availableList[status.index]} Rooms <span style="float:right"></span></div>
-                                    <div class="card-body d-flex text-center">
-                                        <i class='bx bxs-check-circle' style="font-size: 80px;margin-right: 10px"></i><h5 class="card-title mt-3" style="font-size: 30px">Free Room</h5>
+                    <c:if test="${status_1 != 2}">
+                        <c:forEach var="room" items="${newroomList}" varStatus="status">
+                            <div class="section-header mb-3" style="color: rgb(63,81,181); font-size: 20px;font-weight: bold">${room.name}</div>
+                            <div class="row mb-5">
+                                <div class="col-md-3 room-card">
+                                    <div class="card" style="background-color: rgb(63,81,181);color: white;border: none">
+                                        <div class="card-header">Amount: ${requestScope.availableList[status.index]} Rooms <span style="float:right"></span></div>
+                                        <div class="card-body d-flex text-center">
+                                            <i class='bx bxs-check-circle' style="font-size: 80px;margin-right: 10px"></i><h5 class="card-title mt-3" style="font-size: 30px">Free Room</h5>
+                                        </div>
+                                        <a href="InsertOfflineBookingServlet" class="btn btn btn-outline-light mt-auto" style="border-radius: 0px;border: none">
+                                            <i class='bx bx-plus-medical' ></i> Add Booking
+                                        </a>
+                                        <p class="card-text p-2"><label style="font-weight:bold">Status:</label>  Room is currently empty</p>
                                     </div>
-                                    <a href="InsertOfflineBookingServlet" class="btn btn btn-outline-light mt-auto" style="border-radius: 0px;border: none">
-                                        <i class='bx bx-plus-medical' ></i> Add Booking
-                                    </a>
-                                    <p class="card-text p-2"><label style="font-weight:bold">Status:</label>  Room is currently empty</p>
                                 </div>
+
+                                <div class="col-md-3 room-card">
+                                    <div class="card" style="background-color: rgb(247,247,247);border:1px solid black;color: black">
+                                        <div class="card-header">Amount: ${requestScope.reservedList[status.index]} Rooms <span style="float:right">Reserved</span></div>
+                                        <div class="card-body d-flex text-center">
+                                            <i class='bx bx-user-circle' style="font-size: 80px;margin-right: 10px;color: orange"></i>
+                                            <h5 class="card-title mt-3" style="font-size: 30px;color:black">Customer</h5>
+                                        </div>
+                                        <a href="HotelHost_BookingScheduleDetail.jsp" class="btn btn-outline-secondary mt-auto" style="border-radius: 0px;border: none">
+                                            <i class='bx bx-detail'></i> View Details
+                                        </a>
+                                        <p class="card-text p-2"><label style="font-weight:bold ">Status:</label> A room has been booked</p>
+                                    </div>
+                                </div>   
                             </div>
-
-                            <div class="col-md-3 room-card">
-                                <div class="card" style="background-color: rgb(247,247,247);border:1px solid black;color: black">
-                                    <div class="card-header">Amount: ${requestScope.reservedList[status.index]} Rooms <span style="float:right">Reserved</span></div>
-                                    <div class="card-body d-flex text-center">
-                                        <i class='bx bx-user-circle' style="font-size: 80px;margin-right: 10px;color: orange"></i>
-                                        <h5 class="card-title mt-3" style="font-size: 30px;color:black">Customer</h5>
-                                    </div>
-                                    <a href="HotelHost_BookingScheduleDetail.jsp" class="btn btn-outline-secondary mt-auto" style="border-radius: 0px;border: none">
-                                        <i class='bx bx-detail'></i> View Details
-                                    </a>
-                                    <p class="card-text p-2"><label style="font-weight:bold ">Status:</label> A room has been booked</p>
-                                </div>
-                            </div>   
-                        </div>
-                    </c:forEach>
-
+                        </c:forEach>
+                    </c:if>
 
                 </div>
             </div>

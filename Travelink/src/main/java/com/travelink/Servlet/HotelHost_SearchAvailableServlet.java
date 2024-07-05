@@ -100,9 +100,9 @@ public class HotelHost_SearchAvailableServlet extends HttpServlet {
             }
         }
         List<Room> newRoomList = new ArrayList<>();
-        for (Room room : roomList){
-            for(Integer i : checkboxList){
-                if(room.getRoom_ID() == i){
+        for (Room room : roomList) {
+            for (Integer i : checkboxList) {
+                if (room.getRoom_ID() == i) {
                     newRoomList.add(room);
                 }
             }
@@ -123,7 +123,14 @@ public class HotelHost_SearchAvailableServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace(); // Xử lý ngoại lệ phân tích cú pháp một cách thích hợp
         }
-         List<Integer> availableList = new ArrayList<>();
+        if (checkInDate.after(checkOutDate)) {
+            request.setAttribute("check", "The check in day and check out day is invalid!");
+            request.setAttribute("status_1", 2);
+            request.getRequestDispatcher("HotelHost_BookingSchedule.jsp").forward(request, response);
+        } else {
+
+        }
+        List<Integer> availableList = new ArrayList<>();
         List<Integer> reservedList = new ArrayList<>();
         List<Reservation> reservationCoincide = RoomDB.reservationCoincide(checkInDate, checkOutDate);
         int numberRoomOfHotel = 0;

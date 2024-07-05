@@ -81,12 +81,11 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePromotion"
                    aria-expanded="true" aria-controls="collapsePromotion">
                     <i class="fas fa-fw fa-tags"></i>
-                    <span>Promotion</span>
+                    <span>Feedback</span>
                 </a>
                 <div id="collapsePromotion" class="collapse" aria-labelledby="headingPromotion" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="create-promotion.html">Create Promotion</a>
-                        <a class="collapse-item" href="promotion-list.html">Promotion list</a>
+                        <a class="collapse-item" href="Admin_ViewReportFeedback">Report Feedback</a>
                     </div>
                 </div>
             </li>

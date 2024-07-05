@@ -64,6 +64,11 @@ public class HotelHost_BookingScheduleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String insertOfflineBookingMessage = (String) session.getAttribute("insertOfflineBookingMessage");
+        if (insertOfflineBookingMessage != null){
+            request.setAttribute("insertOfflineBookingMessage", insertOfflineBookingMessage);
+            session.removeAttribute("insertOfflineBookingMessage");
+        }
         Account hotelHostAccount = (Account) session.getAttribute("account");
         List<Hotel> hotelList = OwnedHotelDB.getHotelsByAccountID(hotelHostAccount.getAccount_ID());
         request.setAttribute("hotelList", hotelList);

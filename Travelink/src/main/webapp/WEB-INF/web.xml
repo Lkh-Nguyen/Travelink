@@ -300,6 +300,10 @@
         <servlet-name>AdminMonthlyPaymentServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.AdminMonthlyPaymentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HotelHostMonthlyPaymentServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHostMonthlyPaymentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -583,6 +587,10 @@
     <servlet-mapping>
         <servlet-name>AdminMonthlyPaymentServlet</servlet-name>
         <url-pattern>/AdminMonthlyPaymentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHostMonthlyPaymentServlet</servlet-name>
+        <url-pattern>/HotelHostMonthlyPaymentServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

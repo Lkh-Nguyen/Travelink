@@ -63,7 +63,7 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
     }
 
     /**

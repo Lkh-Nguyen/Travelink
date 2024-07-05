@@ -107,6 +107,7 @@ public class HotelHost_SearchAvailableServlet extends HttpServlet {
                 }
             }
         }
+        request.setAttribute("status", 1);
         request.setAttribute("roomList", roomList);
         request.setAttribute("newroomList", newRoomList);
         request.setAttribute("checkBoxList", checkboxList);

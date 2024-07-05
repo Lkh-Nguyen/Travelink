@@ -14,7 +14,7 @@
 
         <div class="container-fluid mt-5 mb-5">
             <a href="homeHotelHostServlet"_Hot class="btn btn-outline-primary mt-2 mb-4">
-                    <img src="img_Hotel/back.svg" alt="Back Icon" style="width: 1rem; height: 1rem;" class="me-2">Back
+                <img src="img_Hotel/back.svg" alt="Back Icon" style="width: 1rem; height: 1rem;" class="me-2">Back
             </a>
             <div class="row">
                 <div class="col-md-2 mx-auto" style="background: white">
@@ -38,6 +38,9 @@
                                     </select>
                                 </div>
                                 <button class="btn btn-outline-secondary mt-3">Search</button>
+                                <c:if test="${check != null}">
+                                    <p>${check}</p>
+                                </c:if>
                             </form>
                         </div>
                     </div>
@@ -74,7 +77,10 @@
                                 <input type="date" name="startDate" value="${requestScope.startDate}" style="margin-right: 10px;margin-left: 10px" class="form-control" placeholder="Start Date" required> 
                                 <label style="font-size: 20px">End Date: </label>
                                 <input type="date" name="endDate" value="${requestScope.endDate}" style="margin-left: 10px" class="form-control" placeholder="End Date" required>
-                                <button type="submit" class="btn btn-primary" style="margin-left: 10px">Search</button>
+
+                                <c:if test="${status == 1}">
+                                    <button type="submit" class="btn btn-primary" style="margin-left: 10px">Search</button>
+                                </c:if>
                                 <c:if test="${hotel != null}">
                                     <input type="hidden" name="hotelID" value="${hotel.hotel_ID}">
                                 </c:if>

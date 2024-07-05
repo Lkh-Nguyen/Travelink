@@ -73,12 +73,12 @@
                                                     <td class="text-center">
                                                         <button class="btn btn-primary btn-sm" onclick="location.href = 'AdminHotelInformationServlet?hotel_ID=${partner.hotel.hotel_ID}'">View hotel</button>
                                                         <form action="AdminLockHotelServlet" method="get">
-                                                            <c:if test="${partner.hotel.status eq 'ACTIVE'}">
+                                                            <c:if test="${partner.hotel.status != 'LOCKED'}">
                                                                 <button class="btn btn-danger btn-sm">Lock</button>
                                                                 <input type="hidden" name="hotelID" value="${partner.hotel.hotel_ID}">
                                                                 <input type="hidden" name="type" value="Lock">
                                                             </c:if>
-                                                             <c:if test="${partner.hotel.status eq 'INACTIVE'}">
+                                                             <c:if test="${partner.hotel.status eq 'LOCKED'}">
                                                                 <button class="btn btn-danger btn-sm">UnLock</button>
                                                                 <input type="hidden" name="hotelID" value="${partner.hotel.hotel_ID}">
                                                                 <input type="hidden" name="type" value="UnLock">

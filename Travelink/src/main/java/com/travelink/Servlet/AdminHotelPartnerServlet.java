@@ -33,22 +33,15 @@ public class AdminHotelPartnerServlet extends HttpServlet {
         List<OwnedHotel> ownedHotels = OwnedHotelDB.getAllOwnedHotels();
         //Create new view
         List<HotelPartner> partnerList = new ArrayList<>();
-        List<Integer> intList = new ArrayList<>();
         for (OwnedHotel ownedHotel : ownedHotels) {
             Hotel hotel = HotelDB.getHotelByID(ownedHotel.getHotel_ID());
             Account account = AccountDB.getAccountByAccountID(ownedHotel.getAccount_ID());
             String province = ProvinceDB.getLocationByHotelID(ownedHotel.getHotel_ID());
             HotelPartner partner = new HotelPartner(hotel, account, province);
             partnerList.add(partner);
-            if (hotel.getStatus().equals("ACTIVE")) {
-                intList.add(1);
-            } else if (hotel.getStatus().equals("INACTIVE")) {
-                intList.add(2);
-            }
-            request.setAttribute("intList", intList);
             request.setAttribute("partnerList", partnerList);
-            request.getRequestDispatcher("Admin_Hotel_Partner.jsp").forward(request, response);
         }
+            request.getRequestDispatcher("Admin_Hotel_Partner.jsp").forward(request, response);
     }
 
     /**

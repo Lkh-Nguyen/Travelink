@@ -70,7 +70,7 @@ public class AdminLockHotelServlet extends HttpServlet {
         Hotel newHotel = HotelDB.getHotelByID(hotelID);
         if(type.equals("Lock")){
             Hotel newHotel_2 = newHotel;
-            newHotel_2.setStatus("INACTIVE");
+            newHotel_2.setStatus("LOCKED");
             HotelDB.updateHotel(newHotel_2, newHotel);
         }else{
             Hotel newHotel_2 = newHotel;

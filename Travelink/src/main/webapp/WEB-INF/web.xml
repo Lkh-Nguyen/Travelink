@@ -296,6 +296,10 @@
         <servlet-name>HotelHost_ViewHotelInformationServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.HotelHost_ViewHotelInformationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminMonthlyPaymentServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.AdminMonthlyPaymentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -575,6 +579,10 @@
     <servlet-mapping>
         <servlet-name>HotelHost_ViewHotelInformationServlet</servlet-name>
         <url-pattern>/HotelHost_ViewHotelInformationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminMonthlyPaymentServlet</servlet-name>
+        <url-pattern>/AdminMonthlyPaymentServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

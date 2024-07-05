@@ -257,6 +257,14 @@
         <servlet-class>com.travelink.Servlet.homeHotelHostServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>HotelHost_BookingScheduleServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_BookingScheduleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HotelHost_SearchAvailableServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_SearchAvailableServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>HotelHost_AddHotelServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.HotelHost_AddHotelServlet</servlet-class>
     </servlet>

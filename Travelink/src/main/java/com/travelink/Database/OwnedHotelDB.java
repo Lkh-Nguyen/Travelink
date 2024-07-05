@@ -116,6 +116,28 @@ public class OwnedHotelDB implements DatabaseInfo {
         return account;
     }
 
+    public static boolean addNewOwned(int accountID, int hotelID) {
+        boolean added = false;
+        String query = "INSERT INTO Owned_Hotel (Account_ID, Hotel_ID) VALUES (?, ?)";
+
+        try (Connection connection = DatabaseInfo.getConnect(); PreparedStatement statement = connection.prepareStatement(query)) {
+
+            if (connection != null) {
+                statement.setInt(1, accountID);
+                statement.setInt(2, hotelID);
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    added = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error adding new owned hotel: " + e);
+        }
+
+        return added;
+    }
+
     public static void main(String[] args) {
         int accountID = 6; // Replace with the account ID you want to test
 

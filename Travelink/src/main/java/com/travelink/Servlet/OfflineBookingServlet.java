@@ -39,13 +39,19 @@ public class OfflineBookingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         //Because using Post, no need for validating data
         //Getting data from the form
-        String hotel_IDStr = request.getParameter("hotel_ID");
+        String hotel_IDStr = request.getParameter("hotelID");
         int hotel_ID = Integer.parseInt(hotel_IDStr);
         Hotel hotel = HotelDB.getHotelByID(hotel_ID);
-        String checkInDateStr = request.getParameter("checkInDate");
-        String checkOutDateStr = request.getParameter("checkOutDate");
+        String checkInDateStr = request.getParameter("startDate");
+        String checkOutDateStr = request.getParameter("endDate");
 
         //Getting all the active room
         List<Room> roomList = RoomDB.getActiveRoomsByHotel_ID(hotel_ID);
@@ -62,28 +68,21 @@ public class OfflineBookingServlet extends HttpServlet {
             response.sendRedirect("Error.jsp");
             return;
         }
-        
+
         //Calculate the available room again and store in List
         List<Reservation> check1 = RoomDB.reservationCoincide(checkInDate, checkOutDate);
         List<Integer> availableRoomList = new ArrayList<>();
-        for (Room r:roomList){
+        for (Room r : roomList) {
             int availableRoom = RoomDB.numberOfRoomAvailableByTime(r.getRoom_ID(), checkInDate, checkInDate, check1);
             availableRoomList.add(availableRoom);
         }
-        
-        
+
         //Passing attribute to jsp form 
         request.setAttribute("checkInDate", checkInDateStr);
         request.setAttribute("checkOutDate", checkOutDateStr);
         request.setAttribute("roomList", roomList);
         request.setAttribute("availableRoomList", availableRoomList);
         request.getRequestDispatcher("HotelHost_OfflineBooking.jsp").forward(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
     }
 
 }

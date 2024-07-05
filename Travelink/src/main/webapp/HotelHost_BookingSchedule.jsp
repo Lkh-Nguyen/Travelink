@@ -8,10 +8,23 @@
         <link rel="stylesheet" href="css/HotelHost_BookingSchedule.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="css/Alter.css">
     </head>
     <body>
         <%@include file="Header_HotelHost.jsp" %>
-
+        <c:if test="${requestScope.insertOfflineBookingMessage != null}">
+            <div id="status-message" style="background-color: rgb(233,251,233);" class="hidden">
+                <div style="display: flex">
+                    <div style="width: 20%">
+                        <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                    </div>
+                    <div style="width: 80%;height: 100%; text-align: start">
+                        <h3 style="color:green;margin-top: 5px;font-weight: 550 ">Success</h3>
+                        <p style="color: black;font-size: 14px">${requestScope.insertOfflineBookingMessage}</p>
+                    </div>
+                </div>           
+            </div>
+        </c:if>
         <div class="container-fluid mt-5 mb-5">
             <a href="homeHotelHostServlet"_Hot class="btn btn-outline-primary mt-2 mb-4">
                 <img src="img_Hotel/back.svg" alt="Back Icon" style="width: 1rem; height: 1rem;" class="me-2">Back
@@ -23,7 +36,7 @@
                         <div class="card-body" style=" padding-left: 0px">
                             <form action="HotelHost_BookingScheduleServlet" method="post">
                                 <div class="form-check d-flex justify-content-between">
-                                    <select name="hotelID"class="form-select" id="statusSelect">
+                                    <select name="hotelID" class="form-select" id="statusSelect">
                                         <c:if test="${hotel == null}">
                                             <option>Selection hotel</option>
                                         </c:if>
@@ -32,7 +45,7 @@
                                         </c:if>
                                         <c:if test="${requestScope.hotelList != null}">
                                             <c:forEach var="hotel" items="${requestScope.hotelList}" varStatus="status">
-                                                <option value="${hotel.hotel_ID}">${status.index +1}.${hotel.name}</option>
+                                                <option value="${hotel.hotel_ID}">${status.index + 1}.${hotel.name}</option>
                                             </c:forEach>
                                         </c:if>
                                     </select>
@@ -44,7 +57,7 @@
                             </form>
                         </div>
                     </div>
-                    <form action="HotelHost_SearchAvailableServlet" method="post" onsubmit="return validateDates()">
+                    <form id="mainForm" action="HotelHost_SearchAvailableServlet" method="post" onsubmit="return validateDates()">
                         <div class="card mt-3">
                             <div class="card-header text-center">TYPE</div>
                             <div class="card-body">
@@ -84,8 +97,10 @@
                                 <c:if test="${hotel != null}">
                                     <input type="hidden" name="hotelID" value="${hotel.hotel_ID}">
                                 </c:if>
+                                <c:if test="${status == 1}">
+                                    <button type="button" class="btn btn-primary" style="margin-left: 10px" onclick="submitOfflineBooking()">Add offline booking</button>                       
+                                </c:if>
                             </div>
-                            </form>
                         </div>
                     </div>
                     <!-- Single Rooms Section -->
@@ -99,7 +114,7 @@
                                         <i class='bx bxs-check-circle' style="font-size: 80px;margin-right: 10px"></i><h5 class="card-title mt-3" style="font-size: 30px">Free Room</h5>
                                     </div>
                                     <a href="InsertOfflineBookingServlet" class="btn btn btn-outline-light mt-auto" style="border-radius: 0px;border: none">
-                                        <i class='bx bx-plus-medical' ></i> Add Booking
+                                        <i class='bx bx-plus-medical' ></i> 
                                     </a>
                                     <p class="card-text p-2"><label style="font-weight:bold">Status:</label>  Room is currently empty</p>
                                 </div>
@@ -120,8 +135,6 @@
                             </div>   
                         </div>
                     </c:forEach>
-
-
                 </div>
             </div>
         </div>
@@ -132,6 +145,13 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="bootstrap_css/bootstrap.min.js"></script>
-
+        <script src="js/Alter.js"></script>
+        <script>
+                                        function submitOfflineBooking() {
+                                            var form = document.getElementById('mainForm');
+                                            form.action = 'OfflineBookingServlet';
+                                            form.submit();
+                                        }
+        </script>
     </body>
 </html>

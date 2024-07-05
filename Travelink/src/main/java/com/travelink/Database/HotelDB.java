@@ -145,6 +145,44 @@ public class HotelDB implements DatabaseInfo {
         return hotel;
     }
 
+    public static Hotel addNewHotel(Hotel hotel) {
+        String query = "INSERT INTO Hotel (Name, Email, Star, Rating, PhoneNumber, Description, CheckInTimeStart, CheckInTimeEnd, CheckOutTimeStart, CheckOutTimeEnd, Address, Ward_ID, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = DatabaseInfo.getConnect();
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            if (connection != null) {
+                statement.setString(1, hotel.getName());
+                statement.setString(2, hotel.getEmail());
+                statement.setInt(3, hotel.getStar());
+                statement.setFloat(4, hotel.getRating());
+                statement.setString(5, hotel.getPhoneNumber());
+                statement.setString(6, hotel.getDescription());
+                statement.setTime(7, java.sql.Time.valueOf(hotel.getCheckInTimeStart()));
+                statement.setTime(8, java.sql.Time.valueOf(hotel.getCheckInTimeEnd()));
+                statement.setTime(9, java.sql.Time.valueOf(hotel.getCheckOutTimeStart()));
+                statement.setTime(10, java.sql.Time.valueOf(hotel.getCheckOutTimeEnd()));
+                statement.setString(11, hotel.getAddress());
+                statement.setInt(12, hotel.getWard_ID());
+                statement.setString(13, hotel.getStatus());
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            hotel.setHotel_ID(generatedKeys.getInt(1)); // Assuming `Hotel` has a `setHotelID` method
+                        }
+                    }
+                    return hotel;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error adding new hotel: " + e);
+        }
+
+        return null; // Return null if the insertion fails
+    }
+
     public static boolean updateHotel(Hotel newHotel, Hotel oldHotel) {
         Connection connection = null;
         PreparedStatement statement = null;

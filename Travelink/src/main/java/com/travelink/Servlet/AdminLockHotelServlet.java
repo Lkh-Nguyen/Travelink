@@ -4,26 +4,28 @@
  */
 package com.travelink.Servlet;
 
+import com.travelink.Database.AccountDB;
 import com.travelink.Database.HotelDB;
 import com.travelink.Database.OwnedHotelDB;
-import com.travelink.Database.WardDB;
+import com.travelink.Database.ProvinceDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
-import com.travelink.Model.Ward;
+import com.travelink.Model.OwnedHotel;
+import com.travelink.View.HotelPartner;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author MSI
  */
-public class HotelHost_AddHotelServlet extends HttpServlet {
+public class AdminLockHotelServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +44,10 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HotelHost_AddHotelServlet</title>");
+            out.println("<title>Servlet AdminLockHotelServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HotelHost_AddHotelServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AdminLockHotelServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,7 +65,30 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int hotelID = Integer.parseInt(request.getParameter("hotelID"));
+        String type = request.getParameter("type");
+        Hotel newHotel = HotelDB.getHotelByID(hotelID);
+        if(type.equals("Lock")){
+            Hotel newHotel_2 = newHotel;
+            newHotel_2.setStatus("INACTIVE");
+            HotelDB.updateHotel(newHotel_2, newHotel);
+        }else{
+            Hotel newHotel_2 = newHotel;
+            newHotel_2.setStatus("ACTIVE");
+            HotelDB.updateHotel(newHotel_2, newHotel);
+        }
+        List<OwnedHotel> ownedHotels = OwnedHotelDB.getAllOwnedHotels();
+        //Create new view
+        List<HotelPartner> partnerList = new ArrayList<>();
+        for (OwnedHotel ownedHotel : ownedHotels) {
+            Hotel hotel = HotelDB.getHotelByID(ownedHotel.getHotel_ID());
+            Account account = AccountDB.getAccountByAccountID(ownedHotel.getAccount_ID());
+            String province = ProvinceDB.getLocationByHotelID(ownedHotel.getHotel_ID());
+            HotelPartner partner = new HotelPartner(hotel, account, province);
+            partnerList.add(partner);
+        }
+        request.setAttribute("partnerList", partnerList);
+        request.getRequestDispatcher("Admin_Hotel_Partner.jsp").forward(request, response);
     }
 
     /**
@@ -77,48 +102,7 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        for (Hotel h : HotelDB.getAllHotels()) {
-            if (request.getParameter("email").equals(h.getEmail())) {
-                request.setAttribute("status", "This email is contains");
-                request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
-
-            }
-        }
-
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        int star = Integer.parseInt(request.getParameter("star"));
-        float rating = Float.parseFloat(request.getParameter("rating"));
-        String phoneNumber = request.getParameter("phoneNumber");
-        String description = request.getParameter("description");
-        String checkInTimeStart = request.getParameter("checkInTimeStart");
-        String checkInTimeEnd = request.getParameter("checkInTimeEnd");
-        String checkOutTimeStart = request.getParameter("checkOutTimeStart");
-        String checkOutTimeEnd = request.getParameter("checkOutTimeEnd");
-        String address = request.getParameter("address");
-        int wardID = Integer.parseInt(request.getParameter("ward_ID"));
-        Hotel hotel = new Hotel();
-        hotel.setName(name);
-        hotel.setEmail(email);
-        hotel.setStar(star);
-        hotel.setRating(rating);
-        hotel.setPhoneNumber(phoneNumber);
-        hotel.setDescription(description);
-        hotel.setCheckInTimeStart(LocalTime.parse(checkInTimeStart));
-        hotel.setCheckInTimeEnd(LocalTime.parse(checkInTimeEnd));
-        hotel.setCheckOutTimeStart(LocalTime.parse(checkOutTimeStart));
-        hotel.setCheckOutTimeEnd(LocalTime.parse(checkOutTimeEnd));
-        hotel.setAddress(address);
-        hotel.setStatus("INACTIVE");
-        hotel.setWard_ID(wardID);
-        Hotel newHotel = HotelDB.addNewHotel(hotel);
-        HttpSession session = request.getSession();
-        Account hotelHostAccount = (Account) session.getAttribute("account");
-        request.setAttribute("hotel", hotel);
-        Ward ward = WardDB.getWardByID(wardID);
-        OwnedHotelDB.addNewOwned(hotelHostAccount.getAccount_ID(), newHotel.getHotel_ID());
-        request.setAttribute("ward", ward);
-        request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

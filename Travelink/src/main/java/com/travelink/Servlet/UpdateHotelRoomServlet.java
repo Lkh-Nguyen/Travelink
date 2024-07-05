@@ -4,14 +4,19 @@
  */
 package com.travelink.Servlet;
 
+import com.travelink.Database.HotelDB;
+import com.travelink.Database.OwnedHotelDB;
 import com.travelink.Database.RoomDB;
 import com.travelink.Database.RoomImageDB;
+import com.travelink.Model.Account;
+import com.travelink.Model.Hotel;
 import com.travelink.Model.Room;
 import com.travelink.Model.RoomImage;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -62,33 +67,33 @@ public class UpdateHotelRoomServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String hotelid = request.getParameter("hotel_ID");
-        int hotelID = Integer.parseInt(hotelid);
 
-        //Phân Trang
-        int page = 1;
-        int recordsPerPage = 2;
-        if (request.getParameter("page") != null) {
-            page = Integer.parseInt(request.getParameter("page"));
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+
+        if (account == null) {
+            response.sendRedirect("HotelHost_Login.jsp");
+            return;
+        }
+
+
+        List<Hotel> list_hotels = OwnedHotelDB.getHotelsByAccountID(account.getAccount_ID());
+
+        int hotelID = 0;
+        if (request.getParameter("hotel_ID") != null) {
+            hotelID = Integer.parseInt(request.getParameter("hotel_ID"));
+        } else if (list_hotels != null && !list_hotels.isEmpty()) {
+            hotelID = list_hotels.get(0).getHotel_ID();
+        } else {
+            response.sendRedirect("ErrorPage.jsp");
+            return;
         }
 
         List<Room> list_rooms = RoomDB.getRoomsByHotel_ID(hotelID);
-        int noOfRecords;
-        noOfRecords = list_rooms.size();
-        // Calculate total number of pages
-        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
 
-        // Calculate the start and end indices for the current page
-        int start = (page - 1) * recordsPerPage;
-        int end = Math.min(start + recordsPerPage, noOfRecords);
-        // Get the sublist for the current page
-
-        list_rooms = list_rooms.subList(start, end);
-
+        request.setAttribute("hotel_list", list_hotels);
         request.setAttribute("room_list", list_rooms);
         request.setAttribute("hotel_id", hotelID);
-        request.setAttribute("noOfPages", noOfPages);
-        request.setAttribute("currentPage", page);
         request.getRequestDispatcher("HotelHost_RoomInformation.jsp").forward(request, response);
     }
 

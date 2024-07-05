@@ -19,78 +19,108 @@
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <style>
             @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
-            * {
+            body {
                 font-family: Montserrat, sans-serif;
             }
             .row-compact {
-                margin-bottom: 1rem; /* Adjust as needed */
+                margin-bottom: 1rem;
             }
             #pieChart, #myChart {
                 width: 100% !important;
                 height: 100% !important;
             }
-            .equal-height {
+            .card-flex {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
+                height: 100%;
             }
-            .card-flex {
+            .card-body {
                 display: flex;
-                flex: 1 1 auto;
-                flex-direction: column;
+                align-items: center;
+            }
+            .card-img {
+                width: 2rem;
+                height: 2rem;
+            }
+            .card-title {
+                font-size: 1.5rem;
+            }
+            .card-subtitle {
+                font-size: 0.875rem;
+                color: #6c757d;
+            }
+            .chart-container {
+                position: relative;
+                height: 100%;
+                width: 100%;
             }
         </style>
     </head>
     <body>
         <%@include file="Header_HotelHost.jsp" %>
         <div class="container-fluid py-0">
-            <form action="DashboardServlet" method="GET">
-                <div class="input-group">
-                    <select id="month" name="month">
-                        <%
-                            int selectedMonth = request.getParameter("month") != null ? Integer.parseInt(request.getParameter("month")) : 0;
-                            String[] monthNames = {"All", "January", "February", "March", "April", "May", "June", 
-                                                   "July", "August", "September", "October", "November", "December"};
+            <a href="homeHotelHostServlet"_Hot class="btn btn-outline-primary mt-2">
+                <img src="img_Hotel/back.svg" alt="Back Icon" style="width: 1rem; height: 1rem;" class="me-2">Back
+            </a>
+            <form action="DashboardServlet" method="GET" class="container my-4">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="month" class="form-label">Month</label>
+                        <select id="month" name="month" class="form-select">
+                            <%
+                                int selectedMonth = request.getParameter("month") != null ? Integer.parseInt(request.getParameter("month")) : 0;
+                                String[] monthNames = {"All", "January", "February", "March", "April", "May", "June", 
+                                                       "July", "August", "September", "October", "November", "December"};
 
-                            for (int i = 0; i <= 12; i++) {
-                                if (i == selectedMonth) {
-                                    out.println("<option value=\"" + i + "\" selected>" + monthNames[i] + "</option>");
-                                } else {
-                                    out.println("<option value=\"" + i + "\">" + monthNames[i] + "</option>");
+                                for (int i = 0; i <= 12; i++) {
+                                    if (i == selectedMonth) {
+                                        out.println("<option value=\"" + i + "\" selected>" + monthNames[i] + "</option>");
+                                    } else {
+                                        out.println("<option value=\"" + i + "\">" + monthNames[i] + "</option>");
+                                    }
                                 }
-                            }
-                        %>
-                    </select>
+                            %>
+                        </select>
+                    </div>
 
-                    <select id="year" name="year">
-                        <%
-                            int currentYear = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
-                            int selectedYear = request.getParameter("year") != null ? Integer.parseInt(request.getParameter("year")) : currentYear;
-                            for (int year = 2000; year <= currentYear; year++) {
-                                if (year == selectedYear) {
-                                    out.println("<option value=\"" + year + "\" selected>" + year + "</option>");
-                                } else {
-                                    out.println("<option value=\"" + year + "\">" + year + "</option>");
+                    <div class="col-md-4 mb-3">
+                        <label for="year" class="form-label">Year</label>
+                        <select id="year" name="year" class="form-select">
+                            <%
+                                int currentYear = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+                                int selectedYear = request.getParameter("year") != null ? Integer.parseInt(request.getParameter("year")) : currentYear;
+                                for (int year = 2000; year <= currentYear; year++) {
+                                    if (year == selectedYear) {
+                                        out.println("<option value=\"" + year + "\" selected>" + year + "</option>");
+                                    } else {
+                                        out.println("<option value=\"" + year + "\">" + year + "</option>");
+                                    }
                                 }
-                            }
-                        %>
-                    </select>
+                            %>
+                        </select>
+                    </div>
 
-                    <select id="hotelSelect" name="hotel_ID">
-                        <%
-                            List<Hotel> hotelList = (List<Hotel>) request.getAttribute("hotelList");
-                            int selectedHotelID = request.getParameter("hotel_ID") != null ? Integer.parseInt(request.getParameter("hotel_ID")) : -1;
+                    <div class="col-md-4 mb-3">
+                        <label for="hotelSelect" class="form-label">Hotel</label>
+                        <select id="hotelSelect" name="hotel_ID" class="form-select">
+                            <%
+                                List<Hotel> hotelList = (List<Hotel>) request.getAttribute("hotelList");
+                                int selectedHotelID = request.getParameter("hotel_ID") != null ? Integer.parseInt(request.getParameter("hotel_ID")) : -1;
 
-                            for (Hotel hotel : hotelList) {
-                                int hotelID = hotel.getHotel_ID();
-                                String selected = (hotelID == selectedHotelID) ? "selected" : "";
-                        %>
-                        <option value="<%= hotelID %>" <%= selected %>><%= hotel.getName() %></option>
-                        <%
-                            }
-                        %>
-                    </select>
-                    <button type="submit" class="btn btn-primary" style="margin-left: 10px">Search</button>
+                                for (Hotel hotel : hotelList) {
+                                    int hotelID = hotel.getHotel_ID();
+                                    String selected = (hotelID == selectedHotelID) ? "selected" : "";
+                            %>
+                            <option value="<%= hotelID %>" <%= selected %>><%= hotel.getName() %></option>
+                            <%
+                                }
+                            %>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Search</button>
                 </div>
             </form>
             <!-- row chính 1 -->
@@ -99,12 +129,12 @@
                     <div class="card justify-content-center align-items-center shadow p-3 bg-body-tertiary  border-0 h-100" id="cardFirst">
                         <div class="card-body" >
                             <div class="row">
-                                <div class="col-md-3 mt-4">
+                                <div class="col-md-2 mt-4">
                                     <img src="img_Hotel/document.svg" alt="Invoice Icon" style="width: 2rem; height: 2rem;">
                                 </div>
-                                <div class="col-md-9 mt-2 px-3">
+                                <div class="col-md-10 mt-2 px-3">
                                     <h3>${totalReservations}</h3>
-                                    <p class="fs-6">Total Reservations</p>
+                                    <p style="font-size: 15px">Total Reservations</p>
                                 </div>
                             </div>
                         </div>
@@ -114,12 +144,12 @@
                     <div class="card justify-content-center align-items-center shadow p-3  bg-body-tertiary  border-0 h-100" id="cardFirst">
                         <div class="card-body " >
                             <div class="row">
-                                <div class="col-md-3 mt-4">
+                                <div class="col-md-2 mt-4">
                                     <img src="img_Hotel/paid_invoice.svg" alt="Invoice Icon" style="width: 2rem; height: 2rem; color: white">
                                 </div>
-                                <div class="col-md-9 mt-2 px-3">
+                                <div class="col-md-10 mt-2 px-3">
                                     <h3>${paidReservations}</h3>
-                                    <p class="fs-6">Paid Reservations</p>
+                                    <p style="font-size: 15px">Paid Reservations</p>
                                 </div>
                             </div>
                         </div>
@@ -129,12 +159,12 @@
                     <div class="card justify-content-center align-items-center shadow p-3  bg-body-tertiary  border-0 h-100" id="cardFirst">
                         <div class="card-body" >
                             <div class="row">
-                                <div class="col-md-3 mt-4">
+                                <div class="col-md-2 mt-4">
                                     <img src="img_Hotel/cancel_invoice.svg" alt="Invoice Icon" style="width: 2rem; height: 2rem;">
                                 </div>
-                                <div class="col-md-9 mt-2 px-3">
+                                <div class="col-md-10 mt-2 px-3">
                                     <h3>${cancelReservations}</h3>
-                                    <p class="fs-6">Cancel Reservations</p>
+                                    <p style="font-size: 15px">Cancel Reservations</p>
                                 </div>
                             </div>
                         </div>
@@ -144,12 +174,12 @@
                     <div class="card justify-content-center align-items-center shadow p-3  bg-body-tertiary border-0 h-100" id="cardFirst">
                         <div class="card-body" >
                             <div class="row">
-                                <div class="col-md-3 mt-4">
+                                <div class="col-md-2 mt-4">
                                     <img src="img_Hotel/sent_invoice.svg" alt="Invoice Icon" style="width: 2rem; height: 2rem;">
                                 </div>
-                                <div class="col-md-9 mt-2 px-3">
+                                <div class="col-md-10 mt-2 px-3">
                                     <h3>${refundReservations}</h3>
-                                    <p class="fs-6">Refund Reservations</p>
+                                    <p style="font-size: 15px">Refund Reservations</p>
                                 </div>
                             </div>
                         </div>

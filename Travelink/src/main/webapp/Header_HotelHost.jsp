@@ -98,7 +98,7 @@
             <div class="card bg-light border-0" id="titleHotel">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-auto">
-                        <img src="img_Home/logo.png" width="50" height="60" class="d-inline-block align-top" alt="">
+                        <a href="homeHotelHostServlet"><img src="img_Home/logo.png" width="50" height="60" class="d-inline-block align-top" alt=""></a>
                     </div>
                     <div class="col-auto">
                         <div class="nav__logo"><a href="homeHotelHostServlet">Trave<span>link</span></a></div>

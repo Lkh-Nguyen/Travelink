@@ -326,7 +326,7 @@
 
                                                             <div class="col-md-6">
                                                                 <div class="mb-2" id="btn-confirm">
-                                                                    <a class="btn btn-primary w-100 btnConfirm" id="confirmBtn">Confirm</a>
+                                                                    <a href="ExportBillServlet" class="btn btn-primary" id="confirmBtn">Download</a>
 
                                                                     <div class="toast-container position-fixed bottom-0 end-0 p-3">
                                                                         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -348,7 +348,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <a href="ExportBillServlet" class="download-button">Download PDF</a>
                                         <div class="row gradient-background" style="height: 20px">
                                         </div>
                                     </div>

@@ -110,12 +110,21 @@
             .no-resize-textarea {
                 resize: none;
             }
+            .pagination .page-item .page-link {
+                color: #007bff;
+            }
+
+            .pagination .page-item.active .page-link {
+                background-color: #007bff;
+                border-color: #007bff;
+                color: white;
+            }
         </style>
     </head>
     <body>
         <%@include file="Header_HotelHost.jsp" %>
         <div class="container-fluid">
-            <a href="Home_HotelHost.jsp" class="btn btn-outline-primary mt-2">
+            <a href="homeHotelHostServlet"_Hot class="btn btn-outline-primary mt-2">
                 <img src="img_Hotel/back.svg" alt="Back Icon" style="width: 1rem; height: 1rem;" class="me-2">Back
             </a>
             <div class="row p-4 d-flex align-items-center">
@@ -147,7 +156,7 @@
                                         <tbody class="table-group-divider align-items-center text-center">
                                             <c:forEach var="h" items="${requestScope.hotel_list}" varStatus="loopStatus">
                                                 <tr>
-                                                    <td>${(currentPage - 1) * recordsPerPage + loopStatus.index + 1}</td>
+                                                    <td>${loopStatus.index + 1}</td>
                                                     <td>${h.name}</td>
                                                     <td>${h.email}</td>
                                                     <td>
@@ -210,24 +219,16 @@
                                                         <!-- Không cần để ý form này, thực hiện trong form trong MODAL -->
                                                         <form class="row m-1 p-1" action="HotelHost_UpdateHotelServlet" method="get">
                                                             <button class="btn btn-outline-primary mb-1 w-100">
-                                                                Hotel Information Detail
+                                                                Detail
                                                             </button>
                                                             <input type="hidden" name="hotelID" value="${h.hotel_ID}">
                                                         </form>
                                                         <form class="row m-1 p-1" action="HotelHost_ViewHotelImgServlet" method="get">
                                                             <button class="btn btn-outline-primary mb-1 w-100">
-                                                                Hotel Image 
+                                                                Image 
                                                             </button>
                                                             <input type="hidden" name="hotelID" value="${h.hotel_ID}">
                                                         </form> 
-
-                                                        <form class="row m-1 p-1" action="HotelHost_DeleteHotelServlet" method="get" id="cancelForm">        
-                                                            <button class="btn btn-outline-danger mb-1 w-100 delete-button">
-                                                                Delete
-                                                            </button>
-                                                            <input type="hidden" name="hotelID" value="${h.hotel_ID}"/>
-               
-                                                        </form>
                                                         <form class="row m-1 p-1" action="#" method="#" id="cancelForm">
                                                             <button type="button" class="btn btn-outline-secondary mb-1 w-100 add-button">
                                                                 Add
@@ -235,11 +236,7 @@
                                                             <input type="hidden" name="hotel_ID" value="${h.hotel_ID}"/>
                                                             <input type="hidden" name="action" value="add"/>
                                                         </form>
-                                                        <div class="row m-2">
-                                                            <a class="btn btn-outline-primary w-100" href="UpdateHotelRoomServlet?hotel_ID=${h.hotel_ID}">
-                                                                Room
-                                                            </a>                                                    
-                                                        </div>
+
                                                     </td>
                                                 </tr>
                                                 <!-- Modal Update-->
@@ -295,27 +292,7 @@
                                         </c:forEach>
                                         </tbody>
                                     </table>
-                                    <nav>
-                                        <ul class="pagination">
-                                            <c:if test="${currentPage > 1}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="UpdateHotelInformationServlet?page=${currentPage - 1}">Previous</a>
-                                                </li>
-                                            </c:if>
-
-                                            <c:forEach begin="1" end="${noOfPages}" var="i">
-                                                <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                    <a class="page-link" href="UpdateHotelInformationServlet?page=${i}">${i}</a>
-                                                </li>
-                                            </c:forEach>
-
-                                            <c:if test="${currentPage < noOfPages}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="UpdateHotelInformationServlet?page=${currentPage + 1}">Next</a>
-                                                </li>
-                                            </c:if>
-                                        </ul>
-                                    </nav>
+                                    <ul class="pagination justify-content-center mt-3"></ul>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="alert alert-warning" role="alert">
@@ -404,9 +381,45 @@
                     $('#modalStatus').val(status);
                     $('#updateModal').modal('show');
                 });
-            })
-                    ;
+            });
+             $(document).ready(function () {
+                $('#hotelTable').DataTable({
+                    paging: false // Disable default DataTable pagination
+                });
+                
+                var rowsPerPage = 3; // Number of rows to display per page
+                var rows = $('#hotelTable tbody tr');
+                var rowsCount = rows.length;
+                var pageCount = Math.ceil(rowsCount / rowsPerPage);
+                var numbers = $('.pagination');
 
+                // Add pagination numbers
+                for (var i = 0; i < pageCount; i++) {
+                    numbers.append('<li class="page-item"><a class="page-link" href="#">' + (i + 1) + '</a></li>');
+                }
+
+                // Show the first set of rows and mark the first pagination number as active
+                $('.pagination li:first-child').addClass('active');
+                displayRows(1);
+
+                // Add click event to pagination numbers
+                $('.pagination li').on('click', function (e) {
+                    e.preventDefault();
+                    var $this = $(this);
+                    var pageIndex = $this.index() + 1;
+                    $('.pagination li').removeClass('active');
+                    $this.addClass('active');
+                    displayRows(pageIndex);
+                });
+
+                // Function to display rows for the selected page index
+                function displayRows(index) {
+                    var start = (index - 1) * rowsPerPage;
+                    var end = start + rowsPerPage;
+                    rows.hide();
+                    rows.slice(start, end).show();
+                }
+            });
         </script>
     </body>
 </html>

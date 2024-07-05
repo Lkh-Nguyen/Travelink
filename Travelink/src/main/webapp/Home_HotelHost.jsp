@@ -98,7 +98,7 @@
                                             </a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="UpdateHotelInformationServlet" class="btn btn-primary w-100 justify-content-center">
+                                            <a href="HotelHost_BookingScheduleServlet" class="btn btn-primary w-100 justify-content-center">
                                                 <img src="img_Hotel/unlock.svg" alt="Check Icon" style="width: 1rem;"> Go to page
                                             </a>
                                         </c:otherwise>
@@ -129,7 +129,7 @@
                                             </a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="#" class="btn btn-primary w-100 justify-content-center">
+                                            <a href="UpdateHotelInformationServlet" class="btn btn-primary w-100 justify-content-center">
                                                 <img src="img_Hotel/unlock.svg" alt="Check Icon" style="width: 1rem;"> Go to page
                                             </a>
                                         </c:otherwise>
@@ -195,7 +195,7 @@
                                                     </a>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a href="UpdateHotelInformationServlet" class="btn btn-primary w-100 justify-content-center">
+                                                    <a href="UpdateHotelRoomServlet" class="btn btn-primary w-100 justify-content-center">
                                                         <img src="img_Hotel/unlock.svg" alt="Check Icon" style="width: 1rem;"> Go to page
                                                     </a>
                                                 </c:otherwise>
@@ -227,7 +227,7 @@
                                                     </a>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a href="#" class="btn btn-primary w-100 justify-content-center">
+                                                    <a href="HotelHost_FeedbackServlet" class="btn btn-primary w-100 justify-content-center">
                                                         <img src="img_Hotel/unlock.svg" alt="Check Icon" style="width: 1rem;"> Go to page
                                                     </a>
                                                 </c:otherwise>

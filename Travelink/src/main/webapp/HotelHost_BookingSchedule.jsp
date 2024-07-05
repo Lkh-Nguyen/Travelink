@@ -13,6 +13,9 @@
         <%@include file="Header_HotelHost.jsp" %>
 
         <div class="container-fluid mt-5 mb-5">
+            <a href="homeHotelHostServlet"_Hot class="btn btn-outline-primary mt-2 mb-4">
+                    <img src="img_Hotel/back.svg" alt="Back Icon" style="width: 1rem; height: 1rem;" class="me-2">Back
+            </a>
             <div class="row">
                 <div class="col-md-2 mx-auto" style="background: white">
                     <div class="card">
@@ -39,43 +42,43 @@
                         </div>
                     </div>
                     <form action="HotelHost_SearchAvailableServlet" method="post" onsubmit="return validateDates()">
-                    <div class="card mt-3">
-                        <div class="card-header text-center">TYPE</div>
-                        <div class="card-body">
-                            <c:if test="${roomList != null}">
-                                <c:forEach var="room" items="${roomList}" varStatus="status">
-                                    <div class="form-check d-flex justify-content-between">
-                                        <div>
-                                            <input class="form-check-input" type="checkbox" id="single" value="${room.room_ID}" name="${status.index}"
-                                                   <c:forEach var="check" items="${requestScope.checkBoxList}">
-                                                       <c:if test="${check eq room.room_ID}">
-                                                           checked=""
-                                                       </c:if>
-                                                   </c:forEach>
-                                                   >          
-                                            <label class="form-check-label" for="single">${room.name}</label>
+                        <div class="card mt-3">
+                            <div class="card-header text-center">TYPE</div>
+                            <div class="card-body">
+                                <c:if test="${roomList != null}">
+                                    <c:forEach var="room" items="${roomList}" varStatus="status">
+                                        <div class="form-check d-flex justify-content-between">
+                                            <div>
+                                                <input class="form-check-input" type="checkbox" id="single" value="${room.room_ID}" name="${status.index}"
+                                                       <c:forEach var="check" items="${requestScope.checkBoxList}">
+                                                           <c:if test="${check eq room.room_ID}">
+                                                               checked=""
+                                                           </c:if>
+                                                       </c:forEach>
+                                                       >          
+                                                <label class="form-check-label" for="single">${room.name}</label>
+                                            </div>
+                                            <label>${room.totalRooms}</label>
                                         </div>
-                                        <label>${room.totalRooms}</label>
-                                    </div>
-                                </c:forEach>
-                            </c:if>
+                                    </c:forEach>
+                                </c:if>
+                            </div>
                         </div>
-                    </div>
 
                 </div>
                 <div class="col-md-10">                    
                     <div class="row mb-3">
                         <div class="col-md-6">                            
-                                <div class="input-group">
-                                    <label style="font-size: 20px">Start Date: </label>
-                                    <input type="date" name="startDate" value="${requestScope.startDate}" style="margin-right: 10px;margin-left: 10px" class="form-control" placeholder="Start Date" required> 
-                                    <label style="font-size: 20px">End Date: </label>
-                                    <input type="date" name="endDate" value="${requestScope.endDate}" style="margin-left: 10px" class="form-control" placeholder="End Date" required>
-                                    <button type="submit" class="btn btn-primary" style="margin-left: 10px">Search</button>
-                                    <c:if test="${hotel != null}">
-                                        <input type="hidden" name="hotelID" value="${hotel.hotel_ID}">
-                                    </c:if>
-                                </div>
+                            <div class="input-group">
+                                <label style="font-size: 20px">Start Date: </label>
+                                <input type="date" name="startDate" value="${requestScope.startDate}" style="margin-right: 10px;margin-left: 10px" class="form-control" placeholder="Start Date" required> 
+                                <label style="font-size: 20px">End Date: </label>
+                                <input type="date" name="endDate" value="${requestScope.endDate}" style="margin-left: 10px" class="form-control" placeholder="End Date" required>
+                                <button type="submit" class="btn btn-primary" style="margin-left: 10px">Search</button>
+                                <c:if test="${hotel != null}">
+                                    <input type="hidden" name="hotelID" value="${hotel.hotel_ID}">
+                                </c:if>
+                            </div>
                             </form>
                         </div>
                     </div>
@@ -89,7 +92,7 @@
                                     <div class="card-body d-flex text-center">
                                         <i class='bx bxs-check-circle' style="font-size: 80px;margin-right: 10px"></i><h5 class="card-title mt-3" style="font-size: 30px">Free Room</h5>
                                     </div>
-                                    <a href="#" class="btn btn btn-outline-light mt-auto" style="border-radius: 0px;border: none">
+                                    <a href="InsertOfflineBookingServlet" class="btn btn btn-outline-light mt-auto" style="border-radius: 0px;border: none">
                                         <i class='bx bx-plus-medical' ></i> Add Booking
                                     </a>
                                     <p class="card-text p-2"><label style="font-weight:bold">Status:</label>  Room is currently empty</p>

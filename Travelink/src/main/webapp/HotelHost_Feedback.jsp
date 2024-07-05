@@ -25,7 +25,9 @@
 
         <%@include file="Header_HotelHost.jsp" %>
         <div class="col-md-1" style="margin-left: 50px">
-            <button type="button" class="btn btn-outline-secondary mt-3 w-50" onclick="history.back()">Back</button>
+            <a href="homeHotelHostServlet" class="btn btn-outline-primary mt-2">
+                <img src="img_Hotel/back.svg" alt="Back Icon" style="width: 1rem; height: 1rem;" class="me-2">Back
+            </a>
         </div>
         <div class="container mt-5">
             <div class="card"> 

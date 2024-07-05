@@ -198,6 +198,34 @@
         </style>
     </head>
     <body>
+        <c:if test="${requestScope.successFeedback != null}">
+            <div id="status-message" style="background-color: rgb(233,251,233);" class="hidden">
+                <div style="display: flex">
+                    <div style="width: 20%">
+                        <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                    </div>
+                    <div style="width: 80%;height: 100%; text-align: start">
+                        <h3 style="color:green;margin-top: 5px;font-weight: 550 ">Success</h3>
+                        <p style="color: black;font-size: 14px">${requestScope.successFeedback}</p>
+                    </div>
+                </div>           
+            </div>
+
+        </c:if>
+        <c:if test="${requestScope.failFeedback != null}">
+            <div id="status-message" style="background-color: rgb(253,233,231);height: 80px; margin-top: 0px;" class="hidden">
+                <div style="display: flex">
+                    <div style="width: 20%">
+                        <i class='bx bxs-error-circle' style="font-size: 50px;color: red;margin-top: 0px"></i>
+                    </div>
+                    <div style="width: 80%;text-align: start">
+                        <h3 style="color: red;margin-top: 5px;font-weight: 550 ">Error</h3>
+                        <p style="color: black;font-size: 14px">${requestScope.failFeedback}</p>
+                    </div>
+                </div>           
+            </div>
+        </c:if>
+        
         <%@include file="Header.jsp" %>
 
         <div id="overlay"></div>
@@ -318,7 +346,7 @@
                                                 <hr>
                                                 <div class="row"> 
                                                     <div class="col-md-12">
-                                                        
+
                                                         <form action="ViewFeedbackReservationIDServlet" method="post">
                                                             <input type="hidden" name="reservationID" value="${entry.key}"/>
                                                             <input type="hidden" name="role" value="1"/>
@@ -344,7 +372,7 @@
         </div>
 
         <%@include file="Footer.jsp" %>
-
+        <script src="js/Alter.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const logoutButton = document.getElementById('logoutButton');

@@ -67,8 +67,14 @@ public class Paid_Hotel_Service extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String check = request.getParameter("check");
-        if(check != null){
-            request.setAttribute("successFeedback", "Feedback successfully.");
+        if (check != null) {
+            if (check.equalsIgnoreCase("true")) {
+                request.setAttribute("successFeedback", "Feedback successfully.");
+            }
+            else if (check.equalsIgnoreCase("false")) {
+                request.setAttribute("failFeedback", "Feedback has been detected by AI !.");
+            }
+
         }
         LocalDate currentDate = LocalDate.now();
         HttpSession session = request.getSession();
@@ -78,9 +84,9 @@ public class Paid_Hotel_Service extends HttpServlet {
             response.sendRedirect("Form_Login.jsp");
             return;
         }
-       
+
         List<Bill> list_bill = BillDB.getBillFinishedByCustomerID(account.getAccount_ID());
-        
+
         Map<Integer, List<Bill>> groupedBills = new LinkedHashMap<>();
         for (Bill bill : list_bill) {
             int reservationID = bill.getReservationID();

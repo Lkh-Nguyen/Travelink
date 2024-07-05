@@ -62,6 +62,7 @@ public class HotelHost_ViewHotelImgServlet extends HttpServlet {
             int hotelID = Integer.parseInt(request.getParameter("hotelID"));
             List<HotelImage> imgList = HotelImageDB.getHotelImagesByHotelID(hotelID);
             request.setAttribute("imageList", imgList);
+            request.setAttribute("hotelID", hotelID);
             for (HotelImage img : imgList) {
                 System.out.println(img.getUrl()); // Debugging output
             }

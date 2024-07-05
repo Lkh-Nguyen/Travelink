@@ -311,6 +311,46 @@
 
 
                             </table>
+                            <div class="row m-2">
+                                <div class="form-group mb-2">
+                                    <label for="roomID">Hotel ID</label>
+                                    <input type="text" class="form-control" id="newRoomID" name="roomID" value="${hotelID}" readonly="">
+                                </div>
+                                <!-- Form upload image -->
+                                <form method="post" action="UploadImageAvatar" enctype="multipart/form-data" onsubmit="return validateForm(event)">
+                                    <input type="file" id="file-add" name="file" size="60" accept=".jpeg,.jpg,.png" onchange="previewImage2(event, 'add')"/><br/>
+                                    <p>Maximum file size is 1 MB.<br>Format: .JPEG, .PNG</p>
+                                    <div class="image-preview-container d-flex justify-content-center align-items-center" id="preview-add">
+                                        <!-- Image preview will be displayed here -->
+                                    </div>
+                                    <input id="submit_Input-add" style="margin-top:10px" type="submit" value="Upload"/>
+                                    <div id="error-message-add">Please select a file to upload.</div>
+                                    <input type="hidden" name="uploadhotelhost" value="2.5"/>
+                                    <input type="hidden" name="roomID" value="${requestScope.room_ID}"/>
+                                </form>  
+
+                                <!-- Form update image -->
+                                <form method="post" action="UpdateAvatar">
+                                    <c:choose>
+                                        <c:when test="${not empty uploadedFilePath}">
+                                            <input type="hidden" name="urlAvatar" value="/Travelink/img_Avatar/${uploadedFilePath}"/>
+                                            <div class="pd_button">
+                                                <button><a href="View_Avatar.jsp">Cancel</a></button>
+                                                <input type="submit" value="Save"/>
+                                            </div>
+                                            <input type="hidden" name="hotelID" value="${hotelID}">
+                                            <input type="hidden" name="uploadhotelhost" value="2.5"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="hidden" name="urlAvatar" value=""/>
+                                            <div class="pd_button">
+                                                <button style="pointer-events: none;cursor: not-allowed;opacity: 0.6;">Cancel</button>
+                                                <input type="submit" value="Save" style="pointer-events: none;cursor: not-allowed;opacity: 0.6;"/>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -325,5 +365,95 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+                                        $(document).ready(function () {
+                                            $('#hotelTable').DataTable();
+                                        });
+
+                                        $(document).on('click', '.update-button', function () {
+                                            var imageId = $(this).data('image-id');
+                                            var modalId = '#updateModal-' + imageId;
+                                            $(modalId).modal('show');
+                                        });
+
+                                        $(document).on('click', '.delete-button', function () {
+                                            var imageId = $(this).data('image-id');
+                                            // Handle delete functionality here
+                                            // You might want to show a confirmation dialog or redirect to a delete servlet
+                                        });
+
+                                        function previewImage(event, imageId) {
+                                            var reader = new FileReader();
+                                            reader.onload = function () {
+                                                var preview = document.getElementById('preview-' + imageId);
+                                                preview.innerHTML = '<img src="' + reader.result + '" alt="Image preview">';
+                                            };
+                                            reader.readAsDataURL(event.target.files[0]);
+                                        }
+
+                                        function uploadImage(imageId) {
+                                            var fileInput = document.getElementById('file-' + imageId);
+                                            var file = fileInput.files[0];
+                                            var formData = new FormData();
+                                            formData.append('file', file);
+                                            formData.append('roomImageID', imageId); // Assuming you need to send the image ID
+
+                                            var xhr = new XMLHttpRequest();
+                                            xhr.open('POST', 'UploadImageAvatar', true);
+
+                                            xhr.onload = function () {
+                                                if (xhr.status === 200) {
+                                                    // Update the image source on the page with the new image URL
+                                                    var response = JSON.parse(xhr.responseText);
+                                                    var preview = document.getElementById('preview-' + imageId);
+                                                    preview.innerHTML = '<img src="' + response.newImageUrl + '" alt="Image preview" style="width: 150px; height: 150px; object-fit: cover;">';
+
+
+                                                    // Optionally, display a success message
+                                                    alert('Image uploaded successfully!');
+                                                } else {
+                                                    // Display error message
+                                                    var errorMessage = document.getElementById('error-message-' + imageId);
+                                                    errorMessage.textContent = 'Error uploading image. Please try again.';
+                                                }
+                                            };
+
+                                            xhr.send(formData);
+                                        }
+
+                                        function validateForm(event, imageID) {
+                                            const fileInput = document.getElementById('file-' + imageID);
+                                            const errorMessage = document.getElementById('error-message-' + imageID);
+                                            if (!fileInput.files.length) {
+                                                event.preventDefault();
+                                                errorMessage.style.display = 'block';
+                                                return false;
+                                            }
+                                            errorMessage.style.display = 'none';
+                                            return true;
+                                        }
+
+                                        function previewImage2(event, id) {
+                                            var input = event.target;
+                                            var previewContainer;
+
+                                            if (id === 'add') {
+                                                previewContainer = document.getElementById('preview-add');
+                                            } else {
+                                                previewContainer = document.getElementById(`preview-${id}`);
+                                            }
+
+                                            if (input.files && input.files[0]) {
+                                                var reader = new FileReader();
+                                                reader.onload = function (e) {
+                                                    previewContainer.innerHTML = '<img src="' + e.target.result + '" alt="Image preview" style="max-width: 100%; max-height: 200px;"/>';
+                                                };
+                                                reader.readAsDataURL(input.files[0]);
+                                            } else {
+                                                previewContainer.innerHTML = '';
+                                            }
+                                        }
+
+        </script>
     </body>
 </html>

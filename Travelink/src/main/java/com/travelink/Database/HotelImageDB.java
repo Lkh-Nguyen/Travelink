@@ -134,6 +134,28 @@ public class HotelImageDB implements DatabaseInfo {
         return updated;
     }
 
+    public static boolean addNewHotelImg(int hotelID, String imageUrl) {
+        boolean added = false;
+        String query = "INSERT INTO Hotel_Image (Hotel_ID, URL) VALUES (?, ?)";
+
+        try (Connection connection = DatabaseInfo.getConnect(); PreparedStatement statement = connection.prepareStatement(query)) {
+
+            if (connection != null) {
+                statement.setInt(1, hotelID);
+                statement.setString(2, imageUrl);
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    added = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error adding new hotel image: " + e);
+        }
+
+        return added;
+    }
+
     public static List<HotelImage> getHotelImagesByHotelID(int hotelID) {
         List<HotelImage> images = new ArrayList<>();
         Connection connection = null;

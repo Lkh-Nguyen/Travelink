@@ -31,6 +31,11 @@
             }
         %>
         <%@include file="Header_HotelHost.jsp" %>
+        <div class="col-md-1" style="margin-left: 50px">
+            <a href="homeHotelHostServlet" class="btn btn-outline-primary mt-2">
+                <img src="img_Hotel/back.svg" alt="Back Icon" style="width: 1rem; height: 1rem;" class="me-2">Back
+            </a>
+        </div>
         <div class="container-fluid" id="right" >
             <!-- Card History -->
             <!-- Change -->

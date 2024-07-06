@@ -18,6 +18,7 @@ import com.travelink.Database.DatabaseInfo;
 import static com.travelink.Database.MessageDB.saveMessageToDatabase;
 import static com.travelink.Database.MessageDB.sendExistingMessages;
 import com.travelink.Model.Account;
+import com.travelink.Model.Message;
 
 @ServerEndpoint(value = "/chat", configurator = Chat.Configurator.class)
 public class Chat {
@@ -36,7 +37,7 @@ public class Chat {
         clients.add(session);
         System.out.println("New connection with client: " + session.getId());
 
-        // Load friends list when a new session opens
+        // Load accounts list when a new session opens
         handleLoadFriends(session);
     }
 
@@ -64,7 +65,7 @@ public class Chat {
                 handleChatMessage(jsonMessage, session);
             } else if ("loadMessages".equals(type)) {
                 handleLoadMessages(jsonMessage, session);
-            } else if ("loadFriends".equals(type)) {
+            } else if ("loadAccounts".equals(type)) {
                 handleLoadFriends(session);
             } else {
                 System.out.println("Invalid message type received: " + type);
@@ -92,11 +93,11 @@ public class Chat {
         nw.saveNotificationToDatabase(toId, notificationMessage, "/messenger");
         nw.sendNotificationToClient(toId, notificationMessage, "/messenger");
 
-        // Reload friends list for both sender and receiver
-        handleLoadFriends(session); // Load friends list for the sender (fromId)
+        // Reload accounts list for both sender and receiver
+        handleLoadFriends(session); // Load accounts list for the sender (fromId)
         Session receiverSession = getSessionById(toId);
         if (receiverSession != null) {
-            handleLoadFriends(receiverSession); // Load friends list for the receiver (toId)
+            handleLoadFriends(receiverSession); // Load accounts list for the receiver (toId)
         }
     }
 
@@ -104,34 +105,52 @@ public class Chat {
         int toId = jsonMessage.getInt("toId");
         int fromId = getUserId(session);
 
-        // Send existing messages to the client
-        sendExistingMessages(session, fromId, toId);
+        // Gửi tin nhắn hiện có đến client
+        List<Message> messages = sendExistingMessages(fromId, toId);
+
+        JSONArray messageArray = new JSONArray();
+        for (Message message : messages) {
+            JSONObject messageObj = new JSONObject();
+            messageObj.put("text", message.getMessageText());
+            messageObj.put("fromId", message.getFromId());
+            messageObj.put("sentTime", message.getSentTime().getTime()); // Bao gồm thời gian gửi
+            messageArray.put(messageObj);
+        }
+
+        // Tạo JSON phản hồi
+        JSONObject response = new JSONObject();
+        response.put("type", "loadMessages");
+        response.put("messages", messageArray);
+
+        // Gửi danh sách tin nhắn đến client
+        session.getAsyncRemote().sendText(response.toString());
     }
 
     private void handleLoadFriends(Session session) {
         int userId = getUserId(session);
 
-        // Get accepted friends
-        List<Account> friends = AccountDB.getAcceptedFriendsOrderByLatestMessage(userId);
+        // Get accepted accounts
+        List<Account> accounts = AccountDB.getAcceptedFriendsOrderByLatestMessage(userId);
 
-        // Create JSON array from the friends list
-        JSONArray friendsArray = new JSONArray();
-        for (Account friend : friends) {
-            JSONObject friendObj = new JSONObject();
-            friendObj.put("id", friend.getAccount_ID());
-            friendObj.put("username", friend.getName());
-            friendObj.put("avatar", friend.getAvatarURL());
-            friendsArray.put(friendObj);
+        // Create JSON array from the accounts list
+        JSONArray accountsArray = new JSONArray();
+        for (Account account : accounts) {
+            JSONObject accountObj = new JSONObject();
+            accountObj.put("id", account.getAccount_ID());
+            accountObj.put("username", account.getName());
+            accountObj.put("avatar", account.getAvatarURL());
+            accountsArray.put(accountObj);
         }
 
         // Create response JSON
         JSONObject response = new JSONObject();
-        response.put("type", "loadFriends");
-        response.put("friends", friendsArray);
+        response.put("type", "loadAccounts");
+        response.put("accounts", accountsArray);
 
-        // Send the friends list to the client
+        // Send the accounts list to the client
         session.getAsyncRemote().sendText(response.toString());
     }
+
     private void broadcastMessage(int fromId, String fromUsername, int toId, String messageText) {
         JSONObject messageObj = new JSONObject();
         messageObj.put("type", "chat");
@@ -139,6 +158,8 @@ public class Chat {
         messageObj.put("fromUsername", fromUsername);
         messageObj.put("toId", toId);
         messageObj.put("messageText", messageText);
+        messageObj.put("sentTime", System.currentTimeMillis()); // Thêm thời gian gửi
+
         String message = messageObj.toString();
 
         synchronized (clients) {
@@ -149,7 +170,7 @@ public class Chat {
                     if (user != null) {
                         int userId = user.getAccount_ID();
 
-                        // Only send message to relevant sessions (fromId and toId match the current user)
+                        // Chỉ gửi tin nhắn đến các session liên quan (fromId và toId trùng với user hiện tại)
                         if (userId == fromId || userId == toId) {
                             try {
                                 client.getBasicRemote().sendText(message);
@@ -218,4 +239,5 @@ public class Chat {
             }
         }
     }
+
 }

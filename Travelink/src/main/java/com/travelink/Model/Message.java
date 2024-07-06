@@ -9,13 +9,22 @@ package com.travelink.Model;
  * @author DUYAN
  */
 import com.google.gson.Gson;
+import java.sql.Timestamp;
 
 public class Message {
 
     private int toId;
     private int fromId;
     private String messageText;
-    private String command;
+    private Timestamp sentTime;
+
+    public Timestamp getSentTime() {
+        return sentTime;
+    }
+
+    public void setSentTime(Timestamp sentTime) {
+        this.sentTime = sentTime;
+    }
 
     public Message(int toId, int fromId, String messageText) {
         this.toId = toId;
@@ -23,9 +32,12 @@ public class Message {
         this.messageText = messageText;
     }
 
-    public Message(String command, String toId) {
-        this.command = command;
+    public Message(String toId) {
         this.toId = Integer.parseInt(toId);
+    }
+    
+    public Message(){
+        
     }
 
     public int getToId() {
@@ -51,15 +63,7 @@ public class Message {
     public void setMessageText(String messageText) {
         this.messageText = messageText;
     }
-
-    public String getCommand() {
-        return command;
-    }
-
-    public void setCommand(String command) {
-        this.command = command;
-    }
-
+    
     public String toJson() {
         Gson gson = new Gson();
         return gson.toJson(this);

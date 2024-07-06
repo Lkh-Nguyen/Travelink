@@ -309,7 +309,7 @@
                 <div class="nav__logo"><a href="homeCustomerServlet">Trave<span>link</span></a></div>
                 <ul class="nav__links">
                     <li class="link"><a href="homeCustomerServlet">Home</a></li>
-                    <li class="link"><a href="Home_Customer.jsp">About</a></li>
+                    <li class="link"><a href="ChatServlet">Contact</a></li>
                     <li class="link"><a href="All_Hotel_Service">Transaction History</a></li>
                     <li class="link"><a href="MyFeedbackServlet">My Feedback</a></li>
                     <li class="link"><a href="ListFavoriteHotel">Favorite Hotels</a></li>

@@ -103,7 +103,7 @@
         <script>
             let wsUri = "ws://" + window.location.host + "/Travelink/chat";
             let websocket = new WebSocket(wsUri);
-            let currentFriendId = null;
+            let currentAccountId = null;
 
             websocket.onopen = function (evt) {
                 console.log("Connected to WebSocket server.");
@@ -115,7 +115,7 @@
                 if (messageObj.type === 'chat') {
                     displayMessage(messageObj);
                 } else if (messageObj.type === 'loadAccounts') {
-                    handleLoadFriends(messageObj.accounts);
+                    handleLoadAccounts(messageObj.accounts);
                 } else if (messageObj.type === 'loadMessages') {
                     handleLoadMessages(messageObj.messages);
                 }
@@ -143,11 +143,11 @@
                 let messageInput = document.getElementById("messageInput");
                 let messageText = messageInput.value;
 
-                if (messageText.trim() !== "" && currentFriendId !== null) {
+                if (messageText.trim() !== "" && currentAccountId !== null) {
                     let messageObj = {
                         type: "chat",
                         fromId: ${sender},
-                        toId: currentFriendId,
+                        toId: currentAccountId,
                         messageText: messageText
                     };
                     websocket.send(JSON.stringify(messageObj));
@@ -163,7 +163,7 @@
                 websocket.send(JSON.stringify(messageObj));
             }
 
-            function handleLoadFriends(accounts) {
+            function handleLoadAccounts(accounts) {
                 let accountsList = document.getElementById("accountsList");
                 accountsList.innerHTML = "";
                 accounts.forEach(function (account) {
@@ -184,9 +184,14 @@
                     accountItem.appendChild(accountName);
 
                     accountItem.onclick = function () {
-                        currentFriendId = account.id;
+                        currentAccountId = account.id;
+                        //Remove bg-info
+                        let allAccountItems = document.querySelectorAll(".account-item");
+                        allAccountItems.forEach(function (item) {
+                            item.classList.remove("bg-info");
+                        });
                         accountItem.classList.toggle('bg-info');
-                        loadMessages(currentFriendId);
+                        loadMessages(currentAccountId);
                     };
 
                     accountsList.appendChild(accountItem);
@@ -232,10 +237,10 @@
                 let date = new Date(timestamp);
                 let hours = date.getHours().toString().padStart(2, '0');
                 let minutes = date.getMinutes().toString().padStart(2, '0');
-                let day = date.getDate().toString().padStart(2,'0');
-                let month = date.getMonth().toString().padStart(2,'0');
+                let day = date.getDate().toString().padStart(2, '0');
+                let month = date.getMonth().toString().padStart(2, '0');
                 let year = date.getFullYear().toString();
-                return hours + ':' + minutes+' '+day+'/'+month+'/'+year;
+                return hours + ':' + minutes + ' ' + day + '/' + month + '/' + year;
             }
 
             function displayMessage(messageObj) {

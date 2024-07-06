@@ -4,7 +4,6 @@
  */
 package com.travelink.Database;
 
-import com.travelink.Model.Account;
 import com.travelink.Model.Feedback;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -65,8 +64,8 @@ public class FeedbackDB implements DatabaseInfo {
         return feedback;
     }
 
-    public static List<Feedback> getFeedbackByReservationID(int reservationID) {
-        List<Feedback> feedbackList = new ArrayList<>();
+    public static Feedback getFeedbackByReservationID(int reservationID) {
+        Feedback feedback = null;
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -81,7 +80,7 @@ public class FeedbackDB implements DatabaseInfo {
                 resultSet = statement.executeQuery();
 
                 while (resultSet.next()) {
-                    Feedback feedback = new Feedback();
+                    feedback = new Feedback();
                     feedback.setFeedbackID(resultSet.getInt("Feedback_ID"));
                     feedback.setDescription(resultSet.getString("Description"));
                     feedback.setRating(resultSet.getByte("Rating"));
@@ -89,7 +88,6 @@ public class FeedbackDB implements DatabaseInfo {
                     feedback.setLikesCount(resultSet.getInt("LikesCount"));
                     feedback.setDislikesCount(resultSet.getInt("DislikesCount"));
                     feedback.setReservation_ID(resultSet.getInt("Reservation_ID"));
-                    feedbackList.add(feedback);
                 }
             }
         } catch (SQLException e) {
@@ -109,7 +107,7 @@ public class FeedbackDB implements DatabaseInfo {
                 System.out.println("Error closing resources: " + e);
             }
         }
-        return feedbackList;
+        return feedback;
     }
 
     public static int insertFeedback(Feedback feedback) {
@@ -208,12 +206,12 @@ public class FeedbackDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                    String query = "SELECT DISTINCT f.Feedback_ID,f.Description, f.Rating, f.Date, f.LikesCount, f.DislikesCount, f.Reservation_ID "
-                                    + "FROM Feedback f "
-                                    + "JOIN Reservation r ON f.Reservation_ID = r.Reservation_ID "
-                                    + "JOIN Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID "
-                                    + "JOIN Room ro ON rr.Room_ID = ro.Room_ID "
-                                    + "WHERE ro.Hotel_ID = ?";
+                String query = "SELECT DISTINCT f.Feedback_ID,f.Description, f.Rating, f.Date, f.LikesCount, f.DislikesCount, f.Reservation_ID "
+                        + "FROM Feedback f "
+                        + "JOIN Reservation r ON f.Reservation_ID = r.Reservation_ID "
+                        + "JOIN Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID "
+                        + "JOIN Room ro ON rr.Room_ID = ro.Room_ID "
+                        + "WHERE ro.Hotel_ID = ?";
                 statement = connection.prepareStatement(query);
                 statement.setInt(1, hotelID); // Set the Hotel_ID parameter
                 resultSet = statement.executeQuery();
@@ -473,7 +471,7 @@ public class FeedbackDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) {
-        Feedback feedback =FeedbackDB.getFeedbackByFeedbackID(1);
+        Feedback feedback = FeedbackDB.getFeedbackByFeedbackID(1);
         System.out.println(feedback);
     }
 

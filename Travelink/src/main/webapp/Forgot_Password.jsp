@@ -120,6 +120,7 @@
     </head>
 
     <body>
+        <%@include file="Header.jsp"%>
         <main id="content" role="main">
             <div class="form-container">
                 <h1>Forgot password?</h1>
@@ -146,6 +147,7 @@
                 <span>|</span>
                 <a href="#">Contact us!</a>
             </div>
-        </main>     
+        </main> 
+        <%@include file="Footer.jsp"%>
     </body>
 </html>

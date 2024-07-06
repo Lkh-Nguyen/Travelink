@@ -16,7 +16,7 @@
     <body>
         <!--Sau thay bằng button Login của HomePage-->
         <div class="contain-a-button">
-            <a class="a-button" href="Home_Customer.jsp">
+            <a class="a-button" href="homeCustomerServlet">
                 <i class="fa fa-arrow-left"></i> Back
             </a>
         </div>

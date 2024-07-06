@@ -107,7 +107,7 @@
             </div>
             <div class="ml-2 justify-content-end align-content-end align-items-end">
                 <c:set var="account" value="${sessionScope.account}"></c:set>
-                <c:if test="${not empty account}">
+                <c:if test="${not empty account and account.role == 2}">
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center btn btn-outline-secondary p-2" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -121,7 +121,7 @@
                         </li>
                     </ul>
                 </c:if>
-                <c:if test="${empty account}">
+                <c:if test="${empty account || account.role != 2}">
                     <button class="button" onclick="location.href = 'HotelHost_Login.jsp'">
                         GET STARTED
                         <svg fill="currentColor" viewBox="0 0 24 24" class="icon">

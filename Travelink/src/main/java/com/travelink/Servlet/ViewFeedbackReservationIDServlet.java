@@ -74,7 +74,7 @@ public class ViewFeedbackReservationIDServlet extends HttpServlet {
             throws ServletException, IOException {
         String role = request.getParameter("role");
         int reservationID = Integer.parseInt(request.getParameter("reservationID"));
-        Feedback feedback = FeedbackDB.getFeedbackByReservationID(reservationID).get(0);
+        Feedback feedback = FeedbackDB.getFeedbackByReservationID(reservationID);
         request.setAttribute("feedback", feedback);
         if(role.equalsIgnoreCase("2")){
             request.getRequestDispatcher("ViewFeedbackReservationID.jsp").forward(request, response);

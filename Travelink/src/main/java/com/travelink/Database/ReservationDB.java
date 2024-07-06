@@ -21,22 +21,22 @@ import java.util.List;
  * @author ASUS
  */
 public class ReservationDB implements DatabaseInfo {
-    
+
     public static List<Reservation> getAllReservationsMonthly() {
         Reservation reservation = null;
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Reservation> reservations = new ArrayList<>();
-        
+
         try {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM Reservation " +
-                       "WHERE Status = 'FINISHED' " +
-                       "AND MONTH(Reservation_Date) = MONTH(GETDATE()) " +
-                       "AND YEAR(Reservation_Date) = YEAR(GETDATE())";
+                String query = "SELECT * FROM Reservation "
+                        + "WHERE Status = 'FINISHED' "
+                        + "AND MONTH(Reservation_Date) = MONTH(GETDATE()) "
+                        + "AND YEAR(Reservation_Date) = YEAR(GETDATE())";
                 statement = connection.prepareStatement(query);
                 resultSet = statement.executeQuery();
                 if (resultSet.next()) {
@@ -73,6 +73,7 @@ public class ReservationDB implements DatabaseInfo {
 
         return reservations;
     }
+
     public static Reservation getReservationByReservationID(int reservationID) {
         Reservation reservation = null;
         Connection connection = null;
@@ -508,7 +509,7 @@ public class ReservationDB implements DatabaseInfo {
                 printReservationDetails(reservation);
             }
         }
-        
+
         System.out.println("Count: " + getAllReservationsMonthly().size());
         // Print sizes of lists
         System.out.println("All VietQR reservations: " + reservationList.size());
@@ -600,5 +601,56 @@ public class ReservationDB implements DatabaseInfo {
         }
 
         return reservations;
+    }
+
+    public static Reservation getReservationByFeedbackID(int feedbackID) {
+        Reservation reservation = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT r.* FROM Reservation r "
+                        + "INNER JOIN Feedback f ON r.Reservation_ID = f.Reservation_ID "
+                        + "WHERE f.Feedback_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, feedbackID);
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    reservation = new Reservation();
+                    reservation.setReservationID(resultSet.getInt("Reservation_ID"));
+                    reservation.setReservationDate(resultSet.getTimestamp("Reservation_Date").toLocalDateTime());
+                    reservation.setNumber_of_guests(resultSet.getInt("number_of_guests"));
+                    reservation.setCheckInDate(resultSet.getDate("CheckInDate"));
+                    reservation.setCheckOutDate(resultSet.getDate("CheckOutDate"));
+                    reservation.setTotalPrice(resultSet.getInt("Total_Price"));
+                    reservation.setPaymentMethod(resultSet.getString("Payment_Method"));
+                    reservation.setStatus(resultSet.getString("Status"));
+                    reservation.setAccount_ID(resultSet.getInt("Account_ID"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting reservation by feedback ID: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+
+        return reservation;
     }
 }

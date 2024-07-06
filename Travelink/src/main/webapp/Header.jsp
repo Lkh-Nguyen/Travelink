@@ -309,13 +309,13 @@
                 <div class="nav__logo"><a href="homeCustomerServlet">Trave<span>link</span></a></div>
                 <ul class="nav__links">
                     <li class="link"><a href="homeCustomerServlet">Home</a></li>
-                    <li class="link"><a href="Home_Customer.jsp">About</a></li>
+                    <li class="link"><a href="homeCustomerServlet">About</a></li>
                     <li class="link"><a href="All_Hotel_Service">Transaction History</a></li>
                     <li class="link"><a href="MyFeedbackServlet">My Feedback</a></li>
                     <li class="link"><a href="ListFavoriteHotel">Favorite Hotels</a></li>
                 </ul>
                 <c:set var="account" value="${sessionScope.account}"></c:set>
-                <c:if test="${not empty account}">
+                <c:if test="${not empty account and account.role == 1}">
                     <div class="btns">
                         <a class="btn loginBtn" style="margin-right: 40px;" onclick="toggleDropdown()"><img src="${account.avatarURL}" alt="alt"/>${account.name}</a>
                         <div id="dropdownMenu" class="dropdown" >
@@ -324,7 +324,7 @@
                         </div>
                     </div>
                 </c:if>
-                <c:if test="${empty account}">
+                <c:if test="${empty account or account.role !=1}">
                     <button class="button" onclick="forward()">
                         GET STARTED
                         <svg fill="currentColor" viewBox="0 0 24 24" class="icon">

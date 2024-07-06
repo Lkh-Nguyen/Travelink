@@ -4,29 +4,21 @@
  */
 package com.travelink.Servlet;
 
-import com.travelink.Database.BillDB;
-import com.travelink.Database.HotelServiceDB;
-import com.travelink.Model.Account;
-import com.travelink.Model.HotelService;
-import com.travelink.View.Bill;
+import com.travelink.Database.HotelImageDB;
+import com.travelink.Model.HotelImage;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
- * @author admin
+ * @author MSI
  */
-public class Paid_Hotel_Service extends HttpServlet {
+public class HotelHost_ViewHotelImgServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,10 +37,10 @@ public class Paid_Hotel_Service extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Paid_Hotel_Service</title>");
+            out.println("<title>Servlet HotelHost_ViewHotelImgServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Paid_Hotel_Service at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet HotelHost_ViewHotelImgServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,39 +58,20 @@ public class Paid_Hotel_Service extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String check = request.getParameter("check");
-        if (check != null) {
-            if (check.equalsIgnoreCase("true")) {
-                request.setAttribute("successFeedback", "Feedback successfully.");
+        try {
+            int hotelID = Integer.parseInt(request.getParameter("hotelID"));
+            List<HotelImage> imgList = HotelImageDB.getHotelImagesByHotelID(hotelID);
+            request.setAttribute("imageList", imgList);
+            request.setAttribute("hotelID", hotelID);
+            for (HotelImage img : imgList) {
+                System.out.println(img.getUrl()); // Debugging output
             }
-            else if (check.equalsIgnoreCase("false")) {
-                request.setAttribute("failFeedback", "Feedback has been detected by AI !.");
-            }
-
+            request.getRequestDispatcher("HotelHost_Hotel_Image.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid hotel ID");
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing your request");
         }
-        LocalDate currentDate = LocalDate.now();
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-
-        if (account == null) {
-            response.sendRedirect("Form_Login.jsp");
-            return;
-        }
-
-        List<Bill> list_bill = BillDB.getBillFinishedByCustomerID(account.getAccount_ID());
-
-        Map<Integer, List<Bill>> groupedBills = new LinkedHashMap<>();
-        for (Bill bill : list_bill) {
-            int reservationID = bill.getReservationID();
-            if (!groupedBills.containsKey(reservationID)) {
-                groupedBills.put(reservationID, new ArrayList<>());
-            }
-            groupedBills.get(reservationID).add(bill);
-        }
-        request.setAttribute("groupedBills", groupedBills);
-
-        request.setAttribute("list_bill", list_bill);
-        request.getRequestDispatcher("Paid_Transaction.jsp").forward(request, response);
     }
 
     /**
@@ -112,7 +85,15 @@ public class Paid_Hotel_Service extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+            int hotelID = Integer.parseInt(request.getParameter("hotelID"));
+            int hotelImgID = Integer.parseInt(request.getParameter("hotelImgID"));
+            List<HotelImage> imgList = HotelImageDB.getHotelImagesByHotelID(hotelID);
+            request.setAttribute("imageList", imgList);
+            for (HotelImage img : imgList) {
+                System.out.println(img.getUrl()); // Debugging output
+            }
+            request.setAttribute("update",hotelImgID );
+            request.getRequestDispatcher("HotelHost_Hotel_Image.jsp").forward(request, response);
     }
 
     /**

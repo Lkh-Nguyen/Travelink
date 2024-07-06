@@ -12,12 +12,13 @@ package com.travelink.Servlet;
 import com.travelink.Database.AccountDB;
 import com.travelink.Database.BillDB;
 import com.travelink.Database.HotelDB;
-import com.travelink.Database.ReservedRoomDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
+import com.travelink.Model.MonthlyPayment;
 import com.travelink.Model.Reservation;
-import com.travelink.Model.ReservedRoom;
 import com.travelink.View.Bill;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Properties;
 import javax.mail.Message;
@@ -157,7 +158,7 @@ public class SendEmail {
             e.printStackTrace();
         }
     }
-    
+
     public void sendHotelEmail(String mail, String msg) {
         final String username = "travelink517@gmail.com";
         final String password = "klfb cnic dgfd fcqv";
@@ -181,7 +182,7 @@ public class SendEmail {
             mgs.setFrom(new InternetAddress(fromEmail));
             mgs.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             mgs.setSubject("Pending Hotel Host Account on Travelink Platform");
-            mgs.setText("Your hotel has been "+msg+" by Admin");
+            mgs.setText("Your hotel has been " + msg + " by Admin");
             Transport.send(mgs);
             System.out.println("Sent Magess");
         } catch (MessagingException e) {
@@ -243,4 +244,102 @@ public class SendEmail {
         }
     }
 
+    public void sendAccountStatusEmail(String mail, boolean isLocked) {
+        final String username = "travelink517@gmail.com";
+        final String password = "klfb cnic dgfd fcqv";
+        String fromEmail = "travelink517@gmail.com";
+        String toEmail = mail;
+        Properties properties = new Properties();
+
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        MimeMessage message = new MimeMessage(session);
+        try {
+            message.setFrom(new InternetAddress(fromEmail));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            String subject, body;
+            if (isLocked) {
+                subject = "Your Travelink Account Has Been Locked";
+                body = "Dear User,\n\nYour Travelink account has been locked due to suspicious activities or violation of our terms of service. Please contact our support team if you believe this is a mistake.\n\nBest regards,\nTravelink Team";
+            } else {
+                subject = "Your Travelink Account Has Been Unlocked";
+                body = "Dear User,\n\nYour Travelink account has been unlocked. You can now access your account and continue using our services.\n\nBest regards,\nTravelink Team";
+            }
+            message.setSubject(subject);
+            message.setText(body);
+            Transport.send(message);
+            System.out.println("Sent account status email!");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendSuccessPayMonthlyPayment(MonthlyPayment monthlyPayment) {
+        Hotel hotel = HotelDB.getHotelByID(monthlyPayment.getHotel_ID());
+        final String username = "travelink517@gmail.com";
+        final String password = "klfb cnic dgfd fcqv";
+        String fromEmail = "travelink517@gmail.com";
+        String toEmail = hotel.getEmail();
+        Properties properties = new Properties();
+
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        MimeMessage message = new MimeMessage(session);
+        try {
+            message.setFrom(new InternetAddress(fromEmail));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            message.setSubject("Monthly Payment Confirmation");
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy, hh:mm a");
+            String formattedPaymentTime = monthlyPayment.getPaymentTime().format(formatter);
+
+            StringBuilder emailContent = new StringBuilder();
+            emailContent.append("Dear Hotel Partner,\n\n")
+                    .append("We are pleased to inform you that your monthly payment has been successfully processed.\n\n")
+                    .append("Payment Details:\n")
+                    .append("Month: ").append(monthlyPayment.getMonth()).append("\n")
+                    .append("Year: ").append(monthlyPayment.getYear()).append("\n")
+                    .append("Amount: ").append(monthlyPayment.getAmount()).append(" VND\n")
+                    .append("Payment Time: ").append(formattedPaymentTime).append("\n\n")
+                    .append("If you have any questions or need further assistance, please do not hesitate to contact us.\n\n")
+                    .append("Best regards,\n")
+                    .append("Travelink Team");
+
+            message.setText(emailContent.toString());
+            Transport.send(message);
+            System.out.println("Sent monthly payment confirmation email!");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        SendEmail sendEmail = new SendEmail();
+        // create a sample MonthlyPayment object for testing
+        MonthlyPayment monthlyPayment = new MonthlyPayment();
+        monthlyPayment.setHotel_ID(1); // set a valid hotel_ID
+        monthlyPayment.setMonth(6);
+        monthlyPayment.setYear(2024);
+        monthlyPayment.setAmount(1000000);
+        monthlyPayment.setPaymentTime(LocalDateTime.now());
+
+        sendEmail.sendSuccessPayMonthlyPayment(monthlyPayment);
+    }
 }

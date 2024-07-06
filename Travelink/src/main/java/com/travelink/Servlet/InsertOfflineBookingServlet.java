@@ -92,8 +92,8 @@ public class InsertOfflineBookingServlet extends HttpServlet {
         }
 
         //Message and redirect
-        session.setAttribute("insertOfflineBookingMessage", "Insert offline booking!");
-        response.sendRedirect("");
+        session.setAttribute("insertOfflineBookingMessage", "Insert offline booking success!");
+        response.sendRedirect("HotelHost_BookingScheduleServlet");
     }
 
     //Handle the booking string

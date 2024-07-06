@@ -145,6 +145,93 @@ public class HotelDB implements DatabaseInfo {
         return hotel;
     }
 
+    public static Hotel addNewHotel(Hotel hotel) {
+        String query = "INSERT INTO Hotel (Name, Email, Star, Rating, PhoneNumber, Description, CheckInTimeStart, CheckInTimeEnd, CheckOutTimeStart, CheckOutTimeEnd, Address, Ward_ID, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = DatabaseInfo.getConnect();
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            if (connection != null) {
+                statement.setString(1, hotel.getName());
+                statement.setString(2, hotel.getEmail());
+                statement.setInt(3, hotel.getStar());
+                statement.setFloat(4, hotel.getRating());
+                statement.setString(5, hotel.getPhoneNumber());
+                statement.setString(6, hotel.getDescription());
+                statement.setTime(7, java.sql.Time.valueOf(hotel.getCheckInTimeStart()));
+                statement.setTime(8, java.sql.Time.valueOf(hotel.getCheckInTimeEnd()));
+                statement.setTime(9, java.sql.Time.valueOf(hotel.getCheckOutTimeStart()));
+                statement.setTime(10, java.sql.Time.valueOf(hotel.getCheckOutTimeEnd()));
+                statement.setString(11, hotel.getAddress());
+                statement.setInt(12, hotel.getWard_ID());
+                statement.setString(13, hotel.getStatus());
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            hotel.setHotel_ID(generatedKeys.getInt(1)); // Assuming `Hotel` has a `setHotelID` method
+                        }
+                    }
+                    return hotel;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error adding new hotel: " + e);
+        }
+
+        return null; // Return null if the insertion fails
+    }
+
+    public static boolean updateHotel(Hotel newHotel, Hotel oldHotel) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        boolean updated = false;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "UPDATE Hotel SET Name=?, Description=?, Email=?, PhoneNumber=?, Address=?, Status=? WHERE Hotel_ID=?";
+                statement = connection.prepareStatement(query);
+
+                statement.setString(1, newHotel.getName());
+                statement.setString(2, newHotel.getDescription());
+                statement.setString(3, newHotel.getEmail());
+                statement.setString(4, newHotel.getPhoneNumber());
+                statement.setString(5, newHotel.getAddress());
+                statement.setString(6, newHotel.getStatus());
+                statement.setInt(7, oldHotel.getHotel_ID());
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    updated = true;
+                    // Optionally, update oldHotel with newHotel values
+                    oldHotel.setName(newHotel.getName());
+                    oldHotel.setDescription(newHotel.getDescription());
+                    oldHotel.setEmail(newHotel.getEmail());
+                    oldHotel.setPhoneNumber(newHotel.getPhoneNumber());
+                    oldHotel.setAddress(newHotel.getAddress());
+                    oldHotel.setStatus(newHotel.getStatus());
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating hotel: " + e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return updated;
+    }
+
     public static List<Hotel> getHotelsByWardID(int wardID) {
         List<Hotel> hotels = new ArrayList<>();
         Connection connection = null;
@@ -262,6 +349,191 @@ public class HotelDB implements DatabaseInfo {
             }
         }
         return newHotelList;
+    }
+
+    public static boolean updateNameHotel(int hotelID, String newName) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        boolean updated = false;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "UPDATE Hotel SET Name=? WHERE Hotel_ID=?";
+                statement = connection.prepareStatement(query);
+
+                statement.setString(1, newName);
+                statement.setInt(2, hotelID);
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    updated = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating hotel name: " + e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return updated;
+    }
+
+    public static boolean updateEmailHotel(int hotelID, String newEmail) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        boolean updated = false;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "UPDATE Hotel SET Email=? WHERE Hotel_ID=?";
+                statement = connection.prepareStatement(query);
+
+                statement.setString(1, newEmail);
+                statement.setInt(2, hotelID);
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    updated = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating hotel email: " + e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return updated;
+    }
+
+    public static boolean updatePhoneNumberHotel(int hotelID, String newPhoneNumber) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        boolean updated = false;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "UPDATE Hotel SET PhoneNumber=? WHERE Hotel_ID=?";
+                statement = connection.prepareStatement(query);
+
+                statement.setString(1, newPhoneNumber);
+                statement.setInt(2, hotelID);
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    updated = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating hotel phone number: " + e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return updated;
+    }
+
+    public static boolean updateDescriptionHotel(int hotelID, String newDescription) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        boolean updated = false;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "UPDATE Hotel SET Description=? WHERE Hotel_ID=?";
+                statement = connection.prepareStatement(query);
+
+                statement.setString(1, newDescription);
+                statement.setInt(2, hotelID);
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    updated = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating hotel description: " + e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return updated;
+    }
+
+    public static boolean updateAddressHotel(int hotelID, String newAddress) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        boolean updated = false;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "UPDATE Hotel SET Address=? WHERE Hotel_ID=?";
+                statement = connection.prepareStatement(query);
+
+                statement.setString(1, newAddress);
+                statement.setInt(2, hotelID);
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    updated = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating hotel address: " + e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return updated;
     }
 
     public static void main(String[] args) throws SQLException {

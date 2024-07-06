@@ -5,22 +5,20 @@
 
 package com.travelink.Servlet;
 
-import com.travelink.Database.ProvinceDB;
-import com.travelink.Model.Province;
+import com.travelink.Database.HotelImageDB;
+import com.travelink.Model.HotelImage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  *
  * @author MSI
  */
-public class HomeCustomerServlet extends HttpServlet {
+public class HotelHost_DeleteHotelImageServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +35,10 @@ public class HomeCustomerServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeCustomerServlet</title>");  
+            out.println("<title>Servlet HotelHost_DeleteHotelImageServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomeCustomerServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet HotelHost_DeleteHotelImageServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,15 +55,7 @@ public class HomeCustomerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String successfulLogin = (String) session.getAttribute("successLogin");
-        if (successfulLogin != null){
-            session.removeAttribute("successLogin");
-            request.setAttribute("successLogin", successfulLogin);
-        }
-        List<Province> locationList = ProvinceDB.getAllProvince();
-        request.setAttribute("locationList", locationList);
-        request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 
@@ -78,7 +68,12 @@ public class HomeCustomerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+         int hotelImgID = Integer.parseInt(request.getParameter("hotelImgID"));
+         int hotelID = Integer.parseInt(request.getParameter("hotelID"));
+         HotelImageDB.deleteHotelImgByID(hotelImgID);
+         request.setAttribute("imageList", HotelImageDB.getHotelImagesByHotelID(hotelID));
+         request.getRequestDispatcher("HotelHost_Hotel_Image.jsp").forward(request, response);
+         
     }
 
     /** 

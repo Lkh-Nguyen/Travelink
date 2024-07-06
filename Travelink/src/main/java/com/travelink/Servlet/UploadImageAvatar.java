@@ -1,7 +1,9 @@
 package com.travelink.Servlet;
 
+import com.travelink.Database.HotelImageDB;
 import com.travelink.Database.RoomImageDB;
 import com.travelink.Model.Account;
+import com.travelink.Model.HotelImage;
 import com.travelink.Model.RoomImage;
 import java.io.File;
 import java.io.IOException;
@@ -45,11 +47,11 @@ public class UploadImageAvatar extends HttpServlet {
             getServletContext().getRequestDispatcher("/View_Avatar.jsp").forward(request, response);
         } else if (sessionAccount.getRole() == 2) {
             if (uploadHotelHostValue.equalsIgnoreCase("2.1")) {
-                
+
                 getServletContext().getRequestDispatcher("/HotelHost_ViewAvatar.jsp").forward(request, response);
-                
+
             } else if (uploadHotelHostValue.equalsIgnoreCase("2.2")) {
-                
+
                 String room_ID = request.getParameter("roomID");
                 int roomid = Integer.parseInt(room_ID);
 
@@ -58,9 +60,9 @@ public class UploadImageAvatar extends HttpServlet {
                 request.setAttribute("room_ID", roomid);
                 request.setAttribute("list_images", list_images);
                 request.getRequestDispatcher("HotelHost_RoomImage.jsp").forward(request, response);
-                
-            } else if(uploadHotelHostValue.equalsIgnoreCase("2.3")){
-                
+
+            } else if (uploadHotelHostValue.equalsIgnoreCase("2.3")) {
+
                 String room_ID = request.getParameter("roomID");
                 int roomid = Integer.parseInt(room_ID);
 
@@ -69,6 +71,24 @@ public class UploadImageAvatar extends HttpServlet {
                 request.setAttribute("room_ID", roomid);
                 request.setAttribute("list_images", list_images);
                 request.getRequestDispatcher("HotelHost_RoomImage.jsp").forward(request, response);
+            } else if (uploadHotelHostValue.equalsIgnoreCase("2.4")) {
+                int hotelID = Integer.parseInt(request.getParameter("hotelID"));
+                int hotelImgID = Integer.parseInt(request.getParameter("hotelImgID"));
+                List<HotelImage> imgList = HotelImageDB.getHotelImagesByHotelID(hotelID);
+                request.setAttribute("imageList", imgList);
+                request.setAttribute("update", hotelImgID);
+                request.setAttribute("hotelID", hotelID);
+                request.getRequestDispatcher("HotelHost_Hotel_Image.jsp").forward(request, response);
+
+            } else if (uploadHotelHostValue.equalsIgnoreCase("2.5")) {
+                int hotelID = Integer.parseInt(request.getParameter("hotelID"));
+                int hotelImgID = Integer.parseInt(request.getParameter("hotelImgID"));
+                List<HotelImage> imgList = HotelImageDB.getHotelImagesByHotelID(hotelID);
+                request.setAttribute("imageList", imgList);
+                request.setAttribute("update", hotelImgID);
+                request.setAttribute("hotelID", hotelID);
+                request.getRequestDispatcher("HotelHost_Hotel_Image.jsp").forward(request, response);
+
             }
         }
 

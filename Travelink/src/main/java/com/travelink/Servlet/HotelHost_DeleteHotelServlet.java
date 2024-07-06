@@ -5,22 +5,20 @@
 
 package com.travelink.Servlet;
 
-import com.travelink.Database.ProvinceDB;
-import com.travelink.Model.Province;
+import com.travelink.Database.HotelDB;
+import com.travelink.Model.Hotel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  *
  * @author MSI
  */
-public class HomeCustomerServlet extends HttpServlet {
+public class HotelHost_DeleteHotelServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +35,10 @@ public class HomeCustomerServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeCustomerServlet</title>");  
+            out.println("<title>Servlet HotelHost_DeleteHotelServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomeCustomerServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet HotelHost_DeleteHotelServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,15 +55,14 @@ public class HomeCustomerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String successfulLogin = (String) session.getAttribute("successLogin");
-        if (successfulLogin != null){
-            session.removeAttribute("successLogin");
-            request.setAttribute("successLogin", successfulLogin);
-        }
-        List<Province> locationList = ProvinceDB.getAllProvince();
-        request.setAttribute("locationList", locationList);
-        request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
+        int hotelID = Integer.parseInt(request.getParameter("hotelID"));
+        Hotel hotel = HotelDB.getHotelByID(hotelID);
+        Hotel newHotel = hotel;
+        newHotel.setStatus("INACTIVE");
+        HotelDB.updateHotel(newHotel, hotel);
+        request.setAttribute("hotel_list", HotelDB.getAllHotels());
+        request.getRequestDispatcher("HotelHost_HotelInformation.jsp").forward(request, response);
+        
     } 
 
     /** 

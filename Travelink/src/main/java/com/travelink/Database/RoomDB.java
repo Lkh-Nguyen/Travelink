@@ -404,10 +404,10 @@ public class RoomDB implements DatabaseInfo {
 //                System.out.println(Room);
 //            }
 //        }
-//        List<Room> hotelRooms = RoomDB.getRoomsByHotel_ID(1);
-//        for (Room Room : hotelRooms) {
-//            System.out.println(Room);
-//        }
+        List<Room> hotelRooms = RoomDB.getRoomsByHotel_ID(4);
+        for (Room Room : hotelRooms) {
+            System.out.println(Room);
+        }
 //        System.out.println("** Test updateRoom **");
 //
 //        int hotelID = 1; // Thay thế bằng hotelID thực tế trong cơ sở dữ liệu
@@ -428,23 +428,7 @@ public class RoomDB implements DatabaseInfo {
 //        } else {
 //            System.out.println("Failed to update room.");
 //        }
-        Room room = new Room();
-        int hotel_id = 1;
-        room.setName("SUPER KING Room");
-        room.setRoomDescription("A cozy standard room");
-        room.setCapacity(2);
-        room.setTotalRooms(10);
-        room.setPrice(100);
-        room.setStatus("Available");
-        room.setHotel_ID(1); // Replace with actual hotel ID from your database
-
-        boolean added = RoomDB.addRoom(hotel_id,room);
-
-        if (added) {
-            System.out.println("Room added successfully.");
-        } else {
-            System.out.println("Failed to add room.");
-        }
+        
     }
 
 }

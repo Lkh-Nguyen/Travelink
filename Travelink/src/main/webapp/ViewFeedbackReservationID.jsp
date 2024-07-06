@@ -130,7 +130,7 @@
     </head>
     <body>
         <div id="comeback">
-            <button type="button" onclick="history.back()">Back</button>
+            <button type="button" onclick="history.back()"><img src="img_Hotel/back.svg" alt="Back Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</button>
         </div>
         <div class="modal fade " id="confirmCancelModal">
             <div class="modal-dialog d-flex justify-content-center align-items-center" role="document" style="height: 100vh">

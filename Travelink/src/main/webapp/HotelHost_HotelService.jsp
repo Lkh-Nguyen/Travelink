@@ -36,7 +36,7 @@
 <body>
 <%@include file="Header_HotelHost.jsp" %>
 <div class="container-fluid">
-    <a href="Home_HotelHost.jsp" class="btn btn-outline-primary mt-2">
+    <a href="homeHotelHostServlet" class="btn btn-outline-primary mt-2">
         <img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back
     </a>
     <div class="row p-4 d-flex align-items-center row-compact">
@@ -114,7 +114,7 @@
                                             </c:forEach>
                                         </td>
                                         <td>${hotel.getLocation()} - <a href="#"><img src="img_Hotel/map.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2"></a></td>
-                                        <td><a href="Form_Hotel.jsp" class="btn btn-outline-primary"><img src="img_Hotel/view.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">View</a></td>
+                                        <td><a href="UpdateHotelInformationServlet?hotel_ID" class="btn btn-outline-primary"><img src="img_Hotel/view.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">View</a></td>
                                         <td>
                                             <button class="btn btn-success me-4 update-btn" data-id="${hotel.hotel_ID}">
                                                 <img src="img_Hotel/update.svg" alt="Update" style="width: 1rem; height: 1rem; margin-right: 5px;"> Update

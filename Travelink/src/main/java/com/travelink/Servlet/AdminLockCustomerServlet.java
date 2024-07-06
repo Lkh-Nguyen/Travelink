@@ -23,8 +23,14 @@ public class AdminLockCustomerServlet extends HttpServlet {
         String account_IDStr = request.getParameter("account_ID");
         int account_ID = Integer.parseInt(account_IDStr);
         Account account = AccountDB.getAccountByAccountID(account_ID);
-        if (account.getStatus() == 1) AccountDB.updateAccountStatus(account_ID, 2);
+        boolean isLocked = false;
+        if (account.getStatus() == 1) {
+            AccountDB.updateAccountStatus(account_ID, 2);
+            isLocked = true;
+        }
         else AccountDB.updateAccountStatus(account_ID, 1);
+        SendEmail sendEmail = new SendEmail();
+        sendEmail.sendAccountStatusEmail(account.getEmail(), isLocked);
         response.sendRedirect("AdminCustomerListServlet");
     }
 

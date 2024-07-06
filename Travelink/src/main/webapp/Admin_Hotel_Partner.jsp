@@ -62,7 +62,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach var="partner" items="${requestScope.partnerList}">
+                                            <c:forEach var="partner" items="${requestScope.partnerList}" >
                                                 <tr>
                                                     <td>${partner.hotel.name}</td>
                                                     <td>${partner.account.name}</td>
@@ -72,7 +72,19 @@
                                                     <td class="text-primary fw-bold">${partner.hotel.status}</td>
                                                     <td class="text-center">
                                                         <button class="btn btn-primary btn-sm" onclick="location.href = 'AdminHotelInformationServlet?hotel_ID=${partner.hotel.hotel_ID}'">View hotel</button>
-                                                        <button class="btn btn-danger btn-sm">Lock/Unlock</button>
+                                                        <form action="AdminLockHotelServlet" method="get">
+                                                            <c:if test="${partner.hotel.status != 'LOCKED'}">
+                                                                <button class="btn btn-danger btn-sm">Lock</button>
+                                                                <input type="hidden" name="hotelID" value="${partner.hotel.hotel_ID}">
+                                                                <input type="hidden" name="type" value="Lock">
+                                                            </c:if>
+                                                             <c:if test="${partner.hotel.status eq 'LOCKED'}">
+                                                                <button class="btn btn-danger btn-sm">UnLock</button>
+                                                                <input type="hidden" name="hotelID" value="${partner.hotel.hotel_ID}">
+                                                                <input type="hidden" name="type" value="UnLock">
+                                                            </c:if>
+                                                        </form>
+                                                        
                                                     </td>
                                                 </tr>
                                                 <!-- Add more rows as needed -->

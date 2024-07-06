@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  *
  * @author ASUS
@@ -31,18 +30,18 @@ public class AdminHotelPartnerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-     List<OwnedHotel> ownedHotels = OwnedHotelDB.getAllOwnedHotels();
-     //Create new view
-     List<HotelPartner> partnerList = new ArrayList<>();
-     for (OwnedHotel ownedHotel: ownedHotels){
-         Hotel hotel = HotelDB.getHotelByID(ownedHotel.getHotel_ID());
-         Account account = AccountDB.getAccountByAccountID(ownedHotel.getAccount_ID());
-         String province = ProvinceDB.getLocationByHotelID(ownedHotel.getHotel_ID());
-         HotelPartner partner = new HotelPartner(hotel, account, province);
-         partnerList.add(partner);
-     }
-     request.setAttribute("partnerList", partnerList);
-     request.getRequestDispatcher("Admin_Hotel_Partner.jsp").forward(request, response);
+        List<OwnedHotel> ownedHotels = OwnedHotelDB.getAllOwnedHotels();
+        //Create new view
+        List<HotelPartner> partnerList = new ArrayList<>();
+        for (OwnedHotel ownedHotel : ownedHotels) {
+            Hotel hotel = HotelDB.getHotelByID(ownedHotel.getHotel_ID());
+            Account account = AccountDB.getAccountByAccountID(ownedHotel.getAccount_ID());
+            String province = ProvinceDB.getLocationByHotelID(ownedHotel.getHotel_ID());
+            HotelPartner partner = new HotelPartner(hotel, account, province);
+            partnerList.add(partner);
+            request.setAttribute("partnerList", partnerList);
+        }
+            request.getRequestDispatcher("Admin_Hotel_Partner.jsp").forward(request, response);
     }
 
     /**
@@ -56,7 +55,7 @@ public class AdminHotelPartnerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     /**

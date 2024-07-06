@@ -33,6 +33,15 @@ public class Hotel {
     // Constructor
     public Hotel() {}
 
+    public Hotel(String name, String email, String phoneNumber, String address, String status) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.status = status;
+    }
+    
+
     // Getters and Setters
     public int getHotel_ID() {
         return hotel_ID;

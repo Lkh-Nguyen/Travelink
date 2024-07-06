@@ -17,6 +17,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+        
         <style>
             @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
             body {
@@ -113,14 +114,140 @@
             .status-inactive {
                 background-color: red;
             }
+            .btn {
+                border-radius: 0.375rem; /* Rounded corners */
+                font-weight: 600; /* Bold text */
+                text-transform: uppercase; /* Uppercase text */
+                padding: 0.5rem 1rem; /* Padding */
+                transition: all 0.3s ease; /* Smooth transition */
+            }
+
+            /* Primary Button */
+            .btn-primary {
+                background-color: #007bff;
+                border: 1px solid #007bff;
+                color: white;
+            }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+                color: white;
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
+
+            /* Outline Primary Button */
+            .btn-outline-primary {
+                background-color: transparent;
+                border-color: #007bff;
+                color: #007bff;
+            }
+
+            .btn-outline-primary:hover {
+                background-color: #007bff;
+                color: white;
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
+
+            /* Danger Button */
+            .btn-danger {
+                background-color: #dc3545;
+                border: 1px solid #dc3545;
+                color: white;
+            }
+
+            .btn-danger:hover {
+                background-color: #c82333;
+                border-color: #bd2130;
+                color: white;
+                box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+            }
+
+            /* Outline Danger Button */
+            .btn-outline-danger {
+                background-color: transparent;
+                border-color: #dc3545;
+                color: #dc3545;
+            }
+
+            .btn-outline-danger:hover {
+                background-color: #dc3545;
+                color: white;
+                box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+            }
+
+            /* Secondary Button */
+            .btn-secondary {
+                background-color: #6c757d;
+                border: 1px solid #6c757d;
+                color: white;
+            }
+
+            .btn-secondary:hover {
+                background-color: #5a6268;
+                border-color: #545b62;
+                color: white;
+                box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+            }
+
+            /* Outline Secondary Button */
+            .btn-outline-secondary {
+                background-color: transparent;
+                border-color: #6c757d;
+                color: #6c757d;
+            }
+
+            .btn-outline-secondary:hover {
+                background-color: #6c757d;
+                color: white;
+                box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+            }
+
+            /* Modal Button Styles */
+            .modal-footer .btn-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+                color: white;
+            }
+
+            .modal-footer .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+                color: white;
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
         </style>
     </head>
     <body>
         <%@include file="Header_HotelHost.jsp" %>
         <div class="container-fluid">
-            <a href="UpdateHotelInformationServlet" class="btn btn-outline-primary mt-2">
+            <a href="homeHotelHostServlet" class="btn btn-outline-primary mt-2">
                 <img src="img_Hotel/back.svg" alt="Back Icon" style="width: 1rem; height: 1rem;" class="me-2">Back
             </a>
+
+            <div class="container mt-5">
+                <div class="card">
+                    <h5 class="card-header">
+                        Select Hotel
+                    </h5>
+                    <div class="card-body">
+                        <form action="UpdateHotelRoomServlet" method="get">
+                            <div class="form-group">
+                                <select id="hotelSelect" name="hotel_ID" class="form-control" onchange="this.form.submit()">
+                                    <c:forEach var="hotel" items="${hotel_list}">
+                                        <option value="${hotel.hotel_ID}" ${hotel.hotel_ID == hotel_id ? 'selected' : ''}>
+                                            ${hotel.name}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <input type="hidden" name="selected_hotel_ID" id="selected_hotel_ID" value="${hotel_id}"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
 
             <div class="row p-4">
                 <div class="col-md-12">
@@ -128,7 +255,7 @@
                         <h5 class="card-header">
                             <div class="d-flex align-items-center">
                                 <img src="img_Hotel/add.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                <h5 class="card-title mb-0">Add New Bed</h5>
+                                <h5 class="card-title mb-0">Add New Room</h5>
                             </div>
                         </h5>
                         <div class="card-body">
@@ -298,27 +425,6 @@
                                     </tbody>
                                 </c:forEach>
                             </table>
-                            <nav>
-                                <ul class="pagination">
-                                    <c:if test="${currentPage > 1}">
-                                        <li class="page-item">
-                                            <a class="page-link" href="UpdateHotelInformationServlet?page=${currentPage - 1}">Previous</a>
-                                        </li>
-                                    </c:if>
-
-                                    <c:forEach begin="1" end="${noOfPages}" var="i">
-                                        <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                            <a class="page-link" href="UpdateHotelInformationServlet?page=${i}">${i}</a>
-                                        </li>
-                                    </c:forEach>
-
-                                    <c:if test="${currentPage < noOfPages}">
-                                        <li class="page-item">
-                                            <a class="page-link" href="UpdateHotelInformationServlet?page=${currentPage + 1}">Next</a>
-                                        </li>
-                                    </c:if>
-                                </ul>
-                            </nav>
                         </div>
                     </div>
                 </div>
@@ -332,94 +438,95 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
-            $(document).ready(function () {
-                $('#hotelTable').DataTable();
-            });
+                                    $(document).ready(function () {
+                                        // Initialize DataTable
+                                        $('#hotelTable').DataTable();
+                                    });
 
-            document.addEventListener('DOMContentLoaded', () => {
-                const cancelButtons = document.querySelectorAll('.cancel-button');
-                const confirmCancelButton = document.getElementById('confirmCancelButton');
-                let formToSubmit;
+                                    document.addEventListener('DOMContentLoaded', () => {
+                                        const cancelButtons = document.querySelectorAll('.cancel-button');
+                                        const confirmCancelButton = document.getElementById('confirmCancelButton');
+                                        let formToSubmit;
 
-                cancelButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        formToSubmit = button.closest('form');
-                        $('#confirmCancelModal').modal('show');
-                    });
-                });
+                                        cancelButtons.forEach(button => {
+                                            button.addEventListener('click', () => {
+                                                formToSubmit = button.closest('form');
+                                                $('#confirmCancelModal').modal('show');
+                                            });
+                                        });
 
-                confirmCancelButton.addEventListener('click', () => {
-                    formToSubmit.submit();
-                });
-            });
+                                        confirmCancelButton.addEventListener('click', () => {
+                                            formToSubmit.submit();
+                                        });
+                                    });
 
-            function redirectToUpdatePage() {
-                window.location.href = 'HotelHost_UpdateRoom.jsp';
-            }
+                                    function redirectToUpdatePage() {
+                                        window.location.href = 'HotelHost_UpdateRoom.jsp';
+                                    }
 
-            $(document).ready(function () {
-                $('.update-button').on('click', function () {
-                    var hotelId = $(this).data('hotel-id');
-                    var name = $(this).data('name-room');
-                    var capacity = $(this).data('capacity');
-                    var roomId = $(this).data('room-id');
-                    var description = $(this).data('description');
-                    var totalRooms = $(this).data('total-rooms');
-                    var price = $(this).data('price');
-                    var status = $(this).data('status');
+                                    $(document).ready(function () {
+                                        $('.update-button').on('click', function () {
+                                            var hotelId = $(this).data('hotel-id');
+                                            var name = $(this).data('name-room');
+                                            var capacity = $(this).data('capacity');
+                                            var roomId = $(this).data('room-id');
+                                            var description = $(this).data('description');
+                                            var totalRooms = $(this).data('total-rooms');
+                                            var price = $(this).data('price');
+                                            var status = $(this).data('status');
 
-                    $('#modalHotelID').val(hotelId);
-                    $('#modalName').val(name);
-                    $('#modalCapacity').val(capacity);
-                    $('#modalDescription').val(description);
-                    $('#modalRoomID').val(roomId);
-                    $('#modalTotalRooms').val(totalRooms);
-                    $('#modalPrice').val(price);
-                    $('#modalStatus').val(status);
+                                            $('#modalHotelID').val(hotelId);
+                                            $('#modalName').val(name);
+                                            $('#modalCapacity').val(capacity);
+                                            $('#modalDescription').val(description);
+                                            $('#modalRoomID').val(roomId);
+                                            $('#modalTotalRooms').val(totalRooms);
+                                            $('#modalPrice').val(price);
+                                            $('#modalStatus').val(status);
 
-                    $('#updateModal').modal('show');
-                });
-            });
+                                            $('#updateModal').modal('show');
+                                        });
+                                    });
 
-            $(document).ready(function () {
-                $('.delete-button').on('click', function () {
-                    var hotelId = $(this).data('hotel-id');
-                    var roomId = $(this).data('room-id');
+                                    $(document).ready(function () {
+                                        $('.delete-button').on('click', function () {
+                                            var hotelId = $(this).data('hotel-id');
+                                            var roomId = $(this).data('room-id');
 
-                    $('#modalHotelID').val(hotelId);
-                    $('#modalRoomID').val(roomId);
+                                            $('#modalHotelID').val(hotelId);
+                                            $('#modalRoomID').val(roomId);
 
-                    $('#updateModal').modal('show');
-                });
-            });
+                                            $('#updateModal').modal('show');
+                                        });
+                                    });
 
-            $(document).ready(function () {
-                var rowsPerPage = 5;
-                var rows = $('#hotelTable tbody tr');
-                var rowsCount = rows.length;
-                var pageCount = Math.ceil(rowsCount / rowsPerPage);
-                var numbers = $('.pagination');
-                for (var i = 0; i < pageCount; i++) {
-                    numbers.append('<li class="page-item"><a class="page-link" href="#">' + (i + 1) + '</a></li>');
-                }
+                                    $(document).ready(function () {
+                                        var rowsPerPage = 5;
+                                        var rows = $('#hotelTable tbody tr');
+                                        var rowsCount = rows.length;
+                                        var pageCount = Math.ceil(rowsCount / rowsPerPage);
+                                        var numbers = $('.pagination');
+                                        for (var i = 0; i < pageCount; i++) {
+                                            numbers.append('<li class="page-item"><a class="page-link" href="#">' + (i + 1) + '</a></li>');
+                                        }
 
-                $('.pagination li:first-child').addClass('active');
-                displayRows(1);
-                $('.pagination li').on('click', function (e) {
-                    e.preventDefault();
-                    var $this = $(this);
-                    var pageIndex = $this.index() + 1;
-                    $('.pagination li').removeClass('active');
-                    $this.addClass('active');
-                    displayRows(pageIndex);
-                });
-                function displayRows(index) {
-                    var start = (index - 1) * rowsPerPage;
-                    var end = start + rowsPerPage;
-                    rows.hide();
-                    rows.slice(start, end).show();
-                }
-            });
+                                        $('.pagination li:first-child').addClass('active');
+                                        displayRows(1);
+                                        $('.pagination li').on('click', function (e) {
+                                            e.preventDefault();
+                                            var $this = $(this);
+                                            var pageIndex = $this.index() + 1;
+                                            $('.pagination li').removeClass('active');
+                                            $this.addClass('active');
+                                            displayRows(pageIndex);
+                                        });
+                                        function displayRows(index) {
+                                            var start = (index - 1) * rowsPerPage;
+                                            var end = start + rowsPerPage;
+                                            rows.hide();
+                                            rows.slice(start, end).show();
+                                        }
+                                    });
         </script>
     </body>
 </html>

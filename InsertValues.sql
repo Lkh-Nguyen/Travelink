@@ -1,10 +1,10 @@
-﻿Use Travelink
+﻿﻿Use Travelink
 GO
 
 --insert table Account--
 select *
 from Account
-
+-----------------------------------------------------------------------------------------------------------------------------
 INSERT INTO Account (Email, Password, Name, Gender, DateOfBirth, PhoneNumber,AvatarURL, Role, Status)
 VALUES
 --customer
@@ -20,7 +20,7 @@ VALUES
 --admin
 ('example8@email.com', '123', N'Admin 1', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/hai.jpg',3,1);
 --insert table Account--
-
+-----------------------------------------------------------------------------------------------------------------------------
 --insert table hotel--
 select *
 from Hotel
@@ -165,10 +165,7 @@ Da Nang Bay là lựa chọn sáng giá dành cho những ai đang tìm kiếm m
  select * 
  from Owned_Hotel
 
-
-
 Insert into Owned_Hotel (Hotel_ID, Account_ID) values
-(15,6),
 (1,6),
 (2,6),
 (3,6),
@@ -277,7 +274,7 @@ VALUES
 
 -- Declare variables for the loop
 DECLARE @HotelID INT = 1;
-DECLARE @MaxHotelID INT = 5;
+DECLARE @MaxHotelID INT = 10;
 DECLARE @Price INT;
 DECLARE @TotalRooms INT;
 DECLARE @Status NVARCHAR(50) = 'ACTIVE';
@@ -513,7 +510,7 @@ VALUES
 ('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
 ('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
 ('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID);
-
+-----------------------------------------------------------------------------------------------------------------------------------------
 
 DECLARE @Account_ID INT = 2;
 INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
@@ -529,7 +526,7 @@ VALUES
 ('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
 ('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FEEDBACKED', @Account_ID),
 ('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FEEDBACKED', @Account_ID);
-
+-----------------------------------------------------------------------------------------------------------------------------------------
 DECLARE @Account_ID INT = 3;
 INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
 VALUES
@@ -695,7 +692,7 @@ BEGIN
     SET @ReservationID = @ReservationID + 1;
 END;
 
-
+-----------------------------------------------------------------------------------------------------------------------------------------
 -- Chèn dữ liệu vào bảng Reserved_Room với Reservation_ID từ 1 đến 21, Room_ID random từ 1 đến 90, amount từ 1 đến 2
 DECLARE @ReservationID INT = 61;
 

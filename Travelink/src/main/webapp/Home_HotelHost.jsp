@@ -98,7 +98,7 @@
                                             </a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="#" class="btn btn-primary w-100 justify-content-center">
+                                            <a href="HotelHost_BookingScheduleServlet" class="btn btn-primary w-100 justify-content-center">
                                                 <img src="img_Hotel/unlock.svg" alt="Check Icon" style="width: 1rem;"> Go to page
                                             </a>
                                         </c:otherwise>
@@ -124,12 +124,12 @@
                                 <div class="col-md-8 justify-content-center text-center align-items-center">
                                     <c:choose>
                                         <c:when test="${account.name == null}">
-                                            <a href="HotelHost_Login.jsp" class="btn btn-primary w-100 justify-content-center" disabled>
+                                            <a href="UpdateHotelInformationServlet" class="btn btn-primary w-100 justify-content-center" disabled>
                                                 <img src="img_Hotel/lock.svg" alt="Lock Icon" style="width: 1rem;"> Please Login
                                             </a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="#" class="btn btn-primary w-100 justify-content-center">
+                                            <a href="UpdateHotelInformationServlet" class="btn btn-primary w-100 justify-content-center">
                                                 <img src="img_Hotel/unlock.svg" alt="Check Icon" style="width: 1rem;"> Go to page
                                             </a>
                                         </c:otherwise>
@@ -145,7 +145,7 @@
 
                     <div class="row ">
                         <!-- Card thứ nhất -->
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-3 mb-4">
                             <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded" id="cardBelow">
                                 <div class="card-body text-center">
                                     <img src="img_Hotel/information.svg" alt="Hotel Info Icon" style="width: 3rem;">
@@ -177,7 +177,7 @@
                         </div>
 
                         <!-- Card thứ hai -->
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-3 mb-4">
                             <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded" id="cardBelow">
                                 <div class="card-body text-center">
                                     <img src="img_Hotel/bake.svg" alt="Customer Info Icon" style="width: 3rem;">
@@ -195,7 +195,7 @@
                                                     </a>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a href="UpdateHotelInformationServlet" class="btn btn-primary w-100 justify-content-center">
+                                                    <a href="UpdateHotelRoomServlet" class="btn btn-primary w-100 justify-content-center">
                                                         <img src="img_Hotel/unlock.svg" alt="Check Icon" style="width: 1rem;"> Go to page
                                                     </a>
                                                 </c:otherwise>
@@ -209,7 +209,7 @@
                         </div>
 
                         <!-- Card thứ ba -->
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-3 mb-4">
                             <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded" id="cardBelow">
                                 <div class="card-body text-center">
                                     <img src="img_Hotel/feedback.svg" alt="History Icon" style="width: 3rem;">
@@ -227,7 +227,38 @@
                                                     </a>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a href="#" class="btn btn-primary w-100 justify-content-center">
+                                                    <a href="HotelHost_FeedbackServlet" class="btn btn-primary w-100 justify-content-center">
+                                                        <img src="img_Hotel/unlock.svg" alt="Check Icon" style="width: 1rem;"> Go to page
+                                                    </a>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
+                                        <div class="col-md-2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card thứ hai -->
+                        <div class="col-md-3 mb-4">
+                            <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded" id="cardBelow">
+                                <div class="card-body text-center">
+                                    <img src="img_Hotel/bill.webp" alt="Customer Info Icon" style="width: 3rem;">
+                                    <h5 class="card-title mt-3">Bill Management</h5>
+                                    <p class="card-text text-muted">Manage Hotel's Bill</p>
+                                    <hr>
+                                    <div class="row d-flex">
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-8 justify-content-center text-center align-items-center">
+                                            <c:choose>
+                                                <c:when test="${account.name == null}">
+                                                    <a href="HotelHost_Login.jsp" class="btn btn-primary w-100 justify-content-center" disabled>
+                                                        <img src="img_Hotel/lock.svg" alt="Lock Icon" style="width: 1rem;"> Please Login
+                                                    </a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="HotelHost_BookingHistoryBillServlet" class="btn btn-primary w-100 justify-content-center">
                                                         <img src="img_Hotel/unlock.svg" alt="Check Icon" style="width: 1rem;"> Go to page
                                                     </a>
                                                 </c:otherwise>
@@ -241,11 +272,12 @@
                         </div>
                     </div>
                 </div>
+               
                 <%@include file="Footer.jsp" %>
                 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
                 </body>
                 </html>
-                
-                
+
+

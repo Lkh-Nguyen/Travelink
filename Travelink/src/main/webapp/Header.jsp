@@ -35,11 +35,11 @@
                 align-items: center;
                 text-decoration: none;
                 color: #333;
-/*                background-color: #fff;*/
+                /*                background-color: #fff;*/
                 padding: 10px 15px;
-/*                border: 1px solid #ddd;*/
+                /*                border: 1px solid #ddd;*/
                 border-radius: 5px;
-/*                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+                /*                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
                 transition: background-color 0.3s, box-shadow 0.3s;
             }
             .btns .btn:hover {
@@ -310,7 +310,9 @@
                 <ul class="nav__links">
                     <li class="link"><a href="homeCustomerServlet">Home</a></li>
                     <li class="link"><a href="homeCustomerServlet">About</a></li>
-                    <li class="link"><a href="ChatServlet">Contact</a></li>
+                        <c:if test="${not empty account and account.role == 1}">
+                        <li class="link"><a href="ChatServlet">Contact</a></li>
+                        </c:if>
                     <li class="link"><a href="All_Hotel_Service">Transaction History</a></li>
                     <li class="link"><a href="MyFeedbackServlet">My Feedback</a></li>
                     <li class="link"><a href="ListFavoriteHotel">Favorite Hotels</a></li>
@@ -337,8 +339,8 @@
             </nav>
         </header>
         <script>
-            function forward(){
-                <%request.getSession().setAttribute("role",1);%>
+            function forward() {
+            <%request.getSession().setAttribute("role",1);%>
                 location.href = 'Form_Login.jsp';
             }
             function toggleDropdown() {

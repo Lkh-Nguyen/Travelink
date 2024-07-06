@@ -19,7 +19,7 @@ import java.io.IOException;
  *
  * @author ASUS
  */
-public class AdminFilter implements Filter {
+public class AllRoleFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,

@@ -28,6 +28,10 @@
         <filter-name>UnauthorizedJSP</filter-name>
         <filter-class>Filter.UnauthorizedJSP</filter-class>
     </filter>
+    <filter>
+        <filter-name>AllRoleFilter</filter-name>
+        <filter-class>Filter.AllRoleFilter</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>ErrorHandlingFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -44,6 +48,12 @@
         <url-pattern>/Footer.jsp</url-pattern>
         <url-pattern>/Header.jsp</url-pattern>
         <url-pattern>/Header_HotelHost.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AllRoleFilter</filter-name>
+        <url-pattern>/Chat.jsp</url-pattern>
+
+        <url-pattern>/ChatServlet</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>CustomerFilter</filter-name>

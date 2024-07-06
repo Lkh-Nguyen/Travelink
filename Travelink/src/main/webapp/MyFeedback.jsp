@@ -23,7 +23,7 @@
     <body>
         <%@include file="Header.jsp" %>
         <div class="container my-5">
-            <a href="Home_Customer.jsp" class="btn btn-outline-primary mt-2 mb-5"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
+            <a href="My_Account_Update.jsp" class="btn btn-outline-primary mt-2 mb-5"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
             <c:if test="${not empty feedbacks}">
                 <c:forEach var="f" items="${feedbacks}">
                     <c:set var="id" value="${f.feedbackID}"/>

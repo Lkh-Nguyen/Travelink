@@ -355,11 +355,11 @@
         <script src="js/Home_Customer.js"></script>
         <script src="js/Alter.js"></script>
         <script>
-            document.querySelector('.booking').addEventListener('click', function () {
-                document.querySelector('.booking__container').scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+//            document.querySelector('.booking').addEventListener('click', function () {
+//                document.querySelector('.booking__container').scrollIntoView({
+//                    behavior: 'smooth'
+//                });
+//            });
 
             AOS.init();
         </script>

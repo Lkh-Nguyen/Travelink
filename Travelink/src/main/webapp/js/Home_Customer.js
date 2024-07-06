@@ -10,14 +10,14 @@ const travellersDropdown = document.getElementById('travellersDropdown');
 const adultsInput = document.getElementById('adults');
 const childrenInput = document.getElementById('children');
 const numberInput = document.getElementById('numberInput');
-aboutLink.addEventListener('click', (e) =>{
-    e.preventDefault();
-    const aboutSection = $('#about');
-    aboutSection.scrollIntoView({
-        behavior:'smooth'
-    });
-}
-);
+//aboutLink.addEventListener('click', (e) =>{
+//    e.preventDefault();
+//    const aboutSection = $('#about');
+//    aboutSection.scrollIntoView({
+//        behavior:'smooth'
+//    });
+//}
+//);
 booking__nav.forEach(e =>{
     e.addEventListener('click', function () {
         booking__nav.forEach(item => item.classList.remove('active'));

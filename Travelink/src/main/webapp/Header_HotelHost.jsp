@@ -142,7 +142,7 @@
             </div>
             <div class="col-md-4 d-flex align-items-center justify-content-end">
                 <i class="bx bx-signal-4" style="font-size: 2rem; color: #007bff;"></i>
-                <span>15 new features updated successfully</span>
+                <span><a href="ChatServlet" style="font-weight: bold">Contact with Admin</a></span>
             </div>
         </div>
     </body>

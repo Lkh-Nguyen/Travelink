@@ -66,7 +66,7 @@ public class LogoutServlet extends HttpServlet {
             return;
         }
         String forward = "";
-        if (acc.getRole() == 1 && acc.getRole() == 3){
+        if (acc.getRole() == 1 || acc.getRole() == 3){
             forward = "Home_Customer.jsp";
         }
         else if(acc.getRole() == 2){

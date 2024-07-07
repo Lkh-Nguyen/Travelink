@@ -19,6 +19,7 @@ import static com.travelink.Database.MessageDB.saveMessageToDatabase;
 import static com.travelink.Database.MessageDB.sendExistingMessages;
 import com.travelink.Model.Account;
 import com.travelink.Model.Message;
+import java.util.ArrayList;
 
 @ServerEndpoint(value = "/chat", configurator = Chat.Configurator.class)
 public class Chat {
@@ -105,7 +106,7 @@ public class Chat {
         int toId = jsonMessage.getInt("toId");
         int fromId = getUserId(session);
 
-        // Gửi tin nhắn hiện có đến client
+        // Send existed message to client
         List<Message> messages = sendExistingMessages(fromId, toId);
 
         JSONArray messageArray = new JSONArray();
@@ -128,10 +129,14 @@ public class Chat {
 
     private void handleLoadFriends(Session session) {
         int userId = getUserId(session);
-
+        List<Account> accounts = new ArrayList<>();
         // Get accepted accounts
-        List<Account> accounts = AccountDB.getAcceptedFriendsOrderByLatestMessage(userId);
-
+        if (getUserRole(session) == 3){
+            accounts = AccountDB.getAcceptedFriendsOrderByLatestMessage(userId);
+        }
+        else {
+            accounts = AccountDB.getAllAdminAccounts();
+        }
         // Create JSON array from the accounts list
         JSONArray accountsArray = new JSONArray();
         for (Account account : accounts) {
@@ -209,6 +214,17 @@ public class Chat {
             Account user = (Account) httpSession.getAttribute("account");
             if (user != null) {
                 return user.getAccount_ID();
+            }
+        }
+        throw new IllegalStateException("User not authenticated");
+    }
+    
+    private int getUserRole(Session session){
+        HttpSession httpSession = (HttpSession) session.getUserProperties().get(HttpSession.class.getName());
+        if (httpSession != null) {
+            Account user = (Account) httpSession.getAttribute("account");
+            if (user != null) {
+                return user.getRole();
             }
         }
         throw new IllegalStateException("User not authenticated");

@@ -76,7 +76,7 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Promotion -->
+            <!-- Nav Item - Feedback -->
             <li class="nav-item my-3">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePromotion"
                    aria-expanded="true" aria-controls="collapsePromotion">
@@ -88,6 +88,12 @@
                         <a class="collapse-item" href="Admin_ViewReportFeedback">Report Feedback</a>
                     </div>
                 </div>
+            </li>
+             <!-- Nav Item - Contact -->
+            <li class="nav-item my-2 active">
+                <a class="nav-link" href="ChatServlet">
+                    <i class="fa-regular fa-address-book"></i>
+                    <span>Contact</span></a>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

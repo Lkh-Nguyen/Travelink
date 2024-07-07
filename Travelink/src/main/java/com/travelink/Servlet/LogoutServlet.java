@@ -62,13 +62,6 @@ public class LogoutServlet extends HttpServlet {
         
         HttpSession session = request.getSession(); // Get existing session (don't create if not exist)
         String forward = "";
-        if (acc.getRole() == 1 || acc.getRole() == 3){
-            forward = "Home_Customer.jsp";
-        }
-        else if(acc.getRole() == 2){
-            forward = "Home_HotelHost.jsp";
-        }
-
         if (session != null) {
             Account acc = (Account) session.getAttribute("account");
             session.invalidate();
@@ -77,7 +70,7 @@ public class LogoutServlet extends HttpServlet {
                 return;
             }
             
-            if (acc.getRole() == 1 && acc.getRole() == 3) {
+            if (acc.getRole() == 1 || acc.getRole() == 3) {
                 forward = "homeCustomerServlet";
             } else if (acc.getRole() == 2) {
                 forward = "homeHotelHostServlet";

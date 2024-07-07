@@ -20,7 +20,7 @@
             * {
                 font-family: Montserrat, sans-serif;
             }
-            
+
             .button {
                 position: relative;
                 transition: all 0.3s ease-in-out;
@@ -140,10 +140,12 @@
             <div class="col-md-7 d-flex align-items-center">
                 Welcome back, <span class="px-1 fw-semibold">${account.name}<i class='bx bxs-check-shield px-1' style="font-size: 1rem; color: green;"></i></span>
             </div>
-            <div class="col-md-4 d-flex align-items-center justify-content-end">
-                <i class="bx bx-signal-4" style="font-size: 2rem; color: #007bff;"></i>
-                <span><a href="ChatServlet" style="font-weight: bold">Contact with Admin</a></span>
-            </div>
+            <c:if test="${not empty account}">
+                <div class="col-md-4 d-flex align-items-center justify-content-end">
+                    <i class="bx bx-signal-4" style="font-size: 2rem; color: #007bff;"></i>
+                    <span><a href="ChatServlet" style="font-weight: bold">Contact with Admin</a></span>
+                </div>
+            </c:if>
         </div>
     </body>
 </html>

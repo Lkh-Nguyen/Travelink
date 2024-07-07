@@ -65,7 +65,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <!-- Select for Month -->
-                                <form action="HotelHostMontlyPaymentServlet" method="get">
+                                <form action="HotelHostMonthlyPaymentServlet" method="get">
                                     <div class="form-group m-1">
                                         <label for="month" class="form-label">Month</label>
                                         <select id="month" name="month" class="form-control">

@@ -132,7 +132,7 @@
                         <div class="input__content">
                             <div class="input__group">
                                 <input id="checkInDate" type="date" name="check_in_date" value="${sessionScope.checkInDate}"
-                                        onchange="validateDates()" required=""/>
+                                       onchange="validateDates()" required=""/>
                                 <label>Departure</label>
                             </div>
                             <p style="margin-bottom: 0px">Add date</p>
@@ -188,45 +188,73 @@
                         </div>
                     </div>
                     <h4 style="color: #2c97d2;">Lọc khách sạn</h4>
-                    <form id="filterForm">
+                    <form action="filterHotelByStarServlet" method="get">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="star" value="1" id="star1">
+                            <input class="form-check-input" type="radio" name="star" value="1" id="star1"
+                                   <c:if test="${star == 1}">
+                                       checked=""
+                                   </c:if>
+                                   >
                             <label class="form-check-label" for="star1">
                                 <i class="bi bi-star-fill stars"></i>
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="star" value="2" id="star2">
+                            <input class="form-check-input" type="radio" name="star" value="2" id="star2"
+                                   <c:if test="${star == 2}">
+                                       checked=""
+                                   </c:if> 
+                                   >
                             <label class="form-check-label" for="star2">
                                 <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="star" value="3" id="star3">
+                            <input class="form-check-input" type="radio" name="star" value="3" id="star3"
+                                   <c:if test="${star == 3}">
+                                       checked=""
+                                   </c:if> 
+                                   >
                             <label class="form-check-label" for="star3">
                                 <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="star" value="4" id="star4">
+                            <input class="form-check-input" type="radio" name="star" value="4" id="star4"
+                                   <c:if test="${star == 4}">
+                                       checked=""
+                                   </c:if>
+                                   >
                             <label class="form-check-label" for="star4">
                                 <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="star" value="5" id="star5">
+                            <input class="form-check-input" type="radio" name="star" value="5" id="star5"
+                                   <c:if test="${star == 5}">
+                                       checked=""
+                                   </c:if>
+                                   >
                             <label class="form-check-label" for="star5">
                                 <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
                             </label>
-                        </div>                                   
+                        </div> 
+
+                        <button style="background-color: #007BFF; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                            Search
+                        </button>
+
+                        <input type="hidden" name="location" value="${requestScope.location}">
+                        <input type="hidden" name="people" value="${requestScope.people}">
+                        <input type="hidden" name="room" value="${requestScope.room}">
                     </form>
                 </div>
                 <!-- Phần bên phải -->
                 <div class="col-md-9">
                     <div class="row">
-                        <c:if test="${requestScope.hotelList != null}">
+                        <c:if test="${filterStarList != null}">
                             <div class="col-md-12 mt-5">
-                                <c:forEach var="hotel" items="${requestScope.hotelList}" varStatus="status">
+                                <c:forEach var="hotel" items="${filterStarList}" varStatus="status">
                                     <div class="card mb-3">
                                         <div class="row g-0">
                                             <div class="col-md-4">
@@ -273,9 +301,60 @@
                             </div>
                             <div class="listPage"></div>
                         </c:if>
+                        <c:if test="${filterStarList == null}">
+                            <c:if test="${sessionScope.hotelList != null}">
+                                <div class="col-md-12 mt-5">
+                                    <c:forEach var="hotel" items="${sessionScope.hotelList}" varStatus="status">
+                                        <div class="card mb-3">
+                                            <div class="row g-0">
+                                                <div class="col-md-4">
+                                                    <img src="${requestScope.hotelImgList[status.index]}" class="img-fluid h-100 rounded-start" alt="Hotel 1">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="card-body h-100">
+                                                        <h5 class="card-title d-flex justify-content-between align-items-center">
+                                                            ${hotel.name}
+                                                            <span class="px-0">
+                                                                <c:if test="${hotel.star == 5}">
+                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
+                                                                    </c:if>
+                                                                    <c:if test="${hotel.star == 4}">
+                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i>
+                                                                    </c:if>
+                                                                    <c:if test="${hotel.star == 3}">
+                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                    </c:if>
+                                                                    <c:if test="${hotel.star == 2}">
+                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                    </c:if>
+                                                                    <c:if test="${hotel.star == 1}">
+                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                    </c:if>
+                                                            </span>
+                                                        </h5>
+                                                        <div class="row">
+                                                            <p><i class="bi bi-location"></i>Đà Nẵng - <a href="https://maps.app.goo.gl/g2auqYTqpbokyX3E7">Show on map</a></p>
+                                                        </div>
+                                                        <p class="card-text"><i class="bi bi-geo-alt"></i> Địa điểm: ${hotel.address}</p>
+                                                        <p class="card-text text-success fw-medium"><i class="bi bi-check"></i> Free canellation</p>
+                                                        <p class="card-text text-success fw-medium"><i class="bi bi-check"></i> No prepayment needed <span class="text-muted text-success">- pay at property</span></p>
+                                                        <div class="card-divider"></div>
+                                                        <form action="viewHotelDetailServlet" method="get">
+                                                            <button class="btn btn-primary">Đặt Phòng</button>
+                                                            <input type="hidden" name="hotel_ID"value="${hotel.hotel_ID}">
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                                <div class="listPage"></div>
+                            </c:if>
+                        </c:if>
 
                         <c:if test="${requestScope.status == null}">
-                            <c:if test="${requestScope.hotelList == null}">
+                            <c:if test="${sessionScope.hotelList == null}">
                                 <div class="col-md-12 mt-5 text-center">
                                     <div class="alert alert-success" role="alert">
                                         Không có khách sạn hợp lệ !
@@ -297,82 +376,82 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
         <script src="js/Search_Hotel.js"></script>
         <script>
-            let thisPage = 1;
-            let limit = 6;
-            let list = document.querySelectorAll(".card");
-            function loadItem() {
-                let beginGet = limit * (thisPage - 1);
-                let endGet = limit * thisPage - 1;
-                list.forEach((item, key) => {
-                    if (key >= beginGet && key <= endGet) {
-                        item.style.display = "block";
-                    } else {
-                        item.style.display = "none";
-                    }
-                });
-                listPage();
-            }
-            loadItem();
-            function listPage() {
-                let count = Math.ceil(list.length / limit);
-                document.querySelector('.listPage').innerHTML = '';
+                                    let thisPage = 1;
+                                    let limit = 6;
+                                    let list = document.querySelectorAll(".card");
+                                    function loadItem() {
+                                        let beginGet = limit * (thisPage - 1);
+                                        let endGet = limit * thisPage - 1;
+                                        list.forEach((item, key) => {
+                                            if (key >= beginGet && key <= endGet) {
+                                                item.style.display = "block";
+                                            } else {
+                                                item.style.display = "none";
+                                            }
+                                        });
+                                        listPage();
+                                    }
+                                    loadItem();
+                                    function listPage() {
+                                        let count = Math.ceil(list.length / limit);
+                                        document.querySelector('.listPage').innerHTML = '';
 
-                if (thisPage != 1) {
-                    let prev = document.createElement('li');
-                    prev.innerText = 'PREV';
-                    prev.setAttribute('onclick', "changePage(" + (thisPage - 1) + ")");
-                    document.querySelector('.listPage').appendChild(prev);
-                }
-                for (i = 1; i <= count; i++) {
-                    let newPage = document.createElement('li');
-                    newPage.innerText = i;
-                    if (i == thisPage) {
-                        newPage.classList.add('active');
-                    }
-                    newPage.setAttribute('onclick', "changePage(" + i + ")");
-                    document.querySelector('.listPage').appendChild(newPage);
-                }
+                                        if (thisPage != 1) {
+                                            let prev = document.createElement('li');
+                                            prev.innerText = 'PREV';
+                                            prev.setAttribute('onclick', "changePage(" + (thisPage - 1) + ")");
+                                            document.querySelector('.listPage').appendChild(prev);
+                                        }
+                                        for (i = 1; i <= count; i++) {
+                                            let newPage = document.createElement('li');
+                                            newPage.innerText = i;
+                                            if (i == thisPage) {
+                                                newPage.classList.add('active');
+                                            }
+                                            newPage.setAttribute('onclick', "changePage(" + i + ")");
+                                            document.querySelector('.listPage').appendChild(newPage);
+                                        }
 
-                if (thisPage != count) {
-                    let next = document.createElement('li');
-                    next.innerText = 'NEXT';
-                    next.setAttribute('onclick', "changePage(" + (thisPage + 1) + ")");
-                    document.querySelector('.listPage').appendChild(next);
-                }
-            }
-            function changePage(i) {
-                thisPage = i;
-                loadItem();
-                let scrollPosition = window.scrollY;
-                window.scrollTo(0, scrollPosition);
-            }
-            //Check validate Date
-            function validateDates() {
-                var today = new Date();
-                var checkInDate = new Date(document.getElementById("checkInDate").value);
-                var checkOutDate = new Date(document.getElementById("checkOutDate").value);
+                                        if (thisPage != count) {
+                                            let next = document.createElement('li');
+                                            next.innerText = 'NEXT';
+                                            next.setAttribute('onclick', "changePage(" + (thisPage + 1) + ")");
+                                            document.querySelector('.listPage').appendChild(next);
+                                        }
+                                    }
+                                    function changePage(i) {
+                                        thisPage = i;
+                                        loadItem();
+                                        let scrollPosition = window.scrollY;
+                                        window.scrollTo(0, scrollPosition);
+                                    }
+                                    //Check validate Date
+                                    function validateDates() {
+                                        var today = new Date();
+                                        var checkInDate = new Date(document.getElementById("checkInDate").value);
+                                        var checkOutDate = new Date(document.getElementById("checkOutDate").value);
 
-                // Set hours to 0 to compare dates without considering time
-                today.setHours(0, 0, 0, 0);
-                checkInDate.setHours(0, 0, 0, 0);
-                checkOutDate.setHours(0, 0, 0, 0);
+                                        // Set hours to 0 to compare dates without considering time
+                                        today.setHours(0, 0, 0, 0);
+                                        checkInDate.setHours(0, 0, 0, 0);
+                                        checkOutDate.setHours(0, 0, 0, 0);
 
-                // Check if checkInDate is today or later
-                if (checkInDate < today) {
-                    alert("Check-in date must be today or a future date.");
-                    document.getElementById("checkInDate").value = ''; // Clear incorrect date
-                    return false;
-                }
+                                        // Check if checkInDate is today or later
+                                        if (checkInDate < today) {
+                                            alert("Check-in date must be today or a future date.");
+                                            document.getElementById("checkInDate").value = ''; // Clear incorrect date
+                                            return false;
+                                        }
 
-                // Check if checkOutDate is after checkInDate
-                if (checkOutDate <= checkInDate) {
-                    alert("Check-out date must be after check-in date.");
-                    document.getElementById("checkOutDate").value = ''; // Clear incorrect date
-                    return false;
-                }
+                                        // Check if checkOutDate is after checkInDate
+                                        if (checkOutDate <= checkInDate) {
+                                            alert("Check-out date must be after check-in date.");
+                                            document.getElementById("checkOutDate").value = ''; // Clear incorrect date
+                                            return false;
+                                        }
 
-                return true;
-            }
+                                        return true;
+                                    }
         </script>
     </body>
 </html>

@@ -526,3 +526,6 @@ LEFT JOIN
 Feedback F ON Res.Reservation_ID = F.Reservation_ID
 GROUP BY
 H.Hotel_ID;
+
+
+

@@ -4,7 +4,9 @@
  */
 package com.travelink.Servlet;
 
+import com.travelink.Database.HotelImageDB;
 import com.travelink.Model.Hotel;
+import com.travelink.Model.HotelImage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,21 +59,32 @@ public class FilterHotelByStarServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String location = request.getParameter("location");
         int people = Integer.parseInt(request.getParameter("people"));
         int roomSize = Integer.parseInt(request.getParameter("room"));
         int star = Integer.parseInt(request.getParameter("star"));
-        List<Hotel> hotelList = (List<Hotel>) request.getAttribute("hotelList");
+        List<Hotel> hotelList = (List<Hotel>) session.getAttribute("hotelList");
         request.setAttribute("location", location);
         request.setAttribute("people", people);
         request.setAttribute("room", roomSize);
         List<Hotel> filteredHotels = new ArrayList<>();
-        for (Hotel h : hotelList){
-            if (h.getStar() == star){
+        for (Hotel h : hotelList) {
+            if (h.getStar() == star) {
                 filteredHotels.add(h);
             }
         }
-        request.setAttribute("hotelList", filteredHotels);
+        List<String> hotelImageList = new ArrayList<>();
+        for (int i = 0; i < filteredHotels.size(); i++) {
+            List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(filteredHotels.get(i).getHotel_ID());
+            PrintWriter printWriter = response.getWriter();
+
+            String img = hotelImgList.get(0).getUrl();
+            hotelImageList.add(img);
+        }
+        request.setAttribute("star", star);
+        request.setAttribute("filterStarList", filteredHotels);
+        request.setAttribute("hotelImgList", hotelImageList);
         request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
     }
 

@@ -35,12 +35,12 @@
                             <%
                                 // Assuming the account object is stored in the session
                                 Account account = (Account) session.getAttribute("account");
-                                String href = "Home_Customer.jsp"; // Default URL
+                                String href = "homeCustomerServlet"; // Default URL
 
                                 if (account != null) {
                                     int role = account.getRole();
                                     if (role == 2) {
-                                        href = "Home_HotelHost.jsp";
+                                        href = "homeHotelHostServlet";
                                     }
                                     if (role == 3){
                                         href = "AdminDashBoardServlet";

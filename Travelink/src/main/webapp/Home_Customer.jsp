@@ -130,45 +130,26 @@
                 </div>
             </div>
         </header>
-<!--        Best hotel-->
-                <section class="section__container travellers__container" data-aos="fade-up">
+        <!--        Best hotel-->
+        <section class="section__container travellers__container" data-aos="fade-up">
             <h2 class="section__header">Best hotels of the month</h2>
             <div class="travellers__grid">
-                <div class="travellers__card">
-                    <img src="img_Home/traveller-1.jpg" alt="traveller" />
-                    <div class="travellers__card__content">
-                        <img src="img_Home/best -1.jpg" alt="client" />
-                        <h4>Emily Johnson</h4>
-                        <p>Dubai</p>
-                    </div>
-                </div>
-                <div class="travellers__card">
-                    <img src="img_Home/traveller-2.jpg" alt="traveller" />
-                    <div class="travellers__card__content">
-                        <img src="img_Home/best -2.jpg" alt="client" />
-                        <h4>David Smith</h4>
-                        <p>Paris</p>
-                    </div>
-                </div>
-                <div class="travellers__card">
-                    <img src="img_Home/traveller-3.jpg" alt="traveller" />
-                    <div class="travellers__card__content">
-                        <img src="img_Home/best -3.jpg" alt="client" />
-                        <h4>Olivia Brown</h4>
-                        <p>Singapore</p>
-                    </div>
-                </div>
-                <div class="travellers__card">
-                    <img src="img_Home/traveller-4.jpg" alt="traveller" />
-                    <div class="travellers__card__content">
-                        <img src="img_Home/best -4.jpg" alt="client" />
-                        <h4>Daniel Taylor</h4>
-                        <p>Malaysia</p>
-                    </div>
-                </div>
+                <c:set var="hotelImg" value="${requestScope.hotelImg}"/>
+                <c:set var="hotelProvince" value="${requestScope.hotelProvince}"/>
+                <c:forEach var="hotel" items="${requestScope.hotelList}" varStatus="status">
+                    <a href="viewHotelDetailServlet?hotel_ID=${hotel.hotel_ID}">
+                        <div class="travellers__card">
+                            <img src="${hotelImg[status.index]}" alt="traveller" />
+                            <div class="travellers__card__content">
+                                <h4>${hotel.name}</h4>
+                                <p>${hotelProvince[status.index]}</p>
+                            </div>
+                        </div>
+                    </a>
+                </c:forEach>
             </div>
         </section>
-<!--        Search-->
+        <!--        Search-->
         <section class="section__container booking__container" data-aos="fade-up">
             <form method="post" action="search">
                 <!--                    Location-->

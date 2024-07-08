@@ -183,14 +183,18 @@
                     accountItem.appendChild(avatar);
                     accountItem.appendChild(accountName);
 
+                    if (account.id === currentAccountId) {
+                        accountItem.classList.add("bg-info");
+                    }
+
                     accountItem.onclick = function () {
                         currentAccountId = account.id;
-                        //Remove bg-info
+                        // Remove bg-info
                         let allAccountItems = document.querySelectorAll(".account-item");
                         allAccountItems.forEach(function (item) {
                             item.classList.remove("bg-info");
                         });
-                        accountItem.classList.toggle('bg-info');
+                        accountItem.classList.add("bg-info");
                         loadMessages(currentAccountId);
                     };
 

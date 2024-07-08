@@ -20,7 +20,7 @@
             * {
                 font-family: Montserrat, sans-serif;
             }
-            
+
             .button {
                 position: relative;
                 transition: all 0.3s ease-in-out;
@@ -107,7 +107,7 @@
             </div>
             <div class="ml-2 justify-content-end align-content-end align-items-end">
                 <c:set var="account" value="${sessionScope.account}"></c:set>
-                <c:if test="${not empty account}">
+                <c:if test="${not empty account and account.role == 2}">
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center btn btn-outline-secondary p-2" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -121,7 +121,7 @@
                         </li>
                     </ul>
                 </c:if>
-                <c:if test="${empty account}">
+                <c:if test="${empty account || account.role != 2}">
                     <button class="button" onclick="location.href = 'HotelHost_Login.jsp'">
                         GET STARTED
                         <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
@@ -140,10 +140,12 @@
             <div class="col-md-7 d-flex align-items-center">
                 Welcome back, <span class="px-1 fw-semibold">${account.name}<i class='bx bxs-check-shield px-1' style="font-size: 1rem; color: green;"></i></span>
             </div>
-            <div class="col-md-4 d-flex align-items-center justify-content-end">
-                <i class="bx bx-signal-4" style="font-size: 2rem; color: #007bff;"></i>
-                <span>15 new features updated successfully</span>
-            </div>
+            <c:if test="${not empty account}">
+                <div class="col-md-4 d-flex align-items-center justify-content-end">
+                    <i class="bx bx-signal-4" style="font-size: 2rem; color: #007bff;"></i>
+                    <span><a href="ChatServlet" style="font-weight: bold">Contact with Admin</a></span>
+                </div>
+            </c:if>
         </div>
     </body>
 </html>

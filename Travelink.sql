@@ -19,6 +19,25 @@ Role INT NOT NULL,
 ALTER TABLE Account
 ADD Status INT NOT NULL;
 
+CREATE TABLE Message (
+    Message_ID INT IDENTITY(1,1) PRIMARY KEY, -- Primary key with auto-increment
+    From_Account_ID INT NOT NULL,             -- Foreign key referencing Account_ID
+    To_Account_ID INT NOT NULL,               -- Foreign key referencing Account_ID
+    MessageText NVARCHAR(MAX),                -- Message text with NVARCHAR type
+    SentTime TIMESTAMP,                       -- Sent time as a TIMESTAMP
+    CONSTRAINT FK_From_Account FOREIGN KEY (From_Account_ID) REFERENCES Account(Account_ID),
+    CONSTRAINT FK_To_Account FOREIGN KEY (To_Account_ID) REFERENCES Account(Account_ID)
+);
+
+CREATE TABLE Notification (
+    Notification_ID INT IDENTITY(1,1) PRIMARY KEY, -- Primary key with auto-increment
+    To_Account_ID INT NOT NULL,                    -- Foreign key referencing Account_ID
+    Message NVARCHAR(MAX),                         -- Notification message with NVARCHAR type
+    SentTime TIMESTAMP,                            -- Sent time as a TIMESTAMP
+    ReadStatus BIT NOT NULL,                       -- Read status as a BIT
+    NotificationLink VARCHAR(255),                 -- Notification link with VARCHAR type
+    CONSTRAINT FK_To_Account_Notification FOREIGN KEY (To_Account_ID) REFERENCES Account(Account_ID)
+);
 
 CREATE TABLE Pending_Host (
 Pending_Host_ID INT IDENTITY(1,1) PRIMARY KEY, -- Primary key with auto-increment
@@ -507,3 +526,6 @@ LEFT JOIN
 Feedback F ON Res.Reservation_ID = F.Reservation_ID
 GROUP BY
 H.Hotel_ID;
+
+
+

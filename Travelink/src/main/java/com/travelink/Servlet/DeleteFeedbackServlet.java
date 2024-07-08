@@ -6,13 +6,14 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.FeedbackDB;
+import com.travelink.Database.ReservationDB;
+import com.travelink.Model.Reservation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 
 /**
  *
@@ -69,7 +70,8 @@ public class DeleteFeedbackServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         int feedbackID = Integer.parseInt(request.getParameter("feedbackID"));
-
+        Reservation reservation = ReservationDB.getReservationByFeedbackID(feedbackID);
+        ReservationDB.changedReservationStatusByReservationID(reservation.getReservationID(), "FINISHED");
         try {
             FeedbackDB.deleteFeedback(feedbackID);
         } catch (Exception e) {

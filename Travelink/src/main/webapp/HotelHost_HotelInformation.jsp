@@ -246,28 +246,16 @@
 
                                                             </form>
                                                         </c:if>
-
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>
                                                         <form action="HotelHost_ViewHotelInformationServlet" method="get">
                                                             <button  class="btn btn-outline-secondary mb-1 w-100 add-button">
                                                                 View Hotel Information
                                                             </button>
                                                             <input type="hidden" name="hotelID" value="${h.hotel_ID}"/>
                                                         </form>
+
                                                     </td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
                                                 </tr>
+
                                                 <!-- Modal Update-->
                                             <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">

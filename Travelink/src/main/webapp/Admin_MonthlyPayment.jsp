@@ -50,15 +50,15 @@
     </head>
     <body id="page-top">
 
+        
         <!-- Page Wrapper -->
         <div id="wrapper">
-
+            <%@include file="Admin_Sidebar.jsp" %>
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
-
                 <!-- Main Content -->
                 <div id="content">
-
+                    <%@include file="Admin_Header.jsp" %>
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
                         <!-- Page Heading -->

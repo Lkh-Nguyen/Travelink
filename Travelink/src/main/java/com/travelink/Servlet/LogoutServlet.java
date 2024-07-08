@@ -59,40 +59,25 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false); // Get existing session (don't create if not exist)
-        Account acc = (Account) session.getAttribute("account");
-        if (acc == null){
-            response.sendRedirect("Home_Customer.jsp");
-            return;
-        }
-        String forward = "";
-        if (acc.getRole() == 1 && acc.getRole() == 3){
-            forward = "Home_Customer.jsp";
-        }
-        else if(acc.getRole() == 2){
-            forward = "Home_HotelHost.jsp";
-        }
-
-        if (session != null) {
-            session.invalidate(); 
-        }
         
+        HttpSession session = request.getSession(); // Get existing session (don't create if not exist)
+        String forward = "";
+        if (session != null) {
+            Account acc = (Account) session.getAttribute("account");
+            session.invalidate();
+            if (acc == null) {
+                response.sendRedirect("homeCustomerServlet");
+                return;
+            }
+            
+            if (acc.getRole() == 1 || acc.getRole() == 3) {
+                forward = "homeCustomerServlet";
+            } else if (acc.getRole() == 2) {
+                forward = "homeHotelHostServlet";
+            }
+        }
         request.setAttribute("loggout", "Loggout account success successfully.");
         request.getRequestDispatcher(forward).forward(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
     }
 
     /**

@@ -35,11 +35,11 @@
                 align-items: center;
                 text-decoration: none;
                 color: #333;
-/*                background-color: #fff;*/
+                /*                background-color: #fff;*/
                 padding: 10px 15px;
-/*                border: 1px solid #ddd;*/
+                /*                border: 1px solid #ddd;*/
                 border-radius: 5px;
-/*                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+                /*                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
                 transition: background-color 0.3s, box-shadow 0.3s;
             }
             .btns .btn:hover {
@@ -130,7 +130,7 @@
                 display: flex;
                 align-items: center;
                 gap: 4rem;
-                margin: 0 2rem 0 12rem;
+                margin: 0 3rem 0 4rem;
             }
 
             .link a {
@@ -309,13 +309,16 @@
                 <div class="nav__logo"><a href="homeCustomerServlet">Trave<span>link</span></a></div>
                 <ul class="nav__links">
                     <li class="link"><a href="homeCustomerServlet">Home</a></li>
-                    <li class="link"><a href="Home_Customer.jsp">About</a></li>
+                    <li class="link"><a href="homeCustomerServlet">About</a></li>
+                        <c:if test="${not empty account and account.role == 1}">
+                        <li class="link"><a href="ChatServlet">Contact</a></li>
+                        </c:if>
                     <li class="link"><a href="All_Hotel_Service">Transaction History</a></li>
                     <li class="link"><a href="MyFeedbackServlet">My Feedback</a></li>
                     <li class="link"><a href="ListFavoriteHotel">Favorite Hotels</a></li>
                 </ul>
                 <c:set var="account" value="${sessionScope.account}"></c:set>
-                <c:if test="${not empty account}">
+                <c:if test="${not empty account and account.role == 1}">
                     <div class="btns">
                         <a class="btn loginBtn" style="margin-right: 40px;" onclick="toggleDropdown()"><img src="${account.avatarURL}" alt="alt"/>${account.name}</a>
                         <div id="dropdownMenu" class="dropdown" >
@@ -324,9 +327,15 @@
                         </div>
                     </div>
                 </c:if>
-                <c:if test="${empty account}">
+                <c:if test="${empty account or account.role !=1}">
                     <button class="button" onclick="forward()">
                         GET STARTED
+                        <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
+                        <path clip-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" fill-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                     <button class="button" onclick="location.href = 'Home_HotelHost.jsp'">
+                        BECOME PARTNER
                         <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
                         <path clip-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" fill-rule="evenodd"></path>
                         </svg>
@@ -336,8 +345,8 @@
             </nav>
         </header>
         <script>
-            function forward(){
-                <%request.getSession().setAttribute("role",1);%>
+            function forward() {
+            <%request.getSession().setAttribute("role",1);%>
                 location.href = 'Form_Login.jsp';
             }
             function toggleDropdown() {

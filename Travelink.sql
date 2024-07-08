@@ -228,16 +228,6 @@ CONSTRAINT UniqueCancelRequestt UNIQUE (Reservation_ID)  -- Ensures only one pen
 );
 GO
 
--- Create table Promotion
-CREATE TABLE Promotion (
-Promotion_ID INT IDENTITY(1,1) PRIMARY KEY,
-Name NVARCHAR(255) NOT NULL,
-Discount INT NOT NULL,
-StartDate DATE NOT NULL,
-EndDate DATE NOT NULL
-);
-GO
-
 -- Create table Feedback
 CREATE TABLE Feedback (
 Feedback_ID INT IDENTITY(1,1) PRIMARY KEY,
@@ -285,6 +275,27 @@ PaymentTime DATETIME,
 Hotel_ID INT FOREIGN KEY REFERENCES Hotel(Hotel_ID) ON DELETE CASCADE
 );
 GO
+
+-----
+CREATE TABLE Message (
+    Message_ID INT IDENTITY(1,1) PRIMARY KEY, -- Primary key with auto-increment
+    From_Account_ID INT NOT NULL,             -- Foreign key referencing Account_ID
+    To_Account_ID INT NOT NULL,               -- Foreign key referencing Account_ID
+    MessageText NVARCHAR(MAX),                -- Message text with NVARCHAR type
+    SentTime DATETIME,                       -- Sent time as a TIMESTAMP
+    CONSTRAINT FK_From_Account FOREIGN KEY (From_Account_ID) REFERENCES Account(Account_ID),
+    CONSTRAINT FK_To_Account FOREIGN KEY (To_Account_ID) REFERENCES Account(Account_ID)
+);
+
+CREATE TABLE Notification (
+    Notification_ID INT IDENTITY(1,1) PRIMARY KEY, -- Primary key with auto-increment
+    To_Account_ID INT NOT NULL,                    -- Foreign key referencing Account_ID
+    Message NVARCHAR(MAX),                         -- Notification message with NVARCHAR type
+    SentTime DATETIME,                            -- Sent time as a TIMESTAMP
+    ReadStatus BIT NOT NULL,                       -- Read status as a BIT
+    NotificationLink VARCHAR(255),                 -- Notification link with VARCHAR type
+    CONSTRAINT FK_To_Account_Notification FOREIGN KEY (To_Account_ID) REFERENCES Account(Account_ID)
+);
 
 
 

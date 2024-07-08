@@ -138,9 +138,9 @@
                         %>
                     </table>
                     <label for="bookingStr">Booking String:</label>
-                    <input type="text" name="bookingStr" id="bookingStr" readonly><br>
+                    <input type="hidden" name="bookingStr" id="bookingStr" ><br>
                     <label for="bookingStr">Total Price</label>
-                    <input type="text" name="totalPrice" id="totalPrice" readonly value="0"><br>
+                    <input type="hidden" name="totalPrice" id="totalPrice" value="0"><br>
                     <button type="submit" class="submit-btn">Submit</button>
                 </form>
             </div>

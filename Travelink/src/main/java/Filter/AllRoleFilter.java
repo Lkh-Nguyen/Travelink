@@ -35,6 +35,9 @@ public class AllRoleFilter implements Filter {
                 return;
             } 
         }
+        else {
+            res.sendRedirect("Error.jsp");
+        }
         chain.doFilter(request, response);
     }
 }

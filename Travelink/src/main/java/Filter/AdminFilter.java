@@ -22,19 +22,23 @@ import java.io.IOException;
 public class AdminFilter implements Filter {
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain)
-            throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
-        HttpSession session = req.getSession();
-        if (session != null) {
-            Account account = (Account) session.getAttribute("account");
-            if (account == null) {
-                res.sendRedirect("Form_Login.jsp");
-                return;
-            } 
+        public void doFilter(ServletRequest request, ServletResponse response,
+                FilterChain chain)
+                throws IOException, ServletException {
+            HttpServletRequest req = (HttpServletRequest) request;
+            HttpServletResponse res = (HttpServletResponse) response;
+            HttpSession session = req.getSession();
+            if (session != null) {
+                Account account = (Account) session.getAttribute("account");
+                if (account == null) {
+                    res.sendRedirect("Form_Login.jsp");
+                    return;
+                }
+                else if (account.getRole() != 3){
+                    res.sendRedirect("Error.jsp");
+                    return;
+                }
+            }
+            chain.doFilter(request, response);
         }
-        chain.doFilter(request, response);
-    }
 }

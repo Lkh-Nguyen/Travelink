@@ -14,10 +14,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -536,42 +535,102 @@ public class HotelDB implements DatabaseInfo {
         return updated;
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static List<Hotel> getTop4HotelsWithMostReservationsLastMonth() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Hotel> hotels = new ArrayList<>();
 
-        // Test getAllHotels
-        System.out.println("** Test getAllHotels **");
-        List<Hotel> allHotels = HotelDB.getAllActiveHotels();
-        if (allHotels.isEmpty()) {
-            System.out.println("No hotels found in the database.");
-        } else {
-            System.out.println("List of all hotels:");
-            for (Hotel hotel : allHotels) {
-                System.out.println(hotel); // Uses toString() for informative output
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                // Calculate last month's year and month
+                LocalDate currentDate = LocalDate.now();
+                YearMonth lastMonth = YearMonth.from(currentDate.minusMonths(1));
+
+                int lastMonthYear = lastMonth.getYear();
+                int lastMonthMonth = lastMonth.getMonthValue();
+
+                String sql = "SELECT TOP 4 h.Hotel_ID, h.name, h.email, h.star, h.rating, h.phoneNumber, " +
+                             "h.description, h.checkInTimeStart, h.checkInTimeEnd, h.checkOutTimeStart, " +
+                             "h.checkOutTimeEnd, h.address, h.status, h.ward_ID, COUNT(r.reservation_ID) as reservation_count " +
+                             "FROM Hotel h " +
+                             "JOIN Room ro ON h.hotel_ID = ro.hotel_ID " +
+                             "JOIN Reserved_Room rr ON ro.room_ID = rr.room_ID " +
+                             "JOIN Reservation r ON rr.reservation_ID = r.reservation_ID " +
+                             "WHERE MONTH(r.checkinDate) = ? AND YEAR(r.checkinDate) = ? " +
+                             "GROUP BY h.hotel_ID, h.name, h.email, h.star, h.rating, h.phoneNumber, " +
+                             "h.description, h.checkInTimeStart, h.checkInTimeEnd, h.checkOutTimeStart, " +
+                             "h.checkOutTimeEnd, h.address, h.status, h.ward_ID " +
+                             "ORDER BY reservation_count DESC";
+
+                statement = connection.prepareStatement(sql);
+                statement.setInt(1, lastMonthMonth);
+                statement.setInt(2, lastMonthYear);
+                resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Hotel hotel = new Hotel();
+                    hotel.setHotel_ID(resultSet.getInt("Hotel_ID"));
+                    hotel.setName(resultSet.getString("Name"));
+                    hotel.setEmail(resultSet.getString("Email"));
+                    hotel.setStar(resultSet.getInt("Star"));
+                    hotel.setRating(resultSet.getFloat("Rating"));
+                    hotel.setPhoneNumber(resultSet.getString("PhoneNumber"));
+                    hotel.setDescription(resultSet.getString("Description"));
+                    hotel.setCheckInTimeStart(resultSet.getTime("CheckInTimeStart").toLocalTime());
+                    hotel.setCheckInTimeEnd(resultSet.getTime("CheckInTimeEnd").toLocalTime());
+                    hotel.setCheckOutTimeStart(resultSet.getTime("CheckOutTimeStart").toLocalTime());
+                    hotel.setCheckOutTimeEnd(resultSet.getTime("CheckOutTimeEnd").toLocalTime());
+hotel.setAddress(resultSet.getString("Address"));
+                    hotel.setStatus(resultSet.getString("Status"));
+                    hotel.setWard_ID(resultSet.getInt("Ward_ID"));
+                    hotels.add(hotel);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting top 4 hotels with most reservations last month: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
             }
         }
 
-        // Test getHotelByID
-        System.out.println("\n** Test getHotelByID **");
-        int specificID = 3; // Replace with an existing hotel ID
-        Hotel hotelByID = HotelDB.getHotelByID(specificID);
-        if (hotelByID != null) {
-            System.out.println("Hotel Details (ID: " + specificID + "):");
-            System.out.println(hotelByID);
-        } else {
-            System.out.println("Hotel with ID " + specificID + " not found.");
-        }
+        return hotels;
+    }
 
-        // Test getHotelsByWardID
-        System.out.println("\n** Test getHotelsByWardID **");
-        int targetWardID = 6338; // Replace with an existing ward ID
-        List<Hotel> hotelsInWard = HotelDB.getHotelsByWardID(targetWardID);
-        if (hotelsInWard.isEmpty()) {
-            System.out.println("No hotels found in ward " + targetWardID + ".");
-        } else {
-            System.out.println("Hotels in Ward " + targetWardID + ":");
-            for (Hotel hotel : hotelsInWard) {
-                System.out.println(hotel);
-            }
+    public static void main(String[] args) {
+        // Fetch top 4 hotels with the most reservations last month
+        List<Hotel> topHotels = getTop4HotelsWithMostReservationsLastMonth();
+        
+        // Print the details of the top hotels
+        for (Hotel hotel : topHotels) {
+            System.out.println("Hotel ID: " + hotel.getHotel_ID());
+            System.out.println("Name: " + hotel.getName());
+            System.out.println("Email: " + hotel.getEmail());
+            System.out.println("Star: " + hotel.getStar());
+            System.out.println("Rating: " + hotel.getRating());
+            System.out.println("Phone Number: " + hotel.getPhoneNumber());
+            System.out.println("Description: " + hotel.getDescription());
+            System.out.println("Check-In Time Start: " + hotel.getCheckInTimeStart());
+            System.out.println("Check-In Time End: " + hotel.getCheckInTimeEnd());
+            System.out.println("Check-Out Time Start: " + hotel.getCheckOutTimeStart());
+            System.out.println("Check-Out Time End: " + hotel.getCheckOutTimeEnd());
+            System.out.println("Address: " + hotel.getAddress());
+            System.out.println("Status: " + hotel.getStatus());
+            System.out.println("Ward ID: " + hotel.getWard_ID());
+            System.out.println("------------------------------");
         }
     }
 

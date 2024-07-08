@@ -60,7 +60,7 @@ Email VARCHAR(255) NOT NULL UNIQUE ,
 Star TINYINT ,
 Rating Float,
 PhoneNumber VARCHAR(20) ,
-Description NTEXT ,
+Description NVARCHAR(MAX) ,
 CheckInTimeStart TIME(0) ,
 CheckInTimeEnd TIME(0) ,
 CheckOutTimeStart TIME(0) ,
@@ -311,14 +311,14 @@ UPDATE Reservation
 SET Status = 'PROCESSING'
 WHERE GETDATE() >= CheckInDate
     AND GETDATE() < CheckOutDate
-    AND Status = 'PAID';
+    AND Status = 'PAID'
 
 -- Update reservations where the current date is >= CheckOutDate
 -- and the status is 'PROCESSING' to 'FINISHED'
 UPDATE Reservation
 SET Status = 'FINISHED'
 WHERE GETDATE() >= CheckOutDate
-    AND Status = 'PROCESSING';
+    AND (Status = 'PROCESSING' OR Status= 'PAID');
 END;
 GO
 
@@ -387,12 +387,7 @@ PRINT 'Monthly revenue calculation successful for all hotels for month ' + CAST(
 END;
 
 GO
-
-
-EXEC CalculateMonthlyRevenueForAllHotelsPreviousMonthYear;
-DROP PROC CalculateMonthlyRevenueForAllHotelsPreviousMonthYear;
-DROP TABLE MonthlyPayment
-
+!-----------------------------------------------------------------------------------------------------------
 CREATE PROCEDURE CalculateMonthlyRevenueForAllHotelsCurrentMonthYear
 AS
 BEGIN

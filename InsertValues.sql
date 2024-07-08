@@ -17,8 +17,11 @@ VALUES
 --hotelhost
 ('example6@email.com', '123', N'Hotel Host 1', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/nguyen.jpg',2,1),
 ('example7@email.com', '123', N'Hotel Host 2', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/minh.jpg',2,1),
+('example8@email.com', '123', N'Hotel Host 3', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/hung.jpg',2,1),
+('example9@email.com', '123', N'Hotel Host 4', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/an.jpg',2,1),
 --admin
-('example8@email.com', '123', N'Admin 1', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/hai.jpg',3,1);
+('example10@email.com', '123', N'Admin 1', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/hai.jpg',3,1),
+('example11@email.com', '123', N'Admin 2', 'M', '1990-01-01', '0912345678','/Travelink/img_Avatar/an.jpg',3,1);
 --insert table Account--
 -----------------------------------------------------------------------------------------------------------------------------
 --insert table hotel--
@@ -170,12 +173,33 @@ Insert into Owned_Hotel (Hotel_ID, Account_ID) values
 (2,6),
 (3,6),
 (4,6),
-(5,7),
-(6,7),
+(5,6),
+(6,6),
 (7,7),
 (8,7),
 (9,7),
-(10,7);
+(10,7),
+(11,7),
+(12,7),
+(13,7),
+(14,8),
+(15,8),
+(16,8),
+(17,8),
+(18,8),
+(19,8),
+(20,8),
+(21,9),
+(21,9),
+(22,9),
+(23,9),
+(24,9),
+(25,9),
+(26,9),
+(27,9),
+(28,9),
+(29,9),
+(30,9);
 
  -----------------------------------------------------------------------------------------------------------------
  --insert table Hotel_Image --
@@ -221,7 +245,7 @@ VALUES
 -- Loop to insert 15 random URLs for each Hotel_ID from 1 to 30
 DECLARE @Hotel_ID INT = 1;
 
-WHILE @Hotel_ID <= 10
+WHILE @Hotel_ID <= 30
 BEGIN
     -- Insert 15 random URLs for the current Hotel_ID
     INSERT INTO Hotel_Image (URL, Hotel_ID)
@@ -240,7 +264,7 @@ from Favourite_Hotel
 
 -- Set up variables
 DECLARE @HotelID INT = 1;
-DECLARE @MaxHotelID INT = 10;
+DECLARE @MaxHotelID INT = 30;
 
 -- Loop through Hotel_ID values from 1 to 30 but only odd numbers
 WHILE @HotelID <= @MaxHotelID
@@ -257,8 +281,6 @@ END;
 select *
 from Room
 
-
-
 -- Create a table variable to hold room types
 DECLARE @RoomTypes TABLE (
     Name NVARCHAR(255),
@@ -274,7 +296,7 @@ VALUES
 
 -- Declare variables for the loop
 DECLARE @HotelID INT = 1;
-DECLARE @MaxHotelID INT = 10;
+DECLARE @MaxHotelID INT = 30;
 DECLARE @Price INT;
 DECLARE @TotalRooms INT;
 DECLARE @Status NVARCHAR(50) = 'ACTIVE';
@@ -325,7 +347,7 @@ order by Room_ID
 -- Loop to insert 15 random URLs for each Hotel_ID from 1 to 30
 DECLARE @Room_ID INT = 1;
 
-WHILE @Room_ID <= 30
+WHILE @Room_ID <= 90
 BEGIN
     -- Insert 15 random URLs for the current Hotel_ID
     insert into Room_Image(URL, Room_ID)
@@ -379,10 +401,10 @@ from Hotel_Facility
 
 -- Declare variables for the loops
 DECLARE @Hotel_ID INT = 1;
-DECLARE @MaxHotel_ID INT = 10;
+DECLARE @MaxHotel_ID INT = 30;
 DECLARE @Facility_ID INT;
 DECLARE @InsertionCount INT;
-DECLARE @MaxInsertions INT = 10;
+DECLARE @MaxInsertions INT = 15;
 
 -- Loop through Hotel_ID values from 1 to 30
 WHILE @Hotel_ID <= @MaxHotel_ID
@@ -428,7 +450,7 @@ DECLARE @Service_ID INT;
 DECLARE @Price INT;
 
 -- Loop through Hotel_ID values from 1 to 30, excluding multiples of 5
-WHILE @Hotel_ID <= 10
+WHILE @Hotel_ID <= 30
 BEGIN
     -- Check if the current Hotel_ID is not a multiple of 5
     IF @Hotel_ID % 5 != 0
@@ -462,7 +484,7 @@ select *
 from Room_Bed
 -- Declare variables for the loops
 DECLARE @Room_ID INT = 1;
-DECLARE @MaxRoom_ID INT = 30;
+DECLARE @MaxRoom_ID INT = 90;
 DECLARE @Amount INT;
 DECLARE @Bed_ID INT;
 
@@ -547,7 +569,7 @@ select *
 from Feedback
 
 -- Create a procedure to insert random data
-CREATE PROCEDURE InsertRandomFeedbackData
+CREATE PROCEDURE InsertRandomFeedbackData1
 AS
 BEGIN
     DECLARE @ReservationID INT = 1;
@@ -591,7 +613,7 @@ BEGIN
 END;
 
 -- Execute the procedure to insert data
-EXEC InsertRandomFeedbackData;
+EXEC InsertRandomFeedbackData1;
 -----------------------------------------------------------------------------------------------------------------
 delete Reserved_Room
 select *
@@ -676,7 +698,7 @@ VALUES
 ('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID);
 
 -----------------------------------------------------------------------------------------------------------------
-delete Reserved_Room
+
 select *
 from Reserved_Room
 order by Reservation_ID
@@ -699,10 +721,135 @@ DECLARE @ReservationID INT = 61;
 WHILE @ReservationID <= 84
 BEGIN
     INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
-    VALUES (@ReservationID, FLOOR(RAND() * 3) + 4, FLOOR(RAND() * 2) + 1);
+    VALUES (@ReservationID, FLOOR(RAND() * 3) + 7, FLOOR(RAND() * 2) + 1);
 
     SET @ReservationID = @ReservationID + 1;
 END;
 -----------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
+DECLARE @Account_ID INT = 2;
+INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
+VALUES
+--cancel
+('2024-06-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-02', 3, '2024-06-12', '2024-06-17', 500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-05-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-05-02', 3, '2024-06-12', '2024-06-17', 500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-04-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-03-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-02-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-01-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'CANCEL', @Account_ID),
+
+--refunding
+('2024-06-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-02', 3, '2024-06-12', '2024-06-17', 500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-05-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-05-02', 3, '2024-06-12', '2024-06-17', 500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-04-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-03-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-02-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-01-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+
+--paid
+('2024-06-02', 5, '2024-06-11', '2024-06-26', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-06-05', 6, '2024-06-12', '2024-06-27', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-06-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-06-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-06-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-05-02', 5, '2024-06-11', '2024-06-26', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-04-05', 6, '2024-06-12', '2024-06-27', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-03-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-02-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-01-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'VIETQR', 'PAID', @Account_ID);
+
+DECLARE @Account_ID INT = 3;
+INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
+VALUES
+--Processing
+('2024-05-03', 5, '2024-06-11', '2024-07-26', 2100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-05-05', 6, '2024-06-12', '2024-07-27', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-05-04', 7, '2024-06-13', '2024-07-28', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-05-05', 2, '2024-06-14', '2024-07-29', 3100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-05-06', 3, '2024-06-15', '2024-07-30', 2100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-06-03', 5, '2024-06-11', '2024-08-26', 2100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-01-05', 6, '2024-06-12', '2024-08-27', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-02-04', 7, '2024-06-13', '2024-08-28', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-03-05', 2, '2024-06-14', '2024-08-29', 3100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-04-06', 3, '2024-06-15', '2024-08-30', 2100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+--finish
+('2024-05-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-03-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-04-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-05-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-02-01', 5, '2024-05-13', '2024-05-30', 2100.00, 'VIETQR', 'FINISHED', @Account_ID),
+('2024-01-02', 6, '2024-05-14', '2024-05-31', 4100.00, 'VIETQR', 'FINISHED', @Account_ID);
+
+-----------------------------------------------------------------------------------------------------------------
+
 select *
-from Reported_Feedback
+from Reserved_Room
+order by Reservation_ID
+
+-- Chèn dữ liệu vào bảng Reserved_Room với Reservation_ID từ 1 đến 21, Room_ID random từ 1 đến 90, amount từ 1 đến 2
+DECLARE @ReservationID INT = 31;
+
+WHILE @ReservationID <= 60
+BEGIN
+    INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
+    VALUES (@ReservationID, FLOOR(RAND() * 3) + 4, FLOOR(RAND() * 2) + 1);
+
+    SET @ReservationID = @ReservationID + 1;
+END;
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+-- Chèn dữ liệu vào bảng Reserved_Room với Reservation_ID từ 1 đến 21, Room_ID random từ 1 đến 90, amount từ 1 đến 2
+DECLARE @ReservationID INT = 61;
+
+WHILE @ReservationID <= 84
+BEGIN
+    INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
+    VALUES (@ReservationID, FLOOR(RAND() * 3) + 7, FLOOR(RAND() * 2) + 1);
+
+    SET @ReservationID = @ReservationID + 1;
+END;
+-----------------------------------------------------------------------------------------------------------------
+
+-- Chèn dữ liệu vào bảng Reserved_Room với Reservation_ID từ 1 đến 21, Room_ID random từ 1 đến 90, amount từ 1 đến 2
+DECLARE @ReservationID INT = 85;
+
+WHILE @ReservationID <= 114
+BEGIN
+    INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
+    VALUES (@ReservationID, FLOOR(RAND() * 3) + 10, FLOOR(RAND() * 2) + 1);
+
+    SET @ReservationID = @ReservationID + 1;
+END;
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+-- Chèn dữ liệu vào bảng Reserved_Room với Reservation_ID từ 1 đến 21, Room_ID random từ 1 đến 90, amount từ 1 đến 2
+DECLARE @ReservationID INT = 115;
+
+WHILE @ReservationID <= 138
+BEGIN
+    INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
+    VALUES (@ReservationID, FLOOR(RAND() * 3) + 13, FLOOR(RAND() * 2) + 1);
+
+    SET @ReservationID = @ReservationID + 1;
+END;
+-----------------------------------------------------------------------------------------------------------------
+
+
+
+

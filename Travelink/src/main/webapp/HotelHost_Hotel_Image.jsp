@@ -325,11 +325,9 @@
                                     </div>
                                     <input id="submit_Input-add" style="margin-top:10px" type="submit" value="Upload"/>
                                     <div id="error-message-add">Please select a file to upload.</div>
+                                    <input type="hidden" name="hotelID" value="${hotelID}">
                                     <input type="hidden" name="uploadhotelhost" value="2.5"/>
-                                    <input type="hidden" name="roomID" value="${requestScope.room_ID}"/>
-                                </form>  
-
-                                <!-- Form update image -->
+                                </form>
                                 <form method="post" action="UpdateAvatar">
                                     <c:choose>
                                         <c:when test="${not empty uploadedFilePath}">
@@ -337,7 +335,8 @@
                                             <div class="pd_button">
                                                 <button><a href="View_Avatar.jsp">Cancel</a></button>
                                                 <input type="submit" value="Save"/>
-                                            </div>
+                                            </div>  
+
                                             <input type="hidden" name="hotelID" value="${hotelID}">
                                             <input type="hidden" name="uploadhotelhost" value="2.5"/>
                                         </c:when>
@@ -350,6 +349,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </form>
+
                             </div>
                         </div>
                     </div>

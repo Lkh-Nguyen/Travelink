@@ -82,10 +82,8 @@ public class UploadImageAvatar extends HttpServlet {
 
             } else if (uploadHotelHostValue.equalsIgnoreCase("2.5")) {
                 int hotelID = Integer.parseInt(request.getParameter("hotelID"));
-                int hotelImgID = Integer.parseInt(request.getParameter("hotelImgID"));
                 List<HotelImage> imgList = HotelImageDB.getHotelImagesByHotelID(hotelID);
                 request.setAttribute("imageList", imgList);
-                request.setAttribute("update", hotelImgID);
                 request.setAttribute("hotelID", hotelID);
                 request.getRequestDispatcher("HotelHost_Hotel_Image.jsp").forward(request, response);
 

@@ -63,6 +63,9 @@
             <a href="homeHotelHostServlet"_Hot class="btn btn-outline-primary mt-2">
                 <img src="img_Hotel/back.svg" alt="Back Icon" style="width: 1rem; height: 1rem;" class="me-2">Back
             </a>
+            <a href="HotelHostMonthlyPaymentServlet"_Hot class="btn btn-outline-primary mt-2">
+                Hotel Monthly Payment
+            </a>
             <form action="DashboardServlet" method="GET" class="container my-4">
                 <div class="row">
                     <div class="col-md-4 mb-3">

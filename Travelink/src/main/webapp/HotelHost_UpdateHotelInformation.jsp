@@ -82,15 +82,6 @@
                             <li class="nav-item">
                                 <a class="nav-link active text-light" aria-current="page" href="#">Update Hotel</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="UpdateHotelRoomServlet?hotelID = ${sessionScope.hotel_ID}">Update Room</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="HotelHost_UpdateService.jsp">Update Service</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="HotelHost_AddRoom.jsp">Add Hotel</a>
-                            </li>
                         </ul>
                     </div>
                 </nav>

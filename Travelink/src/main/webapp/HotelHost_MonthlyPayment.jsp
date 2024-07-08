@@ -49,7 +49,7 @@
         </script>
     </head>
     <body id="page-top">
-
+        <%@include file="Header_HotelHost.jsp" %>
         <!-- Page Wrapper -->
         <div id="wrapper">       
             <!-- Content Wrapper -->
@@ -178,6 +178,7 @@
             <!-- End of Content Wrapper -->
 
         </div>
+        <%@include file="Footer.jsp" %>
         <!-- End of Page Wrapper -->
         <!-- Bootstrap core JavaScript-->
         <script src="vendor/jquery/jquery.min.js"></script>

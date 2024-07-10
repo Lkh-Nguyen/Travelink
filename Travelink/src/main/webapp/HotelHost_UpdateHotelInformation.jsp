@@ -75,6 +75,7 @@
     <body>
         <%@include file="Header_HotelHost.jsp" %>
         <div class="container-fluid">
+            <a href="UpdateHotelInformationServlet" class="btn btn-outline-primary mt-2"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
             <div class="card bg-secondary-subtle h-100 shadow p-lg-4 mb-5 bg-body-tertiary border-0 equal-height justify-content-center align-items-center" style="border-radius: 30px;">
                 <nav class="navbar w-100 navbar-expand-lg navbar-light bg-light mb-4 nav-underline" style="border-radius: 30px;">
                     <div class="collapse navbar-collapse p-lg-2 p-2" id="navbarNav">

@@ -52,7 +52,6 @@
     <filter-mapping>
         <filter-name>AllRoleFilter</filter-name>
         <url-pattern>/Chat.jsp</url-pattern>
-
         <url-pattern>/ChatServlet</url-pattern>
     </filter-mapping>
     <filter-mapping>
@@ -74,7 +73,6 @@
         <url-pattern>/ReportFeedback.jsp</url-pattern>
         <url-pattern>/ReturnPaymentSuccess.jsp</url-pattern>
         <url-pattern>/View_Avatar.jsp</url-pattern>
-
         <url-pattern>/All_Hotel_Service</url-pattern>
         <url-pattern>/CancelBookingServlet</url-pattern>
         <url-pattern>/CancelPaymentServlet</url-pattern>
@@ -119,7 +117,6 @@
         <url-pattern>/HotelHost_UpdateHotelInformation.jsp</url-pattern>
         <url-pattern>/HotelHost_ViewAvatar.jsp</url-pattern>
         <url-pattern>/HotelHost_ViewHotelInformation.jsp</url-pattern>
-
         <url-pattern>/AddServiceServlet</url-pattern>
         <url-pattern>/DashboardServlet</url-pattern>
         <url-pattern>/DeleteServiceServlet</url-pattern>
@@ -147,7 +144,6 @@
     <filter-mapping>
         <filter-name>CustomerAndHotelHostFilter</filter-name>
         <url-pattern>/ViewFeedbackReservationID.jsp</url-pattern>
-
         <url-pattern>/ChangeAccountPasswordServlet</url-pattern>
         <url-pattern>/ExportBillServlet</url-pattern>
         <url-pattern>/UpdateAccountServlet</url-pattern>
@@ -167,7 +163,6 @@
         <url-pattern>/Admin_Pending_Hotel.jsp</url-pattern>
         <url-pattern>/Admin_ReportFeedback.jsp</url-pattern>
         <url-pattern>/Admin_ReportFeedbackDetail.jsp</url-pattern>
-
         <url-pattern>/AdminAcceptPendingServlet</url-pattern>
         <url-pattern>/AdminCustomerInformationServlet</url-pattern>
         <url-pattern>/AdminCustomerListServlet</url-pattern>
@@ -480,6 +475,10 @@
         <servlet-name>ChatServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.ChatServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HotelHost_DeleteRoomImageServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_DeleteRoomImageServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -771,6 +770,10 @@
     <servlet-mapping>
         <servlet-name>ChatServlet</servlet-name>
         <url-pattern>/ChatServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_DeleteRoomImageServlet</servlet-name>
+        <url-pattern>/HotelHost_DeleteRoomImageServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

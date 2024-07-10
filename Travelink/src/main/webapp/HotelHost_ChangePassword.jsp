@@ -18,6 +18,7 @@
     <body>
         <%@include file="Header_HotelHost.jsp" %>
         <div class="container">
+            <a href="homeHotelHostServlet" class="btn btn-outline-primary mt-2 mb-4"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
             <div class="card bg-secondary-subtle h-100 shadow p-lg-4 mb-5 bg-body-tertiary border-0 equal-height justify-content-center align-items-center" style="border-radius: 30px;">
                 <ul class="nav nav-underline">
                     <li class="nav-item">

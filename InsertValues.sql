@@ -190,7 +190,6 @@ Insert into Owned_Hotel (Hotel_ID, Account_ID) values
 (19,8),
 (20,8),
 (21,9),
-(21,9),
 (22,9),
 (23,9),
 (24,9),
@@ -727,7 +726,7 @@ BEGIN
 END;
 -----------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------------
-DECLARE @Account_ID INT = 2;
+DECLARE @Account_ID INT = 4;
 INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
 VALUES
 --cancel
@@ -770,7 +769,7 @@ VALUES
 ('2024-02-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
 ('2024-01-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'VIETQR', 'PAID', @Account_ID);
 
-DECLARE @Account_ID INT = 3;
+DECLARE @Account_ID INT = 5;
 INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
 VALUES
 --Processing
@@ -839,9 +838,9 @@ END;
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- Chèn dữ liệu vào bảng Reserved_Room với Reservation_ID từ 1 đến 21, Room_ID random từ 1 đến 90, amount từ 1 đến 2
-DECLARE @ReservationID INT = 115;
+DECLARE @ReservationID INT = 139;
 
-WHILE @ReservationID <= 138
+WHILE @ReservationID <= 192
 BEGIN
     INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
     VALUES (@ReservationID, FLOOR(RAND() * 3) + 13, FLOOR(RAND() * 2) + 1);
@@ -850,6 +849,9 @@ BEGIN
 END;
 -----------------------------------------------------------------------------------------------------------------
 
+delete reservation
+where reservation_ID > 139 and reservation_ID  < 192
+select *
+from reservation
 
-
-
+--139 - 192

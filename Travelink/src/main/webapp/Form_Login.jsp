@@ -102,13 +102,6 @@
                     <a class="forgot-pass" href="Forgot_Password.jsp">Forgot your password?</a>
                     <p>--------- or login/register with ----------</p>
                     <div class="login-way">
-                        <a href="https://www.facebook.com/?stype=lo&deoia=1&jlou=AfdibM459Jj0fHXyRGCbN67BSjzCcRXoOwcdxr2C5Nnq-zgmztRY-JtyHe_JO7uB1rTyY--yUuuaiSm38bnVzOTt0_gOTCNpPVh-dg_auVFy6w&smuh=6096&lh=Ac_9OgUQcQFatzL53wo"
-                           class="icon-text-container">
-                            <img src="img_Form/logo-fb.jpg" alt="Facebook Logo" class="login-logo">
-                            <span class="text-login">Continue with Facebook</span>
-                        </a>
-                    </div>
-                    <div class="login-way">
                         <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/Travelink/LoginGoogleHandler&response_type=code&client_id=753524792966-f76rldgp0a9n3ui96hg8e5pida66ho94.apps.googleusercontent.com&approval_prompt=force"
                            class="icon-text-container">
                             <!-- <i class="fab fa-google-plus-g"></i> -->

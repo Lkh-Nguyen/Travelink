@@ -115,7 +115,7 @@
                                 <span class="ml-2">${account.name}<i class='bx bxs-check-shield px-1' style="font-size: 1rem; color: green;"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">Show Profile</a>
+                                <a class="dropdown-item" href="HotelHost_Profile.jsp">Show Profile</a>
                                 <a class="dropdown-item" href="logout">Logout</a>
                             </div>
                         </li>

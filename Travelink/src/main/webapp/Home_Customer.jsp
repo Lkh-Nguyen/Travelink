@@ -135,35 +135,35 @@
             <h2 class="section__header">Best hotels of the month</h2>
             <div class="travellers__grid">
                 <div class="travellers__card">
-                    <img src="img_Home/traveller-1.jpg" alt="traveller" />
+                    <img src="img_Home/top_1_1.jpg" alt="traveller" />
                     <div class="travellers__card__content">
                         <img src="img_Home/best -1.jpg" alt="client" />
-                        <h4>Emily Johnson</h4>
-                        <p>Dubai</p>
+                        <h4>The Leaf Boutique</h4>
+                        <p>DA NANG</p>
                     </div>
                 </div>
                 <div class="travellers__card">
-                    <img src="img_Home/traveller-2.jpg" alt="traveller" />
+                    <img src="img_Home/top_2.jpg" alt="traveller" />
                     <div class="travellers__card__content">
                         <img src="img_Home/best -2.jpg" alt="client" />
-                        <h4>David Smith</h4>
-                        <p>Paris</p>
+                        <h4>Hanoi Golden Hotel</h4>
+                        <p>HA NOI</p>
                     </div>
                 </div>
                 <div class="travellers__card">
-                    <img src="img_Home/traveller-3.jpg" alt="traveller" />
+                    <img src="img_Home/top_3.jpg" alt="traveller" />
                     <div class="travellers__card__content">
                         <img src="img_Home/best -3.jpg" alt="client" />
-                        <h4>Olivia Brown</h4>
-                        <p>Singapore</p>
+                        <h4>Bay Capital Danang</h4>
+                        <p>HO CHI MINH</p>
                     </div>
                 </div>
                 <div class="travellers__card">
-                    <img src="img_Home/traveller-4.jpg" alt="traveller" />
+                    <img src="img_Home/top_4.jpg" alt="traveller" />
                     <div class="travellers__card__content">
                         <img src="img_Home/best -4.jpg" alt="client" />
-                        <h4>Daniel Taylor</h4>
-                        <p>Malaysia</p>
+                        <h4>Pearl Sea Hotel</h4>
+                        <p>DA LAT</p>
                     </div>
                 </div>
             </div>
@@ -232,7 +232,7 @@
                 <!--                    Search button-->
                 <div></div><div></div>
                 <div class="text-center mb-2">
-                    <button class="btn btn-primary fw-bold w-100 text-center"><i class="ri-search-line text-dark">Search</i></button>
+                    <button class="btn btn-outline-secondary fw-bold w-100 text-center"><i class="ri-search-line">Search</i></button>
                 </div>
             </form>
         </section>  

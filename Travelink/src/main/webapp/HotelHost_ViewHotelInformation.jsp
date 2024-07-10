@@ -38,6 +38,7 @@
 <body>
     <%@ include file="Header_HotelHost.jsp" %>
     <div class="container-fluid">
+        <a href="UpdateHotelInformationServlet" class="btn btn-outline-primary mt-2"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
         <h1 class="my-4">Hotel Information</h1>
         <div class="card">
             <div class="card-header">

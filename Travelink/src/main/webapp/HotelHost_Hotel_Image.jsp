@@ -230,7 +230,7 @@
     <body>
         <%@include file="Header_HotelHost.jsp" %>
         <div class="container-fluid">
-            <a href="#" class="btn btn-outline-primary mt-2"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
+            <a href="UpdateHotelInformationServlet" class="btn btn-outline-primary mt-2"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
             <div class="row p-4 d-flex align-items-center row-compact">
                 <div class="col-md-12">
                     <div class="card">
@@ -250,7 +250,7 @@
                                         <th scope="col-md-2">ACTION</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="text-center">
                                     <c:forEach var="hotelImg" items="${requestScope.imageList}" varStatus="status">
                                         <tr>
                                             <td>${status.index+1}</td>
@@ -294,12 +294,12 @@
                                             </td>
                                             <td>
                                                 <form action="HotelHost_ViewHotelImgServlet" method="post">
-                                                    <button>Update</button>
+                                                    <button class="btn btn-outline-primary mb-3" style="width: 10rem;">Update</button>
                                                     <input type="hidden" name="hotelImgID" value="${hotelImg.hotelImageID}">
                                                     <input type="hidden" name="hotelID" value="${hotelImg.hotelID}">
                                                 </form >
                                                 <form action="HotelHost_DeleteHotelImageServlet" method="post">
-                                                    <button>Delete</button>
+                                                    <button class="btn btn-outline-danger" style="width: 10rem;">Delete</button>
                                                     <input type="hidden" name="hotelID" value="${hotelImg.hotelID}">
                                                     <input type="hidden" name="hotelImgID" value="${hotelImg.hotelImageID}">
                                                 </form>

@@ -95,7 +95,8 @@ public class PaymentServlet extends HttpServlet {
         }
 
         // Example values (replace with actual data)
-        int number_Of_Guests = (int) session.getAttribute("people");
+//        int number_Of_Guests = (int) session.getAttribute("people");
+        int number_Of_Guests = 2;
         String paymentMethod = "VIETQR";
         String status = "NOT PAID";
 
@@ -174,7 +175,7 @@ public class PaymentServlet extends HttpServlet {
         //Save checkoutURL and paymentLinkId to session and redirect to checkoutUrl
         session.setAttribute("checkoutUrl", result[0]);
         Cookie checkoutUrlCookie = new Cookie("checkoutUrl", result[0]);
-        checkoutUrlCookie.setMaxAge(60*5);
+        checkoutUrlCookie.setMaxAge(60 * 5);
         response.addCookie(checkoutUrlCookie);
         session.setAttribute("paymentLinkId", result[1]);
         response.sendRedirect(result[0]);

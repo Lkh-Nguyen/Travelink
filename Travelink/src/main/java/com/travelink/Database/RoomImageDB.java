@@ -138,6 +138,21 @@ public class RoomImageDB implements DatabaseInfo {
         }
     }
 
+    //Delete image by Room_ID
+    //Delete Image by Room_ID
+    public static boolean deleteRoomImage(int imageId) {
+        String sql = "DELETE FROM Room_Image WHERE Room_Image_ID = ?";
+        try (Connection connection = DatabaseInfo.getConnect(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, imageId);
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0; // Return true if at least one row was deleted
+        } catch (SQLException e) {
+            System.out.println("Error deleting room image: " + e);
+            return false;
+        }
+    }
+
     public static void main(String[] args) throws SQLException {
 
         // Test getAllRoomImages

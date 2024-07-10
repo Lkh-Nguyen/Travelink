@@ -363,7 +363,7 @@
                                                 </div>
 
                                                 <div class="row m-2">
-                                                    <a class="btn btn-outline-primary" href="UpdateImageRoom?room_ID=${h.room_ID}&hotel_ID=${h.hotel_ID}">
+                                                    <a class="btn btn-outline-primary" href="UpdateImageRoom?room_ID=${h.room_ID}">
                                                         Room Image Detail
                                                     </a>
                                                 </div>

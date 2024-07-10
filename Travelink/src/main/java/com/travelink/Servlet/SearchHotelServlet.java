@@ -106,10 +106,10 @@ public class SearchHotelServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace(); // Xử lý ngoại lệ phân tích cú pháp một cách thích hợp
         }
-        
+
         LocalDate currentDate = LocalDate.now();
         LocalDate checkInDateLocal = checkInDate.toLocalDate();
-        System.out.println("Checkin: " + checkInDate );
+        System.out.println("Checkin: " + checkInDate);
         System.out.println(currentDate);
         // check điều kiện ngày hiện tại và ngày check in
         if (currentDate.isAfter(checkInDateLocal)) {
@@ -118,6 +118,7 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("room", roomSize);
             session.setAttribute("checkInDate", checkInDate);
             session.setAttribute("checkOutDate", checkOutDate);
+            session.setAttribute("people", people);
             request.setAttribute("statusBeginDate", "Date checkin is disable");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
@@ -130,14 +131,13 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("room", roomSize);
             session.setAttribute("checkInDate", checkInDate);
             session.setAttribute("checkOutDate", checkOutDate);
+            session.setAttribute("people", people);
             request.setAttribute("statusRoomAndPeople", "Room and People is disable");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         }
 
-
-        
         // kiểm tra điều kiện ngày bắt đầu và ngày kết thúc
         if (checkInDate.after(checkOutDate) || checkInDate.equals(checkOutDate)) {
             request.setAttribute("location", location);
@@ -145,6 +145,7 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("room", roomSize);
             session.setAttribute("checkInDate", checkInDate);
             session.setAttribute("checkOutDate", checkOutDate);
+            session.setAttribute("people", people);
             request.setAttribute("statusDate", "Date checkout is disable");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
@@ -157,7 +158,7 @@ public class SearchHotelServlet extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(SearchHotelServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             List<Reservation> check1 = RoomDB.reservationCoincide(checkInDate, checkOutDate);
             List<Date> dateList = RoomDB.getDateRange(checkInDate, checkOutDate);
             List<Integer> hotelSizeList = new ArrayList<>();
@@ -195,7 +196,7 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("locationList", locationList);
             session.setAttribute("checkInDate", checkInDate);
             session.setAttribute("checkOutDate", checkOutDate);
-            request.setAttribute("people", people);
+            session.setAttribute("people", people);
             session.setAttribute("hotelList", newHotelList);
             request.setAttribute("location", location);
             request.setAttribute("people", people);

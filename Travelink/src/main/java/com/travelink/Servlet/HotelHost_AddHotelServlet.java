@@ -4,11 +4,17 @@
  */
 package com.travelink.Servlet;
 
+import com.travelink.Database.DistrictDB;
+import com.travelink.Database.FacilityDB;
 import com.travelink.Database.HotelDB;
+import com.travelink.Database.HotelFacilityDB;
 import com.travelink.Database.OwnedHotelDB;
+import com.travelink.Database.ProvinceDB;
 import com.travelink.Database.WardDB;
 import com.travelink.Model.Account;
+import com.travelink.Model.Facility;
 import com.travelink.Model.Hotel;
+import com.travelink.Model.HotelFacility;
 import com.travelink.Model.Ward;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +24,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalTime;
+import java.util.List;
 
 /**
  *
@@ -63,6 +70,7 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setAttribute("facilityList",FacilityDB.getAllFacilities());
         request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
     }
 
@@ -84,11 +92,15 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
 
             }
         }
+        if(request.getParameter("provinceID")!=null){
+            request.setAttribute("provinceList",ProvinceDB.getAllProvince());
+            request.setAttribute("districtList",DistrictDB.getDistrictsByProvinceID(Integer.parseInt(request.getParameter("provinceID"))));
+            request.setAttribute("facilityList",FacilityDB.getAllFacilities());
+        }
 
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         int star = Integer.parseInt(request.getParameter("star"));
-        float rating = Float.parseFloat(request.getParameter("rating"));
         String phoneNumber = request.getParameter("phoneNumber");
         String description = request.getParameter("description");
         String checkInTimeStart = request.getParameter("checkInTimeStart");
@@ -101,7 +113,7 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
         hotel.setName(name);
         hotel.setEmail(email);
         hotel.setStar(star);
-        hotel.setRating(rating);
+        hotel.setRating(0);
         hotel.setPhoneNumber(phoneNumber);
         hotel.setDescription(description);
         hotel.setCheckInTimeStart(LocalTime.parse(checkInTimeStart));
@@ -118,6 +130,14 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
         Ward ward = WardDB.getWardByID(wardID);
         OwnedHotelDB.addNewOwned(hotelHostAccount.getAccount_ID(), newHotel.getHotel_ID());
         request.setAttribute("ward", ward);
+        // facility
+        for(Facility facility : FacilityDB.getAllFacilities()){
+            if(request.getParameter(facility.getName())!= null){
+                HotelFacilityDB.addHotelFacility(newHotel.getHotel_ID(),(Integer.parseInt(request.getParameter(facility.getName()))));
+            }
+            
+        }
+        request.setAttribute("status", "Add hotel successfull");
         request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
     }
 

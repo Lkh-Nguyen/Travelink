@@ -137,6 +137,9 @@
                             </div>
                         </h5>
                         <div class="card-body">
+                            <c:if test="${addStatus != null}">
+                                <p>${addStatus}</p>
+                            </c:if>
                             <c:choose>
                                 <c:when test="${not empty requestScope.hotel_list}">
                                     <table id="hotelTable" class="table-hover table align-items-center justify-content-center">
@@ -228,19 +231,17 @@
                                                                 Image 
                                                             </button>
                                                             <input type="hidden" name="hotelID" value="${h.hotel_ID}">
-                                                        </form> 
-                                                        <form class="row m-1 p-1" action="HotelHost_AddHotelServlet" method="get" id="cancelForm">
-                                                            <button  class="btn btn-outline-secondary mb-1 w-100 add-button">
-                                                                Add
-                                                            </button>
-                                                            <input type="hidden" name="hotel_ID" value="${h.hotel_ID}"/>
-                                                            <input type="hidden" name="action" value="add"/>
-                                                        </form>
+                                                        </form>                                                         
 
                                                         <c:if test="${partner.hotel.status != 'LOCKED'}">
                                                             <form class="row m-1 p-1" action="HotelHost_DeleteHotelServlet" method="get" id="cancelForm">        
                                                                 <button class="btn btn-outline-danger mb-1 w-100 delete-button">
-                                                                    Delete
+                                                                    <c:if test="${h.status == 'ACTIVE'}">
+                                                                        INACTIVE
+                                                                    </c:if>
+                                                                    <c:if test="${h.status == 'INACTIVE'}">
+                                                                        ACTIVE
+                                                                    </c:if>
                                                                 </button>
                                                                 <input type="hidden" name="hotelID" value="${h.hotel_ID}"/>
 
@@ -317,6 +318,13 @@
                                     </div>
                                 </c:otherwise>
                             </c:choose>
+                            <form class="row m-1 p-1" action="HotelHost_AddHotelServlet" method="get" id="cancelForm">
+                                <button  class="btn btn-outline-secondary mb-1 w-100 add-button">
+                                    Add
+                                </button>
+                                <input type="hidden" name="hotel_ID" value="${h.hotel_ID}"/>
+                                <input type="hidden" name="action" value="add"/>
+                            </form>
                         </div>
                     </div>
                 </div>

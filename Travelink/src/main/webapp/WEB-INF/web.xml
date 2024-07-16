@@ -479,6 +479,10 @@
         <servlet-name>HotelHost_DeleteRoomImageServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.HotelHost_DeleteRoomImageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HotelHost_AddWardServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.HotelHost_AddWardServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -774,6 +778,10 @@
     <servlet-mapping>
         <servlet-name>HotelHost_DeleteRoomImageServlet</servlet-name>
         <url-pattern>/HotelHost_DeleteRoomImageServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HotelHost_AddWardServlet</servlet-name>
+        <url-pattern>/HotelHost_AddWardServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -6,13 +6,23 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.HotelDB;
+import com.travelink.Database.HotelImageDB;
+import com.travelink.Database.OwnedHotelDB;
+import com.travelink.Database.RoomDB;
+import com.travelink.Database.RoomImageDB;
+import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
+import com.travelink.Model.Room;
+import com.travelink.Model.RoomImage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -58,9 +68,34 @@ public class HotelHost_DeleteHotelServlet extends HttpServlet {
         int hotelID = Integer.parseInt(request.getParameter("hotelID"));
         Hotel hotel = HotelDB.getHotelByID(hotelID);
         Hotel newHotel = hotel;
-        newHotel.setStatus("INACTIVE");
-        HotelDB.updateHotel(newHotel, hotel);
-        request.setAttribute("hotel_list", HotelDB.getAllHotels());
+        if(hotel.getStatus().equals("ACTIVE")){
+            newHotel.setStatus("INACTIVE");
+            HotelDB.updateHotel(newHotel, hotel);
+            request.setAttribute("addStatus", "Change hotel status succesfull");
+        }else if(hotel.getStatus().equals("INACTIVE")){
+            List<Room> roomList = RoomDB.getRoomsByHotel_ID(hotelID);
+            List<RoomImage> roomImages = new ArrayList<>();
+            for(Room room : roomList){
+                for(RoomImage image : RoomImageDB.getRoomImagesByRoom_ID(room.getRoom_ID())){
+                    roomImages.add(image);
+                }
+            }
+            if(HotelImageDB.getHotelImagesByHotelID(hotelID).size()>= 5 
+               && roomList.size() > 0
+               && roomImages.size() > 6){
+                newHotel.setStatus("ACTIVE");
+                HotelDB.updateHotel(newHotel, hotel);
+            }else{
+                request.setAttribute("addStatus", "You must add full hotel Information!");
+            }
+            System.out.println(roomList.size());
+            System.out.println(roomImages.size());
+            System.out.println(HotelImageDB.getHotelImagesByHotelID(hotelID).size());
+        }
+        
+        HttpSession session = request.getSession();
+        Account hotelHost = (Account) session.getAttribute("account");
+        request.setAttribute("hotel_list", OwnedHotelDB.getHotelsByAccountID(hotelHost.getAccount_ID()));
         request.getRequestDispatcher("HotelHost_HotelInformation.jsp").forward(request, response);
         
     } 

@@ -348,15 +348,59 @@ public class ReservationDB implements DatabaseInfo {
     }
 
     public static boolean hasUnpaidReservationWithVietQR(int accountID) {
-        List<Reservation> reservations = getReservationsByAccountID(accountID);
+//        List<Reservation> reservations = getReservationsByAccountID(accountID);
+//
+//        for (Reservation reservation : reservations) {
+//            if ("NOT PAID".equals(reservation.getStatus()) && "VIETQR".equals(reservation.getPaymentMethod())) {
+//                return true; // Found an unpaid reservation with VIETQR
+//            }
+//        }
+//
+//        return false; // No such reservation found
+        Reservation reservation = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
 
-        for (Reservation reservation : reservations) {
-            if ("NOT PAID".equals(reservation.getStatus()) && "VIETQR".equals(reservation.getPaymentMethod())) {
-                return true; // Found an unpaid reservation with VIETQR
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT * FROM Reservation WHERE Status='NOT PAID' AND Payment_Method = 'VIETQR'";
+                statement = connection.prepareStatement(query);
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    reservation = new Reservation();
+                    reservation.setReservationID(resultSet.getInt("Reservation_ID"));
+                    reservation.setReservationDate(resultSet.getTimestamp("Reservation_Date").toLocalDateTime());
+                    reservation.setNumber_of_guests(resultSet.getInt("number_of_guests"));
+                    reservation.setCheckInDate(resultSet.getDate("CheckInDate"));
+                    reservation.setCheckOutDate(resultSet.getDate("CheckOutDate"));
+                    reservation.setTotalPrice(resultSet.getInt("Total_Price"));
+                    reservation.setPaymentMethod(resultSet.getString("Payment_Method"));
+                    reservation.setStatus(resultSet.getString("Status"));
+                    reservation.setAccount_ID(resultSet.getInt("Account_ID"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting reservation");
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
             }
         }
-
-        return false; // No such reservation found
+        return reservation != null;
     }
 
     public static void updateReservationStatusAfterFeedback(int reservationID) {
@@ -467,6 +511,8 @@ public class ReservationDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) {
+        System.out.println(hasUnpaidReservationWithVietQR(1));
+        
         int testHotelID = 3; // Replace with a valid Hotel_ID to test
         List<Reservation> reservationList = ReservationDB.getVietQRReservationsByHotelID(testHotelID);
 

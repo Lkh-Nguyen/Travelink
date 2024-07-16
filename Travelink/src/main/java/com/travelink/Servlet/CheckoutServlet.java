@@ -61,7 +61,7 @@ public class CheckoutServlet extends HttpServlet {
     }
 
     //Handle the booking string
-    public static Map<Room, Integer> getBookingsFromBookingString(String bookingStr) {
+        private static Map<Room, Integer> getBookingsFromBookingString(String bookingStr) {
         Map<Room, Integer> map = new HashMap<>();
         int totalPrice = 0;
         String[] bookings = bookingStr.split("/");
@@ -79,14 +79,14 @@ public class CheckoutServlet extends HttpServlet {
     }
 
     //Take out the value of each parameter in booking string
-    public static int takeValue(String valueStr) {
+    private static int takeValue(String valueStr) {
         String[] splitStr = valueStr.split("=");
         String resultStr = splitStr[1];
         int result = Integer.parseInt(resultStr);
         return result;
     }
 
-    public static int calculateTotalPrice(Map<Room, Integer> bookingMap) {
+    private static int calculateTotalPrice(Map<Room, Integer> bookingMap) {
         int totalPrice = 0;
 
         // Iterate through the map entries

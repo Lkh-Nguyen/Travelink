@@ -11,14 +11,12 @@ import com.travelink.Model.Account;
 import com.travelink.Model.Reservation;
 import com.travelink.Model.ReservedRoom;
 import com.travelink.Model.Room;
-import static com.travelink.Servlet.CheckoutServlet.takeValue;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -97,7 +95,7 @@ public class InsertOfflineBookingServlet extends HttpServlet {
     }
 
     //Handle the booking string
-    public static Map<Room, Integer> getBookingsFromBookingString(String bookingStr) {
+    private static Map<Room, Integer> getBookingsFromBookingString(String bookingStr) {
         Map<Room, Integer> map = new HashMap<>();
         int totalPrice = 0;
         String[] bookings = bookingStr.split("/");
@@ -112,6 +110,14 @@ public class InsertOfflineBookingServlet extends HttpServlet {
             System.out.println(totalPrice);
         }
         return map;
+    }
+    
+        //Take out the value of each parameter in booking string
+    private static int takeValue(String valueStr) {
+        String[] splitStr = valueStr.split("=");
+        String resultStr = splitStr[1];
+        int result = Integer.parseInt(resultStr);
+        return result;
     }
 
     /**

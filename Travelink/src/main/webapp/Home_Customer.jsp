@@ -130,10 +130,23 @@
                 </div>
             </div>
         </header>
-<!--        Best hotel-->
-                <section class="section__container travellers__container" data-aos="fade-up">
+        <!--        Best hotel-->
+        <section class="section__container travellers__container" data-aos="fade-up">
             <h2 class="section__header">Best hotels of the month</h2>
             <div class="travellers__grid">
+                <c:set var="hotelImg" value="${requestScope.hotelImg}"/>
+                <c:set var="hotelProvince" value="${requestScope.hotelProvince}"/>
+                <c:forEach var="hotel" items="${requestScope.hotelList}" varStatus="status">
+                    <a href="viewHotelDetailServlet?hotel_ID=${hotel.hotel_ID}">
+                        <div class="travellers__card">
+                            <img src="${hotelImg[status.index]}" alt="traveller" />
+                            <div class="travellers__card__content">
+                                <h4>${hotel.name}</h4>
+                                <p>${hotelProvince[status.index]}</p>
+                            </div>
+                        </div>
+                    </a>
+                </c:forEach>
                 <div class="travellers__card">
                     <img src="img_Home/top_1_1.jpg" alt="traveller" />
                     <div class="travellers__card__content">
@@ -168,7 +181,7 @@
                 </div>
             </div>
         </section>
-<!--        Search-->
+        <!--        Search-->
         <section class="section__container booking__container" data-aos="fade-up">
             <form method="post" action="search">
                 <!--                    Location-->

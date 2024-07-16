@@ -86,7 +86,7 @@ public class HotelHost_DeleteHotelServlet extends HttpServlet {
                 newHotel.setStatus("ACTIVE");
                 HotelDB.updateHotel(newHotel, hotel);
             }else{
-                request.setAttribute("addStatus", "You must add full hotel Information!");
+                request.setAttribute("addStatus", "Hotel :"+hotel.getName()+"   "+" 'You must add full Information!'");
             }
             System.out.println(roomList.size());
             System.out.println(roomImages.size());

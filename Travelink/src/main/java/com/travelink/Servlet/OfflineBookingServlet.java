@@ -5,6 +5,7 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.HotelDB;
+import com.travelink.Database.ReservationDB;
 import com.travelink.Database.RoomDB;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.Reservation;
@@ -70,7 +71,7 @@ public class OfflineBookingServlet extends HttpServlet {
         }
 
         //Calculate the available room again and store in List
-        List<Reservation> check1 = RoomDB.reservationCoincide(checkInDate, checkOutDate);
+        List<Reservation> check1 = ReservationDB.reservationCoincide(checkInDate, checkOutDate);
         List<Integer> availableRoomList = new ArrayList<>();
         for (Room r : roomList) {
             int availableRoom = RoomDB.numberOfRoomAvailableByTime(r.getRoom_ID(), checkInDate, checkInDate, check1);

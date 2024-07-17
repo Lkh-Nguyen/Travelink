@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import com.travelink.Database.ReservationDB;
 
 /**
  *
@@ -132,7 +133,7 @@ public class HotelHost_SearchAvailableServlet extends HttpServlet {
         }
         List<Integer> availableList = new ArrayList<>();
         List<Integer> reservedList = new ArrayList<>();
-        List<Reservation> reservationCoincide = RoomDB.reservationCoincide(checkInDate, checkOutDate);
+        List<Reservation> reservationCoincide = ReservationDB.reservationCoincide(checkInDate, checkOutDate);
         int numberRoomOfHotel = 0;
         for (Room room : newRoomList) {
             numberRoomOfHotel += room.getTotalRooms();

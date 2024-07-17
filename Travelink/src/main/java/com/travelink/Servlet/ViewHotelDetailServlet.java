@@ -9,6 +9,7 @@ import com.travelink.Database.FeedbackDB;
 import com.travelink.Database.HotelDB;
 import com.travelink.Database.HotelFacilityDB;
 import com.travelink.Database.HotelImageDB;
+import com.travelink.Database.ReservationDB;
 import com.travelink.Database.RoomBedDB;
 import com.travelink.Database.RoomDB;
 import com.travelink.Database.RoomImageDB;
@@ -183,7 +184,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
             Date endDate = (Date) session.getAttribute("checkOutDate");
 
             List<Integer> numberOfRoomList = new ArrayList<>();
-            List<Reservation> check1 = RoomDB.reservationCoincide(beginDate, endDate);
+            List<Reservation> check1 = ReservationDB.reservationCoincide(beginDate, endDate);
             for (Room room : RoomDB.getActiveRoomsByHotel_ID(hotel_ID)) {
                 if (check1 == null) {
                     int numberOfRoom = room.getTotalRooms();
@@ -287,7 +288,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
             Date endDate = (Date) session.getAttribute("checkOutDate");
 
             List<Integer> numberOfRoomList = new ArrayList<>();
-            List<Reservation> check1 = RoomDB.reservationCoincide(beginDate, endDate);
+            List<Reservation> check1 = ReservationDB.reservationCoincide(beginDate, endDate);
             for (Room room : RoomDB.getActiveRoomsByHotel_ID(hotelId)) {
                 if (check1 == null) {
                     int numberOfRoom = room.getTotalRooms();

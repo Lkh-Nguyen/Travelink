@@ -77,6 +77,9 @@ public class AdminLockHotelServlet extends HttpServlet {
             newHotel_2.setStatus("ACTIVE");
             HotelDB.updateHotel(newHotel_2, newHotel);
         }
+        boolean isLocked = false;
+        SendEmail send = new SendEmail();
+        send.sendHotelStatusEmail(newHotel.getEmail(), isLocked);
         List<OwnedHotel> ownedHotels = OwnedHotelDB.getAllOwnedHotels();
         //Create new view
         List<HotelPartner> partnerList = new ArrayList<>();
@@ -87,6 +90,7 @@ public class AdminLockHotelServlet extends HttpServlet {
             HotelPartner partner = new HotelPartner(hotel, account, province);
             partnerList.add(partner);
         }
+        
         request.setAttribute("partnerList", partnerList);
         request.getRequestDispatcher("Admin_Hotel_Partner.jsp").forward(request, response);
     }

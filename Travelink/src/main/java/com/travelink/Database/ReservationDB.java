@@ -4,6 +4,8 @@
  */
 package com.travelink.Database;
 
+import static com.travelink.Database.RoomDB.checkOverlap;
+import static com.travelink.Database.RoomDB.getDateBefore;
 import com.travelink.Model.RefundingReservation;
 import com.travelink.Model.Reservation;
 import java.sql.Connection;
@@ -14,6 +16,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,7 +76,16 @@ public class ReservationDB implements DatabaseInfo {
 
         return reservations;
     }
-
+    public static List<Reservation> reservationCoincide(Date userCheck_in_date, Date userCheck_out_date) {
+        List<Reservation> reservationList = ReservationDB.getAllReservations();
+        List<Reservation> reservationCoincideList = new ArrayList<>();
+        for (Reservation reservation : reservationList) {
+            if (checkOverlap(reservation.getCheckInDate(), getDateBefore(reservation.getCheckOutDate(), 1), userCheck_in_date, userCheck_out_date)) {
+                reservationCoincideList.add(reservation);
+            }
+        }
+        return reservationCoincideList;
+    }
     public static Reservation getReservationByReservationID(int reservationID) {
         Reservation reservation = null;
         Connection connection = null;

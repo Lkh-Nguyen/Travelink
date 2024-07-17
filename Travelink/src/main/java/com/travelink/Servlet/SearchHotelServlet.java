@@ -7,6 +7,7 @@ package com.travelink.Servlet;
 import com.travelink.Database.HotelDB;
 import com.travelink.Database.HotelImageDB;
 import com.travelink.Database.ProvinceDB;
+import com.travelink.Database.ReservationDB;
 import com.travelink.Database.RoomDB;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
@@ -159,7 +160,7 @@ public class SearchHotelServlet extends HttpServlet {
                 Logger.getLogger(SearchHotelServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            List<Reservation> check1 = RoomDB.reservationCoincide(checkInDate, checkOutDate);
+            List<Reservation> check1 = ReservationDB.reservationCoincide(checkInDate, checkOutDate);
             List<Date> dateList = RoomDB.getDateRange(checkInDate, checkOutDate);
             List<Integer> hotelSizeList = new ArrayList<>();
             List<Integer> capacitySizeList = new ArrayList<>();

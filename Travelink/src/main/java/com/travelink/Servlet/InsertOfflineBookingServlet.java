@@ -53,7 +53,7 @@ public class InsertOfflineBookingServlet extends HttpServlet {
         Map<Room, Integer> bookingMap = getBookingsFromBookingString(bookingStr);
         
         //Check available room again
-        List<Reservation> check1 = RoomDB.reservationCoincide(checkInDate, checkOutDate);
+        List<Reservation> check1 = ReservationDB.reservationCoincide(checkInDate, checkOutDate);
         for (Map.Entry<Room, Integer> entry : bookingMap.entrySet()) {
             Room room = entry.getKey();
             int amount = entry.getValue();

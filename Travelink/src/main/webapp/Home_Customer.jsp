@@ -289,7 +289,6 @@
                     <h2 class="section__header">
                         Travel to make memories in Viet Nam
                     </h2>
-                    <button class="view__all">View All</button>
                 </div>
                 <div class="memories__grid">
                     <div class="memories__card">

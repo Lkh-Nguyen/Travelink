@@ -121,8 +121,8 @@ public class BedDB implements DatabaseInfo {
         return beds;
     }
 
-    //Add Bed By Room ID
-    public static boolean insertBedByRoomID(Bed bed, int roomID) {
+        //Add Bed By Room ID
+    public static boolean insertBedByRoomID(Bed bed, int roomID, int amount) {
         boolean success = false;
         Connection connection = null;
         PreparedStatement insertBedStatement = null;
@@ -132,18 +132,6 @@ public class BedDB implements DatabaseInfo {
         try {
             connection = DatabaseInfo.getConnect();
             connection.setAutoCommit(false); // Start transaction
-
-            // Check if the bed with the same name already exists
-            String checkBedSQL = "SELECT COUNT(*) FROM Bed WHERE Name = ?";
-            try (PreparedStatement checkBedStatement = connection.prepareStatement(checkBedSQL)) {
-                checkBedStatement.setString(1, bed.getName());
-                try (ResultSet resultSet = checkBedStatement.executeQuery()) {
-                    if (resultSet.next() && resultSet.getInt(1) > 0) {
-                        // Bed already exists
-                        return false;
-                    }
-                }
-            }
 
             // Insert bed into Bed table
             String insertBedSQL = "INSERT INTO Bed (Name, Description, URL) VALUES (?, ?, ?)";
@@ -158,11 +146,12 @@ public class BedDB implements DatabaseInfo {
                 if (generatedKeys.next()) {
                     int bedID = generatedKeys.getInt(1);
 
-                    // Insert association into Room_Bed table
-                    String insertRoomBedSQL = "INSERT INTO Room_Bed (Room_ID, Bed_ID) VALUES (?, ?)";
+                    // Insert association into Room_Bed table with amount
+                    String insertRoomBedSQL = "INSERT INTO Room_Bed (Room_ID, Bed_ID, Amount) VALUES (?, ?, ?)";
                     insertRoomBedStatement = connection.prepareStatement(insertRoomBedSQL);
                     insertRoomBedStatement.setInt(1, roomID);
                     insertRoomBedStatement.setInt(2, bedID);
+                    insertRoomBedStatement.setInt(3, amount); // Set the amount
                     insertRoomBedStatement.executeUpdate();
 
                     success = true;

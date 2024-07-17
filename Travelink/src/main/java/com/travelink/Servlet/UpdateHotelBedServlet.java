@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.travelink.Servlet;
 
 import com.travelink.Database.BedDB;
@@ -71,11 +67,6 @@ public class UpdateHotelBedServlet extends HttpServlet {
         request.setAttribute("hotel_ID", hotelID);
         request.setAttribute("room_ID", roomID);
 
-//        PrintWriter pw = response.getWriter();
-//        pw.print(list_beds.size());
-//        for(Bed b : list_beds){
-//            pw.print(b.toString());
-//        }
         request.getRequestDispatcher("HotelHost_BedInformation.jsp").forward(request, response);
     }
 
@@ -96,22 +87,20 @@ public class UpdateHotelBedServlet extends HttpServlet {
         String hotelid = request.getParameter("hotel_ID");
         int hotelID = Integer.parseInt(hotelid);
 
+        int Amount = Integer.parseInt(request.getParameter("amount"));
+        
         Bed newBed = new Bed();
         newBed.setName(request.getParameter("name-bed"));
         newBed.setDescription(request.getParameter("description"));
         newBed.setUrl(request.getParameter("url"));
-//        PrintWriter pw = response.getWriter();
-//        pw.print(newBed.toString());
 
-        boolean added = BedDB.insertBedByRoomID(newBed, roomID);
+        boolean added = BedDB.insertBedByRoomID(newBed, roomID, Amount);
 
         if (added) {
             response.sendRedirect("UpdateHotelBedServlet?room_ID=" + roomID + "&hotel_ID=" + hotelID);
         } else {
-            request.setAttribute("error", "exist");
-            response.sendRedirect("Error.jsp");
+            
         }
-
     }
 
     /**

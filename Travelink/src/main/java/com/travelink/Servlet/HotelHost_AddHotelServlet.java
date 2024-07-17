@@ -71,6 +71,7 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("facilityList",FacilityDB.getAllFacilities());
+        request.setAttribute("provinceList", ProvinceDB.getAllProvince());
         request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
     }
 

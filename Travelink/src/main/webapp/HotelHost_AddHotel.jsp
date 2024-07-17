@@ -29,8 +29,59 @@
         <div class="container">
             <a href="UpdateHotelInformationServlet" class="btn btn-outline-primary mt-2 mb-4"><img src="img_Hotel/back.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">Back</a>
             <h2 class="mb-4 text-center">Add New Hotel</h2>
+            
+            <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmCancelModalLabel">Information of Location</h5>
+                        </div>
+                        <div class="modal-body justify-content-center">
+                            <div class="modal-body">
+                                <form action="HotelHost_AddWardServlet" method="post">
+                                    <select name="provinceID" onchange="this.form.submit()">
+                                        <c:if test="${province != null}">
+                                            <option value="${province.province_ID}">${province.name}</option>
+                                        </c:if>
+                                        <c:forEach var="province" items="${provinceList}">                   
+                                            <option value="${province.province_ID}">${province.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <c:if test="${districtList != null}">
+                                        <select name="districtID" onchange="this.form.submit()">
+                                            <c:if test="${district != null}">
+                                                <option value="${district.district_ID}">${district.name}</option>
+                                            </c:if>
+                                            <c:forEach var="district" items="${districtList}">
+                                                <option value="${district.district_ID}">${district.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </c:if>
+                                    <c:if test="${wardList != null}">
+                                        <select name="wardID" onchange="this.form.submit()">
+                                            <c:forEach var="ward" items="${wardList}">
+                                                <option value="${ward.ward_ID}">${ward.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </c:if>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <form action="HotelHost_AddHotelServlet" method="post">
-                <a href="HotelHost_AddWardServlet">ADD Location</a>
+                <label for="ward_ID">Ward ID</label>
+                <div class="input-group mb-3">
+                    <input value="${wardID}"type="number" class="form-control" id="ward_ID" name="ward_ID" placeholder="Enter ward ID" required>
+                    <button type="button" class="btn btn-primary cancel-button update-button">
+                        Choose Location
+                    </button>
+                </div>
+
+
                 <div class="form-group">
                     <label for="name">Hotel Name</label>
                     <input value="${hotel.name}" type="text" class="form-control" id="name" name="name" placeholder="Enter hotel name" required>
@@ -74,30 +125,44 @@
                         <input value="${hotel.checkOutTimeEnd}" type="time" class="form-control" id="checkOutTimeEnd" name="checkOutTimeEnd" required>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-2">
                     <label for="address">Address</label>
                     <input value="${hotel.address}" type="text" class="form-control" id="address" name="address" placeholder="Enter address" required>
                 </div>
+
+
+
                 <div class="form-group">
-                    <label for="ward_ID">Ward ID</label>
-                    <input value="${wardID}"type="number" class="form-control" id="ward_ID" name="ward_ID" placeholder="Enter ward ID" required>
+                    <label for="facility">Facility List</label> <hr>
+                    <c:forEach var="facility" items="${facilityList}">
+                        <input type="checkbox" name="${facility.name}" value="${facility.facilityID}"> ${facility.name} <hr>
+                    </c:forEach>
+                    <button type="submit" class="btn btn-primary btn-block">Add Hotel</button>
                 </div>
-                <div class="form-group">
-                    <label for="ward_ID">Facility List</label> <hr>
-               <c:forEach var="facility" items="${facilityList}">
-                   <input type="checkbox" name="${facility.name}" value="${facility.facilityID}"> ${facility.name} <hr>
-                </c:forEach>
-                <button type="submit" class="btn btn-primary btn-block">Add Hotel</button>
-                </div>
-                    <c:if test="${status != null}">
-                         <p>${status}</p>
-                    </c:if>
-               
+                <c:if test="${status != null}">
+                    <p>${status}</p>
+                </c:if>
+
             </form>
         </div>
         <%@include file="Footer.jsp" %>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+                                            //ModalUpdate
+                                            document.addEventListener('DOMContentLoaded', () => {
+                                                const cancelButtons = document.querySelectorAll('.cancel-button');
+                                                const confirmCancelButton = document.getElementById('confirmCancelButton');
+                                                let formToSubmit;
+
+                                                cancelButtons.forEach(button => {
+                                                    button.addEventListener('click', () => {
+                                                        formToSubmit = button.closest('form');
+                                                        $('#confirmCancelModal').modal('show');
+                                                    });
+                                                });
+                                            });
+        </script>
     </body>
 </html>

@@ -27,14 +27,15 @@ public class ErrorHandlingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        try {
+//        try {
+//            chain.doFilter(request, response);
+//        } catch (Throwable t) {
+//            // Handle exception
+//            t.printStackTrace();
+//            HttpServletResponse httpResponse = (HttpServletResponse) response;
+//            httpResponse.sendRedirect("Error.jsp"); // Redirect to error page
+//        }
             chain.doFilter(request, response);
-        } catch (Throwable t) {
-            // Handle exception
-            t.printStackTrace();
-            HttpServletResponse httpResponse = (HttpServletResponse) response;
-            httpResponse.sendRedirect("Error.jsp"); // Redirect to error page
-        }
     }
 
     @Override

@@ -143,6 +143,10 @@
                                     <label for="addDescription">Description</label>
                                     <input type="text" class="form-control" id="addDescription" name="description" readonly="">
                                 </div>
+                                <div class="form-group">
+                                    <label for="newAmount">Amount</label>
+                                    <input type="number" class="form-control" id="amount" name="amount">
+                                </div>
                                 <div class="form-group mb-2">
                                     <label for="addURL">URL</label>
                                     <input type="text" class="form-control" id="addURL" name="url" readonly="">

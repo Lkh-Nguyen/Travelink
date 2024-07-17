@@ -60,7 +60,7 @@ public class HotelHost_AddWardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("provinceList", ProvinceDB.getAllProvince());
-        request.getRequestDispatcher("HotelHost_Location.jsp").forward(request, response);
+        request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
     }
 
     /**
@@ -81,7 +81,8 @@ public class HotelHost_AddWardServlet extends HttpServlet {
             request.setAttribute("districtList", DistrictDB.getDistrictsByProvinceID(provinceID));
             request.setAttribute("provinceList", ProvinceDB.getAllProvince());
             request.setAttribute("province", ProvinceDB.getProvinceByProvinceID(provinceID));
-            request.getRequestDispatcher("HotelHost_Location.jsp").forward(request, response);
+            request.setAttribute("facilityList",FacilityDB.getAllFacilities());
+            request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
         }
         else if(request.getParameter("provinceID") != null 
                 && request.getParameter("districtID") != null 
@@ -93,12 +94,14 @@ public class HotelHost_AddWardServlet extends HttpServlet {
              request.setAttribute("wardList", WardDB.getWardsByDistrictID(districtID));
              request.setAttribute("province", ProvinceDB.getProvinceByProvinceID(provinceID));
              request.setAttribute("district", DistrictDB.getDistrictByID(provinceID));
-             request.getRequestDispatcher("HotelHost_Location.jsp").forward(request, response);
+             request.setAttribute("facilityList",FacilityDB.getAllFacilities());
+             request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
         } else if(request.getParameter("provinceID") != null 
                 && request.getParameter("districtID") != null 
                 && request.getParameter("wardID") != null){
                 request.setAttribute("wardID", Integer.parseInt(request.getParameter("wardID")));
                 request.setAttribute("facilityList",FacilityDB.getAllFacilities());
+                request.setAttribute("provinceList", ProvinceDB.getAllProvince());
                 request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
         }
 

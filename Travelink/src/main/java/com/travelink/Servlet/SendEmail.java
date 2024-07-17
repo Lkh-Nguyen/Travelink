@@ -281,6 +281,43 @@ public class SendEmail {
             e.printStackTrace();
         }
     }
+    public void sendHotelStatusEmail(String mail, boolean isLocked) {
+        final String username = "travelink517@gmail.com";
+        final String password = "klfb cnic dgfd fcqv";
+        String fromEmail = "travelink517@gmail.com";
+        String toEmail = mail;
+        Properties properties = new Properties();
+
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        MimeMessage message = new MimeMessage(session);
+        try {
+            message.setFrom(new InternetAddress(fromEmail));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            String subject, body;
+            if (isLocked) {
+                subject = "Your Hotel Has Been Locked";
+                body = "Dear User,\n\nYour Hotel has been locked due to suspicious activities or violation of our terms of service. Please contact our support team if you believe this is a mistake.\n\nBest regards,\nTravelink Team";
+            } else {
+                subject = "Your Hotel Has Been Unlocked";
+                body = "Dear User,\n\nYour Hotel has been unlocked. Now Your Hotel's status is ACTIVE.\n\nBest regards,\nTravelink Team";
+            }
+            message.setSubject(subject);
+            message.setText(body);
+            Transport.send(message);
+            System.out.println("Sent hotel status email!");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void sendSuccessPayMonthlyPayment(MonthlyPayment monthlyPayment) {
         Hotel hotel = HotelDB.getHotelByID(monthlyPayment.getHotel_ID());

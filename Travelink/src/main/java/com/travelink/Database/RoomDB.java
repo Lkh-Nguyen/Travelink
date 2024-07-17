@@ -176,16 +176,7 @@ public class RoomDB implements DatabaseInfo {
         return calendar.getTime();
     }
 
-    public static List<Reservation> reservationCoincide(Date userCheck_in_date, Date userCheck_out_date) {
-        List<Reservation> reservationList = ReservationDB.getAllReservations();
-        List<Reservation> reservationCoincideList = new ArrayList<>();
-        for (Reservation reservation : reservationList) {
-            if (checkOverlap(reservation.getCheckInDate(), getDateBefore(reservation.getCheckOutDate(), 1), userCheck_in_date, userCheck_out_date)) {
-                reservationCoincideList.add(reservation);
-            }
-        }
-        return reservationCoincideList;
-    }
+    
 
     public static int numberOfRoomAvailableByDate(int RoomID, Date date, List<Reservation> reservationList, Map<Integer, List<ReservedRoom>> reservedRoomsByReservation) {
         List<ReservedRoom> reservedRooms = ReservedRoomDB.getReservedRoomsByRoomID(RoomID);

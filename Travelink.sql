@@ -343,89 +343,22 @@ DECLARE @Month TINYINT = MONTH(DATEADD(MONTH, -1, GETDATE()));
 DECLARE @Year SMALLINT = YEAR(DATEADD(MONTH, -1, GETDATE()));
 DECLARE @PaymentTime DATETIME = NULL;
 
--- Temporary table to hold aggregated data
-CREATE TABLE #MonthlyRevenueData (
-    Hotel_ID INT,
-    TotalRevenue INT
-);
-
--- Calculate revenue for hotels with reservations using VIETQR payment method
-INSERT INTO #MonthlyRevenueData (Hotel_ID, TotalRevenue)
-SELECT
-    rm.Hotel_ID,
-    CAST(SUM(
-        CASE
-            WHEN r.Status IN ('PROCESSING', 'FINISHED', 'FEEDBACKED') THEN r.Total_Price
-            WHEN r.Status = 'CANCEL' THEN r.Total_Price - ISNULL(rr.Amount, 0)
-            WHEN r.Status = 'REFUNDING' THEN r.Total_Price - ISNULL(rr.Amount, 0)
-            ELSE 0
-        END
-    ) * 0.9 AS INT) AS TotalRevenue  -- Apply 90% multiplier and cast to INT
-FROM
-    Reservation r
-INNER JOIN
-    Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID
-INNER JOIN
-    Room rm ON rr.Room_ID = rm.Room_ID
-LEFT JOIN
-    Refunding_Reservation rf ON r.Reservation_ID = rf.Reservation_ID
-WHERE
-    MONTH(r.CheckInDate) = @Month
-    AND YEAR(r.CheckInDate) = @Year
-    AND r.Status IN ('PROCESSING', 'FINISHED', 'FEEDBACKED', 'CANCEL', 'REFUNDING')
-    AND r.Payment_Method = 'VIETQR'  -- Filter by payment method VIETQR
-GROUP BY
-    rm.Hotel_ID;
-
--- Insert into MonthlyPayment table
-INSERT INTO MonthlyPayment (Month, Year, Amount, Status, PaymentTime, Hotel_ID)
-SELECT
-    @Month,
-    @Year,
-    SUM(m.TotalRevenue) AS Amount,  -- Sum the TotalRevenue for each hotel
-    'NOT PAID',  -- Assuming all amounts are pending for now
-    @PaymentTime,
-    m.Hotel_ID
-FROM
-    #MonthlyRevenueData m
-GROUP BY
-    m.Hotel_ID;
-
--- Clean up temporary table
-DROP TABLE #MonthlyRevenueData;
-
-PRINT 'Monthly revenue calculation successful for all hotels for month ' + CAST(@Month AS VARCHAR(2)) + ', year ' + CAST(@Year AS VARCHAR(4)) + '.';
-END;
-
-GO
-!-----------------------------------------------------------------------------------------------------------
-CREATE PROCEDURE CalculateMonthlyRevenueForAllHotelsCurrentMonthYear
-AS
-BEGIN
-    SET NOCOUNT ON;
-    
-    DECLARE @Month TINYINT = MONTH(GETDATE());
-    DECLARE @Year SMALLINT = YEAR(GETDATE());
-    DECLARE @PaymentTime DATETIME = NULL;
-
-    -- Temporary table to hold aggregated data
-    CREATE TABLE #MonthlyRevenueData (
-        Hotel_ID INT,
-        TotalRevenue INT
-    );
-
     -- Calculate revenue for hotels with reservations using VIETQR payment method
-    INSERT INTO #MonthlyRevenueData (Hotel_ID, TotalRevenue)
+    INSERT INTO MonthlyPayment (Month, Year, Amount, Status, PaymentTime, Hotel_ID)
     SELECT
-        rm.Hotel_ID,
+        @Month,
+        @Year,
         CAST(SUM(
             CASE
                 WHEN r.Status IN ('PROCESSING', 'FINISHED', 'FEEDBACKED') THEN r.Total_Price
-                WHEN r.Status = 'CANCEL' THEN r.Total_Price - ISNULL(rr.Amount, 0)
-                WHEN r.Status = 'REFUNDING' THEN r.Total_Price - ISNULL(rr.Amount, 0)
+                WHEN r.Status = 'CANCEL' THEN r.Total_Price - ISNULL(rf.Amount, 0)
+                WHEN r.Status = 'REFUNDING' THEN r.Total_Price - ISNULL(rf.Amount, 0)
                 ELSE 0
             END
-        ) * 0.9 AS INT) AS TotalRevenue  -- Apply 90% multiplier and cast to INT
+        ) * 0.9 AS INT) AS Amount,  -- Apply 90% multiplier and cast to INT
+        'NOT PAID',  -- Assuming all amounts are pending for now
+        @PaymentTime,
+        rm.Hotel_ID
     FROM
         Reservation r
     INNER JOIN
@@ -442,26 +375,52 @@ BEGIN
     GROUP BY
         rm.Hotel_ID;
 
-    -- Insert into MonthlyPayment table
+PRINT 'Monthly revenue calculation successful for all hotels for month ' + CAST(@Month AS VARCHAR(2)) + ', year ' + CAST(@Year AS VARCHAR(4)) + '.';
+END;
+
+CREATE PROCEDURE CalculateMonthlyRevenueForAllHotelsCurrentMonthYear
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    DECLARE @Month TINYINT = MONTH(GETDATE());
+    DECLARE @Year SMALLINT = YEAR(GETDATE());
+    DECLARE @PaymentTime DATETIME = NULL;
+
+    -- Calculate revenue for hotels with reservations using VIETQR payment method
     INSERT INTO MonthlyPayment (Month, Year, Amount, Status, PaymentTime, Hotel_ID)
     SELECT
         @Month,
         @Year,
-        SUM(m.TotalRevenue) AS Amount,  -- Sum the TotalRevenue for each hotel
+        CAST(SUM(
+            CASE
+                WHEN r.Status IN ('PROCESSING', 'FINISHED', 'FEEDBACKED') THEN r.Total_Price
+                WHEN r.Status = 'CANCEL' THEN r.Total_Price - ISNULL(rf.Amount, 0)
+                WHEN r.Status = 'REFUNDING' THEN r.Total_Price - ISNULL(rf.Amount, 0)
+                ELSE 0
+            END
+        ) * 0.9 AS INT) AS Amount,  -- Apply 90% multiplier and cast to INT
         'NOT PAID',  -- Assuming all amounts are pending for now
         @PaymentTime,
-        m.Hotel_ID
+        rm.Hotel_ID
     FROM
-        #MonthlyRevenueData m
+        Reservation r
+    INNER JOIN
+        Reserved_Room rr ON r.Reservation_ID = rr.Reservation_ID
+    INNER JOIN
+        Room rm ON rr.Room_ID = rm.Room_ID
+    LEFT JOIN
+        Refunding_Reservation rf ON r.Reservation_ID = rf.Reservation_ID
+    WHERE
+        MONTH(r.CheckInDate) = @Month
+        AND YEAR(r.CheckInDate) = @Year
+        AND r.Status IN ('PROCESSING', 'FINISHED', 'FEEDBACKED', 'CANCEL', 'REFUNDING')
+        AND r.Payment_Method = 'VIETQR'  -- Filter by payment method VIETQR
     GROUP BY
-        m.Hotel_ID;
-
-    -- Clean up temporary table
-    DROP TABLE #MonthlyRevenueData;
+        rm.Hotel_ID;
 
     PRINT 'Monthly revenue calculation successful for all hotels for month ' + CAST(@Month AS VARCHAR(2)) + ', year ' + CAST(@Year AS VARCHAR(4)) + '.';
 END;
-
 
 CREATE VIEW HotelInfor AS
 WITH RankedHotels AS (
@@ -512,26 +471,6 @@ HotelRatings hr ON rh.Hotel_ID = hr.Hotel_ID
 WHERE 
 rh.rn = 1;
 
-
-
-
-
-SELECT
-H.Hotel_ID,
-COUNT(F.Feedback_ID) AS Total_Rating_Count,
-AVG(CAST(F.Rating AS FLOAT)) AS Average_Rating
-FROM
-Hotel H
-LEFT JOIN
-Room R ON H.Hotel_ID = R.Hotel_ID
-LEFT JOIN
-Reserved_Room RR ON R.Room_ID = RR.Room_ID
-LEFT JOIN
-Reservation Res ON RR.Reservation_ID = Res.Reservation_ID
-LEFT JOIN
-Feedback F ON Res.Reservation_ID = F.Reservation_ID
-GROUP BY
-H.Hotel_ID;
 
 
 

@@ -190,21 +190,6 @@ public class BedDB implements DatabaseInfo {
         return success;
     }
 
-    public static boolean doesBedExist(String bedName) {
-        String checkBedSQL = "SELECT COUNT(*) FROM Bed b WHERE b.Name = ?";
-
-        try (Connection connection = DatabaseInfo.getConnect(); PreparedStatement checkBedStatement = connection.prepareStatement(checkBedSQL)) {
-            checkBedStatement.setString(1, bedName);
-            try (ResultSet resultSet = checkBedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getInt(1) > 0; // Return true if count is greater than 0
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 
     public static void main(String[] args) {
         BedDB bedDB = new BedDB();

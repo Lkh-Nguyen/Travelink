@@ -11,6 +11,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
         <style>
             @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
             body {
@@ -142,6 +143,13 @@
                             </c:if>
                             <c:choose>
                                 <c:when test="${not empty requestScope.hotel_list}">
+                                    <form action="HotelHost_AddHotelServlet" method="get" id="cancelForm">
+                                        <button type="submit" class="btn btn-secondary mb-3 add-button">
+                                            <i class="bi bi-plus-circle"></i> Add Hotel
+                                        </button>
+                                        <input type="hidden" name="hotel_ID" value="${h.hotel_ID}"/>
+                                        <input type="hidden" name="action" value="add"/>
+                                    </form>
                                     <table id="hotelTable" class="table-hover table align-items-center justify-content-center">
                                         <thead>
                                             <tr class="text-center">
@@ -318,13 +326,7 @@
                                     </div>
                                 </c:otherwise>
                             </c:choose>
-                            <form class="row m-1 p-1" action="HotelHost_AddHotelServlet" method="get" id="cancelForm">
-                                <button  class="btn btn-outline-secondary mb-1 w-100 add-button">
-                                    Add
-                                </button>
-                                <input type="hidden" name="hotel_ID" value="${h.hotel_ID}"/>
-                                <input type="hidden" name="action" value="add"/>
-                            </form>
+
                         </div>
                     </div>
                 </div>

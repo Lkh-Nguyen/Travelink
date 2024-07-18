@@ -122,9 +122,10 @@ public class UpdateHotelRoomServlet extends HttpServlet {
         }
     }
 
+    //Function update room
     private void updateRoom(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int hotelID = Integer.parseInt(request.getParameter("hotelid"));
+        int hotel_ID = Integer.parseInt(request.getParameter("hotelid"));
         int roomID = Integer.parseInt(request.getParameter("roomid"));
         // Retrieve room details from the form
         Room room = new Room();
@@ -135,17 +136,19 @@ public class UpdateHotelRoomServlet extends HttpServlet {
         room.setPrice(Integer.parseInt(request.getParameter("price")));
         room.setStatus(request.getParameter("status"));
 
-        boolean updated = RoomDB.updateRoom(hotelID, roomID, room);
+        boolean updated = RoomDB.updateRoom(hotel_ID, roomID, room);
 
         if (updated) {
             // Update successful
-            response.sendRedirect("UpdateHotelRoomServlet?hotel_ID=" + hotelID);
+            response.sendRedirect("UpdateHotelRoomServlet?hotel_ID=" + hotel_ID + "&status=success&message=Room%20Update%20Successfully");
         } else {
             // Update failed
-            response.sendRedirect("HotelHost_RoomInformation.jsp");
+            response.sendRedirect("UpdateHotelRoomServlet?hotel_ID=" + hotel_ID + "&status=failure&message=Update%20Room%20Failed");
         }
     }
-
+    
+    
+    //Function add room
     private void addRoom(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int hotel_ID = Integer.parseInt(request.getParameter("hotel_ID"));
@@ -162,9 +165,9 @@ public class UpdateHotelRoomServlet extends HttpServlet {
         boolean added = RoomDB.addRoom(hotel_ID, room);
 
         if (added) {
-            response.sendRedirect("UpdateHotelRoomServlet?hotel_ID=" + hotel_ID);
+            response.sendRedirect("UpdateHotelRoomServlet?hotel_ID=" + hotel_ID + "&status=success&message=Room%20Add%20Successfully");
         } else {
-            response.sendRedirect("Error.jsp");
+            response.sendRedirect("UpdateHotelRoomServlet?hotel_ID=" + hotel_ID + "&status=failure&message=Add%20Room%20Failed");
         }
     }
 

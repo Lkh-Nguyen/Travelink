@@ -188,15 +188,7 @@
                             </form>
                         </div>
                     </div>
-                    <!-- Input for Image URLs -->
-<!--                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="image-urls">Image URLs</label>
-                                <textarea class="form-control" id="image-urls" rows="9" placeholder="Enter 9 image URLs, each on a new line, separated by commas"></textarea>
-                            </div>
-                        </div>
-                    </div>-->
+
                     <div class="row mt-4 justify-content-center align-items-center">
                         <div class="col-md-4 justify-content-center align-items-center"></div>
                         <div class="col-md-4 d-flex justify-content-center align-items-center">

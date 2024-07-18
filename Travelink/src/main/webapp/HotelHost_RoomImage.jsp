@@ -11,6 +11,8 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <style>
             @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
             * {
@@ -225,7 +227,24 @@
                 background-color: #007bff;
                 border: none;
             }
+            .image-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                width: 100%;
+                height: 400px;
+            }
+            .image-container img {
+                max-width: 300px;
+                max-height: 450px;
+                object-fit: cover;
+                border-radius: 8px; /* Optional: for rounded corners */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: for a slight shadow effect */
+            }
+
         </style>
+
     </head>
     <body>
         <%@include file="Header_HotelHost.jsp" %>
@@ -255,25 +274,29 @@
                                         <tr>
                                             <th scope="row">${loopStatus.index + 1}</th>
                                             <td>${h.room_Image_ID}</td>
-                                            <td><img src="${h.url}" alt="Image ${h.room_Image_ID}" style="width: 20rem; height: 250px;"/></td>
                                             <td>
-                                                <form class="row m-1 p-1" action="#" method="post" enctype="multipart/form-data" id="updateForm-${h.room_Image_ID}">
-                                                    <button type="button" class="btn btn-outline-primary mb-1 w-100 update-button"
+                                                <div class="image-container">
+                                                    <img src="${h.url}" alt="Image ${h.room_Image_ID}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <form class="row m-4" action="#" method="post" enctype="multipart/form-data" id="updateForm-${h.room_Image_ID}">
+                                                    <button type="button" class="btn btn-success mb-1 update-button"
                                                             data-image-id="${h.room_Image_ID}"
                                                             data-image="${h.url}" 
                                                             data-toggle="modal"
                                                             data-target="#updateModal-${h.room_Image_ID}">
-                                                        Update Detail
+                                                        Update
                                                     </button>
                                                     <input type="hidden" name="action" value="update"/>
                                                     <input type="hidden" name="roomImageID" value="${h.room_Image_ID}"/>
                                                     <input type="hidden" name="roomID" value="${h.room_ID}"/>
                                                 </form>     
-                                                <div class="row m-2">
+                                                <div class="row m-3">
                                                     <form action="HotelHost_DeleteRoomImageServlet" method="post">
                                                         <input type="hidden" name="roomImageID" value="${h.room_Image_ID}">
                                                         <input type="hidden" name="roomID" value="${h.room_ID}"/>
-                                                        <button type="submit" class="btn btn-outline-primary delete-button">
+                                                        <button type="submit" class="btn btn-danger w-100 delete-button">
                                                             Delete
                                                         </button>
                                                     </form>
@@ -329,7 +352,46 @@
                 </div>
             </div>
         </div>
-
+                                
+        <!-- Alert image update -->
+        <script>
+            window.onload = function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const status = urlParams.get('status');
+                const message = urlParams.get('message');
+                if (status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: message,
+                        confirmButtonText: 'OK'
+                    });
+                } else if (status === 'failure') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Operation failed: ' + message,
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }
+        </script>
+        
+        <c:if test="${requestScope.updateStatus != null}">
+            <script>
+                const updateStatus = '<%= request.getAttribute("updateStatus") %>';
+                if (updateStatus && updateStatus.trim() !== '') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: updateStatus,
+                        confirmButtonText: 'OK'
+                    });
+                }
+                
+            </script>
+        </c:if>
+            
         <c:forEach var="h" items="${requestScope.list_images}">
             <div class="modal fade" id="updateModal-${h.room_Image_ID}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel-${h.room_Image_ID}" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -480,7 +542,7 @@
                                             previewContainer.innerHTML = '';
                                         }
                                     }
-
         </script>
+
     </body>
 </html>

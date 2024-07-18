@@ -100,6 +100,7 @@ public class UpdateAvatar extends HttpServlet {
                 }
                 request.getRequestDispatcher("HotelHost_ViewAvatar.jsp").forward(request, response);
 
+            //Update Image Room
             } else if (uploadHotelHostValue.equalsIgnoreCase("2.2")) {
 
                 String room_ID = request.getParameter("roomID");
@@ -108,36 +109,44 @@ public class UpdateAvatar extends HttpServlet {
                 String room_ImageID = request.getParameter("roomImageID");
                 int imageid = Integer.parseInt(room_ImageID);
 
-                PrintWriter pw = response.getWriter();
-                pw.print(imageid);
-
                 if (RoomImageDB.updateRoomImage(imageid, urlAvatar)) {
-                    request.setAttribute("updateStatus", "Change avatar successfully.");
+                    request.setAttribute("updateStatus", "Change Room Image successfully.");
+                } else {
+                    request.setAttribute("updateStatus", "Change Room Image failed.");
                 }
 
                 List<RoomImage> list_images = RoomImageDB.getRoomImagesByRoom_ID(roomid);
                 request.setAttribute("list_images", list_images);
                 request.setAttribute("room_ID", roomid);
                 request.getRequestDispatcher("HotelHost_RoomImage.jsp").forward(request, response);
+            
+            //Add Image Room    
             } else if (uploadHotelHostValue.equalsIgnoreCase("2.3")) {
                 String room_ID = request.getParameter("roomID");
                 int roomid = Integer.parseInt(room_ID);
 
                 if (RoomImageDB.insertRoomImage(roomid, urlAvatar)) {
-                    request.setAttribute("updateStatus", "Change avatar successfully.");
+                    request.setAttribute("updateStatus", "Add Room Image successfully.");
+                }  else {
+                    request.setAttribute("updateStatus", "Add Room Image failed.");
                 }
 
                 List<RoomImage> list_images = RoomImageDB.getRoomImagesByRoom_ID(roomid);
                 request.setAttribute("list_images", list_images);
                 request.setAttribute("room_ID", roomid);
                 request.getRequestDispatcher("HotelHost_RoomImage.jsp").forward(request, response);
+                
             } else if (uploadHotelHostValue.equalsIgnoreCase("2.4")) {
                 int hotelID = Integer.parseInt(request.getParameter("hotelID"));
                 int hotelImgID = Integer.parseInt(request.getParameter("hotelImgID"));
 
                 if (HotelImageDB.updateImageUrl(hotelImgID, urlAvatar)) {
-                    request.setAttribute("updateStatus", "Change avatar successfully.");
+                    request.setAttribute("updateStatus", "Change Hotel Image successfully.");
+                } else {
+                    request.setAttribute("updateStatus", "Change Hotel Image failed.");
                 }
+                
+                
                 List<HotelImage> imgList = HotelImageDB.getHotelImagesByHotelID(hotelID);
                 request.setAttribute("imageList", imgList);
                 request.setAttribute("update", hotelImgID);
@@ -146,8 +155,11 @@ public class UpdateAvatar extends HttpServlet {
                 int hotelID = Integer.parseInt(request.getParameter("hotelID"));
 
                 if (HotelImageDB.addNewHotelImg(hotelID, urlAvatar)) {
-                    request.setAttribute("updateStatus", "Add image successfully.");
+                    request.setAttribute("updateStatus", "Add Hotel Image successfully.");
+                } else {
+                    request.setAttribute("updateStatus", "Add Hotel Image failed.");
                 }
+                
                 List<HotelImage> imgList = HotelImageDB.getHotelImagesByHotelID(hotelID);
                 request.setAttribute("imageList", imgList);
                 request.setAttribute("hotelID", hotelID);

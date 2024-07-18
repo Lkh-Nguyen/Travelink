@@ -70,7 +70,7 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("facilityList",FacilityDB.getAllFacilities());
+        request.setAttribute("facilityList", FacilityDB.getAllFacilities());
         request.setAttribute("provinceList", ProvinceDB.getAllProvince());
         request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
     }
@@ -93,10 +93,10 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
 
             }
         }
-        if(request.getParameter("provinceID")!=null){
-            request.setAttribute("provinceList",ProvinceDB.getAllProvince());
-            request.setAttribute("districtList",DistrictDB.getDistrictsByProvinceID(Integer.parseInt(request.getParameter("provinceID"))));
-            request.setAttribute("facilityList",FacilityDB.getAllFacilities());
+        if (request.getParameter("provinceID") != null) {
+            request.setAttribute("provinceList", ProvinceDB.getAllProvince());
+            request.setAttribute("districtList", DistrictDB.getDistrictsByProvinceID(Integer.parseInt(request.getParameter("provinceID"))));
+            request.setAttribute("facilityList", FacilityDB.getAllFacilities());
         }
 
         String name = request.getParameter("name");
@@ -132,13 +132,13 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
         OwnedHotelDB.addNewOwned(hotelHostAccount.getAccount_ID(), newHotel.getHotel_ID());
         request.setAttribute("ward", ward);
         // facility
-        for(Facility facility : FacilityDB.getAllFacilities()){
-            if(request.getParameter(facility.getName())!= null){
-                HotelFacilityDB.addHotelFacility(newHotel.getHotel_ID(),(Integer.parseInt(request.getParameter(facility.getName()))));
+        for (Facility facility : FacilityDB.getAllFacilities()) {
+            if (request.getParameter(facility.getName()) != null) {
+                HotelFacilityDB.addHotelFacility(newHotel.getHotel_ID(), (Integer.parseInt(request.getParameter(facility.getName()))));
             }
-            
+
         }
-        request.setAttribute("status", "Add hotel successfull");
+        request.setAttribute("updateStatus", "Add hotel successfull");
         request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
     }
 

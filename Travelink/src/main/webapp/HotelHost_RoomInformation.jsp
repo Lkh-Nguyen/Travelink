@@ -17,7 +17,9 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <style>
             @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
             body {
@@ -217,6 +219,28 @@
                 box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
             }
         </style>
+        <script>
+            window.onload = function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const status = urlParams.get('status');
+                const message = urlParams.get('message');
+                if (status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: message,
+                        confirmButtonText: 'OK'
+                    });
+                } else if (status === 'failure') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Operation failed: ' + message,
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }
+        </script>
     </head>
     <body>
         <%@include file="Header_HotelHost.jsp" %>
@@ -255,6 +279,7 @@
                         <h5 class="card-header">
                             <div class="d-flex align-items-center">
                                 <img src="img_Hotel/add.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
+                                <h4>${requestScope.msg}</h4>
                                 <h5 class="card-title mb-0">Add New Room</h5>
                             </div>
                         </h5>
@@ -267,27 +292,27 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="newHotelName">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name">
+                                    <input type="text" class="form-control" id="name" name="name" required="">
                                 </div>
                                 <div class="form-group">
                                     <label for="newRoomCapacity">Capacity</label>
-                                    <input type="number" class="form-control" id="newRoomCapacity" name="capacity">
+                                    <input type="number" class="form-control" id="newRoomCapacity" name="capacity" required="">
                                 </div>
                                 <div class="form-group">
                                     <label for="newRoomDescription">Description</label>
-                                    <input type="text" class="form-control" id="newRoomDescription" name="description">
+                                    <input type="text" class="form-control" id="newRoomDescription" name="description" required="">
                                 </div>
                                 <div class="form-group">
                                     <label for="newRoomTotalRooms">Total Rooms</label>
-                                    <input type="number" class="form-control" id="newRoomTotalRooms" name="totalRooms">
+                                    <input type="number" class="form-control" id="newRoomTotalRooms" name="totalRooms" required="">
                                 </div>
                                 <div class="form-group">
                                     <label for="newRoomPrice">Price</label>
-                                    <input type="text" class="form-control" id="newRoomPrice" name="price">
+                                    <input type="text" class="form-control" id="newRoomPrice" name="price" required="">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="modalStatus">Status</label>
-                                    <select class="form-control" id="modalStatus" name="status">
+                                    <select class="form-control" id="modalStatus" name="status" required="">
                                         <option value="ACTIVE">ACTIVE</option>
                                         <option value="INACTIVE">INACTIVE</option>
                                     </select>
@@ -310,7 +335,7 @@
                         <h5 class="card-header">
                             <div class="d-flex align-items-center">
                                 <img src="img_Hotel/list.svg" alt="List Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                <h5 class="card-title mb-0">Hotel Information</h5>
+                                <h5 class="card-title mb-0">Room Information</h5>
                             </div>
                         </h5>
                         <div class="card-body">
@@ -374,7 +399,7 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="confirmCancelModalLabel">Update Room</h5>
+                                                    <h5 class="modal-title text-light" id="confirmCancelModalLabel">Update Room</h5>
                                                 </div>
                                                 <div class="modal-body justify-content-center">
                                                     <form id="updateForm" action="UpdateHotelRoomServlet" method="post">

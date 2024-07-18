@@ -65,7 +65,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <!-- Select for Month -->
-                                <form action="HotelHostMonthlyPaymentServlet" method="get">
+                                <form action="HotelHostMonthlyPaymentServlet" method="get" id="searchForm">
                                     <div class="form-group m-1">
                                         <label for="month" class="form-label">Month</label>
                                         <select id="month" name="month" class="form-control">
@@ -119,7 +119,7 @@
                                         <input type="hidden" id="selectedHotelID" name="hotel_ID" value="${hotel_id}">
                                         <!-- Nút gửi form -->
                                         <div class="d-flex justify-content-center mt-3">
-                                            <button type="submit" class="btn btn-primary">Search</button>
+                                            <button id="spinnerButton" type="submit" class="btn btn-primary" >Search</button>
                                         </div>
                                     </div>
                                 </form>
@@ -247,6 +247,24 @@
                                                         // Thêm các phần tử đã sắp xếp vào danh sách
                                                         items.forEach(item => hotelList.appendChild(item));
                                                     });
+
+                                                    //Loading
+                                                    function handleClick(event) {
+                                                        event.preventDefault();
+                                                        var button = $('#spinnerButton');
+
+                                                        // Disable button
+                                                        button.prop('disabled', true);
+
+                                                        // Change button text to spinner
+                                                        button.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+
+                                                        // Submit form after a short delay (to allow button text to update)
+                                                        setTimeout(function () {
+                                                            $('#searchForm').submit(); // Submit the form
+                                                        }, 2000); // Short delay in milliseconds
+                                                    }
+
         </script>
     </body>
 </html>

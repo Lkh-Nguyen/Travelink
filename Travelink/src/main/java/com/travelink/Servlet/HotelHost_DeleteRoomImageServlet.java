@@ -72,9 +72,9 @@ public class HotelHost_DeleteRoomImageServlet extends HttpServlet {
        
        boolean success = RoomImageDB.deleteRoomImage(imageid);
         if (success) {
-            response.sendRedirect("UpdateImageRoom?room_ID="+roomid); // Redirect to a success page or another appropriate page
+            response.sendRedirect("UpdateImageRoom?room_ID="+roomid+ "&status=success&message=Delete%20Successfully"); // Redirect to a success page or another appropriate page
         } else {
-            response.sendRedirect("Error.jsp");
+            response.sendRedirect("UpdateImageRoom?room_ID="+roomid+ "&status=failure&message=Delete%20Failed");
         }
     }
 

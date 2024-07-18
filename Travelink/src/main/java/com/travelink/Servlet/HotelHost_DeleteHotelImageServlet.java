@@ -70,7 +70,12 @@ public class HotelHost_DeleteHotelImageServlet extends HttpServlet {
     throws ServletException, IOException {
          int hotelImgID = Integer.parseInt(request.getParameter("hotelImgID"));
          int hotelID = Integer.parseInt(request.getParameter("hotelID"));
-         HotelImageDB.deleteHotelImgByID(hotelImgID);
+         if(HotelImageDB.deleteHotelImgByID(hotelImgID)) {
+             request.setAttribute("updateStatus", "Delete Hotel Image successfully.");
+         } else {
+             request.setAttribute("updateStatus", "Delete Hotel Image successfully.");
+         }
+         
          request.setAttribute("imageList", HotelImageDB.getHotelImagesByHotelID(hotelID));
          request.getRequestDispatcher("HotelHost_Hotel_Image.jsp").forward(request, response);
          

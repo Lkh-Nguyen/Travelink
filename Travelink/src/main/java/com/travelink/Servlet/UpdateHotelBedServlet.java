@@ -87,19 +87,34 @@ public class UpdateHotelBedServlet extends HttpServlet {
         String hotelid = request.getParameter("hotel_ID");
         int hotelID = Integer.parseInt(hotelid);
 
-        int Amount = Integer.parseInt(request.getParameter("amount"));
-        
+        int amount = Integer.parseInt(request.getParameter("amount"));
+
         Bed newBed = new Bed();
         newBed.setName(request.getParameter("name-bed"));
         newBed.setDescription(request.getParameter("description"));
         newBed.setUrl(request.getParameter("url"));
 
-        boolean added = BedDB.insertBedByRoomID(newBed, roomID, Amount);
+        // Check if the bed already exists in the room
+        List<Bed> list_beds = BedDB.getBedsByRoomID(roomID);
+        boolean bedExists = false;
+        for (Bed b : list_beds) {
+            if (b.getName().equalsIgnoreCase(newBed.getName())) {
+                bedExists = true;
+                break;
+            }
+        }
 
-        if (added) {
-            response.sendRedirect("UpdateHotelBedServlet?room_ID=" + roomID + "&hotel_ID=" + hotelID);
+        if (!bedExists) {
+            // Bed does not exist, insert new bed
+            boolean added = BedDB.insertBedByRoomID(newBed, roomID, amount);
+            if (added) {
+                response.sendRedirect("UpdateHotelBedServlet?room_ID=" + roomID + "&hotel_ID=" + hotelID + "&status=success&message=Add%20Bed%20Successfully");
+            } else {
+                response.sendRedirect("UpdateHotelBedServlet?room_ID=" + roomID + "&hotel_ID=" + hotelID + "&status=failure&message=Add%20Bed%20Failed");
+            }
         } else {
-            
+            // Bed already exists, handle accordingly (maybe redirect with an error message)
+            response.sendRedirect("UpdateHotelBedServlet?room_ID=" + roomID + "&hotel_ID=" + hotelID + "&status=failure&message=Bed%20Already%20Exists");
         }
     }
 

@@ -11,6 +11,8 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <style>
             @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
             * {
@@ -356,7 +358,22 @@
                 </div>
             </div>
         </div>
+                                    
 
+        <c:if test="${requestScope.updateStatus != null}">
+            <script>
+                const updateStatus = '<%= request.getAttribute("updateStatus") %>';
+                if (updateStatus && updateStatus.trim() !== '') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: updateStatus,
+                        confirmButtonText: 'OK'
+                    });
+                }
+
+            </script>
+        </c:if>
         <%@include file="Footer.jsp" %>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -366,93 +383,93 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
-                                        $(document).ready(function () {
-                                            $('#hotelTable').DataTable();
-                                        });
+                $(document).ready(function () {
+                    $('#hotelTable').DataTable();
+                });
 
-                                        $(document).on('click', '.update-button', function () {
-                                            var imageId = $(this).data('image-id');
-                                            var modalId = '#updateModal-' + imageId;
-                                            $(modalId).modal('show');
-                                        });
+                $(document).on('click', '.update-button', function () {
+                    var imageId = $(this).data('image-id');
+                    var modalId = '#updateModal-' + imageId;
+                    $(modalId).modal('show');
+                });
 
-                                        $(document).on('click', '.delete-button', function () {
-                                            var imageId = $(this).data('image-id');
-                                            // Handle delete functionality here
-                                            // You might want to show a confirmation dialog or redirect to a delete servlet
-                                        });
+                $(document).on('click', '.delete-button', function () {
+                    var imageId = $(this).data('image-id');
+                    // Handle delete functionality here
+                    // You might want to show a confirmation dialog or redirect to a delete servlet
+                });
 
-                                        function previewImage(event, imageId) {
-                                            var reader = new FileReader();
-                                            reader.onload = function () {
-                                                var preview = document.getElementById('preview-' + imageId);
-                                                preview.innerHTML = '<img src="' + reader.result + '" alt="Image preview">';
-                                            };
-                                            reader.readAsDataURL(event.target.files[0]);
-                                        }
+                function previewImage(event, imageId) {
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        var preview = document.getElementById('preview-' + imageId);
+                        preview.innerHTML = '<img src="' + reader.result + '" alt="Image preview">';
+                    };
+                    reader.readAsDataURL(event.target.files[0]);
+                }
 
-                                        function uploadImage(imageId) {
-                                            var fileInput = document.getElementById('file-' + imageId);
-                                            var file = fileInput.files[0];
-                                            var formData = new FormData();
-                                            formData.append('file', file);
-                                            formData.append('roomImageID', imageId); // Assuming you need to send the image ID
+                function uploadImage(imageId) {
+                    var fileInput = document.getElementById('file-' + imageId);
+                    var file = fileInput.files[0];
+                    var formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('roomImageID', imageId); // Assuming you need to send the image ID
 
-                                            var xhr = new XMLHttpRequest();
-                                            xhr.open('POST', 'UploadImageAvatar', true);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'UploadImageAvatar', true);
 
-                                            xhr.onload = function () {
-                                                if (xhr.status === 200) {
-                                                    // Update the image source on the page with the new image URL
-                                                    var response = JSON.parse(xhr.responseText);
-                                                    var preview = document.getElementById('preview-' + imageId);
-                                                    preview.innerHTML = '<img src="' + response.newImageUrl + '" alt="Image preview" style="width: 150px; height: 150px; object-fit: cover;">';
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            // Update the image source on the page with the new image URL
+                            var response = JSON.parse(xhr.responseText);
+                            var preview = document.getElementById('preview-' + imageId);
+                            preview.innerHTML = '<img src="' + response.newImageUrl + '" alt="Image preview" style="width: 150px; height: 150px; object-fit: cover;">';
 
 
-                                                    // Optionally, display a success message
-                                                    alert('Image uploaded successfully!');
-                                                } else {
-                                                    // Display error message
-                                                    var errorMessage = document.getElementById('error-message-' + imageId);
-                                                    errorMessage.textContent = 'Error uploading image. Please try again.';
-                                                }
-                                            };
+                            // Optionally, display a success message
+                            alert('Image uploaded successfully!');
+                        } else {
+                            // Display error message
+                            var errorMessage = document.getElementById('error-message-' + imageId);
+                            errorMessage.textContent = 'Error uploading image. Please try again.';
+                        }
+                    };
 
-                                            xhr.send(formData);
-                                        }
+                    xhr.send(formData);
+                }
 
-                                        function validateForm(event, imageID) {
-                                            const fileInput = document.getElementById('file-' + imageID);
-                                            const errorMessage = document.getElementById('error-message-' + imageID);
-                                            if (!fileInput.files.length) {
-                                                event.preventDefault();
-                                                errorMessage.style.display = 'block';
-                                                return false;
-                                            }
-                                            errorMessage.style.display = 'none';
-                                            return true;
-                                        }
+                function validateForm(event, imageID) {
+                    const fileInput = document.getElementById('file-' + imageID);
+                    const errorMessage = document.getElementById('error-message-' + imageID);
+                    if (!fileInput.files.length) {
+                        event.preventDefault();
+                        errorMessage.style.display = 'block';
+                        return false;
+                    }
+                    errorMessage.style.display = 'none';
+                    return true;
+                }
 
-                                        function previewImage2(event, id) {
-                                            var input = event.target;
-                                            var previewContainer;
+                function previewImage2(event, id) {
+                    var input = event.target;
+                    var previewContainer;
 
-                                            if (id === 'add') {
-                                                previewContainer = document.getElementById('preview-add');
-                                            } else {
-                                                previewContainer = document.getElementById(`preview-${id}`);
-                                            }
+                    if (id === 'add') {
+                        previewContainer = document.getElementById('preview-add');
+                    } else {
+                        previewContainer = document.getElementById(`preview-${id}`);
+                    }
 
-                                            if (input.files && input.files[0]) {
-                                                var reader = new FileReader();
-                                                reader.onload = function (e) {
-                                                    previewContainer.innerHTML = '<img src="' + e.target.result + '" alt="Image preview" style="max-width: 100%; max-height: 200px;"/>';
-                                                };
-                                                reader.readAsDataURL(input.files[0]);
-                                            } else {
-                                                previewContainer.innerHTML = '';
-                                            }
-                                        }
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            previewContainer.innerHTML = '<img src="' + e.target.result + '" alt="Image preview" style="max-width: 100%; max-height: 200px;"/>';
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    } else {
+                        previewContainer.innerHTML = '';
+                    }
+                }
 
         </script>
     </body>

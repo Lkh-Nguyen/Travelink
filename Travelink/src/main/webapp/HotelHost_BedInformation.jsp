@@ -17,6 +17,8 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <style>
             @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
             body {
@@ -101,6 +103,28 @@
                 border: none;
             }
         </style>
+        <script>
+            window.onload = function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const status = urlParams.get('status');
+                const message = urlParams.get('message');
+                if (status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: message,
+                        confirmButtonText: 'OK'
+                    });
+                } else if (status === 'failure') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Operation failed: ' + message,
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }
+        </script>
     </head>
     <body>
         <%@include file="Header_HotelHost.jsp" %>
@@ -145,7 +169,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="newAmount">Amount</label>
-                                    <input type="number" class="form-control" id="amount" name="amount">
+                                    <input type="number" class="form-control" id="amount" name="amount" required="">
                                 </div>
                                 <div class="form-group mb-2">
                                     <label for="addURL">URL</label>
@@ -153,9 +177,9 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary">Add Bed</button>
                             </form>
-                                <div>
-                                    <p>${requestScope.error}</p>
-                                </div>
+                            <div>
+                                <p>${requestScope.error}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -171,7 +195,7 @@
                         <h5 class="card-header">
                             <div class="d-flex align-items-center">
                                 <img src="img_Hotel/list.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">
-                                <h5 class="card-title mb-0">Hotel Information</h5>
+                                <h5 class="card-title mb-0">Bed Information</h5>
                             </div>
                         </h5>
                         <div class="card-body">

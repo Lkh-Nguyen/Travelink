@@ -138,8 +138,8 @@
                 <c:set var="hotelProvince" value="${requestScope.hotelProvince}"/>
                 <c:forEach var="hotel" items="${requestScope.hotelList}" varStatus="status">
                     <a href="viewHotelDetailServlet?hotel_ID=${hotel.hotel_ID}">
-                        <div class="travellers__card">
-                            <img src="${hotelImg[status.index]}" alt="traveller" />
+                        <div class="travellers__card" style="height: 500px;">
+                            <img src="${hotelImg[status.index]}" height="300" alt="traveller" />
                             <div class="travellers__card__content">
                                 <h4>${hotel.name}</h4>
                                 <p>${hotelProvince[status.index]}</p>
@@ -147,38 +147,6 @@
                         </div>
                     </a>
                 </c:forEach>
-                <div class="travellers__card">
-                    <img src="img_Home/top_1_1.jpg" alt="traveller" />
-                    <div class="travellers__card__content">
-                        <img src="img_Home/best -1.jpg" alt="client" />
-                        <h4>The Leaf Boutique</h4>
-                        <p>DA NANG</p>
-                    </div>
-                </div>
-                <div class="travellers__card">
-                    <img src="img_Home/top_2.jpg" alt="traveller" />
-                    <div class="travellers__card__content">
-                        <img src="img_Home/best -2.jpg" alt="client" />
-                        <h4>Hanoi Golden Hotel</h4>
-                        <p>HA NOI</p>
-                    </div>
-                </div>
-                <div class="travellers__card">
-                    <img src="img_Home/top_3.jpg" alt="traveller" />
-                    <div class="travellers__card__content">
-                        <img src="img_Home/best -3.jpg" alt="client" />
-                        <h4>Bay Capital Danang</h4>
-                        <p>HO CHI MINH</p>
-                    </div>
-                </div>
-                <div class="travellers__card">
-                    <img src="img_Home/top_4.jpg" alt="traveller" />
-                    <div class="travellers__card__content">
-                        <img src="img_Home/best -4.jpg" alt="client" />
-                        <h4>Pearl Sea Hotel</h4>
-                        <p>DA LAT</p>
-                    </div>
-                </div>
             </div>
         </section>
         <!--        Search-->
@@ -245,7 +213,7 @@
                 <!--                    Search button-->
                 <div></div><div></div>
                 <div class="text-center mb-2">
-                    <button class="btn btn-outline-secondary fw-bold w-100 text-center"><i class="ri-search-line">Search</i></button>
+                    <button class="btn btn-secondary fw-bold w-50 text-center"><i class="ri-search-line"> Search</i></button>
                 </div>
             </form>
         </section>  
@@ -363,16 +331,34 @@
             </div>
         </section>
         <%@include file="Footer.jsp" %>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
         <script src="bootstrap_js/js/bootstrap.bundle.min.js"></script>
         <script src="js/Home_Customer.js"></script>
         <script src="js/Alter.js"></script>
         <script>
-//            document.querySelector('.booking').addEventListener('click', function () {
-//                document.querySelector('.booking__container').scrollIntoView({
-//                    behavior: 'smooth'
-//                });
-//            });
+            document.querySelector('form').addEventListener('submit', function (event) {
+                const checkInDate = document.querySelector('input[name="check_in_date"]').value;
+                const checkOutDate = document.querySelector('input[name="check_out_date"]').value;
+                const currentDate = new Date().toISOString().split('T')[0];
+
+                if (checkInDate < currentDate) {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Date',
+                        text: 'Check-in date cannot be in the past!'
+                    });
+                } else if (checkOutDate <= checkInDate) {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Date',
+                        text: 'Check-out date must be after check-in date!'
+                    });
+                }
+            });
 
             AOS.init();
         </script>

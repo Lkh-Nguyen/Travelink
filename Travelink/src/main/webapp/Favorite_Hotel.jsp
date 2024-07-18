@@ -2,6 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -164,7 +165,9 @@
                                             </div>
                                             <c:set var="j" value="0"/>
                                             <div id="left_rate">
-                                                <p id="rating">${c.average}</p>
+                                                <p id="rating">
+                                                    <fmt:formatNumber value="${c.average}" type="number" maxFractionDigits="1" minFractionDigits="1"/>
+                                                </p>
                                                 <p id="reports" style="font-size: 15px;">${c.ratingCount} feedbacks</p>                                             
                                             </div>
                                             <div id="show_detail" style="margin-left:0px">

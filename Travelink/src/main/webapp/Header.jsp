@@ -309,7 +309,6 @@
                 <div class="nav__logo"><a href="homeCustomerServlet">Trave<span>link</span></a></div>
                 <ul class="nav__links">
                     <li class="link"><a href="homeCustomerServlet">Home</a></li>
-                    <li class="link"><a href="homeCustomerServlet">About</a></li>
                         <c:if test="${not empty account and account.role == 1}">
                         <li class="link"><a href="ChatServlet">Contact</a></li>
                         </c:if>

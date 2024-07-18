@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -75,11 +76,15 @@ public class UpdateFeedbackServlet extends HttpServlet {
         Feedback feedback = FeedbackDB.getFeedbackByFeedbackID(feedbackID);
         feedback.setDescription(description);
         feedback.setRating(rating);
-
+        boolean updated = false;
         try {
-            FeedbackDB.updateFeedback(feedback);
+            updated = FeedbackDB.updateFeedback(feedback);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if(updated){
+            HttpSession session = request.getSession();
+            session.setAttribute("successUpdate", "Update Successfully");
         }
         response.sendRedirect("MyFeedback.jsp");
     }

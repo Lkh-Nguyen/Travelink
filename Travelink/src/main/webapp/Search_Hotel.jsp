@@ -11,7 +11,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Search</title>
+        <link rel="icon" href="img_Home/logo.png">
         <link href="bootstrap_css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
         <link
@@ -120,7 +121,7 @@
                                     <input id="numberInput" value="${requestScope.people}"type="number" name="number_of_people" min="1" required=""/>
                                 </c:if>
                                 <c:if test="${requestScope.people == null}">
-                                    <input id="numberInput" value="0"type="number" name="number_of_people" min="1" required=""/>
+                                    <input id="numberInput" value="0" type="number" name="number_of_people" min="1" required=""/>
                                 </c:if>
                                 <label id="number_label">No of people</label>
                             </div>
@@ -169,7 +170,7 @@
                     <div></div>
 
                     <div class="text-center mb-2">
-                        <button class="btn btn-primary" type="submit"><i class="ri-search-line text-light">Search</button>
+                        <button class="btn btn-secondary fw-bold w-50 text-center" type="submit"><i class="ri-search-line text-light"> Search</button>
                     </div>
                 </form>
             </section>        
@@ -187,68 +188,47 @@
                             </div>
                         </div>
                     </div>
-                    <h4 style="color: #2c97d2;">Lọc khách sạn</h4>
+                    <h4 class="text-primary font-weight-bold">Lọc khách sạn</h4>
                     <form action="filterHotelByStarServlet" method="get">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="star" value="1" id="star1"
-                                   <c:if test="${star == 1}">
-                                       checked=""
-                                   </c:if>
-                                   >
-                            <label class="form-check-label" for="star1">
-                                <i class="bi bi-star-fill stars"></i>
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="star" value="2" id="star2"
-                                   <c:if test="${star == 2}">
-                                       checked=""
-                                   </c:if> 
-                                   >
-                            <label class="form-check-label" for="star2">
-                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="star" value="3" id="star3"
-                                   <c:if test="${star == 3}">
-                                       checked=""
-                                   </c:if> 
-                                   >
-                            <label class="form-check-label" for="star3">
-                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="star" value="4" id="star4"
-                                   <c:if test="${star == 4}">
-                                       checked=""
-                                   </c:if>
-                                   >
-                            <label class="form-check-label" for="star4">
-                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="star" value="5" id="star5"
-                                   <c:if test="${star == 5}">
-                                       checked=""
-                                   </c:if>
-                                   >
-                            <label class="form-check-label" for="star5">
-                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
-                            </label>
-                        </div> 
+                            <input class="form-check-input" type="radio" name="star" value="1" id="star1" <c:if test="${star == 1}">checked</c:if>>
+                                <label class="form-check-label" for="star1">
+                                    <i class="bi bi-star-fill stars text-warning"></i>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="star" value="2" id="star2" <c:if test="${star == 2}">checked</c:if>>
+                                <label class="form-check-label" for="star2">
+                                    <i class="bi bi-star-fill stars text-warning"></i> <i class="bi bi-star-fill stars text-warning"></i>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="star" value="3" id="star3" <c:if test="${star == 3}">checked</c:if>>
+                                <label class="form-check-label" for="star3">
+                                    <i class="bi bi-star-fill stars text-warning"></i> <i class="bi bi-star-fill stars text-warning"></i> <i class="bi bi-star-fill stars text-warning"></i>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="star" value="4" id="star4" <c:if test="${star == 4}">checked</c:if>>
+                                <label class="form-check-label" for="star4">
+                                    <i class="bi bi-star-fill stars text-warning"></i> <i class="bi bi-star-fill stars text-warning"></i> <i class="bi bi-star-fill stars text-warning"></i> <i class="bi bi-star-fill stars text-warning"></i>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="star" value="5" id="star5" <c:if test="${star == 5}">checked</c:if>>
+                                <label class="form-check-label" for="star5">
+                                    <i class="bi bi-star-fill stars text-warning"></i> <i class="bi bi-star-fill stars text-warning"></i> <i class="bi bi-star-fill stars text-warning"></i> <i class="bi bi-star-fill stars text-warning"></i> <i class="bi bi-star-fill stars text-warning"></i>
+                                </label>
+                            </div>
 
-                        <button style="background-color: #007BFF; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-                            Search
-                        </button>
+                            <button class="btn btn-warning mt-3 w-100" type="submit">Search</button>
 
-                        <input type="hidden" name="location" value="${requestScope.location}">
+                            <input type="hidden" name="location" value="${requestScope.location}">
                         <input type="hidden" name="people" value="${requestScope.people}">
                         <input type="hidden" name="room" value="${requestScope.room}">
                     </form>
                 </div>
+
                 <!-- Phần bên phải -->
                 <div class="col-md-9">
                     <div class="row">
@@ -266,19 +246,19 @@
                                                         ${hotel.name}
                                                         <span class="px-0">
                                                             <c:if test="${hotel.star == 5}">
-                                                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
+                                                                <i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i>
                                                                 </c:if>
                                                                 <c:if test="${hotel.star == 4}">
-                                                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i>
+                                                                <i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars text-warning"></i>
                                                                 </c:if>
                                                                 <c:if test="${hotel.star == 3}">
-                                                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                <i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star stars text-warning"></i><i class="bi bi-star stars text-warning"></i>
                                                                 </c:if>
                                                                 <c:if test="${hotel.star == 2}">
-                                                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                <i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star stars text-warning"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars text-warning"></i>
                                                                 </c:if>
                                                                 <c:if test="${hotel.star == 1}">
-                                                                <i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                <i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star stars text-warning"></i><i class="bi bi-star stars text-warning"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars text-warning"></i>
                                                                 </c:if>
                                                         </span>
                                                     </h5>
@@ -290,7 +270,7 @@
                                                     <p class="card-text text-success fw-medium"><i class="bi bi-check"></i> No prepayment needed <span class="text-muted text-success">- pay at property</span></p>
                                                     <div class="card-divider"></div>
                                                     <form action="viewHotelDetailServlet" method="get">
-                                                        <button class="btn btn-primary">Đặt Phòng</button>
+                                                        <button class="btn btn-warning">Đặt Phòng</button>
                                                         <input type="hidden" name="hotel_ID"value="${hotel.hotel_ID}">
                                                     </form>
                                                 </div>
@@ -316,19 +296,19 @@
                                                             ${hotel.name}
                                                             <span class="px-0">
                                                                 <c:if test="${hotel.star == 5}">
-                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i>
+                                                                    <i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i>
                                                                     </c:if>
                                                                     <c:if test="${hotel.star == 4}">
-                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i>
+                                                                    <i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star stars text-warning"></i>
                                                                     </c:if>
-                                                                    <c:if test="${hotel.star == 3}">
-                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                    <c:if test="${hotel.star == 3}"> 
+                                                                    <i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star stars text-warning"></i><i class="bi bi-star stars text-warning"></i>
                                                                     </c:if>
                                                                     <c:if test="${hotel.star == 2}">
-                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                    <i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star stars text-warning"></i><i class="bi bi-star stars text-warning"></i><i class="bi bi-star stars text-warning"></i>
                                                                     </c:if>
                                                                     <c:if test="${hotel.star == 1}">
-                                                                    <i class="bi bi-star-fill stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i><i class="bi bi-star stars"></i>
+                                                                    <i class="bi bi-star-fill stars text-warning"></i><i class="bi bi-star stars text-warning"></i><i class="bi bi-star stars text-warning text-warning"></i><i class="bi bi-star stars text-warning"></i><i class="bi bi-star stars text-warning"></i>
                                                                     </c:if>
                                                             </span>
                                                         </h5>
@@ -340,7 +320,7 @@
                                                         <p class="card-text text-success fw-medium"><i class="bi bi-check"></i> No prepayment needed <span class="text-muted text-success">- pay at property</span></p>
                                                         <div class="card-divider"></div>
                                                         <form action="viewHotelDetailServlet" method="get">
-                                                            <button class="btn btn-primary">Đặt Phòng</button>
+                                                            <button class="btn btn-warning">Đặt Phòng</button>
                                                             <input type="hidden" name="hotel_ID"value="${hotel.hotel_ID}">
                                                         </form>
                                                     </div>
@@ -374,6 +354,7 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="js/Search_Hotel.js"></script>
         <script>
                                     let thisPage = 1;
@@ -425,33 +406,30 @@
                                         let scrollPosition = window.scrollY;
                                         window.scrollTo(0, scrollPosition);
                                     }
-                                    //Check validate Date
-                                    function validateDates() {
-                                        var today = new Date();
-                                        var checkInDate = new Date(document.getElementById("checkInDate").value);
-                                        var checkOutDate = new Date(document.getElementById("checkOutDate").value);
 
-                                        // Set hours to 0 to compare dates without considering time
-                                        today.setHours(0, 0, 0, 0);
-                                        checkInDate.setHours(0, 0, 0, 0);
-                                        checkOutDate.setHours(0, 0, 0, 0);
 
-                                        // Check if checkInDate is today or later
-                                        if (checkInDate < today) {
-                                            alert("Check-in date must be today or a future date.");
-                                            document.getElementById("checkInDate").value = ''; // Clear incorrect date
-                                            return false;
+
+                                    document.querySelector('form').addEventListener('submit', function (event) {
+                                        const checkInDate = document.querySelector('input[name="check_in_date"]').value;
+                                        const checkOutDate = document.querySelector('input[name="check_out_date"]').value;
+                                        const currentDate = new Date().toISOString().split('T')[0];
+
+                                        if (checkInDate < currentDate) {
+                                            event.preventDefault();
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Invalid Date',
+                                                text: 'Check-in date cannot be in the past!'
+                                            });
+                                        } else if (checkOutDate <= checkInDate) {
+                                            event.preventDefault();
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Invalid Date',
+                                                text: 'Check-out date must be after check-in date!'
+                                            });
                                         }
-
-                                        // Check if checkOutDate is after checkInDate
-                                        if (checkOutDate <= checkInDate) {
-                                            alert("Check-out date must be after check-in date.");
-                                            document.getElementById("checkOutDate").value = ''; // Clear incorrect date
-                                            return false;
-                                        }
-
-                                        return true;
-                                    }
+                                    });
         </script>
     </body>
 </html>

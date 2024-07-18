@@ -145,7 +145,7 @@
             </div>
         </div>    
         <div class="container" style="margin-top:1%">
-            <h3>Images of hotel</h3>
+            <h3>Images of room</h3>
             <div class="row" >
                 <c:forEach var="roomImg" items="${requestScope.roomImgList}">
                     <div class="col-md-2 Img">

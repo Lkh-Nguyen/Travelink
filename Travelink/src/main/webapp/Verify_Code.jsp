@@ -125,7 +125,6 @@
         <%@include file="Header.jsp"%>
         <main id="content" role="main">
             <div class="form-container">
-                <div>${sessionScope.roleU}</div>
                 <h1>Verify Code</h1>
                 <p>The code is sent to your email. Please check your email to receive the code.</p>
                 <form method="post" action="verify">

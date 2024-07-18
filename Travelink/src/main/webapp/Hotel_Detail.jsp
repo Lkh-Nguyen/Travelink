@@ -220,7 +220,7 @@
                                             <table id="roomTable">
                                                 <thead>
                                                     <tr>
-                                                        <th style="width: 250px;">Choose Type Room</th>
+                                                        <th style="width: 250px;">Type Bed Room</th>
                                                         <th>Number people</th>
                                                         <th>Price/Room/Night</th>
                                                         <th>Amount</th>
@@ -235,7 +235,7 @@
                                                                 for(RoomBed roomBed : RoomBedDB.getRoomBedsByRoomID(roomHotel.getRoom_ID())){
                                                                    Bed bed = BedDB.getBedByRoomBedID(roomBed.getRoom_Bed_ID()); 
                                                             %>
-                                                            <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 12px;"></i><%= roomBed.getAmount()%> <%=bed.getName() %> </p>
+                                                            <p style=" margin-bottom:0px"><i class='bx bxs-bed' style="font-size: 12px;"></i> <%= roomBed.getAmount()%> <%=bed.getName() %> </p>
                                                             <%
                                                                 }
                                                             %>
@@ -261,8 +261,7 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <p id="save">Tiết kiệm 3,5%</p><br>
-                                                            <a id="price_real"><s>62.540 VND</s></a>
+                                                            <p id="save">Tiết kiệm 0%</p><br>
                                                             <h4 id="price_save">${roomHotel.price}</h4>
                                                         </td>
                                                         <td>

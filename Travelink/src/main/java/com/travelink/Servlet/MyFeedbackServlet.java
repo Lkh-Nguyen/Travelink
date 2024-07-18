@@ -60,7 +60,11 @@ public class MyFeedbackServlet extends HttpServlet {
     throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-
+        String successUpdate = (String) session.getAttribute("successUpdate");
+        if(successUpdate != null){
+            request.setAttribute("success", successUpdate);
+            session.removeAttribute("successUpdate");
+        }
         if (account != null) {
             int accountID = account.getAccount_ID();
             List<Feedback> feedbacks = FeedbackDB.getFeedbacksByAccountID(accountID);

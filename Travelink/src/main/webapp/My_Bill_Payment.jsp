@@ -214,7 +214,7 @@
                                                             <th scope="row" class="col-1">1</th>
                                                             <td class="col-4">${bill.room_Name}</td>
                                                             <td class="col-3">${bill.amount}</td>
-                                                            <td class="col-4">${bill.room_price}</td>
+                                                            <td class="col-4 formatted-price">${bill.room_price}</td>
                                                         </tr>
                                                     </c:forEach>
                                                 </tbody>
@@ -233,20 +233,22 @@
                                                     <p class="fw-bold lh-1">Name: <span class="fw-normal text-muted lh-1">${account.name}</span></p>
                                                     <p class="fw-bold lh-1">Contact: <span class="fw-normal text-muted lh-1">${account.phoneNumber}</span></p>
                                                     <p class="fw-bold lh-1">Email: <span class="fw-normal text-muted lh-1">${account.email}</span></p>
-                                                    <p class="fw-bold lh-1">Address: <span class="fw-normal text-muted lh-1">${account.address}</span></p>
+                                                    <c:if test="${account.address != ''}">
+                                                        <p class="fw-bold lh-1">Address: <span class="fw-normal text-muted lh-1">${account.address}</span></p>
+                                                    </c:if>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-2">
                                                 <div class="row border-bottom">
                                                     <div class="col">
                                                         <p class="fw-bold lh-1">Sub Total:</p>
-                                                        
+
                                                     </div>
                                                     <div class="col">
                                                         <c:forEach var="bill" items="${requestScope.list_bill}" varStatus="status">
                                                             <c:if test="${status.index == 0}">
-                                                                <p class="text-muted fw-normal lh-1 ps-4">${bill.total_price}</p>
-                                                                
+                                                                <p class="text-muted fw-normal lh-1 ps-4 formatted-price">${bill.total_price}</p>
+
                                                             </c:if>
                                                         </c:forEach>
                                                     </div>
@@ -258,7 +260,7 @@
                                                                 <p class="fw-bold lh-1">Grand Total</p>
                                                             </div>
                                                             <div class="col">
-                                                                <p class="text-muted fw-normal lh-1 ps-4">${bill.total_price}</p>
+                                                                <p class="text-muted fw-normal lh-1 ps-4 formatted-price">${bill.total_price}</p>
                                                             </div>
                                                         </div>
                                                     </c:if>
@@ -362,6 +364,15 @@
         <script src="bootstrap_js/js/bootstrap.min.js"></script>
         <script src="bootstrap_js/js/bootstrap.bundle.min.js"></script>
         <script>
+                                                            // Lấy tất cả các phần tử có class là 'formatted-price'
+                                                            var elements = document.getElementsByClassName('formatted-price');
+
+                                                            // Lặp qua từng phần tử để định dạng giá trị
+                                                            for (var i = 0; i < elements.length; i++) {
+                                                                var roomPrice = parseInt(elements[i].innerText.trim()); // Chuyển đổi sang số nguyên
+                                                                var formattedPrice = (roomPrice / 1000).toFixed(3).replace('.', '.') + ' VNĐ';
+                                                                elements[i].innerText = formattedPrice; // Đưa vào HTML
+                                                            }
                                                             //Display Button Cancel and Confirm
                                                             function hideShowButton(val) {
                                                                 if (val == 1) {

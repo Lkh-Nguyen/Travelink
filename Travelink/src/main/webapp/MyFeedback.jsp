@@ -6,6 +6,7 @@
         <title>My Feedback</title>
         <link href="bootstrap_css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="css/listPage.css">
+        <link rel="stylesheet" href="css/Alter.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
@@ -64,7 +65,7 @@
                                     <div class="card-subtitle mt-2 mb-2 rating-container">
                                         Rating: 
                                         <c:forEach var="i" begin="1" end="5">
-                                            <i class="bx ${i <= f.rating ? 'bxs-star' : 'bx-star'} star-icon" data-rating="${i}" style="color: yellow;"></i>
+                                            <i class="bx ${i <= f.rating ? 'bxs-star' : 'bx-star'} star-icon" data-rating="${i}" style="color: orange;"></i>
                                         </c:forEach>
                                     </div>
                                     <div class="row mb-3">
@@ -105,6 +106,20 @@
                 <ul class="listPage"></ul>
             </c:if>
         </div>
+        
+        <c:if test="${requestScope.success != null}">
+            <div id="status-message" style="background-color: rgb(233,251,233);height: 70px;" class="hidden">
+                <div style="display: flex">
+                    <div style="width: 20%">
+                        <i class='bx bxs-check-circle' style="font-size: 50px;color:green;margin-top: 0px"></i>
+                    </div>
+                    <div style="width: 80%; text-align: start">
+                        <h3 style="color:green;margin-top: 5px; margin-bottom: -2px;font-weight:550">Success</h3>
+                        <p style="color: black;font-size: 14px">${success}</p>
+                    </div>
+                </div>           
+            </div>
+        </c:if>
         <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -157,7 +172,8 @@
                     $.post('UpdateFeedbackServlet', {
                         feedbackID: feedbackID,
                         description: newDescription,
-                        rating: newRating
+                        rating: newRating,
+                        success: ""
                     }, function (response) {
                         location.reload();
                     });
@@ -219,6 +235,7 @@
                 window.scrollTo(0, scrollPosition);
             }
         </script>
+        <script src="js/Alter.js"></script>
         <%@include file="Footer.jsp" %>
     </body>
 </html>

@@ -1,4 +1,4 @@
-﻿﻿Use Travelink
+﻿﻿Use Travelink;
 GO
 
 --insert table Account--
@@ -65,6 +65,15 @@ Insert into Owned_Hotel (Hotel_ID, Account_ID) values
 (4,7),
 (5,7);
 
+-----------------------------------------------------------------------------------------------------------------
+  update Province
+  set URL = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d245367.87556902596!2d107.91331720877241!3d16.072075925890392!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314219c792252a13%3A0x1df0cb4b86727e06!2zxJDDoCBO4bq1bmcsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1721269400250!5m2!1svi!2s'
+  where Province_ID = 32
+
+
+  update Province
+  set URL = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29793.980453126584!2d105.81636411845396!3d21.02277841921115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab9bd9861ca1%3A0xe7887f7b72ca17a9!2zSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1721269219673!5m2!1svi!2s'
+  where Province_ID = 1
 -----------------------------------------------------------------------------------------------------------------
  --insert table Hotel_Image --
  select *
@@ -157,7 +166,6 @@ VALUES
 ('Standard Room', 'This is a cozy room with one king-size bed', 2),
 ('Deluxe Suite', 'Spacious suite with a separate living area and a king-size bed', 4),
 ('Family Room', 'Room with two queen-size beds, suitable for families', 4);
------------------------------------------------------------------------------------------------------------------
 -- Declare variables for the loop
 DECLARE @HotelID INT = 1;
 DECLARE @MaxHotelID INT = 30;
@@ -168,6 +176,7 @@ DECLARE @Status NVARCHAR(50) = 'ACTIVE';
 -- Loop through Hotel_ID values from 1 to 30
 WHILE @HotelID <= @MaxHotelID
 BEGIN
+
     -- Loop through each room type
     DECLARE @Name NVARCHAR(255);
     DECLARE @Room_Description NVARCHAR(MAX);
@@ -263,7 +272,7 @@ select *
 from Hotel_Facility
 -- Declare variables for the loops
 DECLARE @Hotel_ID INT = 1;
-DECLARE @MaxHotel_ID INT = 30;
+DECLARE @MaxHotel_ID INT = 5;
 DECLARE @Facility_ID INT;
 DECLARE @InsertionCount INT;
 DECLARE @MaxInsertions INT = 15;
@@ -637,7 +646,7 @@ VALUES
 ('2024-03-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
 ('2024-02-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
 ('2024-01-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'VIETQR', 'PAID', @Account_ID);
-
+--------------------------------------------------------------------------------------------------------------------------------------------
 DECLARE @Account_ID INT = 2;
 INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
 VALUES
@@ -694,18 +703,22 @@ BEGIN
 END;
 
 -----------------------------------------------------------------------------------------------------------------------------------------
--- Chèn dữ liệu vào bảng Reserved_Room với Reservation_ID từ 1 đến 21, Room_ID random từ 1 đến 90, amount từ 1 đến 2
-DECLARE @ReservationID INT = 115;
+	-- Chèn dữ liệu vào bảng Reserved_Room với Reservation_ID từ 1 đến 21, Room_ID random từ 1 đến 90, amount từ 1 đến 2
+	DECLARE @ReservationID INT = 115;
 
-WHILE @ReservationID <= 138
-BEGIN
-    INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
-    VALUES (@ReservationID, FLOOR(RAND() * 3) + 13, FLOOR(RAND() * 2) + 1);
+	WHILE @ReservationID <= 138
+	BEGIN
+		INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
+		VALUES (@ReservationID, FLOOR(RAND() * 3) + 13, FLOOR(RAND() * 2) + 1);
 
-    SET @ReservationID = @ReservationID + 1;
-END;
------------------------------------------------------------------------------------------------------------------
-
-
+		SET @ReservationID = @ReservationID + 1;
+	END;
+	-----------------------------------------------------------------------------------------------------------------
 
 
+	select *
+	from account
+
+
+	select *
+	from Reservation

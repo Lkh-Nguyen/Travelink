@@ -91,8 +91,8 @@ public class Chat {
         // Broadcast message to relevant clients
         broadcastMessage(fromId, fromUsername, toId, messageText);
         String notificationMessage = fromUsername + " sent you a message.";
-        nw.saveNotificationToDatabase(toId, notificationMessage, "/messenger");
-        nw.sendNotificationToClient(toId, notificationMessage, "/messenger");
+        saveNotificationToDatabase(toId, notificationMessage, "/messenger");
+        sendNotificationToClient(toId, notificationMessage, "/messenger");
 
         // Reload accounts list for both sender and receiver
         handleLoadFriends(session); // Load accounts list for the sender (fromId)
@@ -243,6 +243,45 @@ public class Chat {
             }
         }
         return null;
+    }
+    
+    public void saveNotificationToDatabase(int userId, String message, String link) {
+        String insertNotificationQuery = "INSERT INTO Notification (To_Account_ID, Message, SentTime, ReadStatus, NotificationLink) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(DatabaseInfo.DBURL, DatabaseInfo.USERDB, DatabaseInfo.PASSDB); PreparedStatement stmt = conn.prepareStatement(insertNotificationQuery)) {
+
+            stmt.setInt(1, userId);
+            stmt.setString(2, message);
+            stmt.setTimestamp(3, new java.sql.Timestamp(System.currentTimeMillis())); // Set SentTime to current time
+            stmt.setBoolean(4, false); // Set ReadStatus to false (unread)
+            stmt.setString(5, link);
+
+            stmt.executeUpdate();
+
+            System.out.println("Notification saved to database successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendNotificationToClient(int userId, String message, String link) {
+        JSONObject notification = new JSONObject();
+        notification.put("type", "notification");
+        notification.put("userId", userId);
+        notification.put("message", message);
+        notification.put("link", link);
+
+        String notificationMessage = notification.toString();
+
+        synchronized (clients) {
+            for (Session client : clients) {
+                try {
+                    client.getBasicRemote().sendText(notificationMessage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public static class Configurator extends ServerEndpointConfig.Configurator {

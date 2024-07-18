@@ -290,6 +290,81 @@
                     left: 100%;
                 }
             }
+            /*            Notification*/
+            .notification {
+                position: relative;
+                cursor: pointer;
+            }
+
+            #dropdownMenu {
+                display: none; /* Hide by default */
+                position: absolute;
+                background-color: white;
+                min-width: 200px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            .notification-item {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .notification-item:hover {
+                background-color: #f1f1f1;
+            }
+
+            .notification .bx-bell {
+                font-size: 1.5rem;
+                color: var(--text-dark);
+            }
+
+            .notification #notificationCount {
+                position: absolute;
+                top: -5px;
+                right: -5px;
+                background-color: red;
+                color: white;
+                border-radius: 50%;
+                padding: 2px 6px;
+                font-size: 0.5rem;
+            }
+
+            .notification-dropdown {
+                display: none;
+                position: absolute;
+                top: 30px;
+                right: 0;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                z-index: 1;
+                min-width: 200px;
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            .notification-dropdown .notification-item {
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .notification-dropdown .notification-item:last-child {
+                border-bottom: none;
+            }
+
+            .notification-dropdown .notification-item p {
+                margin: 0;
+            }
+
+            .notification-dropdown .notification-item span {
+                font-size: 0.8rem;
+                color: var(--text-light);
+            }
+
         </style>
     </head>
     <body>
@@ -326,6 +401,17 @@
                             <a href="#" id="logoutButton1"><i class='bx bx-log-out' ></i>Logging Out</a>
                         </div>
                     </div>
+
+                    <!-- Notification bell -->
+                    <div class="notification">
+                        <i class='bx bx-bell'></i>
+                        <span id="notificationCount">10</span>
+                        <div class="btns">
+                            <div id="dropdownMenu" class="dropdown">
+                                <div id="notificationDiv"></div>
+                            </div>
+                        </div>
+                    </div>
                 </c:if>
                 <c:if test="${empty account or account.role !=1}">
                     <button class="button" onclick="forward()">
@@ -334,7 +420,7 @@
                         <path clip-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" fill-rule="evenodd"></path>
                         </svg>
                     </button>
-                     <button class="button" onclick="location.href = 'Home_HotelHost.jsp'">
+                    <button class="button" onclick="location.href = 'Home_HotelHost.jsp'">
                         BECOME PARTNER
                         <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
                         <path clip-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" fill-rule="evenodd"></path>
@@ -391,6 +477,30 @@
                     document.getElementById("overlay1").style.display = "none";
                 }, 500);
             });
+//            Handle dropdown notification
+            document.getElementById('notificationBell').addEventListener('click', function () {
+                var dropdownMenu = document.getElementById('dropdownMenu');
+                if (dropdownMenu.style.display === "none" || dropdownMenu.style.display === "") {
+                    dropdownMenu.style.display = "block";
+                } else {
+                    dropdownMenu.style.display = "none";
+                }
+            });
+
+// Close the dropdown if the user clicks outside of it
+            window.onclick = function (event) {
+                if (!event.target.matches('.bx-bell')) {
+                    var dropdowns = document.getElementsByClassName("dropdown");
+                    for (var i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.style.display === "block") {
+                            openDropdown.style.display = "none";
+                        }
+                    }
+                }
+            }
+
+
         </script>
     </body>
 </html>

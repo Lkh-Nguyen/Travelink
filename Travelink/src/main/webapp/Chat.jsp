@@ -81,6 +81,7 @@
         </c:choose>
         <div><button id="backButton" class="btn btn-secondary" onclick="window.history.back()">Back</button></div>
         <div class="container-fluid">
+
             <div id="chatContainer" class="container">
                 <h3 class="text-center mb-4 fw-bold">Chat Application</h3>
                 <div class="row">
@@ -118,6 +119,8 @@
                     handleLoadAccounts(messageObj.accounts);
                 } else if (messageObj.type === 'loadMessages') {
                     handleLoadMessages(messageObj.messages);
+                } else if (messageObj.type === 'notification') {
+                    displayNotification(messageObj);
                 }
             };
 
@@ -268,6 +271,31 @@
                 messagesDiv.appendChild(messageDiv);
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
             }
-        </script>       
+
+            function displayNotification(notificationObj) {
+                // Assuming you have an element to display notifications
+                let notificationElement = document.getElementById('notificationDiv');
+                if (!notificationElement) {
+                    console.log('Notification element not found.');
+                    return;
+                }
+
+                let accountId = ${sessionScope.account.account_ID};
+                let msg = notificationObj.message;
+                let toId = notificationObj.userId;
+
+                if (accountId === toId) {
+                    // Create a new div element for the notification
+                    let newNotification = document.createElement('div');
+                    newNotification.className = 'notification-item';
+                    newNotification.innerHTML = msg;
+
+                    // Append the new notification to the notification element
+                    notificationElement.appendChild(newNotification);
+                }
+            }
+
+
+        </script>  
     </body>
 </html>

@@ -39,13 +39,16 @@ public class NotificationWebSocket {
     }
 
     public void saveNotificationToDatabase(int userId, String message, String link) {
-        String insertNotificationQuery = "INSERT INTO Notification (To_Account_ID, Message, NotificationLink) VALUES (?, ?, ?)";
+        String insertNotificationQuery = "INSERT INTO Notification (To_Account_ID, Message, SentTime, ReadStatus, NotificationLink) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(DatabaseInfo.DBURL, DatabaseInfo.USERDB, DatabaseInfo.PASSDB); PreparedStatement stmt = conn.prepareStatement(insertNotificationQuery)) {
 
             stmt.setInt(1, userId);
             stmt.setString(2, message);
-            stmt.setString(3, link);
+            stmt.setTimestamp(3, new java.sql.Timestamp(System.currentTimeMillis())); // Set SentTime to current time
+            stmt.setBoolean(4, false); // Set ReadStatus to false (unread)
+            stmt.setString(5, link);
+
             stmt.executeUpdate();
 
             System.out.println("Notification saved to database successfully.");

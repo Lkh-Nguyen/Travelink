@@ -75,7 +75,6 @@ public class UpdateFeedbackServlet extends HttpServlet {
         Feedback feedback = FeedbackDB.getFeedbackByFeedbackID(feedbackID);
         feedback.setDescription(description);
         feedback.setRating(rating);
-
         try {
             FeedbackDB.updateFeedback(feedback);
         } catch (Exception e) {

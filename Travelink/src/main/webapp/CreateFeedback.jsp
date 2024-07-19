@@ -14,9 +14,9 @@
                 flex-direction: row-reverse;
                 justify-content: center;
             }
-            .rating input {
+/*            .rating input {
                 display: none;
-            }
+            }*/
             .rating label {
                 position: relative;
                 width: 1em;

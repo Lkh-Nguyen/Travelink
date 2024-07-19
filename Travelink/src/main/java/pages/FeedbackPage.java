@@ -8,27 +8,35 @@ package pages;
  *
  * @author DUYAN
  */
+import java.time.Duration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class FeedbackPage {
+
     private WebDriver driver;
+    private WebDriverWait wait;
 
     // Locators
-    private By ratingStars = By.name("rating");
-    private By descriptionField = By.id("description");
+//    private By ratingStars = By.name("rating");
+    private By ratingStars = By.xpath("//input[@type='radio']");
+
+    private By descriptionField = By.name("description");
     private By submitButton = By.id("comfirmBtn");
     private By errorMessage = By.id("error-message");
 
     // Constructor
     public FeedbackPage(WebDriver driver) {
         this.driver = driver;
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
     // Page actions
     public void selectRating(int stars) {
-        WebElement ratingElement = driver.findElement(By.id("star" + stars));
+        WebElement ratingElement = driver.findElement(By.cssSelector("#star"+stars));
         ratingElement.click();
     }
 
@@ -48,4 +56,3 @@ public class FeedbackPage {
         return errorElement.getText();
     }
 }
-

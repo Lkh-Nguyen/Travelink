@@ -122,13 +122,14 @@
             <version>2.0.0</version>
             <scope>provided</scope>
         </dependency>
-<!--        Selenium Testing-->
+        <!--        Selenium Testing-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.11.0-M2</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

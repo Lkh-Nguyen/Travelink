@@ -45,8 +45,9 @@ public class TestTest {
     public void tearDown() {
         driver.quit();
     }
-@ParameterizedTest 
-@CsvFileSource(resources = "/search.csv")
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/search.csv")
 //  public void test(String location,int people,String beginDate,String endDate,int room) {
 //     driver.get("http://localhost:8080/Travelink/search");
 //    driver.manage().window().setSize(new Dimension(1936, 1048));
@@ -82,7 +83,9 @@ public class TestTest {
 //    
 //    driver.quit();
 //  }
-    public void test(String location, int people, String beginDate, String endDate, int room,String espectedMessage) {
+    public void test(int people, String beginDate, String endDate, int room, String espectedMessage) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // 10 seconds timeout
+
         java.sql.Date checkInDate = null;
         java.sql.Date checkOutDate = null;
         try {
@@ -94,26 +97,15 @@ public class TestTest {
         }
         LocalDate currentDate = LocalDate.now();
         LocalDate checkInDateLocal = checkInDate.toLocalDate();
-        if (currentDate.isAfter(checkInDateLocal)){
-            String mss = driver.findElement(By.xpath("//div[@id='swal2-html-container']")).getText();
-            Assertions.assertEquals(espectedMessage, mss);
-        }
-        else if (checkInDate.after(checkOutDate) || checkInDate.equals(checkOutDate)){
-            String mss = driver.findElement(By.xpath("//div[@id='swal2-html-container']")).getText();
-            Assertions.assertEquals(espectedMessage, mss);
-        }else if (room > people) {
-            
-            String mss = driver.findElement(By.xpath("//p[normalize-space()='Room and People is disable']")).getText();
-            Assertions.assertEquals(espectedMessage, mss);
-        }
         
+
         driver.get("http://localhost:8080/Travelink/search");
         driver.manage().window().setSize(new Dimension(1936, 1048));
 
         driver.findElement(By.name("location")).click();
         {
             WebElement dropdown = driver.findElement(By.name("location"));
-            dropdown.findElement(By.xpath("//option[. = '" + location + "']")).click();
+            dropdown.findElement(By.xpath("//option[. = '" + "Đà Nẵng" + "']")).click();
         }
 
         driver.findElement(By.cssSelector(".form__group:nth-child(2)")).click();
@@ -128,16 +120,32 @@ public class TestTest {
             Actions builder = new Actions(driver);
             builder.doubleClick(element).perform();
         }
-
+       
         driver.findElement(By.name("number_of_rooms")).sendKeys(String.valueOf(room));
         driver.findElement(By.cssSelector(".ri-search-line:nth-child(1)")).click();
-
+         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='col-md-12 mt-5']//div[1]//div[1]//div[2]//div[1]//form[1]//button[1]")));
+        if (currentDate.isAfter(checkInDateLocal)) {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='swal2-html-container']")));
+            String mss = driver.findElement(By.xpath("//div[@id='swal2-html-container']")).getText();
+            Assertions.assertEquals(espectedMessage, mss);
+        } else if (checkInDate.equals(checkOutDate)) {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='swal2-html-container']")));
+            String mss = driver.findElement(By.xpath("//div[@id='swal2-html-container']")).getText();
+            Assertions.assertEquals(espectedMessage, mss);
+        } else if (room > people) {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[normalize-space()='Room and People is disable']")));
+            String mss = driver.findElement(By.xpath("//p[normalize-space()='Room and People is disable']")).getText();
+            Assertions.assertEquals(espectedMessage, mss);
+        } else if (checkInDate.after(checkOutDate)) {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[normalize-space()='Date checkout is disable']")));
+            String mss = driver.findElement(By.xpath("//p[normalize-space()='Date checkout is disable']")).getText();
+            Assertions.assertEquals(espectedMessage, mss);
+        }
         // Adding WebDriverWait to wait for the specified element to be visible
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // 10 seconds timeout
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='col-md-12 mt-5']//div[1]//div[1]//div[2]//div[1]//form[1]//button[1]")));
+        
 
         driver.findElement(By.cssSelector("body")).click();
-        driver.findElement(By.linkText("Home")).click();        
+        driver.findElement(By.linkText("Home")).click();
         driver.quit();
     }
 }

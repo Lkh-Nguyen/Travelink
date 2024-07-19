@@ -100,6 +100,13 @@ public class HotelHost_UpdateHotelServlet extends HttpServlet {
             HotelDB.updateAddressHotel(hotelID, request.getParameter("address"));
             request.setAttribute("hotel", HotelDB.getHotelByID(hotelID));
             request.getRequestDispatcher("HotelHost_UpdateHotelInformation.jsp").forward(request, response);
+        } else if (request.getParameter("name").equals(hotel.getName())
+                && request.getParameter("email").equals(hotel.getEmail())
+                && request.getParameter("phone").equals(hotel.getPhoneNumber())
+                && request.getParameter("description").equals(hotel.getDescription())
+                && request.getParameter("address").equals(hotel.getAddress())) {
+            request.setAttribute("hotel", HotelDB.getHotelByID(hotelID));
+            request.getRequestDispatcher("HotelHost_UpdateHotelInformation.jsp").forward(request, response);
         }
     }
 

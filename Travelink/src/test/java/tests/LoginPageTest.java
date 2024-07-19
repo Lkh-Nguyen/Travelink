@@ -24,10 +24,7 @@ public class LoginPageTest {
     private LoginPage loginPage;
 
     public static boolean isValidEmail(String email) {
-        // Biểu thức chính quy để kiểm tra định dạng email
         String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-
-        // Kiểm tra email có khớp với biểu thức chính quy không
         return Pattern.compile(regex).matcher(email).matches();
     }
 
@@ -48,21 +45,17 @@ public class LoginPageTest {
             // Handle potential null values for email and password
             email = email != null ? email.trim() : "";
             password = password != null ? password.trim() : "";
-
             // Validate email format if needed (this could throw an exception)
             if (email != "") {
                 if (!isValidEmail(email)) {
                     throw new IllegalArgumentException("Invalid email format");
                 }
             }
-
             // Enter login information
             loginPage.enterEmail(email);
             loginPage.enterPassword(password);
-
             // Click login button
             loginPage.clickLoginButton();
-
             // Wait for the page to load after login
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 

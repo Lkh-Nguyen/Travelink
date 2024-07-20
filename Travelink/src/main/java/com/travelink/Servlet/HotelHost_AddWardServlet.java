@@ -14,6 +14,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -60,6 +61,12 @@ public class HotelHost_AddWardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("provinceList", ProvinceDB.getAllProvince());
+        HttpSession session = request.getSession();
+        if (session.getAttribute("status") != null) {
+            request.setAttribute("status", session.getAttribute("status"));
+            session.removeAttribute("status");
+        }
+        request.setAttribute("facilityList", FacilityDB.getAllFacilities());
         request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
     }
 
@@ -74,35 +81,35 @@ public class HotelHost_AddWardServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("provinceID") != null 
-                && request.getParameter("districtID") == null 
+        if (request.getParameter("provinceID") != null
+                && request.getParameter("districtID") == null
                 && request.getParameter("wardID") == null) {
             int provinceID = Integer.parseInt(request.getParameter("provinceID"));
             request.setAttribute("districtList", DistrictDB.getDistrictsByProvinceID(provinceID));
             request.setAttribute("provinceList", ProvinceDB.getAllProvince());
             request.setAttribute("province", ProvinceDB.getProvinceByProvinceID(provinceID));
-            request.setAttribute("facilityList",FacilityDB.getAllFacilities());
+            request.setAttribute("facilityList", FacilityDB.getAllFacilities());
             request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
-        }
-        else if(request.getParameter("provinceID") != null 
-                && request.getParameter("districtID") != null 
-                && request.getParameter("wardID") == null){
-             int districtID = Integer.parseInt(request.getParameter("districtID"));
-             int provinceID = Integer.parseInt(request.getParameter("provinceID"));
-             request.setAttribute("districtList", DistrictDB.getDistrictsByProvinceID(provinceID));
-             request.setAttribute("provinceList", ProvinceDB.getAllProvince());
-             request.setAttribute("wardList", WardDB.getWardsByDistrictID(districtID));
-             request.setAttribute("province", ProvinceDB.getProvinceByProvinceID(provinceID));
-             request.setAttribute("district", DistrictDB.getDistrictByID(provinceID));
-             request.setAttribute("facilityList",FacilityDB.getAllFacilities());
-             request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
-        } else if(request.getParameter("provinceID") != null 
-                && request.getParameter("districtID") != null 
-                && request.getParameter("wardID") != null){
-                request.setAttribute("wardID", Integer.parseInt(request.getParameter("wardID")));
-                request.setAttribute("facilityList",FacilityDB.getAllFacilities());
-                request.setAttribute("provinceList", ProvinceDB.getAllProvince());
-                request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
+        } else if (request.getParameter("provinceID") != null
+                && request.getParameter("districtID") != null
+                && request.getParameter("wardID") == null) {
+            int districtID = Integer.parseInt(request.getParameter("districtID"));
+            int provinceID = Integer.parseInt(request.getParameter("provinceID"));
+            request.setAttribute("districtList", DistrictDB.getDistrictsByProvinceID(provinceID));
+            request.setAttribute("provinceList", ProvinceDB.getAllProvince());
+            request.setAttribute("wardList", WardDB.getWardsByDistrictID(districtID));
+            request.setAttribute("province", ProvinceDB.getProvinceByProvinceID(provinceID));
+            request.setAttribute("district", DistrictDB.getDistrictByID(provinceID));
+            request.setAttribute("facilityList", FacilityDB.getAllFacilities());
+            request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
+        } else if (request.getParameter("provinceID") != null
+                && request.getParameter("districtID") != null
+                && request.getParameter("wardID") != null) {
+            request.setAttribute("wardID", Integer.parseInt(request.getParameter("wardID")));
+            request.setAttribute("facilityList", FacilityDB.getAllFacilities());
+            request.setAttribute("provinceList", ProvinceDB.getAllProvince());
+            request.setAttribute("ward", WardDB.getWardByID(Integer.parseInt(request.getParameter("wardID"))));
+            request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
         }
 
     }

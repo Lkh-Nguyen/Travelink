@@ -85,9 +85,15 @@
 
 
             <form action="HotelHost_AddHotelServlet" method="post">
-                <label for="ward_ID">Ward ID</label>
+                <c:if test="${status != null}">
+                    <p>${status}</p>
+                </c:if>
+                <label for="ward_ID">Location</label>
                 <div class="input-group mb-3">
-                    <input value="${wardID}"type="number" class="form-control" id="ward_ID" name="ward_ID" placeholder="Enter ward ID" required>
+                    <c:if test="${ward != null}">
+                        <input class="form-control" id="ward_ID" value="${ward.name}">
+                    </c:if>
+                    
                     <button type="button" class="btn btn-primary cancel-button update-button">
                         Choose Location
                     </button>
@@ -102,9 +108,7 @@
                     <label for="email">Email</label>
                     <input value="${hotel.email}" type="email" class="form-control" id="email" name="email" placeholder="Enter hotel email" required>
                 </div>
-                <c:if test="${status != null}">
-                    <p>${status}</p>
-                </c:if>
+                
                 <div class="form-group">
                     <label for="star">Star</label>
                     <input value="${hotel.star}" type="number" class="form-control" id="star" name="star" min="1" max="5" placeholder="Enter star rating" required>
@@ -150,10 +154,8 @@
                         <input type="checkbox" name="${facility.name}" value="${facility.facilityID}"> ${facility.name} <hr>
                     </c:forEach>
                     <button type="submit" class="btn btn-primary btn-block">Add Hotel</button>
+                    <input type="hidden" name="ward_ID" value="${wardID}">
                 </div>
-                <c:if test="${status != null}">
-                    <p>${status}</p>
-                </c:if>
 
             </form>
         </div>

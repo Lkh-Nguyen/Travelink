@@ -71,6 +71,12 @@
                 font-size: 0.8rem;
                 color: #6c757d;
             }
+            .notification-item {
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                background-color: #e9ecef;
+            }
         </style>
     </head>
     <body>
@@ -81,9 +87,9 @@
         </c:choose>
         <div><button id="backButton" class="btn btn-secondary" onclick="window.history.back()">Back</button></div>
         <div class="container-fluid">
-
             <div id="chatContainer" class="container">
                 <h3 class="text-center mb-4 fw-bold">Chat Application</h3>
+                <div id="notificationDiv" class="mb-4"></div> <!-- Notification Container -->
                 <div class="row">
                     <div id="accountsList" class="col-md-3 list-group">
                         <!-- Friends List will be loaded here -->
@@ -271,9 +277,7 @@
                 messagesDiv.appendChild(messageDiv);
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
             }
-
             function displayNotification(notificationObj) {
-                // Assuming you have an element to display notifications
                 let notificationElement = document.getElementById('notificationDiv');
                 if (!notificationElement) {
                     console.log('Notification element not found.');
@@ -285,17 +289,13 @@
                 let toId = notificationObj.userId;
 
                 if (accountId === toId) {
-                    // Create a new div element for the notification
                     let newNotification = document.createElement('div');
                     newNotification.className = 'notification-item';
                     newNotification.innerHTML = msg;
 
-                    // Append the new notification to the notification element
                     notificationElement.appendChild(newNotification);
                 }
             }
-
-
         </script>  
     </body>
 </html>

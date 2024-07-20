@@ -129,11 +129,11 @@ public class PaymentServlet extends HttpServlet {
         session.setAttribute("pendingReservationID", (Integer) pendingReservationID);
 
         //Data parameter
-        String cancelUrl = "http://localhost:8080/Travelink/CancelPaymentServlet";
+        String cancelUrl = "http://35.197.147.187.nip.io/Travelink/CancelPaymentServlet";
         String description = "Payment for Travelink";
         String orderCode = Integer.toString(pendingReservationID);
 
-        String returnUrl = "http://localhost:8080/Travelink/ReturnPaymentServlet";
+        String returnUrl = "http://35.197.147.187.nip.io/Travelink/ReturnPaymentServlet";
 
         //Make data string
         String data = "amount=" + totalPriceStr + "&cancelUrl=" + cancelUrl + "&description=" + description + "&orderCode=" + orderCode + "&returnUrl=" + returnUrl;

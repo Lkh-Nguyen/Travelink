@@ -72,7 +72,7 @@
                         </a>
                     </div>
                     <div class="login-way">
-                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/Travelink/LoginGoogleHandler&response_type=code&client_id=753524792966-f76rldgp0a9n3ui96hg8e5pida66ho94.apps.googleusercontent.com&approval_prompt=force"
+                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://35.197.147.187.nip.io/Travelink/LoginGoogleHandler&response_type=code&client_id=753524792966-f76rldgp0a9n3ui96hg8e5pida66ho94.apps.googleusercontent.com&approval_prompt=force"
                            class="icon-text-container">
                             <!-- <i class="fab fa-google-plus-g"></i> -->
                             <img src="img_Form/logo-gg.jpg" alt="Google Logo" class="login-logo">
@@ -102,7 +102,7 @@
                     <a class="forgot-pass" href="Forgot_Password.jsp">Forgot your password?</a>
                     <p>--------- or login/register with ----------</p>
                     <div class="login-way">
-                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/Travelink/LoginGoogleHandler&response_type=code&client_id=753524792966-f76rldgp0a9n3ui96hg8e5pida66ho94.apps.googleusercontent.com&approval_prompt=force"
+                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://35.197.147.187.nip.io/Travelink/LoginGoogleHandler&response_type=code&client_id=753524792966-f76rldgp0a9n3ui96hg8e5pida66ho94.apps.googleusercontent.com&approval_prompt=force"
                            class="icon-text-container">
                             <!-- <i class="fab fa-google-plus-g"></i> -->
                             <img src="img_Form/logo-gg.jpg" alt="Google Logo" class="login-logo">

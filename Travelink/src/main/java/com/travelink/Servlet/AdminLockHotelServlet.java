@@ -68,16 +68,17 @@ public class AdminLockHotelServlet extends HttpServlet {
         int hotelID = Integer.parseInt(request.getParameter("hotelID"));
         String type = request.getParameter("type");
         Hotel newHotel = HotelDB.getHotelByID(hotelID);
+        boolean isLocked = false;
         if(type.equals("Lock")){
             Hotel newHotel_2 = newHotel;
             newHotel_2.setStatus("LOCKED");
             HotelDB.updateHotel(newHotel_2, newHotel);
+            isLocked = true;
         }else{
             Hotel newHotel_2 = newHotel;
             newHotel_2.setStatus("ACTIVE");
             HotelDB.updateHotel(newHotel_2, newHotel);
         }
-        boolean isLocked = false;
         SendEmail send = new SendEmail();
         send.sendHotelStatusEmail(newHotel.getEmail(), isLocked);
         List<OwnedHotel> ownedHotels = OwnedHotelDB.getAllOwnedHotels();

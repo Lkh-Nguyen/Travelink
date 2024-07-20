@@ -4,8 +4,7 @@
 }
 #mid_container{
     clear: both;
-    background-color: white;
-    margin: 30px 410px;
+    margin: 30px 200px;
     display: flex;
 }
 
@@ -15,7 +14,7 @@
     width: auto;
     height: 420px;
     border: 1px solid grey;
-    margin-right: 25px;
+    margin-right: 200px;
     padding-bottom: 10px;
     box-shadow: 5px 5px 5px grey;
 }

@@ -446,7 +446,7 @@ select *
 from Feedback
 
 -- Create a procedure to insert random data
-CREATE PROCEDURE InsertRandomFeedbackData1
+create PROCEDURE InsertRandomFeedbackData1
 AS
 BEGIN
     DECLARE @ReservationID INT = 1;
@@ -456,6 +456,21 @@ BEGIN
     DECLARE @DislikesCount INT;
     DECLARE @Description NVARCHAR(255);
     DECLARE @Date DATE;
+
+    -- Predefined list of feedback phrases
+    DECLARE @FeedbackPhrases TABLE (Phrase NVARCHAR(255));
+    INSERT INTO @FeedbackPhrases (Phrase)
+    VALUES 
+        ('The room was clean, and the staff was extremely friendly and helpful. We had a great stay and will return.'),
+        ('Our experience at the hotel was wonderful. The service was excellent, the location was perfect, and the amenities were fantastic.'),
+        ('We enjoyed our stay very much. The breakfast buffet was amazing, and the pool area was beautiful and relaxing.'),
+        ('The hotel exceeded our expectations. The room was spacious and comfortable, and the staff went above and beyond to assist us.'),
+        ('The overall experience was good. However, the WiFi connection was a bit unstable, which was a minor inconvenience during our stay.'),
+        ('Loved the ambiance of the hotel. The decor was stylish, and the atmosphere was cozy. Would definitely recommend to others.'),
+        ('The location of the hotel was ideal, close to many attractions and restaurants. The room was clean and well-maintained.'),
+        ('We had a pleasant stay. The staff was courteous, and the food at the hotel restaurant was delicious. Would stay here again.'),
+        ('The hotel provided excellent value for money. The facilities were top-notch, and the service was impeccable. Highly recommended.'),
+        ('Had a few issues with the air conditioning, but the staff resolved them quickly. Overall, a positive experience.');
 
     WHILE @ReservationID <= @MaxReservationID
     BEGIN
@@ -468,14 +483,8 @@ BEGIN
         -- Generate a random DislikesCount between 0 and 10
         SET @DislikesCount = ROUND((RAND() * 10), 0);
 
-        -- Generate a random Description with 8 to 16 words
-        SET @Description = (
-            SELECT STRING_AGG(value, ' ')
-            FROM (
-                SELECT TOP (8 + ABS(CHECKSUM(NEWID())) % 9) CAST(NEWID() AS NVARCHAR(36)) AS value
-                FROM sys.objects
-            ) AS RandomWords
-        );
+        -- Generate a random Description from the predefined list
+        SET @Description = (SELECT TOP 1 Phrase FROM @FeedbackPhrases ORDER BY NEWID());
 
         -- Generate a random Date within the last month
         SET @Date = DATEADD(DAY, -1 * FLOOR(RAND() * 30), GETDATE());
@@ -540,23 +549,23 @@ VALUES
 ('2024-01-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'REFUNDING', @Account_ID),
 
 --paid
-('2024-06-02', 5, '2024-06-11', '2024-06-26', 2100.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-06-05', 6, '2024-06-12', '2024-06-27', 4100.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-06-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-06-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-06-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-05-02', 5, '2024-06-11', '2024-06-26', 2100.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-04-05', 6, '2024-06-12', '2024-06-27', 4100.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-03-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-02-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
-('2024-01-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-07-02', 5, '2024-07-11', '2024-07-26', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-07-05', 6, '2024-07-12', '2024-07-27', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-07-04', 7, '2024-07-13', '2024-07-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-07-05', 2, '2024-07-14', '2024-07-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-07-06', 3, '2024-07-15', '2024-07-30', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-07-02', 5, '2024-07-11', '2024-07-26', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-07-05', 6, '2024-07-12', '2024-07-27', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-07-04', 7, '2024-07-13', '2024-07-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-07-05', 2, '2024-07-14', '2024-07-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-07-06', 3, '2024-07-15', '2024-07-30', 2100.00, 'VIETQR', 'PAID', @Account_ID),
 
 --Processing
-('2024-05-03', 5, '2024-06-11', '2024-07-26', 2100.00, 'VIETQR', 'PROCESSING', @Account_ID),
-('2024-05-05', 6, '2024-06-12', '2024-07-27', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
-('2024-05-04', 7, '2024-06-13', '2024-07-28', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
-('2024-05-05', 2, '2024-06-14', '2024-07-29', 3100.00, 'VIETQR', 'PROCESSING', @Account_ID),
-('2024-05-06', 3, '2024-06-15', '2024-07-30', 2100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-05-03', 5, '2024-07-11', '2024-07-26', 2100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-05-05', 6, '2024-07-12', '2024-07-27', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-05-04', 7, '2024-07-13', '2024-07-28', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-05-05', 2, '2024-07-14', '2024-07-29', 3100.00, 'VIETQR', 'PROCESSING', @Account_ID),
+('2024-05-06', 3, '2024-07-15', '2024-07-30', 2100.00, 'VIETQR', 'PROCESSING', @Account_ID),
 ('2024-06-03', 5, '2024-06-11', '2024-08-26', 2100.00, 'VIETQR', 'PROCESSING', @Account_ID),
 ('2024-01-05', 6, '2024-06-12', '2024-08-27', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
 ('2024-02-04', 7, '2024-06-13', '2024-08-28', 4100.00, 'VIETQR', 'PROCESSING', @Account_ID),
@@ -714,11 +723,194 @@ END;
 		SET @ReservationID = @ReservationID + 1;
 	END;
 	-----------------------------------------------------------------------------------------------------------------
+DECLARE @Account_ID INT = 5;
+INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
+VALUES
+--cancel
+('2024-06-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-02', 3, '2024-06-12', '2024-06-17', 500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-06-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-05-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-05-02', 3, '2024-06-12', '2024-06-17', 500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-04-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-03-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-02-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'VIETQR', 'CANCEL', @Account_ID),
+('2024-01-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'CANCEL', @Account_ID),
+
+--refunding
+('2024-06-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-02', 3, '2024-06-12', '2024-06-17', 500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-06-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-05-01', 2, '2024-06-11', '2024-06-16', 3500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-05-02', 3, '2024-06-12', '2024-06-17', 500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-04-03', 4, '2024-06-13', '2024-06-18', 4500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-03-04', 1, '2024-06-14', '2024-06-19', 5500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-02-05', 3, '2024-06-15', '2024-06-20', 6500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+('2024-01-06', 5, '2024-06-16', '2024-06-21', 7500.00, 'VIETQR', 'REFUNDING', @Account_ID),
+
+--paid
+('2024-06-02', 5, '2024-06-11', '2024-06-26', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-06-05', 6, '2024-06-12', '2024-06-27', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-06-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-06-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-06-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-05-02', 5, '2024-06-11', '2024-06-26', 2100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-04-05', 6, '2024-06-12', '2024-06-27', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-03-04', 7, '2024-06-13', '2024-06-28', 4100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-02-05', 2, '2024-06-14', '2024-06-29', 3100.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-01-06', 3, '2024-06-15', '2024-06-30', 2100.00, 'VIETQR', 'PAID', @Account_ID);
+
+delete Reservation
+where Reservation_ID >= 139 and Reservation_ID <= 274
+
+select *
+from Reservation
+
+DECLARE @Account_ID INT = 1;
+INSERT INTO Reservation (Reservation_Date, Number_of_guests, CheckInDate, CheckOutDate, Total_Price, Payment_Method, Status, Account_ID)
+VALUES
+--cancel
+('2024-06-01', 2, '2024-07-25', '2024-07-26', 3500.00, 'VIETQR', 'PAID', @Account_ID),
+('2024-06-02', 3, '2024-07-27', '2024-07-28', 500.00, 'VIETQR', 'PAID', @Account_ID);
+
+	DECLARE @ReservationID INT = 278;
+
+	WHILE @ReservationID <= 279
+	BEGIN
+		INSERT INTO Reserved_Room (Reservation_ID, Room_ID, Amount)
+		VALUES (@ReservationID, FLOOR(RAND() * 3) + 13, FLOOR(RAND() * 2) + 1);
+
+		SET @ReservationID = @ReservationID + 1;
+	END;
 
 
-	select *
-	from account
+--------------------------------------------------------------------------------------------
+select *
+from Reported_Feedback
+
+DECLARE @ReportTime DATETIME = GETDATE();
+DECLARE @Reason NVARCHAR(255);
+DECLARE @Feedback_ID INT;
+DECLARE @Account_ID INT;
+
+DECLARE @Reasons TABLE (Reason NVARCHAR(255));
+INSERT INTO @Reasons (Reason) VALUES
+    ('Vulgar and offensive review'),
+    ('Duplicate reviews (junk information)'),
+    ('Contains personal information'),
+    ('Unauthorized advertising'),
+    ('Inaccurate/misleading reviews (e.g. reviews and products do not match,...)');
+
+DECLARE @ReasonsCount INT = (SELECT COUNT(*) FROM @Reasons);
+
+SET @Feedback_ID = 1;
+
+WHILE @Feedback_ID <= 30
+BEGIN
+    SET @Reason = (SELECT Reason FROM @Reasons ORDER BY NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROW ONLY);
+    SET @Account_ID = 4;
+
+    INSERT INTO Reported_Feedback (ReportTime, Reason, Feedback_ID, Account_ID)
+    VALUES (@ReportTime, @Reason, @Feedback_ID, @Account_ID);
+
+    SET @Feedback_ID = @Feedback_ID + 1;
+END
+--------------------------------------------------------------------------------------------
+DECLARE @ReportTime DATETIME = GETDATE();
+DECLARE @Reason NVARCHAR(255);
+DECLARE @Feedback_ID INT;
+DECLARE @Account_ID INT;
+
+DECLARE @Reasons TABLE (Reason NVARCHAR(255));
+INSERT INTO @Reasons (Reason) VALUES
+    ('Vulgar and offensive review'),
+    ('Duplicate reviews (junk information)'),
+    ('Contains personal information'),
+    ('Unauthorized advertising'),
+    ('Inaccurate/misleading reviews (e.g. reviews and products do not match,...)');
+
+DECLARE @ReasonsCount INT = (SELECT COUNT(*) FROM @Reasons);
+
+SET @Feedback_ID = 1;
+
+WHILE @Feedback_ID <= 30
+BEGIN
+    SET @Reason = (SELECT Reason FROM @Reasons ORDER BY NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROW ONLY);
+    SET @Account_ID = 2;
+
+    INSERT INTO Reported_Feedback (ReportTime, Reason, Feedback_ID, Account_ID)
+    VALUES (@ReportTime, @Reason, @Feedback_ID, @Account_ID);
+
+    SET @Feedback_ID = @Feedback_ID + 1;
+END
+
+--------------------------------------------------------------------------------------------
+DECLARE @ReportTime DATETIME = GETDATE();
+DECLARE @Reason NVARCHAR(255);
+DECLARE @Feedback_ID INT;
+DECLARE @Account_ID INT;
+
+DECLARE @Reasons TABLE (Reason NVARCHAR(255));
+INSERT INTO @Reasons (Reason) VALUES
+    ('Vulgar and offensive review'),
+    ('Duplicate reviews (junk information)'),
+    ('Contains personal information'),
+    ('Unauthorized advertising'),
+    ('Inaccurate/misleading reviews (e.g. reviews and products do not match,...)');
+
+DECLARE @ReasonsCount INT = (SELECT COUNT(*) FROM @Reasons);
+
+SET @Feedback_ID = 1;
+
+WHILE @Feedback_ID <= 30
+BEGIN
+    SET @Reason = (SELECT Reason FROM @Reasons ORDER BY NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROW ONLY);
+    SET @Account_ID = 3;
+
+    INSERT INTO Reported_Feedback (ReportTime, Reason, Feedback_ID, Account_ID)
+    VALUES (@ReportTime, @Reason, @Feedback_ID, @Account_ID);
+
+    SET @Feedback_ID = @Feedback_ID + 1;
+END
+
+delete MonthlyPayment
+INSERT INTO MonthlyPayment (Month, Year, Amount, Status, PaymentTime, Hotel_ID)
+VALUES
+(1, 2024, 5000, 'PAID', '2024-01-15 10:30:00', 1),
+(2, 2024, 7000, 'PAID', '2024-02-18 12:45:00', 2),
+(3, 2024, 6000, 'PAID', '2024-03-20 09:00:00', 3),
+(4, 2024, 8000, 'NOT PAID', '2024-04-22 11:30:00', 4),
+(5, 2024, 7500, 'PAID', '2024-05-25 14:00:00', 5),
+(6, 2024, 5000, 'NOT PAID', '2024-06-15 10:30:00', 1),
+(7, 2024, 7000, 'PAID', '2024-07-18 12:45:00', 2),
+(8, 2024, 6000, 'NOT PAID', '2024-08-20 09:00:00', 3),
+(9, 2024, 8000, 'NOT PAID', '2024-09-22 11:30:00', 4),
+(10, 2024, 7500, 'PAID', '2024-10-25 14:00:00', 5),
+(11, 2024, 6500, 'PAID', '2024-11-10 08:30:00', 1),
+(12, 2024, 7000, 'NOT PAID', '2024-12-12 13:45:00', 2),
+(1, 2025, 6000, 'PAID', '2025-01-15 10:00:00', 3),
+(2, 2025, 8000, 'NOT PAID', '2025-02-18 15:30:00', 4),
+(3, 2025, 7500, 'PAID', '2025-03-20 14:00:00', 5),
+(4, 2025, 5000, 'NOT PAID', '2025-04-22 09:30:00', 1),
+(5, 2025, 7000, 'PAID', '2025-05-25 12:45:00', 2),
+(6, 2025, 6000, 'NOT PAID', '2025-06-15 11:00:00', 3),
+(7, 2025, 8000, 'NOT PAID', '2025-07-18 13:30:00', 4),
+(8, 2025, 7500, 'PAID', '2025-08-20 16:00:00', 5),
+(9, 2025, 5000, 'NOT PAID', '2025-09-22 08:00:00', 1),
+(10, 2025, 7000, 'PAID', '2025-10-25 14:45:00', 2),
+(11, 2025, 6000, 'NOT PAID', '2025-11-10 09:30:00', 3),
+(12, 2025, 8000, 'NOT PAID', '2025-12-12 12:00:00', 4),
+(1, 2026, 7500, 'PAID', '2026-01-15 10:30:00', 5),
+(2, 2026, 5000, 'NOT PAID', '2026-02-18 11:45:00', 1),
+(3, 2026, 7000, 'PAID', '2026-03-20 14:00:00', 2),
+(4, 2026, 6000, 'NOT PAID', '2026-04-22 15:30:00', 3),
+(5, 2026, 8000, 'NOT PAID', '2026-05-25 16:00:00', 4),
+(6, 2026, 7500, 'PAID', '2026-06-15 10:00:00', 5);
 
 
-	select *
-	from Reservation

@@ -100,8 +100,9 @@
                         bottom: 13rem;
                         left: 9rem;
                         z-index: 1;
-                        ">
-                    Booking now</button>
+                        "
+                        >
+                    <a href="#search123" style="color:white">Booking now</a></button>
                 <div id="carouselExampleIndicators" class="carousel slide">
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -150,7 +151,7 @@
             </div>
         </section>
         <!--        Search-->
-        <section class="section__container booking__container" data-aos="fade-up">
+        <section class="section__container booking__container" data-aos="fade-up" id="search123">
             <form method="post" action="search">
                 <!--                    Location-->
                 <div class="form__group">
@@ -213,8 +214,8 @@
                 <!--                    Search button-->
                 <div></div><div></div>
                 <div class="text-center mb-2">
-                    <button class="btn btn-secondary fw-bold w-50 text-center"><i class="ri-search-line"> Search</i></button>
-                </div>
+                    <button class="btn btn-primary fw-bold text-center" style="width: 120px">Search <i class="ri-search-line"></i></button>
+                </div>  
             </form>
         </section>  
 

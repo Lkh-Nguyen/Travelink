@@ -328,21 +328,7 @@
 
                                                             <div class="col-md-6">
                                                                 <div class="mb-2" id="btn-confirm">
-                                                                    <a href="ExportBillServlet" class="btn btn-primary" id="confirmBtn">Download</a>
-
-                                                                    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                                                                        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                                                                            <div class="toast-header">
-                                                                                <img src="${account.avatarURL}" class="img-fluid rounded me-2" alt="..." style="height: 30px; width: 30px">
-                                                                                <strong class="me-auto">${account.name}</strong>
-                                                                                <small id="toastTime" class="text-muted"></small>
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                                                                            </div>
-                                                                            <div class="toast-body">
-                                                                                ${account.name} have confirmed his bill !
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                    <a href="ExportBillServlet" class="btn btn-primary w-100 btnCancel text-light" id="cancelBtn">Download</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -396,47 +382,7 @@
                                                             }
                                                             ;
 
-                                                            document.getElementById('confirmBtn').addEventListener('click', function (event) {
-                                                                event.preventDefault();
-
-                                                                // Lấy thời điểm hiện tại
-                                                                var currentTime = new Date();
-                                                                var hours = currentTime.getHours();
-                                                                var minutes = currentTime.getMinutes();
-
-                                                                // Định dạng thời gian hiện tại
-                                                                var timeString = hours + ':' + (minutes < 10 ? '0' : '') + minutes;
-
-                                                                // Hiển thị thời gian lúc bấm
-                                                                var toastTimeElement = document.getElementById('toastTime');
-                                                                toastTimeElement.textContent = 'Confirmed at ' + timeString;
-
-                                                                // Hiển thị toast
-                                                                var toastEl = document.getElementById('liveToast');
-                                                                var toast = new bootstrap.Toast(toastEl);
-                                                                toast.show();
-                                                            });
-
-                                                            document.getElementById('cancelBtn').addEventListener('click', function (event) {
-                                                                event.preventDefault();
-
-                                                                // Lấy thời điểm hiện tại
-                                                                var currentTime = new Date();
-                                                                var hours = currentTime.getHours();
-                                                                var minutes = currentTime.getMinutes();
-
-                                                                // Định dạng thời gian hiện tại
-                                                                var timeString = hours + ':' + (minutes < 10 ? '0' : '') + minutes;
-
-                                                                // Hiển thị thời gian lúc bấm
-                                                                var toastTimeElement = document.getElementById('toastTime');
-                                                                toastTimeElement.textContent = 'Canceled at ' + timeString;
-
-                                                                // Hiển thị toast
-                                                                var toastEl = document.getElementById('liveToast');
-                                                                var toast = new bootstrap.Toast(toastEl);
-                                                                toast.show();
-                                                            });
+                                                            
         </script>
     </body>
 </html>

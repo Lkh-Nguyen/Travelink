@@ -86,19 +86,7 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        for (Hotel h : HotelDB.getAllHotels()) {
-            if (request.getParameter("email").equals(h.getEmail())) {
-                request.setAttribute("status", "This email is contains");
-                request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
-
-            }
-        }
-        if (request.getParameter("provinceID") != null) {
-            request.setAttribute("provinceList", ProvinceDB.getAllProvince());
-            request.setAttribute("districtList", DistrictDB.getDistrictsByProvinceID(Integer.parseInt(request.getParameter("provinceID"))));
-            request.setAttribute("facilityList", FacilityDB.getAllFacilities());
-        }
-
+        HttpSession session = request.getSession();
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         int star = Integer.parseInt(request.getParameter("star"));
@@ -108,8 +96,33 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
         String checkInTimeEnd = request.getParameter("checkInTimeEnd");
         String checkOutTimeStart = request.getParameter("checkOutTimeStart");
         String checkOutTimeEnd = request.getParameter("checkOutTimeEnd");
+        // check time
+        LocalTime checkInStart = LocalTime.parse(checkInTimeStart);
+        LocalTime checkInEnd = LocalTime.parse(checkInTimeEnd);
+        LocalTime checkOutStart = LocalTime.parse(checkOutTimeStart);
+        LocalTime checkOutEnd = LocalTime.parse(checkOutTimeEnd);
+        if (checkInStart.isAfter(checkInEnd) || checkOutStart.isAfter(checkOutEnd)) {
+            session.setAttribute("status", "Time check in and check out not valid");
+             response.sendRedirect("HotelHost_AddWardServlet");
+             return;
+        }
+        for (Hotel h : HotelDB.getAllHotels()) {
+            if (request.getParameter("email").equals(h.getEmail())) {
+                session.setAttribute("status", "This email is contains");
+                response.sendRedirect("HotelHost_AddWardServlet");
+                return;
+            }
+            
+        }
+        if (request.getParameter("provinceID") != null) {
+            request.setAttribute("provinceList", ProvinceDB.getAllProvince());
+            request.setAttribute("districtList", DistrictDB.getDistrictsByProvinceID(Integer.parseInt(request.getParameter("provinceID"))));
+            request.setAttribute("facilityList", FacilityDB.getAllFacilities());
+        }
+
         String address = request.getParameter("address");
         int wardID = Integer.parseInt(request.getParameter("ward_ID"));
+
         Hotel hotel = new Hotel();
         hotel.setName(name);
         hotel.setEmail(email);
@@ -125,7 +138,6 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
         hotel.setStatus("INACTIVE");
         hotel.setWard_ID(wardID);
         Hotel newHotel = HotelDB.addNewHotel(hotel);
-        HttpSession session = request.getSession();
         Account hotelHostAccount = (Account) session.getAttribute("account");
         request.setAttribute("hotel", hotel);
         Ward ward = WardDB.getWardByID(wardID);
@@ -138,6 +150,7 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
             }
 
         }
+        request.setAttribute("facilityList", FacilityDB.getAllFacilities());
         request.setAttribute("updateStatus", "Add hotel successfull");
         request.getRequestDispatcher("HotelHost_AddHotel.jsp").forward(request, response);
     }

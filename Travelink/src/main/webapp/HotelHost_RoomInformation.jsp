@@ -296,7 +296,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="newRoomCapacity">Capacity</label>
-                                    <input type="number" class="form-control" id="newRoomCapacity" name="capacity" required="">
+                                    <input type="number" min="1" class="form-control" id="newRoomCapacity" name="capacity" required="">
                                 </div>
                                 <div class="form-group">
                                     <label for="newRoomDescription">Description</label>
@@ -304,7 +304,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="newRoomTotalRooms">Total Rooms</label>
-                                    <input type="number" class="form-control" id="newRoomTotalRooms" name="totalRooms" required="">
+                                    <input type="number" min="1" class="form-control" id="newRoomTotalRooms" name="totalRooms" required="">
                                 </div>
                                 <div class="form-group">
                                     <label for="newRoomPrice">Price</label>
@@ -413,7 +413,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="modalCapacity">Capacity</label>
-                                                            <input type="number" class="form-control" id="modalCapacity" name="capacity">
+                                                            <input type="number" min="1" class="form-control" id="modalCapacity" name="capacity">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="modalDescription">Description</label>
@@ -425,7 +425,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="modalTotalRooms">Total Rooms</label>
-                                                            <input type="number" class="form-control" id="modalTotalRooms" name="totalRooms">
+                                                            <input type="number" min="1" class="form-control" id="modalTotalRooms" name="totalRooms">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="modalPrice">Price</label>

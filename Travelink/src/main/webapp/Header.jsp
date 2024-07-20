@@ -9,8 +9,6 @@
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link rel="icon" href="img_Home/logo.png">
         <style>
-
-
             @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
 
             :root {
@@ -290,6 +288,84 @@
                     left: 100%;
                 }
             }
+            /*            Notification*/
+            .notification {
+                position: relative;
+                cursor: pointer;
+            }
+
+            #dropdownMenu {
+                display: none; /* Hide by default */
+                position: absolute;
+                background-color: white;
+                min-width: 200px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            .notification-item {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .notification-item:hover {
+                background-color: #f1f1f1;
+            }
+
+            .notification .bx-bell {
+                font-size: 1.5rem;
+                color: var(--text-dark);
+            }
+
+            .notification #notificationCount {
+                position: absolute;
+                top: -5px;
+                right: -5px;
+                background-color: red;
+                color: white;
+                border-radius: 50%;
+                padding: 2px 6px;
+                font-size: 0.5rem;
+            }
+
+            .notification-dropdown {
+                display: none;
+                position: absolute;
+                top: 30px;
+                right: 0;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                z-index: 1;
+                min-width: 200px;
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            .notification-dropdown .notification-item {
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .notification-dropdown .notification-item:last-child {
+                border-bottom: none;
+            }
+
+            .notification-dropdown .notification-item p {
+                margin: 0;
+            }
+
+            .notification-dropdown .notification-item span {
+                font-size: 0.8rem;
+                color: var(--text-light);
+            }
+            #notificationDiv{
+                max-height: 15rem;
+            }
+
         </style>
     </head>
     <body>
@@ -318,22 +394,35 @@
                 </ul>
                 <c:set var="account" value="${sessionScope.account}"></c:set>
                 <c:if test="${not empty account and account.role == 1}">
+                    <!-- Notification bell -->
+                    <div class="notification">
+                        <i class='bx bx-bell' id="notificationBell"></i>
+                        <span id="notificationCount">${requestScope.notificationCount}</span>
+                        <div id="notificationDropdownMenu" class="dropdown">
+                            <div id="notificationDiv" style="height: 10rem; overflow-y: auto;">
+                                <c:forEach items="${requestScope.notifications}" var="n">
+                                    <div class="notification-item">${n.message}</div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="btns">
                         <a class="btn loginBtn" style="margin-right: 40px;" onclick="toggleDropdown()"><img src="${account.avatarURL}" alt="alt"/>${account.name}</a>
-                        <div id="dropdownMenu" class="dropdown" >
+                        <div id="userDropdownMenu" class="dropdown">
                             <a href="My_Account_Update.jsp"><i class='bx bx-user'></i>Edit Profile</a>
-                            <a href="#" id="logoutButton1"><i class='bx bx-log-out' ></i>Logging Out</a>
+                            <a href="#" id="logoutButton1"><i class='bx bx-log-out'></i>Logging Out</a>
                         </div>
                     </div>
                 </c:if>
-                <c:if test="${empty account or account.role !=1}">
+                <c:if test="${empty account or account.role != 1}">
                     <button class="button" onclick="forward()">
                         GET STARTED
                         <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
                         <path clip-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" fill-rule="evenodd"></path>
                         </svg>
                     </button>
-                     <button class="button" onclick="location.href = 'Home_HotelHost.jsp'">
+                    <button class="button" onclick="location.href = 'Home_HotelHost.jsp'">
                         BECOME PARTNER
                         <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
                         <path clip-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" fill-rule="evenodd"></path>
@@ -343,53 +432,102 @@
 
             </nav>
         </header>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script>
-            function forward() {
-            <%request.getSession().setAttribute("role",1);%>
-                location.href = 'Form_Login.jsp';
-            }
-            function toggleDropdown() {
-                document.getElementById("dropdownMenu").classList.toggle("show");
-            }
-
-// Close the dropdown menu if the user clicks outside of it
-            window.onclick = function (event) {
-                if (!event.target.matches('.loginBtn')) {
-                    var dropdowns = document.getElementsByClassName("dropdown");
-                    for (var i = 0; i < dropdowns.length; i++) {
-                        var openDropdown = dropdowns[i];
-                        if (openDropdown.classList.contains('show')) {
-                            openDropdown.classList.remove('show');
+                        function forward() {
+            <% request.getSession().setAttribute("role", 1); %>
+                            location.href = 'Form_Login.jsp';
                         }
-                    }
-                }
-            }
-            document.getElementById("logoutButton1").addEventListener("click", function () {
-                document.getElementById("overlay1").style.display = "block";
-                var logoutConfirm = document.getElementById("logoutConfirm1");
-                logoutConfirm.style.display = "block"; // Hiển thị khung xác nhận
-                setTimeout(function () {
-                    logoutConfirm.classList.add("active");
-                }, 50);
-            });
 
-            document.getElementById("confirmNo1").addEventListener("click", function () {
-                var logoutConfirm = document.getElementById("logoutConfirm1");
-                logoutConfirm.classList.remove("active");
-                setTimeout(function () {
-                    logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
-                    document.getElementById("overlay1").style.display = "none";
-                }, 500);
-            });
+                        function toggleDropdown() {
+                            document.getElementById("userDropdownMenu").classList.toggle("show");
+                        }
 
-            document.getElementById("overlay1").addEventListener("click", function () {
-                var logoutConfirm = document.getElementById("logoutConfirm1");
-                logoutConfirm.classList.remove("active");
-                setTimeout(function () {
-                    logoutConfirm.style.display = "none"; // Ẩn khung xác nhận
-                    document.getElementById("overlay1").style.display = "none";
-                }, 500);
-            });
+                        // Close the dropdown menu if the user clicks outside of it
+                        window.onclick = function (event) {
+                            if (!event.target.matches('.loginBtn')) {
+                                var dropdowns = document.getElementsByClassName("dropdown");
+                                for (var i = 0; i < dropdowns.length; i++) {
+                                    var openDropdown = dropdowns[i];
+                                    if (openDropdown.classList.contains('show')) {
+                                        openDropdown.classList.remove('show');
+                                    }
+                                }
+                            }
+                        }
+
+                        document.getElementById("logoutButton1").addEventListener("click", function () {
+                            document.getElementById("overlay1").style.display = "block";
+                            var logoutConfirm = document.getElementById("logoutConfirm1");
+                            logoutConfirm.style.display = "block"; // Show confirmation box
+                            setTimeout(function () {
+                                logoutConfirm.classList.add("active");
+                            }, 50);
+                        });
+
+                        document.getElementById("confirmNo1").addEventListener("click", function () {
+                            var logoutConfirm = document.getElementById("logoutConfirm1");
+                            logoutConfirm.classList.remove("active");
+                            setTimeout(function () {
+                                logoutConfirm.style.display = "none"; // Hide confirmation box
+                                document.getElementById("overlay1").style.display = "none";
+                            }, 500);
+                        });
+
+                        document.getElementById("overlay1").addEventListener("click", function () {
+                            var logoutConfirm = document.getElementById("logoutConfirm1");
+                            logoutConfirm.classList.remove("active");
+                            setTimeout(function () {
+                                logoutConfirm.style.display = "none"; // Hide confirmation box
+                                document.getElementById("overlay1").style.display = "none";
+                            }, 500);
+                        });
+
+                        // Handle notification dropdown
+                        document.getElementById('notificationBell').addEventListener('click', function () {
+                            var dropdownMenu = document.getElementById('notificationDropdownMenu');
+                            if (dropdownMenu.style.display === "none" || dropdownMenu.style.display === "") {
+                                dropdownMenu.style.display = "block";
+                            } else {
+                                dropdownMenu.style.display = "none";
+                            }
+                        });
+
+                        // Close the dropdown if the user clicks outside of it
+                        window.onclick = function (event) {
+                            if (!event.target.matches('#notificationBell')) {
+                                var dropdowns = document.getElementsByClassName("dropdown");
+                                for (var i = 0; i < dropdowns.length; i++) {
+                                    var openDropdown = dropdowns[i];
+                                    if (openDropdown.style.display === "block") {
+                                        openDropdown.style.display = "none";
+                                    }
+                                }
+                            }
+                        }
+                        //Handle Scroll
+//                        var notificationBell = document.getElementById('notificationBell');
+//                        notificationBell.onclick = function () {
+//                            scrollToBottom();
+
+                        $(document).ready(function () {
+                            $('#notificationBell').click(function () {
+                                scrollToBottom();
+                                $.post('ChatServlet', {
+                                }, function (res) {
+                                    var notificationCount = res.notificationCount;
+                                     $('#notificationCount').text(notificationCount);
+                                })
+                            })
+                        })
+                        var notificationDiv = document.getElementById('notificationDiv');
+                        function scrollToBottom() {
+                            notificationDiv.scrollTop = notificationDiv.scrollHeight;
+                        }
+                        // Automatically scroll to bottom on new notifications
+                        var observer = new MutationObserver(scrollToBottom);
+                        observer.observe(notificationDiv, {childList: true});
+
         </script>
     </body>
 </html>

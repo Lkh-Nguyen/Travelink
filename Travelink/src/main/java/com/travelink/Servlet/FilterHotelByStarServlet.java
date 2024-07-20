@@ -5,6 +5,7 @@
 package com.travelink.Servlet;
 
 import com.travelink.Database.HotelImageDB;
+import com.travelink.Database.ProvinceDB;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
 import java.io.IOException;
@@ -61,6 +62,7 @@ public class FilterHotelByStarServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String location = request.getParameter("location");
+        String url = ProvinceDB.getURLByProvinceName(location);
         int people = Integer.parseInt(request.getParameter("people"));
         int roomSize = Integer.parseInt(request.getParameter("room"));
         int star = Integer.parseInt(request.getParameter("star"));
@@ -85,6 +87,7 @@ public class FilterHotelByStarServlet extends HttpServlet {
         request.setAttribute("star", star);
         request.setAttribute("filterStarList", filteredHotels);
         request.setAttribute("hotelImgList", hotelImageList);
+        request.setAttribute("url", url);
         request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
     }
 

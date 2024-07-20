@@ -81,7 +81,11 @@ public class HotelHost_DeleteHotelServlet extends HttpServlet {
                 }
             }
             if(HotelImageDB.getHotelImagesByHotelID(hotelID).size()>= 5 
+<<<<<<< HEAD
                && roomList.size() > 0
+=======
+               && roomList.size() > 0 
+>>>>>>> b94181b4af632a89f545168ffcca181e4aeddc85
                && roomImages.size() >= roomList.size()){
                 newHotel.setStatus("ACTIVE");
                 HotelDB.updateHotel(newHotel, hotel);

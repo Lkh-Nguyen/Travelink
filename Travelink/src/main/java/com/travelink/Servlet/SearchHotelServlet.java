@@ -123,6 +123,7 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("statusBeginDate", "Date checkin is disable");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
+            session.setAttribute("hotelList", null);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         }
         // check điều kiệu số phòng và số người 
@@ -136,6 +137,7 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("statusRoomAndPeople", "Room and People is disable");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
+            session.setAttribute("hotelList", null);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         }
 
@@ -150,6 +152,7 @@ public class SearchHotelServlet extends HttpServlet {
             request.setAttribute("statusDate", "Date checkout is disable");
             List<Province> locationList = ProvinceDB.getAllProvince();
             request.setAttribute("locationList", locationList);
+            session.setAttribute("hotelList", null);
             request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
         } else {
             List<Hotel> newHotelList = new ArrayList<>();

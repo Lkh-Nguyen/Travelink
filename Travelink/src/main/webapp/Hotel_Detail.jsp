@@ -39,6 +39,18 @@
             .liked{
                 color : black;
             }
+            .form-container {
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .form-group {
+                margin-right: 20px;
+            }
+            .form-inline .form-group label {
+                margin-right: 10px;
+            }
         </style>
     </head>
     <body>
@@ -196,7 +208,28 @@
                     </div>
                 </div>
             </div>
-
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="form-container mt-5">
+                            <form id="bookingForm" action="viewHotelDetailServlet" method="get" class="form-inline">
+                                <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">
+                                <div class="form-group">
+                                    <label for="check_in_date">Check-in Date:</label>
+                                    <input type="date" id="check_in_date" name="check_in_date" class="form-control" required value="${requestScope.check_in_date}">
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label for="check_out_date">Check-out Date:</label>
+                                    <input type="date" id="check_out_date" name="check_out_date" class="form-control" required value="${requestScope.check_out_date}">
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary mt-3">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row" style="margin-top:2%;padding-bottom: 2%;border-bottom: 1px solid grey">
                 <h5 style="font-weight: 550" id="idBooking">Introducing the accommodation</h5>              
                 <div class="row">
@@ -498,20 +531,7 @@
                             </div>
                         </c:forEach>
 
-                        <form action="viewHotelDetailServlet" method="get">
-                            <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">
-                            <div>
-                                <label for="check_in_date">Check-in Date:</label>
-                                <input type="date" id="check_in_date" name="check_in_date" required value="${requestScope.check_in_date}">
-                            </div>
-                            <div>
-                                <label for="check_out_date">Check-out Date:</label>
-                                <input type="date" id="check_out_date" name="check_out_date" required value="${requestScope.check_out_date}">
-                            </div>
-                            <div>
-                                <button type="submit">Submit</button>
-                            </div>
-                        </form>
+
                     </div>
                 </div>
             </div>
@@ -629,8 +649,22 @@
                                                         xhr.send("action=" + (isDisliking ? "dislike" : "undislike") + "&feedbackID=" + feedbackID);
                                                     }, 500);
 
+                                                    document.getElementById('bookingForm').addEventListener('submit', function (event) {
+                                                        var checkInDate = new Date(document.getElementById('check_in_date').value);
+                                                        var checkOutDate = new Date(document.getElementById('check_out_date').value);
+
+                                                        if (checkInDate >= checkOutDate) {
+                                                            event.preventDefault();
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Invalid Date',
+                                                                text: 'Check-out date must be after check-in date.'
+                                                            });
+                                                        }
+                                                    });
         </script>
         <script src="js/Hotel_Detail.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
     </body>
 </html>

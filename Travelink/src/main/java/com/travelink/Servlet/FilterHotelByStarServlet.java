@@ -4,10 +4,6 @@
  */
 package com.travelink.Servlet;
 
-import com.travelink.Database.HotelImageDB;
-import com.travelink.Database.ProvinceDB;
-import com.travelink.Model.Hotel;
-import com.travelink.Model.HotelImage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,9 +11,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 @WebServlet(name = "FilterHotelByStarServlet", urlPatterns = {"/filterHotelByStarServlet"})
 public class FilterHotelByStarServlet extends HttpServlet {
@@ -60,35 +55,63 @@ public class FilterHotelByStarServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String location = request.getParameter("location");
-        String url = ProvinceDB.getURLByProvinceName(location);
-        int people = Integer.parseInt(request.getParameter("people"));
-        int roomSize = Integer.parseInt(request.getParameter("room"));
-        int star = Integer.parseInt(request.getParameter("star"));
-        List<Hotel> hotelList = (List<Hotel>) session.getAttribute("hotelList");
-        request.setAttribute("location", location);
-        request.setAttribute("people", people);
-        request.setAttribute("room", roomSize);
-        List<Hotel> filteredHotels = new ArrayList<>();
-        for (Hotel h : hotelList) {
-            if (h.getStar() == star) {
-                filteredHotels.add(h);
-            }
-        }
-        List<String> hotelImageList = new ArrayList<>();
-        for (int i = 0; i < filteredHotels.size(); i++) {
-            List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(filteredHotels.get(i).getHotel_ID());
-            PrintWriter printWriter = response.getWriter();
+        try {
+            // Retrieve parameters from the request
+            String star = request.getParameter("star");
+            String location = request.getParameter("location");
+            String numberOfPeople = request.getParameter("number_of_people");
+            String checkInDate = request.getParameter("check_in_date");
+            String checkOutDate = request.getParameter("check_out_date");
+            String numberOfRooms = request.getParameter("number_of_rooms");
 
-            String img = hotelImgList.get(0).getUrl();
-            hotelImageList.add(img);
+            // Print parameters for debugging
+            System.out.println("-----------------------------------------------------");
+            System.out.println("Location: " + location);
+            System.out.println("Number of people: " + numberOfPeople);
+            System.out.println("Check-in date: " + checkInDate);
+            System.out.println("Check-out date: " + checkOutDate);
+            System.out.println("Number of rooms: " + numberOfRooms);
+            System.out.println("Star: " + star);
+
+            // Define the character encoding
+            String encoding = "UTF-8";
+
+            // Build the query string with the parameters in the desired sequence
+            StringBuilder queryString = new StringBuilder("search?");
+            if (location != null && !location.isEmpty()) {
+                // Encode location parameter
+                queryString.append("location=").append(URLEncoder.encode(location, encoding).replace("%20", "+")).append("&");
+            }
+            if (numberOfPeople != null && !numberOfPeople.isEmpty()) {
+                queryString.append("number_of_people=").append(URLEncoder.encode(numberOfPeople, encoding).replace("%20", "+")).append("&");
+            }
+            if (checkInDate != null && !checkInDate.isEmpty()) {
+                queryString.append("check_in_date=").append(URLEncoder.encode(checkInDate, encoding).replace("%20", "+")).append("&");
+            }
+            if (checkOutDate != null && !checkOutDate.isEmpty()) {
+                queryString.append("check_out_date=").append(URLEncoder.encode(checkOutDate, encoding).replace("%20", "+")).append("&");
+            }
+            if (numberOfRooms != null && !numberOfRooms.isEmpty()) {
+                queryString.append("number_of_rooms=").append(URLEncoder.encode(numberOfRooms, encoding).replace("%20", "+")).append("&");
+            }
+            if (star != null && !star.isEmpty()) {
+                queryString.append("star=").append(URLEncoder.encode(star, encoding).replace("%20", "+")).append("&");
+            }
+
+            // Remove the trailing "&" if it exists
+            if (queryString.charAt(queryString.length() - 1) == '&') {
+                queryString.setLength(queryString.length() - 1);
+            }
+
+            // Print the constructed query string for debugging
+            System.out.println("Constructed Query String: " + queryString.toString());
+
+            // Redirect to the search page with the built query string
+            response.sendRedirect(response.encodeRedirectURL(queryString.toString()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("Error.jsp");
         }
-        request.setAttribute("star", star);
-        request.setAttribute("filterStarList", filteredHotels);
-        request.setAttribute("hotelImgList", hotelImageList);
-        request.setAttribute("url", url);
-        request.getRequestDispatcher("Search_Hotel.jsp").forward(request, response);
     }
 
     /**

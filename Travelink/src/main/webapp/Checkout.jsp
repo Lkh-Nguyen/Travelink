@@ -17,16 +17,15 @@
         </style>
         <title>Don't forget your booking</title>
     </head>
-        <body>
+    <body>
         <div class="wrapper">
             <%@include file="Header.jsp" %>
-            <c:set var="hotel" value="${sessionScope.bookingHotel}" />
-            <c:set var="bookingMap" value="${sessionScope.bookingMap}" />
+            <c:set var="hotel" value="${requestScope.bookingHotel}" />
+            <c:set var="bookingMap" value="${requestScope.bookingMap}" />
             <c:set var="account" value="${sessionScope.account}" />
-            <c:set var="totalPrice" value="${sessionScope.bookingTotalPrice}" />
-            <c:set var="checkInDate" value="${sessionScope.checkInDate}" />
-            <c:set var="checkOutDate" value="${sessionScope.checkOutDate}" />
-            <c:set var="people" value="${sessionScope.people}" />
+            <c:set var="totalPrice" value="${requestScope.bookingTotalPrice}" />
+            <c:set var="checkInDate" value="${requestScope.checkInDate}" />
+            <c:set var="checkOutDate" value="${requestScope.checkOutDate}" />
             <div class="container mt-4 content">
                 <div class="row">
                     <!-- Hotel Info -->
@@ -68,7 +67,6 @@
 
                                 </div>
                                 <!--<p>Total length of stay: <strong>nights</strong></p>-->
-                                <p>Total number of people: <strong>${people}</strong></p>
                                 <p style="border-top: 1px grey solid;padding-top: 5px;margin-bottom: 0px">You selected</p>
                                 <c:forEach items="${bookingMap}" var="entry">
                                     <strong>${entry.value} x ${entry.key.name}</strong>: <span class="price text-danger">${entry.key.price}</span> VND<br>
@@ -122,6 +120,9 @@
                                             </label>
                                         </div>
                                     </fieldset>
+                                    <input type="hidden" value="${requestScope.bookingStr}" name="bookingStr" id="bookingStr">
+                                    <input type="hidden" name="check_in_date" value="${requestScope.checkInDate}">
+                                    <input type="hidden" name="check_out_date" value="${requestScope.checkOutDate}">
                                     <button type="submit" class="btn btn-primary">Booking</button>
                                 </form>
                             </div>
@@ -133,21 +134,21 @@
         </div>
         <script src="bootstrap_js/bootstrap.bundle.min.js"></script>
         <script type="text/javascript">
-        // Function to format numbers with thousand separators
-        function formatCurrency(amount) {
-            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        }
-
-        // Function to format all prices in the document
-        function formatPrices() {
-            var prices = document.getElementsByClassName("price");
-            for (var i = 0; i < prices.length; i++) {
-                var price = prices[i].innerHTML;
-                prices[i].innerHTML = formatCurrency(price);
+            // Function to format numbers with thousand separators
+            function formatCurrency(amount) {
+                return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             }
-        }
 
-        window.onload = formatPrices;
-    </script>
+            // Function to format all prices in the document
+            function formatPrices() {
+                var prices = document.getElementsByClassName("price");
+                for (var i = 0; i < prices.length; i++) {
+                    var price = prices[i].innerHTML;
+                    prices[i].innerHTML = formatCurrency(price);
+                }
+            }
+
+            window.onload = formatPrices;
+        </script>
     </body>
 </html>

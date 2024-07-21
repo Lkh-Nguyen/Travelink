@@ -69,11 +69,6 @@ public class CancelPaymentServlet extends HttpServlet {
         //Remove all reservation related session
         session.removeAttribute("pendingReservationID");
         session.removeAttribute("paymentLinkId");
-        session.removeAttribute("bookingHotel");
-        session.removeAttribute("bookingMap");
-        session.removeAttribute("bookingTotalPrice");
-        session.removeAttribute("checkInDate");
-        session.removeAttribute("checkOutDate");
         session.removeAttribute("checkoutUrl");
         //Redirect to cancel successful page!
         response.sendRedirect("CancelPaymentSuccess.jsp");

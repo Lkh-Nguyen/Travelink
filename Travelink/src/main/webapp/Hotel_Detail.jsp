@@ -284,20 +284,13 @@
                         </c:forEach>
 
                     </div>
-                    <c:if test="${requestScope.check != null && sessionScope.account != null}">
-                        <form action="CheckoutServlet" method="post" onsubmit="return validateForm()">
-                            <input type="hidden" value="" name="bookingStr" id="bookingStr">
-                            <c:choose>
-                                <c:when test="${not empty param.hotel_ID}">
-                                    <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">
-                                </c:when>
-                                <c:otherwise>
-                                    <input type="hidden" value="${requestScope.hotel_ID}" name="hotel_ID">
-                                </c:otherwise>
-                            </c:choose>
-                            <input type="submit" value="Continue" id="continue">
-                        </form>
-                    </c:if>
+                    <form action="CheckoutServlet" method="post" onsubmit="return validateForm()">
+                        <input type="hidden" value="" name="bookingStr" id="bookingStr">
+                        <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">  
+                        <input type="hidden" name="check_in_date"value="${param.check_in_date}">
+                        <input type="hidden" name="check_out_date"value="${param.check_out_date}">
+                        <input type="submit" value="Continue" id="continue">
+                    </form>
                 </div>
             </div>
 
@@ -391,7 +384,6 @@
                                         <div class="avatar"><img src="${f.getAccount(f.feedbackID).avatarURL}" width="50"></div>
                                         <div class="ms-3">
                                             <div class="row">
-
                                                 <div class="col-md-11">
                                                     <h6 class="mb-0" style="font-size: 20px;font-weight: bold">${f.getAccount(f.feedbackID).name}</h6>
                                                     <%
@@ -460,6 +452,8 @@
                                         </div>
                                     </div>
 
+
+
                                     <div class="d-flex justify-content-end m-2">
                                         <c:choose>
                                             <c:when test="${sessionScope.account != null}">
@@ -503,6 +497,21 @@
                                 </div>
                             </div>
                         </c:forEach>
+
+                        <form action="viewHotelDetailServlet" method="get">
+                            <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">
+                            <div>
+                                <label for="check_in_date">Check-in Date:</label>
+                                <input type="date" id="check_in_date" name="check_in_date" required value="${requestScope.check_in_date}">
+                            </div>
+                            <div>
+                                <label for="check_out_date">Check-out Date:</label>
+                                <input type="date" id="check_out_date" name="check_out_date" required value="${requestScope.check_out_date}">
+                            </div>
+                            <div>
+                                <button type="submit">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

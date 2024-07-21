@@ -152,7 +152,7 @@
         </section>
         <!--        Search-->
         <section class="section__container booking__container" data-aos="fade-up" id="search123">
-            <form method="post" action="search">
+            <form method="get" action="search">
                 <!--                    Location-->
                 <div class="form__group">
                     <span><i class="ri-map-pin-line"></i></span>

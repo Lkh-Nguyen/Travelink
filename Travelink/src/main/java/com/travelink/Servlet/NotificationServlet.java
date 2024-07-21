@@ -4,10 +4,8 @@
  */
 package com.travelink.Servlet;
 
-import com.travelink.Database.AccountDB;
 import com.travelink.Database.NotificationDB;
 import com.travelink.Model.Account;
-import com.travelink.Model.Notification;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author DUYAN
  */
-public class ChatServlet extends HttpServlet {
+public class NotificationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +40,10 @@ public class ChatServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ChatServlet</title>");
+            out.println("<title>Servlet NotificationServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ChatServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet NotificationServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,21 +62,15 @@ public class ChatServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        int sender = ((Account) session.getAttribute("account")).getAccount_ID();
-        List<Account> list = AccountDB.getAllCustomerAccounts();
-        List<Notification> notifications = null;
         try {
-            notifications = NotificationDB.getNotificationsForAccount(sender);
+            NotificationDB.markAsReadAll();
         } catch (SQLException ex) {
             Logger.getLogger(ChatServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.setAttribute("sender", sender);
         try {
-            request.setAttribute("notificationCount", NotificationDB.getNotificationsForAccountNotRead(sender).size());
+            request.setAttribute("notificationCount", NotificationDB.getNotificationsForAccountNotRead(((Account) session.getAttribute("account")).getAccount_ID()).size());
         } catch (Exception e) {
         }
-        request.setAttribute("notifications", notifications);
-        request.setAttribute("list", list);
         request.getRequestDispatcher("Chat.jsp").forward(request, response);
     }
 
@@ -94,7 +85,6 @@ public class ChatServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
     }
 
     /**

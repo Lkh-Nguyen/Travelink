@@ -506,20 +506,25 @@
                             }
                         }
                         //Handle Scroll
-//                        var notificationBell = document.getElementById('notificationBell');
-//                        notificationBell.onclick = function () {
-//                            scrollToBottom();
+                        var notificationBell = document.getElementById('notificationBell');
+                        notificationBell.onclick = function () {
+                            scrollToBottom();
 
+                        }
                         $(document).ready(function () {
-                            $('#notificationBell').click(function () {
-                                scrollToBottom();
-                                $.post('ChatServlet', {
-                                }, function (res) {
+                            $.ajax({
+                                url: 'NotificationServlet',
+                                type: 'GET',
+                                data: {},
+                                success: function (res) {
                                     var notificationCount = res.notificationCount;
-                                     $('#notificationCount').text(notificationCount);
-                                })
-                            })
-                        })
+                                    $('#notificationCount').text(notificationCount);
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error fetching notifications:', error);
+                                }
+                            });
+                        });
                         var notificationDiv = document.getElementById('notificationDiv');
                         function scrollToBottom() {
                             notificationDiv.scrollTop = notificationDiv.scrollHeight;

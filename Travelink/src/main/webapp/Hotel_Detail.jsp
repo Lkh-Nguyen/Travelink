@@ -37,7 +37,18 @@
                 color: white;
             }
             .liked{
-                color : black;
+                color: blue !important;
+                background-color: white;
+            }
+            .liked span{
+                color: blue !important;
+            }
+            .disliked{
+                color : red !important;
+                background-color: white;
+            }
+            .disliked span{
+                color : red !important;
             }
         </style>
     </head>
@@ -461,16 +472,18 @@
                                     </div>
 
                                     <div class="d-flex justify-content-end m-2">
+                                        <c:set var="feedbackAccountID" value="${f.getAccount(f.feedbackID).account_ID}" />
+                                        <c:set var="sessionAccountID" value="${sessionScope.account.account_ID}" />
                                         <c:choose>
                                             <c:when test="${sessionScope.account != null}">
                                                 <c:choose>
-                                                    <c:when test="${sessionScope.account.account_ID != f.getAccount(f.feedbackID).account_ID}">
-                                                        <!-- Like icon with count -->
-                                                        <button id="likeButton-${f.feedbackID}" class="btn btn-primary mx-2" onclick="likeFeedback(${f.feedbackID})">
+                                                    <c:when test="${sessionAccountID != feedbackAccountID}">
+
+                                                        <button id="likeButton-${f.feedbackID}" class="btn btn-primary mx-2 ${f.getStatusLike(f.feedbackID,sessionAccountID)}" onclick="likeFeedback(${f.feedbackID})">
                                                             <i class="bx bx-like mx-2"></i>
                                                             <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
                                                         </button>
-                                                        <button id="dislikeButton-${f.feedbackID}" class="btn btn-danger" onclick="dislikeFeedback(${f.feedbackID})">
+                                                        <button id="dislikeButton-${f.feedbackID}" class="btn btn-danger ${f.getStatusDislike(f.feedbackID,sessionAccountID)}" onclick="dislikeFeedback(${f.feedbackID})">
                                                             <i class="bx bx-dislike mx-2"></i>
                                                             <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
                                                         </button>
@@ -488,7 +501,7 @@
                                                 </c:choose>
                                             </c:when>
                                             <c:otherwise>
-                                                <button id="likeButton-${f.feedbackID}" class="btn btn-primary  mx-2" onclick="errorLogin()">
+                                                <button id="likeButton-${f.feedbackID}" class="btn btn-primary mx-2" onclick="errorLogin()">
                                                     <i class="bx bx-like mx-2"></i>
                                                     <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
                                                 </button>
@@ -498,8 +511,7 @@
                                                 </button>
                                             </c:otherwise>
                                         </c:choose> 
-                                    </div>   
-                                    <!-- <i id="likeButton" class='bx bx-like' onclick="toggleLike()"></i><span id="sumLike">4 likes this comment</span>-->
+                                    </div>     
                                 </div>
                             </div>
                         </c:forEach>
@@ -528,15 +540,7 @@
                                                     }
                                                     //Handle Like,Dislike
                                                     // Add a debounce function to prevent multiple rapid clicks
-                                                    function debounce(func, wait) {
-                                                        let timeout;
-                                                        return function (...args) {
-                                                            clearTimeout(timeout);
-                                                            timeout = setTimeout(() => func.apply(this, args), wait);
-                                                        };
-                                                    }
-
-                                                    const likeFeedback = debounce((feedbackID) => {
+                                                    const likeFeedback = (feedbackID) => {
                                                         var likesCountElement = document.getElementById('likesCount-' + feedbackID);
                                                         var likeButton = document.getElementById('likeButton-' + feedbackID);
                                                         var dislikeButton = document.getElementById('dislikeButton-' + feedbackID);
@@ -562,23 +566,27 @@
                                                         xhr.open("POST", "ReactFeedbackServlet", true);
                                                         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                                                         xhr.onreadystatechange = function () {
-                                                            if (xhr.readyState === 4 && xhr.status !== 200) {
-                                                                // Revert UI changes if request fails
-                                                                likesCountElement.textContent = likesCount;
-                                                                likeButton.classList.toggle('liked');
-
-                                                                if (isDisliking) {
-                                                                    dislikesCountElement.textContent = dislikesCount;
-                                                                    dislikeButton.classList.add('disliked');
+                                                            if (xhr.readyState === 4) {
+                                                                if (xhr.status === 200) {
+                                                                    var response = JSON.parse(xhr.responseText);
+                                                                    likesCountElement.textContent = response.likesCount;
+                                                                    dislikesCountElement.textContent = response.dislikesCount;
+                                                                } else {
+                                                                    // Revert UI changes if request fails
+                                                                    likesCountElement.textContent = likesCount;
+                                                                    likeButton.classList.toggle('liked');
+                                                                    if (isDisliking) {
+                                                                        dislikesCountElement.textContent = dislikesCount;
+                                                                        dislikeButton.classList.add('disliked');
+                                                                    }
+                                                                    alert("Something went wrong!");
                                                                 }
-
-                                                                alert("Something went wrong!");
                                                             }
                                                         };
                                                         xhr.send("action=" + (isLiking ? "like" : "unlike") + "&feedbackID=" + feedbackID);
-                                                    }, 500);
+                                                    };
 
-                                                    const dislikeFeedback = debounce((feedbackID) => {
+                                                    const dislikeFeedback = (feedbackID) => {
                                                         var dislikesCountElement = document.getElementById('dislikesCount-' + feedbackID);
                                                         var dislikeButton = document.getElementById('dislikeButton-' + feedbackID);
                                                         var likeButton = document.getElementById('likeButton-' + feedbackID);
@@ -604,21 +612,25 @@
                                                         xhr.open("POST", "ReactFeedbackServlet", true);
                                                         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                                                         xhr.onreadystatechange = function () {
-                                                            if (xhr.readyState === 4 && xhr.status !== 200) {
-                                                                // Revert UI changes if request fails
-                                                                dislikesCountElement.textContent = dislikesCount;
-                                                                dislikeButton.classList.toggle('disliked');
-
-                                                                if (isLiking) {
-                                                                    likesCountElement.textContent = likesCount;
-                                                                    likeButton.classList.add('liked');
+                                                            if (xhr.readyState === 4) {
+                                                                if (xhr.status === 200) {
+                                                                    var response = JSON.parse(xhr.responseText);
+                                                                    likesCountElement.textContent = response.likesCount;
+                                                                    dislikesCountElement.textContent = response.dislikesCount;
+                                                                } else {
+                                                                    // Revert UI changes if request fails
+                                                                    dislikesCountElement.textContent = dislikesCount;
+                                                                    dislikeButton.classList.toggle('disliked');
+                                                                    if (isLiking) {
+                                                                        likesCountElement.textContent = likesCount;
+                                                                        likeButton.classList.add('liked');
+                                                                    }
+                                                                    alert("Something went wrong!");
                                                                 }
-
-                                                                alert("Something went wrong!");
                                                             }
                                                         };
                                                         xhr.send("action=" + (isDisliking ? "dislike" : "undislike") + "&feedbackID=" + feedbackID);
-                                                    }, 500);
+                                                    };
 
         </script>
         <script src="js/Hotel_Detail.js"></script>

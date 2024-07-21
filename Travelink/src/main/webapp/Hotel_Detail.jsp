@@ -652,8 +652,17 @@
                                                     document.getElementById('bookingForm').addEventListener('submit', function (event) {
                                                         var checkInDate = new Date(document.getElementById('check_in_date').value);
                                                         var checkOutDate = new Date(document.getElementById('check_out_date').value);
+                                                        var today = new Date();
+                                                        today.setHours(0, 0, 0, 0); // Đặt giờ phút giây của ngày hiện tại về 0 để so sánh chỉ ngày
 
-                                                        if (checkInDate >= checkOutDate) {
+                                                        if (checkInDate < today) {
+                                                            event.preventDefault();
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Invalid Date',
+                                                                text: 'Check-in date must be after today.'
+                                                            });
+                                                        } else if (checkInDate >= checkOutDate) {
                                                             event.preventDefault();
                                                             Swal.fire({
                                                                 icon: 'error',

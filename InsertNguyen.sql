@@ -168,7 +168,7 @@ VALUES
 ('Family Room', 'Room with two queen-size beds, suitable for families', 4);
 -- Declare variables for the loop
 DECLARE @HotelID INT = 1;
-DECLARE @MaxHotelID INT = 30;
+DECLARE @MaxHotelID INT = 5;
 DECLARE @Price INT;
 DECLARE @TotalRooms INT;
 DECLARE @Status NVARCHAR(50) = 'ACTIVE';
@@ -913,4 +913,11 @@ VALUES
 (5, 2026, 8000, 'NOT PAID', '2026-05-25 16:00:00', 4),
 (6, 2026, 7500, 'PAID', '2026-06-15 10:00:00', 5);
 
-
+-------------------------------------------------------------
+insert into Refunding_Reservation(Cancel_Date,Amount,Status,Reservation_ID) values 
+('2024-06-05',3500,'NOT PAID',43),
+('2024-06-06',500,'NOT PAID',44),
+('2024-06-07',4500,'NOT PAID',45),
+('2024-06-08',5500,'NOT PAID',46),
+('2024-06-09',6500,'NOT PAID',47),
+('2024-06-10',7500,'NOT PAID',48);

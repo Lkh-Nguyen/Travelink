@@ -73,6 +73,7 @@
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="AdminCustomerListServlet">Customer List</a>
+                        <a class="collapse-item" href="AdminRefundingReservationServlet">Pay For Customer</a>
                     </div>
                 </div>
             </li>

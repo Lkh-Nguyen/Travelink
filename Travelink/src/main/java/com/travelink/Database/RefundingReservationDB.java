@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,61 @@ public class RefundingReservationDB implements DatabaseInfo {
         }
         return pendingCancelReservation;
     }
+    
+    public static RefundingReservation getRefundingReservationByReservationID(int reservationID) {
+        RefundingReservation pendingCancelReservation = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseInfo.getConnect();
+
+            if (connection != null) {
+                String query = "SELECT * FROM Refunding_Reservation WHERE Reservation_ID = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, reservationID);
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    pendingCancelReservation = new RefundingReservation();
+                    pendingCancelReservation.setRefundingReservationId(resultSet.getInt("Refunding_Reservation_ID"));
+
+                    java.sql.Timestamp timestamp = resultSet.getTimestamp("Cancel_Date");
+                    LocalDateTime localDateTime = timestamp.toLocalDateTime();
+                    pendingCancelReservation.setCancelDate(localDateTime);
+
+                    pendingCancelReservation.setAmount(resultSet.getInt("Amount"));
+
+                    java.sql.Timestamp refundTimestamp = resultSet.getTimestamp("RefundTime");
+                    if (refundTimestamp != null) {
+                        pendingCancelReservation.setRefundTime(refundTimestamp.toLocalDateTime());
+                    }
+
+                    pendingCancelReservation.setStatus(resultSet.getString("Status"));
+                    pendingCancelReservation.setReservationId(resultSet.getInt("Reservation_ID"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting pending cancellation by reservation ID: " + e);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing resources: " + e);
+            }
+        }
+        return pendingCancelReservation;
+    }
+
 
     public static int insertRefundingReservation(RefundingReservation refundingReservation) {
         Connection connection = null;
@@ -125,8 +181,8 @@ public class RefundingReservationDB implements DatabaseInfo {
 
         return 0; // Return 0 if an exception occurred
     }
-    
-  public static List<RefundingReservation> getRefundingReservationsByReservations(List<Reservation> reservationList) {
+
+    public static List<RefundingReservation> getRefundingReservationsByReservations(List<Reservation> reservationList) {
         List<RefundingReservation> refundingReservations = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -195,27 +251,10 @@ public class RefundingReservationDB implements DatabaseInfo {
         }
 
         return refundingReservations;
-    }    
-
-    public static void main(String[] args) {
-        // Create an instance of RefundingReservation
-        RefundingReservation refundingReservation = new RefundingReservation();
-
-        // Set the fields
-        refundingReservation.setCancelDate(LocalDateTime.now());
-        refundingReservation.setAmount(100); // Example amount
-        refundingReservation.setRefundTime(null); // Example refund time (null means no refund yet)
-        refundingReservation.setStatus("Pending"); // Example status
-        refundingReservation.setReservationId(1); // Example reservation ID
-
-        // Insert the new refunding reservation record
-        int result = insertRefundingReservation(refundingReservation);
-
-        if (result > 0) {
-            System.out.println("Insertion successful!");
-        } else {
-            System.out.println("Insertion failed.");
-        }
     }
 
+
+    public static void main(String[] args) {
+        
+    }
 }

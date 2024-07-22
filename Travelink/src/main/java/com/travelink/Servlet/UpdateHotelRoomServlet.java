@@ -4,14 +4,11 @@
  */
 package com.travelink.Servlet;
 
-import com.travelink.Database.HotelDB;
 import com.travelink.Database.OwnedHotelDB;
 import com.travelink.Database.RoomDB;
-import com.travelink.Database.RoomImageDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.Room;
-import com.travelink.Model.RoomImage;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,9 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  *

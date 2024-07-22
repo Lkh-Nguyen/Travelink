@@ -41,11 +41,6 @@ public class PaymentFilter implements Filter {
                             //Remove all expired reservation related session
                             session.removeAttribute("pendingReservationID");
                             session.removeAttribute("paymentLinkId");
-                            session.removeAttribute("bookingHotel");
-                            session.removeAttribute("bookingMap");
-                            session.removeAttribute("bookingTotalPrice");
-                            session.removeAttribute("checkInDate");
-                            session.removeAttribute("checkOutDate");
                             session.removeAttribute("checkoutUrl");
                         }
                     }

@@ -119,6 +119,17 @@ public class ViewHotelDetailServlet extends HttpServlet {
                 checkInDateString = dateFormat.format(beginDate);
                 checkOutDateString = dateFormat.format(endDate);
             }
+            
+            
+            //Parse number of guests
+            String number_of_guestsString = request.getParameter("number_of_guests");
+            int number_of_guests;
+            try{
+                number_of_guests = Integer.parseInt(number_of_guestsString);
+            }catch(Exception ex){
+                ex.printStackTrace();
+                number_of_guests = 1;
+            }
 
             List<Integer> numberOfRoomList = new ArrayList<>();
             List<Reservation> check1 = ReservationDB.reservationCoincide(beginDate, endDate);
@@ -133,6 +144,7 @@ public class ViewHotelDetailServlet extends HttpServlet {
             }
             request.setAttribute("numberOfRoomList", numberOfRoomList);
             List<Feedback> feedbacks = FeedbackDB.getFeedbacksByHotelID(hotel_ID);
+            request.setAttribute("number_of_guests", number_of_guests);
             request.setAttribute("check_in_date", checkInDateString);
             request.setAttribute("check_out_date", checkOutDateString);
             request.setAttribute("feedbacks", feedbacks);

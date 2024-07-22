@@ -118,7 +118,12 @@ public class PaymentServlet extends HttpServlet {
 
         // Example values (replace with actual data)
 //        int number_Of_Guests = (int) session.getAttribute("people");
-        int number_Of_Guests = 2;
+        int number_Of_Guests = 0;
+        try {
+            number_Of_Guests = Integer.parseInt(request.getParameter("number_of_guests"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String paymentMethod = "VIETQR";
         String status = "NOT PAID";
 

@@ -308,7 +308,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="newRoomPrice">Price</label>
-                                    <input type="text" class="form-control" id="newRoomPrice" name="price" required="">
+                                    <input type="number" min="1" class="form-control" id="newRoomPrice" name="price" required="">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="modalStatus">Status</label>
@@ -450,11 +450,44 @@
                                     </tbody>
                                 </c:forEach>
                             </table>
+                            
                         </div>
                     </div>
                 </div>
             </div>
+                            <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <c:if test="${currentPage > 1}">
+        <li class="page-item">
+            <a class="page-link" href="?page=${currentPage - 1}&size=${recordsPerPage}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+    </c:if>
+    
+    <c:forEach var="i" begin="1" end="${pageCount}">
+        <c:choose>
+            <c:when test="${i == currentPage}">
+                <li class="page-item active"><span class="page-link">${i}</span></li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item"><a class="page-link" href="?page=${i}&size=${recordsPerPage}">${i}</a></li>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+    
+    <c:if test="${currentPage < pageCount}">
+        <li class="page-item">
+            <a class="page-link" href="?page=${currentPage + 1}&size=${recordsPerPage}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </c:if>
+  </ul>
+</nav>
+
         </div>
+                            
         <%@include file="Footer.jsp" %>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -525,33 +558,9 @@
                                         });
                                     });
 
-                                    $(document).ready(function () {
-                                        var rowsPerPage = 5;
-                                        var rows = $('#hotelTable tbody tr');
-                                        var rowsCount = rows.length;
-                                        var pageCount = Math.ceil(rowsCount / rowsPerPage);
-                                        var numbers = $('.pagination');
-                                        for (var i = 0; i < pageCount; i++) {
-                                            numbers.append('<li class="page-item"><a class="page-link" href="#">' + (i + 1) + '</a></li>');
-                                        }
+                                   
 
-                                        $('.pagination li:first-child').addClass('active');
-                                        displayRows(1);
-                                        $('.pagination li').on('click', function (e) {
-                                            e.preventDefault();
-                                            var $this = $(this);
-                                            var pageIndex = $this.index() + 1;
-                                            $('.pagination li').removeClass('active');
-                                            $this.addClass('active');
-                                            displayRows(pageIndex);
-                                        });
-                                        function displayRows(index) {
-                                            var start = (index - 1) * rowsPerPage;
-                                            var end = start + rowsPerPage;
-                                            rows.hide();
-                                            rows.slice(start, end).show();
-                                        }
-                                    });
+
         </script>
     </body>
 </html>

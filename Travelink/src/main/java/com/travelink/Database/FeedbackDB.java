@@ -469,6 +469,34 @@ public class FeedbackDB implements DatabaseInfo {
         }
         return false;
     }
+    
+    public static int getLikesCount(int feedbackID) throws SQLException {
+        Connection con = DatabaseInfo.getConnect();
+        String query = "SELECT likes_count FROM Feedback WHERE feedback_id = ?";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, feedbackID);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("likes_count");
+                }
+            }
+        }
+        return 0;
+    }
+
+    public static int getDislikesCount(int feedbackID) throws SQLException {
+        Connection con = DatabaseInfo.getConnect();
+        String query = "SELECT dislikes_count FROM Feedback WHERE feedback_id = ?";
+        try ( PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, feedbackID);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("dislikes_count");
+                }
+            }
+        }
+        return 0;
+    }
 
     public static void main(String[] args) {
         Feedback feedback = FeedbackDB.getFeedbackByFeedbackID(1);

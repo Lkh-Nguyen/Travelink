@@ -68,7 +68,7 @@
         <url-pattern>/My_Bill_Payment.jsp</url-pattern>
         <url-pattern>/My_Card_Payment_History.jsp</url-pattern>
         <url-pattern>/NotPaid_Transaction.jsp</url-pattern>
-<url-pattern>/Paid_Transaction.jsp</url-pattern>
+        <url-pattern>/Paid_Transaction.jsp</url-pattern>
         <url-pattern>/Processing_Transaction.jsp</url-pattern>
         <url-pattern>/ReportFeedback.jsp</url-pattern>
         <url-pattern>/ReturnPaymentSuccess.jsp</url-pattern>
@@ -120,7 +120,7 @@
         <url-pattern>/AddServiceServlet</url-pattern>
         <url-pattern>/DashboardServlet</url-pattern>
         <url-pattern>/DeleteServiceServlet</url-pattern>
-<url-pattern>/HotelHostHotelServiceServlet</url-pattern>
+        <url-pattern>/HotelHostHotelServiceServlet</url-pattern>
         <url-pattern>/HotelHostMonthlyPaymentServlet</url-pattern>
         <url-pattern>/HotelHost_AddHotelServlet</url-pattern>
         <url-pattern>/HotelHost_BookingHistoryBillDetailServlet</url-pattern>
@@ -170,7 +170,7 @@
         <url-pattern>/AdminHotelInformationServlet</url-pattern>
         <url-pattern>/AdminHotelPartnerServlet</url-pattern>
         <url-pattern>/AdminLockCustomerServlet</url-pattern>
-<url-pattern>/AdminLockHotelServlet</url-pattern>
+        <url-pattern>/AdminLockHotelServlet</url-pattern>
         <url-pattern>/AdminMonthlyPaymentServlet</url-pattern>
         <url-pattern>/Admin_ViewReportFeedback</url-pattern>
         <url-pattern>/Admin_ViewReportFeedbackDetail</url-pattern>
@@ -241,7 +241,7 @@
     </servlet>
     <servlet>
         <servlet-name>Cancel_Hotel_Service</servlet-name>
-<servlet-class>com.travelink.Servlet.Cancel_Hotel_Service</servlet-class>
+        <servlet-class>com.travelink.Servlet.Cancel_Hotel_Service</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NotPaid_Hotel_Service</servlet-name>
@@ -313,7 +313,7 @@
     </servlet>
     <servlet>
         <servlet-name>HotelHostHotelServiceServlet</servlet-name>
-<servlet-class>com.travelink.Servlet.HotelHostHotelServiceServlet</servlet-class>
+        <servlet-class>com.travelink.Servlet.HotelHostHotelServiceServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DashboardServlet</servlet-name>
@@ -380,7 +380,7 @@
         <servlet-class>com.travelink.Servlet.ViewFeedbackReservationIDServlet</servlet-class>
     </servlet>
     <servlet>
-<servlet-name>AdminAcceptPendingServlet</servlet-name>
+        <servlet-name>AdminAcceptPendingServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.AdminAcceptPendingServlet</servlet-class>
     </servlet>
     <servlet>
@@ -445,7 +445,7 @@
     </servlet>
     <servlet>
         <servlet-name>HotelHost_ViewHotelImgServlet</servlet-name>
-<servlet-class>com.travelink.Servlet.HotelHost_ViewHotelImgServlet</servlet-class>
+        <servlet-class>com.travelink.Servlet.HotelHost_ViewHotelImgServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HotelHost_DeleteHotelImageServlet</servlet-name>
@@ -483,6 +483,10 @@
         <servlet-name>HotelHost_AddWardServlet</servlet-name>
         <servlet-class>com.travelink.Servlet.HotelHost_AddWardServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NotificationServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.NotificationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
         <url-pattern>/UploadImageAvatar</url-pattern>
@@ -515,7 +519,7 @@
         <servlet-name>VerifyCodeServlet</servlet-name>
         <url-pattern>/verify</url-pattern>
     </servlet-mapping>
-<servlet-mapping>
+    <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
@@ -593,7 +597,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ReactFeedbackServlet</servlet-name>
-<url-pattern>/ReactFeedbackServlet</url-pattern>
+        <url-pattern>/ReactFeedbackServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CancelBookingServlet</servlet-name>
@@ -666,7 +670,7 @@
     <servlet-mapping>
         <servlet-name>HotelHost_BookingHistoryBillDetailServlet</servlet-name>
         <url-pattern>/HotelHost_BookingHistoryBillDetailServlet</url-pattern>
-</servlet-mapping>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>HotelHost_BookingHistoryBillServlet</servlet-name>
         <url-pattern>/HotelHost_BookingHistoryBillServlet</url-pattern>
@@ -736,7 +740,7 @@
         <url-pattern>/HotelHost_UpdateHotelServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<servlet-name>HotelHost_DeleteHotelServlet</servlet-name>
+        <servlet-name>HotelHost_DeleteHotelServlet</servlet-name>
         <url-pattern>/HotelHost_DeleteHotelServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -782,6 +786,10 @@
     <servlet-mapping>
         <servlet-name>HotelHost_AddWardServlet</servlet-name>
         <url-pattern>/HotelHost_AddWardServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotificationServlet</servlet-name>
+        <url-pattern>/NotificationServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

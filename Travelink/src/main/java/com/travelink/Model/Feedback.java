@@ -6,6 +6,7 @@ package com.travelink.Model;
 
 import com.travelink.Database.AccountDB;
 import com.travelink.Database.HotelDB;
+import com.travelink.Database.UserFeedbackLikeDB;
 import java.sql.Date;
 
 /**
@@ -98,6 +99,26 @@ public class Feedback {
     
     public Hotel getHotel(int feedbackID){
         return HotelDB.getHotelByFeedbackID(feedbackID);
+    }
+    public String getStatusLike(int feedbackID,int accountID){
+        UserFeedbackLike ufl = new UserFeedbackLike();
+        try {
+            ufl = UserFeedbackLikeDB.getUserFeedbackLikeByAccountIDAndFeedbackID(accountID, feedbackID);
+        } catch (Exception e) {
+        }
+        if (ufl == null) return "";
+        else if (ufl.isLiked() == true) return "liked";
+                else return "";
+    }
+    public String getStatusDislike(int feedbackID,int accountID){
+        UserFeedbackLike ufl = new UserFeedbackLike();
+        try {
+            ufl = UserFeedbackLikeDB.getUserFeedbackLikeByAccountIDAndFeedbackID(accountID, feedbackID);
+        } catch (Exception e) {
+        }
+        if (ufl == null) return "";
+        else if (ufl.isDisliked()== true) return "disliked";
+                else return "";
     }
     @Override
     public String toString() {

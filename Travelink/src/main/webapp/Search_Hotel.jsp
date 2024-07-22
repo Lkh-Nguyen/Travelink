@@ -326,6 +326,7 @@
                                                             <input type="hidden" name="hotel_ID"value="${hotel.hotel_ID}">
                                                             <input type="hidden" name="check_in_date"value="${param.check_in_date}">
                                                             <input type="hidden" name="check_out_date"value="${param.check_out_date}">
+                                                            <input type="hidden" name="number_of_guests"value="${param.number_of_people}">
                                                         </form>
                                                     </div>
                                                 </div>

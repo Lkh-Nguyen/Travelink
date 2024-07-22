@@ -114,7 +114,7 @@
                                             </c:forEach>
                                         </td>
                                         <td>${hotel.getLocation()} - <a href="#"><img src="img_Hotel/map.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2"></a></td>
-                                        <td><a href="UpdateHotelInformationServlet?hotel_ID" class="btn btn-outline-primary"><img src="img_Hotel/view.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">View</a></td>
+                                        <td><a href="HotelHost_ViewHotelInformationServlet?hotelID=${hotel.hotel_ID}" class="btn btn-outline-primary"><img src="img_Hotel/view.svg" alt="Special Icon" style="width: 1rem; height: 1rem;" class="me-2">View</a></td>
                                         <td>
                                             <button class="btn btn-success me-4 update-btn" data-id="${hotel.hotel_ID}">
                                                 <img src="img_Hotel/update.svg" alt="Update" style="width: 1rem; height: 1rem; margin-right: 5px;"> Update

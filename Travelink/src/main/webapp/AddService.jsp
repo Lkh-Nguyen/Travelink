@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<%@page import="java.util.*,com.travelink.Model.*,java.util.stream.Collectors" %>
+<%@page import="java.util.*,com.travelink.Model.*,com.travelink.Database.*,java.util.stream.Collectors" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +16,7 @@
         </style>
     </head>
     <body>
+        <%@include file="Header_HotelHost.jsp" %>
         <a href="javascript:history.back()" class="btn btn-outline-primary">Back</a>    
         <div class="container mt-4">
             <%
@@ -25,7 +26,7 @@
                 List<Service> result = new ArrayList<>();
                 try {
                     hotelId = Integer.parseInt(request.getParameter("hotelId"));
-                    hotelServices = (List<Service>) session.getAttribute("hotelServices");
+                    hotelServices = (List<Service>) ServiceDB.getServiceByHotelID(hotelId);
                     allServices = (List<Service>) session.getAttribute("allServices");
                 } catch (Exception e) {
                     out.println("<div class='alert alert-danger'>Error fetching data: " + e.getMessage() + "</div>");

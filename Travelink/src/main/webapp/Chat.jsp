@@ -108,7 +108,7 @@
             <%@include file="Footer.jsp" %>
         </c:if>
         <script>
-            let wsUri = "ws://35.197.147.187.nip.io/Travelink/chat";
+            let wsUri =  "ws://" + window.location.host + "/Travelink/chat";
             let websocket = new WebSocket(wsUri);
             let currentAccountId = null;
 
@@ -292,8 +292,9 @@
                     let newNotification = document.createElement('div');
                     newNotification.className = 'notification-item';
                     newNotification.innerHTML = msg;
-
+                    
                     notificationElement.appendChild(newNotification);
+                    
                 }
             }
         </script>  

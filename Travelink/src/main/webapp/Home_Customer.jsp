@@ -330,10 +330,16 @@
                 </div>
             </div>
         </section>
+        <df-messenger
+  intent="WELCOME"
+  chat-title="Travelink_Chat"
+  agent-id="779952e3-fca1-446e-bcc4-a42c9cae5acb"
+  language-code="vi"
+></df-messenger>
         <%@include file="Footer.jsp" %>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+        <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
         <script src="bootstrap_js/js/bootstrap.bundle.min.js"></script>
         <script src="js/Home_Customer.js"></script>
         <script src="js/Alter.js"></script>

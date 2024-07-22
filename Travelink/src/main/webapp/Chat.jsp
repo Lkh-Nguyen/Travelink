@@ -108,7 +108,7 @@
             <%@include file="Footer.jsp" %>
         </c:if>
         <script>
-            let wsUri =  "ws://" + window.location.host + "/Travelink/chat";
+            let wsUri =  "ws://35.197.147.187.nip.io/Travelink/chat";
             let websocket = new WebSocket(wsUri);
             let currentAccountId = null;
 

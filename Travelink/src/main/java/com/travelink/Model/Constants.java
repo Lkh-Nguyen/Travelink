@@ -6,7 +6,7 @@ package com.travelink.Model;
 
 public class Constants {
     
-    public static String GOOGLE_REDIRECT_URI = "http://localhost:8080/Travelink/LoginGoogleHandler";
+    public static String GOOGLE_REDIRECT_URI = "http://35.197.147.187.nip.io/Travelink/LoginGoogleHandler";
 
 	public static String GOOGLE_LINK_GET_TOKEN = "https://accounts.google.com/o/oauth2/token";
 

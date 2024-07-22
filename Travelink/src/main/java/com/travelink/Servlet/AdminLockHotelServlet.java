@@ -11,7 +11,7 @@ import com.travelink.Database.ProvinceDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.OwnedHotel;
-import com.travelink.View.HotelPartner;
+import com.travelink.Model.HotelPartner;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;

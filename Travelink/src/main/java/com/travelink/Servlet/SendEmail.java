@@ -16,7 +16,7 @@ import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.MonthlyPayment;
 import com.travelink.Model.Reservation;
-import com.travelink.View.Bill;
+import com.travelink.Model.Bill;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;

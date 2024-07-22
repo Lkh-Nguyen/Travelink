@@ -30,8 +30,11 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.crypto.Mac;
@@ -62,10 +65,38 @@ public class PaymentServlet extends HttpServlet {
             return;
         }
         //Else check again available room
-        Date checkInDate = (Date) session.getAttribute("checkInDate");
-        Date checkOutDate = (Date) session.getAttribute("checkOutDate");
+
+        // Retrieve the date strings from the request parameters
+        String checkInDateString = request.getParameter("check_in_date");
+        String checkOutDateString = request.getParameter("check_out_date");
+
+        // Define the date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        // Declare Date variables outside the try-catch block
+        java.util.Date checkInDate = null;
+        java.util.Date checkOutDate = null;
+
+        try {
+            // Parse the date strings into Date objects
+            checkInDate = dateFormat.parse(checkInDateString);
+            checkOutDate = dateFormat.parse(checkOutDateString);
+        } catch (ParseException e) {
+            // Handle the exception if the date parsing fails
+            e.printStackTrace();
+            response.sendRedirect("Error.jsp");
+            return;
+        }
+
+        // Convert java.util.Date to java.sql.Date
+        java.sql.Date sqlCheckInDate = new java.sql.Date(checkInDate.getTime());
+        java.sql.Date sqlCheckOutDate = new java.sql.Date(checkOutDate.getTime());
+        //
         List<Reservation> check1 = ReservationDB.reservationCoincide(checkInDate, checkOutDate);
-        Map<Room, Integer> bookingMap = (Map<Room, Integer>) session.getAttribute("bookingMap");
+        //Get parameter from hotel detail jsp
+        String bookingStr = request.getParameter("bookingStr");
+        Map<Room, Integer> bookingMap = getBookingsFromBookingString(bookingStr);
+
         for (Map.Entry<Room, Integer> entry : bookingMap.entrySet()) {
             Room room = entry.getKey();
             int amount = entry.getValue();
@@ -80,19 +111,10 @@ public class PaymentServlet extends HttpServlet {
 
         //Get booking details from session
         Account account = (Account) session.getAttribute("account");
-        String totalPriceStr = (String) session.getAttribute("bookingTotalPrice");
-
         LocalDateTime now = LocalDateTime.now();
 
         // Parse the total price (assuming totalPriceStr is a valid string)
-        int totalPrice;
-        try {
-            totalPrice = Integer.parseInt(totalPriceStr);
-        } catch (NumberFormatException e) {
-            // Handle the exception (e.g., redirect to an error page)
-            response.sendRedirect("Error.jsp");
-            return;
-        }
+        int totalPrice = calculateTotalPrice(bookingMap);
 
         // Example values (replace with actual data)
 //        int number_Of_Guests = (int) session.getAttribute("people");
@@ -104,8 +126,8 @@ public class PaymentServlet extends HttpServlet {
         Reservation pendingReservation = new Reservation();
         pendingReservation.setReservationDate(now);
         pendingReservation.setNumber_of_guests(number_Of_Guests);
-        pendingReservation.setCheckInDate(checkInDate);
-        pendingReservation.setCheckOutDate(checkOutDate);
+        pendingReservation.setCheckInDate(sqlCheckInDate);
+        pendingReservation.setCheckOutDate(sqlCheckOutDate);
         pendingReservation.setTotalPrice(totalPrice);
         pendingReservation.setPaymentMethod(paymentMethod);
         pendingReservation.setStatus(status);
@@ -127,16 +149,16 @@ public class PaymentServlet extends HttpServlet {
 
         //Save temporary reservation ID to session 
         session.setAttribute("pendingReservationID", (Integer) pendingReservationID);
-
+        System.out.println("PendingReservationID is: " + pendingReservationID);
         //Data parameter
-        String cancelUrl = "http://localhost:8080/Travelink/CancelPaymentServlet";
+        String cancelUrl = "http://35.197.147.187.nip.io/Travelink/CancelPaymentServlet";
         String description = "Payment for Travelink";
         String orderCode = Integer.toString(pendingReservationID);
 
-        String returnUrl = "http://localhost:8080/Travelink/ReturnPaymentServlet";
+        String returnUrl = "http://35.197.147.187.nip.io/Travelink/ReturnPaymentServlet";
 
         //Make data string
-        String data = "amount=" + totalPriceStr + "&cancelUrl=" + cancelUrl + "&description=" + description + "&orderCode=" + orderCode + "&returnUrl=" + returnUrl;
+        String data = "amount=" + totalPrice + "&cancelUrl=" + cancelUrl + "&description=" + description + "&orderCode=" + orderCode + "&returnUrl=" + returnUrl;
         System.out.println("Data: " + data);
         //Get signature
         String checksumKey = "1cb06ce5e9814e9d8956ad2f8c62041709b47b877b4ad9c95847521601dfc7ab";
@@ -154,7 +176,7 @@ public class PaymentServlet extends HttpServlet {
         //Send json
         String[] result = null;
         try {
-            result = sendJsonToCreatePayment(orderCode, totalPriceStr, description, account, bookingMap, cancelUrl, returnUrl, signature);
+            result = sendJsonToCreatePayment(orderCode, String.valueOf(totalPrice), description, account, bookingMap, cancelUrl, returnUrl, signature);
         } catch (Exception ex) {
             ex.printStackTrace();
             ReservationDB.deleteReservationByReservationID(pendingReservationID);
@@ -263,6 +285,47 @@ public class PaymentServlet extends HttpServlet {
         Instant now = Instant.now();
         Instant future = now.plusSeconds(minutesToAdd * 60);
         return future.getEpochSecond();
+    }
+
+    //Handle the booking string
+    private static Map<Room, Integer> getBookingsFromBookingString(String bookingStr) {
+        Map<Room, Integer> map = new HashMap<>();
+        int totalPrice = 0;
+        String[] bookings = bookingStr.split("/");
+        for (String s : bookings) {
+            String[] detail = s.split(",");
+            String room_IDStr = detail[0];
+            String quantityStr = detail[1];
+            Room room = RoomDB.getRoomByRoomID(takeValue(room_IDStr));
+            int quantity = takeValue(quantityStr);
+            map.put(room, quantity);
+            totalPrice = quantity * room.getPrice();
+            System.out.println(totalPrice);
+        }
+        return map;
+    }
+
+    //Take out the value of each parameter in booking string
+    private static int takeValue(String valueStr) {
+        String[] splitStr = valueStr.split("=");
+        String resultStr = splitStr[1];
+        int result = Integer.parseInt(resultStr);
+        return result;
+    }
+
+    private static int calculateTotalPrice(Map<Room, Integer> bookingMap) {
+        int totalPrice = 0;
+
+        // Iterate through the map entries
+        for (Map.Entry<Room, Integer> entry : bookingMap.entrySet()) {
+            Room room = entry.getKey();
+            int quantity = entry.getValue();
+
+            // Calculate total price for each room and add it to the running total
+            totalPrice += room.getPrice() * quantity;
+        }
+
+        return totalPrice;
     }
 
     /**

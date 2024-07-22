@@ -92,17 +92,17 @@
         <%@include file="Header.jsp" %>
         <div class="container mt-2">
             <section class="section__container booking__container">
-                <form method="post" action="search">
+                <form method="get" action="search">
 
                     <div class="form__group">
                         <span><i class="ri-map-pin-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
                                 <select name="location">
-                                    <c:if test="${requestScope.location != null}">
-                                        <option >${requestScope.location}</option>
+                                    <c:if test="${param.location != null}">
+                                        <option>${param.location}</option>
                                     </c:if>
-                                    <c:if test="${requestScope.location == null}">
+                                    <c:if test="${param.location == null}">
                                         <option>Location</option>
                                     </c:if>
                                     <c:forEach var="location" items="${requestScope.locationList}">
@@ -117,10 +117,10 @@
                         <span><i class="ri-user-3-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
-                                <c:if test="${requestScope.people != null}">
-                                    <input id="numberInput" value="${requestScope.people}"type="number" name="number_of_people" min="1" required=""/>
+                                <c:if test="${param.number_of_people != null}">
+                                    <input id="numberInput" value="${param.number_of_people}"type="number" name="number_of_people" min="1" required=""/>
                                 </c:if>
-                                <c:if test="${requestScope.people == null}">
+                                <c:if test="${param.number_of_people == null}">
                                     <input id="numberInput" value="0" type="number" name="number_of_people" min="1" required=""/>
                                 </c:if>
                                 <label id="number_label">No of people</label>
@@ -132,7 +132,7 @@
                         <span><i class="ri-calendar-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
-                                <input id="checkInDate" type="date" name="check_in_date" value="${sessionScope.checkInDate}"
+                                <input id="checkInDate" type="date" name="check_in_date" value="${param.check_in_date}"
                                        onchange="validateDates()" required=""/>
                                 <label>Departure</label>
                             </div>
@@ -144,7 +144,7 @@
                         <span><i class="ri-calendar-line"></i></span>
                         <div class="input__content">
                             <div class="input__group">
-                                <input id="checkOutDate" onchange="validateDates()" type="date" value="${sessionScope.checkOutDate}" name="check_out_date" required=""/>
+                                <input id="checkOutDate" onchange="validateDates()" type="date" value="${param.check_out_date}" name="check_out_date" required=""/>
                                 <label>Return</label>
                             </div>
                             <p style="margin-bottom: 0px">Add date</p> 
@@ -154,10 +154,10 @@
                     <div class="form__group">
                         <span><i class="ri-home-5-line"></i></span>  <div class="input__content">
                             <div class="input__group">
-                                <c:if test="${requestScope.room != null}">
-                                    <input type="number" min="1" value="${requestScope.room}" name="number_of_rooms" required=""/> 
+                                <c:if test="${param.number_of_rooms != null}">
+                                    <input type="number" min="1" value="${param.number_of_rooms}" name="number_of_rooms" required=""/> 
                                 </c:if>
-                                <c:if test="${requestScope.room == null}">
+                                <c:if test="${param.number_of_rooms == null}">
                                     <input type="number" min="1" value="0" name="number_of_rooms" required=""/> 
                                 </c:if>  
                                 <label>Rooms</label>
@@ -223,9 +223,11 @@
 
                             <button class="btn btn-warning mt-3 w-100" type="submit">Search</button>
 
-                            <input type="hidden" name="location" value="${requestScope.location}">
-                        <input type="hidden" name="people" value="${requestScope.people}">
-                        <input type="hidden" name="room" value="${requestScope.room}">
+                            <input type="hidden" name="location" value="${param.location}">
+                        <input value="${param.number_of_people}" type="hidden" name="number_of_people"/>
+                        <input type="hidden" value="${param.number_of_rooms}" name="number_of_rooms"/>
+                        <input type="hidden" name="check_in_date"value="${param.check_in_date}">
+                        <input type="hidden" name="check_out_date"value="${param.check_out_date}">
                     </form>
                 </div>
 
@@ -282,9 +284,9 @@
                             <div class="listPage"></div>
                         </c:if>
                         <c:if test="${filterStarList == null}">
-                            <c:if test="${sessionScope.hotelList != null}">
+                            <c:if test="${requestScope.hotelList != null}">
                                 <div class="col-md-12 mt-5">
-                                    <c:forEach var="hotel" items="${sessionScope.hotelList}" varStatus="status">
+                                    <c:forEach var="hotel" items="${requestScope.hotelList}" varStatus="status">
                                         <div class="card mb-3">
                                             <div class="row g-0">
                                                 <div class="col-md-4">
@@ -322,6 +324,8 @@
                                                         <form action="viewHotelDetailServlet" method="get">
                                                             <button class="btn btn-warning">Đặt Phòng</button>
                                                             <input type="hidden" name="hotel_ID"value="${hotel.hotel_ID}">
+                                                            <input type="hidden" name="check_in_date"value="${param.check_in_date}">
+                                                            <input type="hidden" name="check_out_date"value="${param.check_out_date}">
                                                         </form>
                                                     </div>
                                                 </div>
@@ -334,7 +338,7 @@
                         </c:if>
 
                         <c:if test="${requestScope.status == null}">
-                            <c:if test="${sessionScope.hotelList == null}">
+                            <c:if test="${empty requestScope.hotelList}">
                                 <div class="col-md-12 mt-5 text-center">
                                     <div class="alert alert-success" role="alert">
                                         Không có khách sạn hợp lệ !
@@ -357,6 +361,7 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="js/Search_Hotel.js"></script>
         <script>
+            <c:if test="${not empty requestScope.hotelList}">
                                     let thisPage = 1;
                                     let limit = 6;
                                     let list = document.querySelectorAll(".card");
@@ -407,7 +412,7 @@
                                         window.scrollTo(0, scrollPosition);
                                     }
 
-
+            </c:if>
 
                                     document.querySelector('form').addEventListener('submit', function (event) {
                                         const checkInDate = document.querySelector('input[name="check_in_date"]').value;

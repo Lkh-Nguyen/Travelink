@@ -169,7 +169,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="newAmount">Amount</label>
-                                    <input type="number" class="form-control" id="amount" name="amount" required="">
+                                    <input type="number" min="1" class="form-control" id="amount" name="amount" required="">
                                 </div>
                                 <div class="form-group mb-2">
                                     <label for="addURL">URL</label>

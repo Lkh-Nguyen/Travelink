@@ -16,6 +16,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,44 +26,69 @@ import java.util.Map;
  * @author ASUS
  */
 public class CheckoutServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.sendRedirect("Home_Customer.jsp");
-    }   
-    
-    
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Account account = (Account)session.getAttribute("account");
+        Account account = (Account) session.getAttribute("account");
         //If user already have not paid online bill
-        if (ReservationDB.hasUnpaidReservationWithVietQR(account.getAccount_ID())){
+        if (ReservationDB.hasUnpaidReservationWithVietQR(account.getAccount_ID())) {
             response.sendRedirect("NotPaid_Hotel_Service");
             return;
         }
-        
+
         //Get parameter from hotel detail jsp
         String bookingStr = request.getParameter("bookingStr");
         String hotel_IDStr = request.getParameter("hotel_ID");
         int hotel_ID = Integer.parseInt(hotel_IDStr);
-        
+
         //Set Attribute
         Hotel hotel = HotelDB.getHotelByID(hotel_ID);
         Map<Room, Integer> bookingMap = getBookingsFromBookingString(bookingStr);
         int totalPriceInt = calculateTotalPrice(bookingMap);
-        String totalPriceStr = Integer.valueOf(totalPriceInt).toString();
+        String totalPriceStr = Integer.toString(totalPriceInt);
+
+        // Retrieve the date strings from the request parameters
+        String checkInDateString = request.getParameter("check_in_date");
+        String checkOutDateString = request.getParameter("check_out_date");
+
+        // Define the date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        // Declare Date variables outside the try-catch block
+        java.util.Date beginDate = null;
+        java.util.Date endDate = null;
+
+        try {
+            // Parse the date strings into Date objects
+            beginDate = dateFormat.parse(checkInDateString);
+            endDate = dateFormat.parse(checkOutDateString);
+        } catch (ParseException e) {
+            // Handle the exception if the date parsing fails
+            e.printStackTrace();
+            response.sendRedirect("Error.jsp");
+            return;
+        }
         
         //If valid set session and redirect
-        session.setAttribute("bookingMap", bookingMap);
-        session.setAttribute("bookingHotel", hotel);
-        session.setAttribute("bookingTotalPrice", totalPriceStr);
+        request.setAttribute("bookingStr",bookingStr);
+        request.setAttribute("bookingMap", bookingMap);
+        request.setAttribute("bookingHotel", hotel);
+        request.setAttribute("bookingTotalPrice", totalPriceStr);
+        request.setAttribute("checkInDate", checkInDateString);
+        request.setAttribute("checkOutDate", checkOutDateString);
         request.getRequestDispatcher("Checkout.jsp").forward(request, response);
     }
 
     //Handle the booking string
-        private static Map<Room, Integer> getBookingsFromBookingString(String bookingStr) {
+    private static Map<Room, Integer> getBookingsFromBookingString(String bookingStr) {
         Map<Room, Integer> map = new HashMap<>();
         int totalPrice = 0;
         String[] bookings = bookingStr.split("/");

@@ -71,6 +71,12 @@
                 font-size: 0.8rem;
                 color: #6c757d;
             }
+            .notification-item {
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                background-color: #e9ecef;
+            }
         </style>
     </head>
     <body>
@@ -83,6 +89,7 @@
         <div class="container-fluid">
             <div id="chatContainer" class="container">
                 <h3 class="text-center mb-4 fw-bold">Chat Application</h3>
+                <div id="notificationDiv" class="mb-4"></div> <!-- Notification Container -->
                 <div class="row">
                     <div id="accountsList" class="col-md-3 list-group">
                         <!-- Friends List will be loaded here -->
@@ -101,7 +108,7 @@
             <%@include file="Footer.jsp" %>
         </c:if>
         <script>
-            let wsUri = "ws://" + window.location.host + "/Travelink/chat";
+            let wsUri =  "ws://" + window.location.host + "/Travelink/chat";
             let websocket = new WebSocket(wsUri);
             let currentAccountId = null;
 
@@ -118,6 +125,8 @@
                     handleLoadAccounts(messageObj.accounts);
                 } else if (messageObj.type === 'loadMessages') {
                     handleLoadMessages(messageObj.messages);
+                } else if (messageObj.type === 'notification') {
+                    displayNotification(messageObj);
                 }
             };
 
@@ -268,6 +277,26 @@
                 messagesDiv.appendChild(messageDiv);
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
             }
-        </script>       
+            function displayNotification(notificationObj) {
+                let notificationElement = document.getElementById('notificationDiv');
+                if (!notificationElement) {
+                    console.log('Notification element not found.');
+                    return;
+                }
+
+                let accountId = ${sessionScope.account.account_ID};
+                let msg = notificationObj.message;
+                let toId = notificationObj.userId;
+
+                if (accountId === toId) {
+                    let newNotification = document.createElement('div');
+                    newNotification.className = 'notification-item';
+                    newNotification.innerHTML = msg;
+                    
+                    notificationElement.appendChild(newNotification);
+                    
+                }
+            }
+        </script>  
     </body>
 </html>

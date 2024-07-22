@@ -9,7 +9,7 @@ import com.travelink.Database.BillDB;
 import com.travelink.Database.OwnedHotelDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
-import com.travelink.View.Bill;
+import com.travelink.Model.Bill;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;

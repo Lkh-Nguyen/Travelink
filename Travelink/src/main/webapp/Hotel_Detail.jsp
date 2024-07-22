@@ -37,7 +37,30 @@
                 color: white;
             }
             .liked{
-                color : black;
+                color: blue !important;
+                background-color: white;
+            }
+            .liked span{
+                color: blue !important;
+            }
+            .disliked{
+                color : red !important;
+                background-color: white;
+            }
+            .disliked span{
+                color : red !important;
+            }
+            .form-container {
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .form-group {
+                margin-right: 20px;
+            }
+            .form-inline .form-group label {
+                margin-right: 10px;
             }
         </style>
     </head>
@@ -196,7 +219,28 @@
                     </div>
                 </div>
             </div>
-
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="form-container mt-5">
+                            <form id="bookingForm" action="viewHotelDetailServlet" method="get" class="form-inline">
+                                <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">
+                                <div class="form-group">
+                                    <label for="check_in_date">Check-in Date:</label>
+                                    <input type="date" id="check_in_date" name="check_in_date" class="form-control" required value="${requestScope.check_in_date}">
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label for="check_out_date">Check-out Date:</label>
+                                    <input type="date" id="check_out_date" name="check_out_date" class="form-control" required value="${requestScope.check_out_date}">
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary mt-3">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row" style="margin-top:2%;padding-bottom: 2%;border-bottom: 1px solid grey">
                 <h5 style="font-weight: 550" id="idBooking">Introducing the accommodation</h5>              
                 <div class="row">
@@ -284,20 +328,13 @@
                         </c:forEach>
 
                     </div>
-                    <c:if test="${requestScope.check != null && sessionScope.account != null}">
-                        <form action="CheckoutServlet" method="post" onsubmit="return validateForm()">
-                            <input type="hidden" value="" name="bookingStr" id="bookingStr">
-                            <c:choose>
-                                <c:when test="${not empty param.hotel_ID}">
-                                    <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">
-                                </c:when>
-                                <c:otherwise>
-                                    <input type="hidden" value="${requestScope.hotel_ID}" name="hotel_ID">
-                                </c:otherwise>
-                            </c:choose>
-                            <input type="submit" value="Continue" id="continue">
-                        </form>
-                    </c:if>
+                    <form action="CheckoutServlet" method="post" onsubmit="return validateForm()">
+                        <input type="hidden" value="" name="bookingStr" id="bookingStr">
+                        <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">  
+                        <input type="hidden" name="check_in_date"value="${param.check_in_date}">
+                        <input type="hidden" name="check_out_date"value="${param.check_out_date}">
+                        <input type="submit" value="Continue" id="continue">
+                    </form>
                 </div>
             </div>
 
@@ -391,7 +428,6 @@
                                         <div class="avatar"><img src="${f.getAccount(f.feedbackID).avatarURL}" width="50"></div>
                                         <div class="ms-3">
                                             <div class="row">
-
                                                 <div class="col-md-11">
                                                     <h6 class="mb-0" style="font-size: 20px;font-weight: bold">${f.getAccount(f.feedbackID).name}</h6>
                                                     <%
@@ -460,17 +496,21 @@
                                         </div>
                                     </div>
 
+
+
                                     <div class="d-flex justify-content-end m-2">
+                                        <c:set var="feedbackAccountID" value="${f.getAccount(f.feedbackID).account_ID}" />
+                                        <c:set var="sessionAccountID" value="${sessionScope.account.account_ID}" />
                                         <c:choose>
                                             <c:when test="${sessionScope.account != null}">
                                                 <c:choose>
-                                                    <c:when test="${sessionScope.account.account_ID != f.getAccount(f.feedbackID).account_ID}">
-                                                        <!-- Like icon with count -->
-                                                        <button id="likeButton-${f.feedbackID}" class="btn btn-primary mx-2" onclick="likeFeedback(${f.feedbackID})">
+                                                    <c:when test="${sessionAccountID != feedbackAccountID}">
+
+                                                        <button id="likeButton-${f.feedbackID}" class="btn btn-primary mx-2 ${f.getStatusLike(f.feedbackID,sessionAccountID)}" onclick="likeFeedback(${f.feedbackID})">
                                                             <i class="bx bx-like mx-2"></i>
                                                             <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
                                                         </button>
-                                                        <button id="dislikeButton-${f.feedbackID}" class="btn btn-danger" onclick="dislikeFeedback(${f.feedbackID})">
+                                                        <button id="dislikeButton-${f.feedbackID}" class="btn btn-danger ${f.getStatusDislike(f.feedbackID,sessionAccountID)}" onclick="dislikeFeedback(${f.feedbackID})">
                                                             <i class="bx bx-dislike mx-2"></i>
                                                             <span id="dislikesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.dislikesCount}</span>
                                                         </button>
@@ -488,7 +528,7 @@
                                                 </c:choose>
                                             </c:when>
                                             <c:otherwise>
-                                                <button id="likeButton-${f.feedbackID}" class="btn btn-primary  mx-2" onclick="errorLogin()">
+                                                <button id="likeButton-${f.feedbackID}" class="btn btn-primary mx-2" onclick="errorLogin()">
                                                     <i class="bx bx-like mx-2"></i>
                                                     <span id="likesCount-${f.feedbackID}" class="mx-2" style="color:#fff">${f.likesCount}</span>
                                                 </button>
@@ -498,11 +538,12 @@
                                                 </button>
                                             </c:otherwise>
                                         </c:choose> 
-                                    </div>   
-                                    <!-- <i id="likeButton" class='bx bx-like' onclick="toggleLike()"></i><span id="sumLike">4 likes this comment</span>-->
+                                    </div>     
                                 </div>
                             </div>
                         </c:forEach>
+
+
                     </div>
                 </div>
             </div>
@@ -528,15 +569,7 @@
                                                     }
                                                     //Handle Like,Dislike
                                                     // Add a debounce function to prevent multiple rapid clicks
-                                                    function debounce(func, wait) {
-                                                        let timeout;
-                                                        return function (...args) {
-                                                            clearTimeout(timeout);
-                                                            timeout = setTimeout(() => func.apply(this, args), wait);
-                                                        };
-                                                    }
-
-                                                    const likeFeedback = debounce((feedbackID) => {
+                                                    const likeFeedback = (feedbackID) => {
                                                         var likesCountElement = document.getElementById('likesCount-' + feedbackID);
                                                         var likeButton = document.getElementById('likeButton-' + feedbackID);
                                                         var dislikeButton = document.getElementById('dislikeButton-' + feedbackID);
@@ -562,23 +595,27 @@
                                                         xhr.open("POST", "ReactFeedbackServlet", true);
                                                         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                                                         xhr.onreadystatechange = function () {
-                                                            if (xhr.readyState === 4 && xhr.status !== 200) {
-                                                                // Revert UI changes if request fails
-                                                                likesCountElement.textContent = likesCount;
-                                                                likeButton.classList.toggle('liked');
-
-                                                                if (isDisliking) {
-                                                                    dislikesCountElement.textContent = dislikesCount;
-                                                                    dislikeButton.classList.add('disliked');
+                                                            if (xhr.readyState === 4) {
+                                                                if (xhr.status === 200) {
+                                                                    var response = JSON.parse(xhr.responseText);
+                                                                    likesCountElement.textContent = response.likesCount;
+                                                                    dislikesCountElement.textContent = response.dislikesCount;
+                                                                } else {
+                                                                    // Revert UI changes if request fails
+                                                                    likesCountElement.textContent = likesCount;
+                                                                    likeButton.classList.toggle('liked');
+                                                                    if (isDisliking) {
+                                                                        dislikesCountElement.textContent = dislikesCount;
+                                                                        dislikeButton.classList.add('disliked');
+                                                                    }
+                                                                    alert("Something went wrong!");
                                                                 }
-
-                                                                alert("Something went wrong!");
                                                             }
                                                         };
                                                         xhr.send("action=" + (isLiking ? "like" : "unlike") + "&feedbackID=" + feedbackID);
-                                                    }, 500);
+                                                    };
 
-                                                    const dislikeFeedback = debounce((feedbackID) => {
+                                                    const dislikeFeedback = (feedbackID) => {
                                                         var dislikesCountElement = document.getElementById('dislikesCount-' + feedbackID);
                                                         var dislikeButton = document.getElementById('dislikeButton-' + feedbackID);
                                                         var likeButton = document.getElementById('likeButton-' + feedbackID);
@@ -604,24 +641,51 @@
                                                         xhr.open("POST", "ReactFeedbackServlet", true);
                                                         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                                                         xhr.onreadystatechange = function () {
-                                                            if (xhr.readyState === 4 && xhr.status !== 200) {
-                                                                // Revert UI changes if request fails
-                                                                dislikesCountElement.textContent = dislikesCount;
-                                                                dislikeButton.classList.toggle('disliked');
-
-                                                                if (isLiking) {
-                                                                    likesCountElement.textContent = likesCount;
-                                                                    likeButton.classList.add('liked');
+                                                            if (xhr.readyState === 4) {
+                                                                if (xhr.status === 200) {
+                                                                    var response = JSON.parse(xhr.responseText);
+                                                                    likesCountElement.textContent = response.likesCount;
+                                                                    dislikesCountElement.textContent = response.dislikesCount;
+                                                                } else {
+                                                                    // Revert UI changes if request fails
+                                                                    dislikesCountElement.textContent = dislikesCount;
+                                                                    dislikeButton.classList.toggle('disliked');
+                                                                    if (isLiking) {
+                                                                        likesCountElement.textContent = likesCount;
+                                                                        likeButton.classList.add('liked');
+                                                                    }
+                                                                    alert("Something went wrong!");
                                                                 }
-
-                                                                alert("Something went wrong!");
                                                             }
                                                         };
                                                         xhr.send("action=" + (isDisliking ? "dislike" : "undislike") + "&feedbackID=" + feedbackID);
-                                                    }, 500);
+                                                    };
 
+                                                    document.getElementById('bookingForm').addEventListener('submit', function (event) {
+                                                        var checkInDate = new Date(document.getElementById('check_in_date').value);
+                                                        var checkOutDate = new Date(document.getElementById('check_out_date').value);
+                                                        var today = new Date();
+                                                        today.setHours(0, 0, 0, 0); // Đặt giờ phút giây của ngày hiện tại về 0 để so sánh chỉ ngày
+
+                                                        if (checkInDate < today) {
+                                                            event.preventDefault();
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Invalid Date',
+                                                                text: 'Check-in date must be after today.'
+                                                            });
+                                                        } else if (checkInDate >= checkOutDate) {
+                                                            event.preventDefault();
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Invalid Date',
+                                                                text: 'Check-out date must be after check-in date.'
+                                                            });
+                                                        }
+                                                    });
         </script>
         <script src="js/Hotel_Detail.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
     </body>
 </html>

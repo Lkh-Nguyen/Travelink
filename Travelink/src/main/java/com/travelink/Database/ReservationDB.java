@@ -378,8 +378,9 @@ public class ReservationDB implements DatabaseInfo {
             connection = DatabaseInfo.getConnect();
 
             if (connection != null) {
-                String query = "SELECT * FROM Reservation WHERE Status='NOT PAID' AND Payment_Method = 'VIETQR'";
+                String query = "SELECT * FROM Reservation WHERE Status='NOT PAID' AND Payment_Method = 'VIETQR' AND Account_ID = ?";
                 statement = connection.prepareStatement(query);
+                statement.setInt(1, accountID);
                 resultSet = statement.executeQuery();
 
                 if (resultSet.next()) {

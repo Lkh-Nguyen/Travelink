@@ -12,11 +12,13 @@ package com.travelink.Servlet;
 import com.travelink.Database.AccountDB;
 import com.travelink.Database.BillDB;
 import com.travelink.Database.HotelDB;
+import com.travelink.Database.RefundingReservationDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.MonthlyPayment;
 import com.travelink.Model.Reservation;
 import com.travelink.Model.Bill;
+import com.travelink.Model.RefundingReservation;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -362,6 +364,53 @@ public class SendEmail {
             message.setText(emailContent.toString());
             Transport.send(message);
             System.out.println("Sent monthly payment confirmation email!");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void sendMailRefundingSuccess(String mail, int reservation_ID) {
+        final String username = "travelink517@gmail.com";
+        final String password = "klfb cnic dgfd fcqv";
+        String fromEmail = "travelink517@gmail.com";
+        String toEmail = mail;
+        Properties properties = new Properties();
+
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        Account account = AccountDB.getAccount(mail);
+        RefundingReservation refundingReservation = RefundingReservationDB.getPendingCancelReservationByReservationID(reservation_ID);
+
+        MimeMessage message = new MimeMessage(session);
+        try {
+            message.setFrom(new InternetAddress(fromEmail));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            message.setSubject("Your Refund Has Been Successfully Processed");
+
+            StringBuilder emailContent = new StringBuilder();
+            emailContent.append("<h1 style=\"color : blue\">We have successfully refunded your payment</h1>");
+            emailContent.append("<h3 style=\"color : black\"><strong>Information Refunding:</strong></h3>");
+            emailContent.append("<p style=\"color : black\">Name customer: ").append(account.getName()).append("</p>");
+            emailContent.append("<p style=\"color : black\">Date cancel: ").append(refundingReservation.getCancelDate()).append("</p>");
+            emailContent.append("<p style=\"color : black\">Date refunding: ").append(refundingReservation.getRefundTime()).append("</p>");
+            emailContent.append("<p style=\"color : black\">Status refunding: ").append(refundingReservation.getStatus()).append("</p>");
+            emailContent.append("<p style=\"color : black\">Total money refunding: $").append(refundingReservation.getAmount()).append("</p><br>");
+            emailContent.append("<p style=\"color : black\">If you have any questions or need further assistance, please do not hesitate to contact us.</p>");
+            emailContent.append("<p style=\"color : black\" >Best regards,<br>Travelink Team</p>");
+
+            message.setContent(emailContent.toString(), "text/html");
+
+            Transport.send(message);
+            System.out.println("Sent refund confirmation email!");
         } catch (MessagingException e) {
             e.printStackTrace();
         }

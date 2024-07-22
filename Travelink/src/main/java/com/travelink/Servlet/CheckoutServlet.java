@@ -16,10 +16,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -49,12 +51,6 @@ public class CheckoutServlet extends HttpServlet {
         String hotel_IDStr = request.getParameter("hotel_ID");
         int hotel_ID = Integer.parseInt(hotel_IDStr);
 
-        //Set Attribute
-        Hotel hotel = HotelDB.getHotelByID(hotel_ID);
-        Map<Room, Integer> bookingMap = getBookingsFromBookingString(bookingStr);
-        int totalPriceInt = calculateTotalPrice(bookingMap);
-        String totalPriceStr = Integer.toString(totalPriceInt);
-
         // Retrieve the date strings from the request parameters
         String checkInDateString = request.getParameter("check_in_date");
         String checkOutDateString = request.getParameter("check_out_date");
@@ -76,6 +72,12 @@ public class CheckoutServlet extends HttpServlet {
             response.sendRedirect("Error.jsp");
             return;
         }
+
+        //Set Attribute
+        Hotel hotel = HotelDB.getHotelByID(hotel_ID);
+        Map<Room, Integer> bookingMap = getBookingsFromBookingString(bookingStr);
+        int totalPriceInt = calculateTotalPrice(bookingMap) * calculateDaysBetween(beginDate, endDate);
+        String totalPriceStr = Integer.toString(totalPriceInt);
 
         String number_of_guestsStr = request.getParameter("number_of_guests");
         int number_of_guests;
@@ -139,14 +141,16 @@ public class CheckoutServlet extends HttpServlet {
         return totalPrice;
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    public static int calculateDaysBetween(java.util.Date startDate, java.util.Date endDate) {
+        // Calculate the difference in milliseconds
+        long diffInMillis = endDate.getTime() - startDate.getTime();
 
+        // Convert the difference from milliseconds to days
+        long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+
+        return (int) diffInDays;
+    }
 }
+
+
+

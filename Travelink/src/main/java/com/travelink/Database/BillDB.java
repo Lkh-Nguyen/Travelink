@@ -285,7 +285,7 @@ public class BillDB implements DatabaseInfo {
             if (conn != null) {
                 // Query to select bills based on checkInDate, checkOutDate, status 'finished' or 'processing'
                 String query = "SELECT * FROM Bill WHERE Account_ID = ? AND "
-                        + "CheckInDate >= GETDATE() AND (Status = 'NOT PAID' OR Status = 'PAID') ORDER BY Reservation_ID desc";
+                        + "CheckInDate >= CONVERT(date, GETDATE()) AND (Status = 'NOT PAID' OR Status = 'PAID') ORDER BY Reservation_ID desc";
                 ps = conn.prepareStatement(query);
                 ps.setInt(1, account_ID);
                 rs = ps.executeQuery();
@@ -347,7 +347,7 @@ public class BillDB implements DatabaseInfo {
             if (conn != null) {
                 // Query to select bills based on checkInDate, checkOutDate, status 'finished' or 'processing'
                 String query = "SELECT * FROM Bill WHERE Account_ID = ? AND "
-                        + "(CheckOutDate >= GETDATE() AND CheckInDate <= GETDATE()) AND (Status = 'PROCESSING') ORDER BY Reservation_ID desc";
+                        + "(CheckOutDate >= CONVERT(date, GETDATE()) AND CheckInDate <= CONVERT(date, GETDATE()) AND (Status = 'PROCESSING') ORDER BY Reservation_ID desc";
                 ps = conn.prepareStatement(query);
                 ps.setInt(1, account_ID);
                 rs = ps.executeQuery();
@@ -409,7 +409,7 @@ public class BillDB implements DatabaseInfo {
             if (conn != null) {
                 // Query to select bills based on checkInDate, checkOutDate, status 'finished' or 'processing'
                 String query = "SELECT * FROM Bill WHERE Account_ID = ? AND "
-                        + "CheckOutDate < GETDATE() AND (Status = 'FINISHED' OR Status = 'FEEDBACKED') ORDER BY Reservation_ID desc";
+                        + "CheckOutDate < CONVERT(date, GETDATE()) AND (Status = 'FINISHED' OR Status = 'FEEDBACKED') ORDER BY Reservation_ID desc";
                 ps = conn.prepareStatement(query);
                 ps.setInt(1, account_ID);
                 rs = ps.executeQuery();

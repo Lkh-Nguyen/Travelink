@@ -64,6 +64,10 @@ public class HomeCustomerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        if (session.getAttribute("errorBooking") != null){
+            request.setAttribute("errorBooking", session.getAttribute("errorBooking"));
+            session.removeAttribute("errorBooking");
+        }
         String successfulLogin = (String) session.getAttribute("successLogin");
         if (successfulLogin != null) {
             session.removeAttribute("successLogin");

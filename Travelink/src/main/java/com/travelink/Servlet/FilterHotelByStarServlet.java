@@ -80,29 +80,28 @@ public class FilterHotelByStarServlet extends HttpServlet {
             StringBuilder queryString = new StringBuilder("search?");
             if (location != null && !location.isEmpty()) {
                 // Encode location parameter
-                queryString.append("location=").append(URLEncoder.encode(location, encoding).replace("%20", "+")).append("&");
+                queryString.append("location=").append(URLEncoder.encode(location, encoding)).append("&");
             }
             if (numberOfPeople != null && !numberOfPeople.isEmpty()) {
-                queryString.append("number_of_people=").append(URLEncoder.encode(numberOfPeople, encoding).replace("%20", "+")).append("&");
+                queryString.append("number_of_people=").append(URLEncoder.encode(numberOfPeople, encoding)).append("&");
             }
             if (checkInDate != null && !checkInDate.isEmpty()) {
-                queryString.append("check_in_date=").append(URLEncoder.encode(checkInDate, encoding).replace("%20", "+")).append("&");
+                queryString.append("check_in_date=").append(URLEncoder.encode(checkInDate, encoding)).append("&");
             }
             if (checkOutDate != null && !checkOutDate.isEmpty()) {
-                queryString.append("check_out_date=").append(URLEncoder.encode(checkOutDate, encoding).replace("%20", "+")).append("&");
+                queryString.append("check_out_date=").append(URLEncoder.encode(checkOutDate, encoding)).append("&");
             }
             if (numberOfRooms != null && !numberOfRooms.isEmpty()) {
-                queryString.append("number_of_rooms=").append(URLEncoder.encode(numberOfRooms, encoding).replace("%20", "+")).append("&");
+                queryString.append("number_of_rooms=").append(URLEncoder.encode(numberOfRooms, encoding)).append("&");
             }
             if (star != null && !star.isEmpty()) {
-                queryString.append("star=").append(URLEncoder.encode(star, encoding).replace("%20", "+")).append("&");
+                queryString.append("star=").append(URLEncoder.encode(star, encoding)).append("&");
             }
 
             // Remove the trailing "&" if it exists
             if (queryString.charAt(queryString.length() - 1) == '&') {
                 queryString.setLength(queryString.length() - 1);
             }
-
             // Print the constructed query string for debugging
             System.out.println("Constructed Query String: " + queryString.toString());
 

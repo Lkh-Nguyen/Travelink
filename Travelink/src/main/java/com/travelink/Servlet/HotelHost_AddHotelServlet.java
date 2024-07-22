@@ -101,10 +101,17 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
         LocalTime checkInEnd = LocalTime.parse(checkInTimeEnd);
         LocalTime checkOutStart = LocalTime.parse(checkOutTimeStart);
         LocalTime checkOutEnd = LocalTime.parse(checkOutTimeEnd);
+
+        if (request.getParameter("ward_ID") == "" || request.getParameter("ward_ID") == null) {
+            session.setAttribute("status", "Add location please");
+            response.sendRedirect("HotelHost_AddWardServlet");
+            return;
+        }
+        
         if (checkInStart.isAfter(checkInEnd) || checkOutStart.isAfter(checkOutEnd)) {
             session.setAttribute("status", "Time check in and check out not valid");
-             response.sendRedirect("HotelHost_AddWardServlet");
-             return;
+            response.sendRedirect("HotelHost_AddWardServlet");
+            return;
         }
         for (Hotel h : HotelDB.getAllHotels()) {
             if (request.getParameter("email").equals(h.getEmail())) {
@@ -112,7 +119,7 @@ public class HotelHost_AddHotelServlet extends HttpServlet {
                 response.sendRedirect("HotelHost_AddWardServlet");
                 return;
             }
-            
+
         }
         if (request.getParameter("provinceID") != null) {
             request.setAttribute("provinceList", ProvinceDB.getAllProvince());

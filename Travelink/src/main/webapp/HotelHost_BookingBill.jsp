@@ -1,5 +1,5 @@
 <%@page import="java.util.List" %>
-<%@page import="com.travelink.View.*" %>
+<%@page import="com.travelink.Model.*" %>
 <%@page import="java.util.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

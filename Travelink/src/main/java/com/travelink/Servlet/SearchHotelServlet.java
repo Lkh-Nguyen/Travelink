@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  * @author DUYAN
  */
 public class SearchHotelServlet extends HttpServlet {
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -63,7 +63,7 @@ public class SearchHotelServlet extends HttpServlet {
                 response.sendRedirect("Error.jsp");
                 return;
             }
-            
+
             LocalDate currentDate = LocalDate.now();
             LocalDate checkInDateLocal = checkInDate.toLocalDate();
             System.out.println("Checkin: " + checkInDate);
@@ -100,7 +100,7 @@ public class SearchHotelServlet extends HttpServlet {
                 } catch (SQLException ex) {
                     Logger.getLogger(SearchHotelServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
                 List<Reservation> check1 = ReservationDB.reservationCoincide(checkInDate, checkOutDate);
                 List<Integer> hotelSizeList = new ArrayList<>();
                 List<Integer> capacitySizeList = new ArrayList<>();
@@ -121,24 +121,25 @@ public class SearchHotelServlet extends HttpServlet {
                 }
 
                 //If filter with star
-                if (request.getParameter("star") != null){
+                if (request.getParameter("star") != null) {
                     int star = Integer.parseInt(request.getParameter("star"));
-                    for (int i = 0; i < newHotelList.size(); i++){
-                        if (newHotelList.get(i).getStar() != star){
+                    for (int i = 0; i < newHotelList.size(); i++) {
+                        if (newHotelList.get(i).getStar() != star) {
                             newHotelList.remove(i);
                             i--;
                         }
                     }
                 }
-                
+
                 List<String> hotelImageList = new ArrayList<>();
                 for (int i = 0; i < newHotelList.size(); i++) {
                     List<HotelImage> hotelImgList = HotelImageDB.getHotelImagesByHotelID(newHotelList.get(i).getHotel_ID());
                     String img = hotelImgList.get(0).getUrl();
                     hotelImageList.add(img);
                 }
-                
+
                 List<Province> locationList = ProvinceDB.getAllProvince();
+                request.setAttribute("star", request.getParameter("star"));
                 request.setAttribute("locationList", locationList);
                 request.setAttribute("hotelList", newHotelList);
                 request.setAttribute("hotelImgList", hotelImageList);
@@ -164,9 +165,9 @@ public class SearchHotelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
-    
+
 }
 
 /**

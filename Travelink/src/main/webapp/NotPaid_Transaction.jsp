@@ -367,7 +367,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <p>If cancelled before 5 days, a 100% refund will be issued.</p>
-                                    <p>If cancelled beyond the allowed time, only a 70% refund will be given.</p>
+                                    <p>If cancelled before 3 days, a 70% refund will be issued.</p>
+                                    <p>If cancelled beyond the allowed time, no refund will be given.</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>

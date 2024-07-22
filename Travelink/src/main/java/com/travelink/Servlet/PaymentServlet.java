@@ -37,6 +37,7 @@ import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -104,7 +105,8 @@ public class PaymentServlet extends HttpServlet {
             if (availableRoom >= amount) {
                 continue;
             } else {
-                response.sendRedirect("Error.jsp");
+                session.setAttribute("errorBooking", "Room is unavailable!");
+                response.sendRedirect("homeCustomerServlet");
                 return;
             }
         }
@@ -114,7 +116,7 @@ public class PaymentServlet extends HttpServlet {
         LocalDateTime now = LocalDateTime.now();
 
         // Parse the total price (assuming totalPriceStr is a valid string)
-        int totalPrice = calculateTotalPrice(bookingMap);
+        int totalPrice = calculateTotalPrice(bookingMap) *calculateDaysBetween(checkInDate, checkOutDate);
 
         // Example values (replace with actual data)
 //        int number_Of_Guests = (int) session.getAttribute("people");
@@ -198,7 +200,6 @@ public class PaymentServlet extends HttpServlet {
             return;
         }
 
-        //Delete not needed payment related session
         //Save checkoutURL and paymentLinkId to session and redirect to checkoutUrl
         session.setAttribute("checkoutUrl", result[0]);
         Cookie checkoutUrlCookie = new Cookie("checkoutUrl", result[0]);
@@ -266,7 +267,7 @@ public class PaymentServlet extends HttpServlet {
         jsonBody.add("items", items);
         jsonBody.addProperty("cancelUrl", cancelUrl);
         jsonBody.addProperty("returnUrl", returnUrl);
-        jsonBody.addProperty("expiredAt", getUnixTimestampPlusMinutes(5));
+        jsonBody.addProperty(   "expiredAt", getUnixTimestampPlusMinutes(5));
         jsonBody.addProperty("signature", signature);
 
         return jsonBody.toString();
@@ -331,6 +332,16 @@ public class PaymentServlet extends HttpServlet {
         }
 
         return totalPrice;
+    }
+
+    public static int calculateDaysBetween(java.util.Date startDate, java.util.Date endDate) {
+        // Calculate the difference in milliseconds
+        long diffInMillis = endDate.getTime() - startDate.getTime();
+
+        // Convert the difference from milliseconds to days
+        long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+
+        return (int) diffInDays;
     }
 
     /**

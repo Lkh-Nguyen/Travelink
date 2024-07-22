@@ -91,6 +91,20 @@
                 </div>           
             </div>
         </c:if>
+        
+        <c:if test="${requestScope.errorBooking != null}">
+                                <div id="status-message" style="background-color: rgb(253,233,231);height: 70px ;margin-top: 10px" class="hidden">
+                                    <div style="display: flex">
+                                        <div style="width: 20%">
+                                            <i class='bx bxs-error-circle' style="font-size: 50px;color: red;margin-top: 0px"></i>
+                                        </div>
+                                        <div style="width: 80%;text-align: start">
+                                            <h3 style="color: red;margin-top: 5px;font-weight: 550 ">Error</h3>
+                                            <p style="color: black;margin-top: -10px;font-size: 14px">${errorBooking}</p>
+                                        </div>
+                                    </div>           
+                                </div>
+                            </c:if>
         <div class="overlay"></div>
         <%@include file="Header.jsp" %>
         <header class="section__container header__container" data-aos="flip-up">

@@ -230,6 +230,10 @@ public class RoomDB implements DatabaseInfo {
                     for (ReservedRoom reservedRoom : reservedRoomList) {
                         if (reservedRoom.getRoom_ID() == RoomID) {
                             roomAvalable = roomAvalable - reservedRoom.getAmount();
+                            if(roomAvalable <= 0){
+                                roomAvalable = 0;
+                                break;
+                            }
                         }
                     }
                 }

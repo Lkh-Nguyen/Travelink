@@ -126,7 +126,7 @@
 
                                 <div class="form-group">
                                     <label for="HotelID">Hotel ID</label>
-                                    <input type="text" class="form-control" id="newHotelID" name="hotel_ID" value="${requestScope.hotel_id}">
+                                    <input type="text" class="form-control" id="newHotelID" name="hotel_ID" value="${requestScope.hotel_id}" readonly="">
                                 </div>
                             </div>
                         </div>

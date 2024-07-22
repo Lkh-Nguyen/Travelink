@@ -26,6 +26,7 @@
             <c:set var="totalPrice" value="${requestScope.bookingTotalPrice}" />
             <c:set var="checkInDate" value="${requestScope.checkInDate}" />
             <c:set var="checkOutDate" value="${requestScope.checkOutDate}" />
+            <c:set var="number_of_guests" value="${requestScope.number_of_guests}" />
             <div class="container mt-4 content">
                 <div class="row">
                     <!-- Hotel Info -->
@@ -64,8 +65,9 @@
                                         <p style="margin-bottom: 0px">${checkOutDate}</p>
                                         <p>Cho đến ${hotel.checkOutTimeEnd}</p>
                                     </div>
-
                                 </div>
+                                <strong>Number of guests: </strong>${number_of_guests}
+
                                 <!--<p>Total length of stay: <strong>nights</strong></p>-->
                                 <p style="border-top: 1px grey solid;padding-top: 5px;margin-bottom: 0px">You selected</p>
                                 <c:forEach items="${bookingMap}" var="entry">
@@ -123,6 +125,7 @@
                                     <input type="hidden" value="${requestScope.bookingStr}" name="bookingStr" id="bookingStr">
                                     <input type="hidden" name="check_in_date" value="${requestScope.checkInDate}">
                                     <input type="hidden" name="check_out_date" value="${requestScope.checkOutDate}">
+                                    <input type="hidden" name="number_of_guests" value="${requestScope.number_of_guests}">
                                     <button type="submit" class="btn btn-primary">Booking</button>
                                 </form>
                             </div>

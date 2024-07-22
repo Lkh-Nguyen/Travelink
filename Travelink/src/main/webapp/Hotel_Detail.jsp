@@ -233,6 +233,10 @@
                                     <label for="check_out_date">Check-out Date:</label>
                                     <input type="date" id="check_out_date" name="check_out_date" class="form-control" required value="${requestScope.check_out_date}">
                                 </div>
+                                <div class="form-group mt-3">
+                                    <label for="check_out_date">Number of guests:</label>
+                                    <input type="number" id="number_of_guests" name="number_of_guests" class="form-control" required value="${requestScope.number_of_guests}" min="1">
+                                </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary mt-3">Search</button>
                                 </div>
@@ -331,8 +335,9 @@
                     <form action="CheckoutServlet" method="post" onsubmit="return validateForm()">
                         <input type="hidden" value="" name="bookingStr" id="bookingStr">
                         <input type="hidden" value="${param.hotel_ID}" name="hotel_ID">  
-                        <input type="hidden" name="check_in_date"value="${param.check_in_date}">
-                        <input type="hidden" name="check_out_date"value="${param.check_out_date}">
+                        <input type="hidden" name="check_in_date" value="${requestScope.check_in_date}">
+                        <input type="hidden" name="check_out_date" value="${requestScope.check_out_date}">
+                        <input type="hidden" name="number_of_guests" value="${requestScope.number_of_guests}">
                         <input type="submit" value="Continue" id="continue">
                     </form>
                 </div>

@@ -6,7 +6,7 @@ package com.travelink.Servlet;
 
 import com.travelink.Database.BillDB;
 import com.travelink.Model.Account;
-import com.travelink.View.Bill;
+import com.travelink.Model.Bill;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

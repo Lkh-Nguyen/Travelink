@@ -1,5 +1,5 @@
 
-package com.travelink.View;
+package com.travelink.Model;
 
 public class HotelInfor {
     private int hotel_ID;

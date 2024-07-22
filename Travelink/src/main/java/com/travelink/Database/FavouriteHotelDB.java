@@ -6,7 +6,7 @@ package com.travelink.Database;
 
 import com.travelink.Model.Account;
 import com.travelink.Model.FavouriteHotel;
-import com.travelink.View.HotelInfor;
+import com.travelink.Model.HotelInfor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

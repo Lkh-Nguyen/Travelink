@@ -76,14 +76,25 @@ public class CheckoutServlet extends HttpServlet {
             response.sendRedirect("Error.jsp");
             return;
         }
-        
+
+        String number_of_guestsStr = request.getParameter("number_of_guests");
+        int number_of_guests;
+        try {
+            number_of_guests = Integer.parseInt(number_of_guestsStr);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            response.sendRedirect("Error.jsp");
+            return;
+        }
+
         //If valid set session and redirect
-        request.setAttribute("bookingStr",bookingStr);
+        request.setAttribute("bookingStr", bookingStr);
         request.setAttribute("bookingMap", bookingMap);
         request.setAttribute("bookingHotel", hotel);
         request.setAttribute("bookingTotalPrice", totalPriceStr);
         request.setAttribute("checkInDate", checkInDateString);
         request.setAttribute("checkOutDate", checkOutDateString);
+        request.setAttribute("number_of_guests", number_of_guests);
         request.getRequestDispatcher("Checkout.jsp").forward(request, response);
     }
 

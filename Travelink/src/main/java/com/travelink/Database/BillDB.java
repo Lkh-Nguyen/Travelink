@@ -12,7 +12,7 @@
  */
 package com.travelink.Database;
 
-import com.travelink.View.Bill;
+import com.travelink.Model.Bill;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

@@ -8,7 +8,7 @@ package com.travelink.Servlet;
 import com.travelink.Database.AccountDB;
 import com.travelink.Database.BillDB;
 import com.travelink.Model.Account;
-import com.travelink.View.Bill;
+import com.travelink.Model.Bill;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;

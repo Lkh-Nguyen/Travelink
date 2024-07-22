@@ -8,7 +8,7 @@ import com.travelink.Database.FavouriteHotelDB;
 import com.travelink.Model.Account;
 import com.travelink.Model.Hotel;
 import com.travelink.Model.HotelImage;
-import com.travelink.View.HotelInfor;
+import com.travelink.Model.HotelInfor;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

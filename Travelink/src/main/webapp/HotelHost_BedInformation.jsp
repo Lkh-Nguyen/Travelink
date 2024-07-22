@@ -317,6 +317,7 @@
                     var name = $(this).data('name');
                     var roomId = $(this).data('room-id');
                     var bedId = $(this).data('bed-id');
+//                    var amount = $(this).data('amount');
                     var description = $(this).data('description');
                     var url = $(this).data('url');
 
@@ -326,6 +327,7 @@
                     $('#modalRoomID').val(roomId);
                     $('#modalURL').val(url);
                     $('#modalBedID').val(bedId);
+//                    $('#modalAmount').val(amount);
 
                     // Show the update modal
                     $('#updateModal').modal('show');

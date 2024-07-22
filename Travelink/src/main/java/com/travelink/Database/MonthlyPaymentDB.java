@@ -188,7 +188,7 @@ public class MonthlyPaymentDB {
             connection = DatabaseInfo.getConnect();
 
             // SQL update statement
-            String sql = "UPDATE MonthlyPayment SET Status = 'Paid' WHERE Monthly_Payment_ID = ?";
+            String sql = "UPDATE MonthlyPayment SET Status = 'PAID' WHERE Monthly_Payment_ID = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, monthlyPaymentId);
 

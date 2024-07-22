@@ -455,37 +455,6 @@
                     </div>
                 </div>
             </div>
-                            <nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">
-    <c:if test="${currentPage > 1}">
-        <li class="page-item">
-            <a class="page-link" href="?page=${currentPage - 1}&size=${recordsPerPage}" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-    </c:if>
-    
-    <c:forEach var="i" begin="1" end="${pageCount}">
-        <c:choose>
-            <c:when test="${i == currentPage}">
-                <li class="page-item active"><span class="page-link">${i}</span></li>
-            </c:when>
-            <c:otherwise>
-                <li class="page-item"><a class="page-link" href="?page=${i}&size=${recordsPerPage}">${i}</a></li>
-            </c:otherwise>
-        </c:choose>
-    </c:forEach>
-    
-    <c:if test="${currentPage < pageCount}">
-        <li class="page-item">
-            <a class="page-link" href="?page=${currentPage + 1}&size=${recordsPerPage}" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </c:if>
-  </ul>
-</nav>
-
         </div>
                             
         <%@include file="Footer.jsp" %>

@@ -4,21 +4,21 @@ import java.time.LocalDateTime;
 
 public class RefundingReservation {
 
-    private int refundingReservation_ID;
+    private int refundingReservationId;
     private LocalDateTime cancelDate;
     private int amount;
     private LocalDateTime refundTime;
     private String status;
-    private int reservation_ID;
+    private int reservationId;
 
     // Constructor
-    public RefundingReservation(int refundingReservation_ID, LocalDateTime cancelDate, int amount, LocalDateTime refundTime, String status, int reservation_ID) {
-        this.refundingReservation_ID = refundingReservation_ID;
+    public RefundingReservation(int refundingReservationId, LocalDateTime cancelDate, int amount, LocalDateTime refundTime, String status, int reservationId) {
+        this.refundingReservationId = refundingReservationId;
         this.cancelDate = cancelDate;
         this.amount = amount;
         this.refundTime = refundTime;
         this.status = status;
-        this.reservation_ID = reservation_ID;
+        this.reservationId = reservationId;
     }
 
     // Default constructor
@@ -27,11 +27,11 @@ public class RefundingReservation {
 
     // Getters and Setters
     public int getRefundingReservationId() {
-        return refundingReservation_ID;
+        return refundingReservationId;
     }
 
-    public void setRefundingReservationId(int refundingReservation_ID) {
-        this.refundingReservation_ID = refundingReservation_ID;
+    public void setRefundingReservationId(int refundingReservationId) {
+        this.refundingReservationId = refundingReservationId;
     }
 
     public LocalDateTime getCancelDate() {
@@ -67,22 +67,22 @@ public class RefundingReservation {
     }
 
     public int getReservationId() {
-        return reservation_ID;
+        return reservationId;
     }
 
-    public void setReservationId(int reservation_ID) {
-        this.reservation_ID = reservation_ID;
+    public void setReservationId(int reservationId) {
+        this.reservationId = reservationId;
     }
 
     @Override
     public String toString() {
         return "RefundingReservation{"
-                + "refundingReservation_ID=" + refundingReservation_ID
+                + "refundingReservation_ID=" + refundingReservationId
                 + ", cancelDate=" + cancelDate
                 + ", amount=" + amount
                 + ", refundTime=" + refundTime
                 + ", status='" + status + '\''
-                + ", reservation_ID=" + reservation_ID
+                + ", reservation_ID=" + reservationId
                 + '}';
     }
 }

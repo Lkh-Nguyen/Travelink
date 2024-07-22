@@ -76,6 +76,7 @@ public class ReservationDB implements DatabaseInfo {
 
         return reservations;
     }
+
     public static List<Reservation> reservationCoincide(Date userCheck_in_date, Date userCheck_out_date) {
         List<Reservation> reservationList = ReservationDB.getAllReservations();
         List<Reservation> reservationCoincideList = new ArrayList<>();
@@ -86,6 +87,7 @@ public class ReservationDB implements DatabaseInfo {
         }
         return reservationCoincideList;
     }
+
     public static Reservation getReservationByReservationID(int reservationID) {
         Reservation reservation = null;
         Connection connection = null;
@@ -524,58 +526,7 @@ public class ReservationDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) {
-        System.out.println(hasUnpaidReservationWithVietQR(1));
-        
-        int testHotelID = 3; // Replace with a valid Hotel_ID to test
-        List<Reservation> reservationList = ReservationDB.getVietQRReservationsByHotelID(testHotelID);
-
-        // Retrieve the list of reservations with Payment Method 'VIETQR' for the given Hotel_ID
-        List<Reservation> filteredReservations = ReservationDB.filterByCheckoutMonthAndYear(reservationList, 5, 2024);
-        List<Reservation> finishedReservations = ReservationDB.filterByStatus(filteredReservations, "FINISHED");
-        List<Reservation> cancelReservations = ReservationDB.filterByStatus(filteredReservations, "CANCEL");
-        List<Reservation> refundingReservations = ReservationDB.filterByStatus(filteredReservations, "REFUNDING");
-
-        // Print filtered reservations
-        if (filteredReservations.isEmpty()) {
-            System.out.println("No reservations found for Hotel ID: " + testHotelID);
-        } else {
-            System.out.println("Filtered Reservations for Hotel ID: " + testHotelID);
-            for (Reservation reservation : filteredReservations) {
-                printReservationDetails(reservation);
-            }
-        }
-
-        // Print finished reservations
-        if (!finishedReservations.isEmpty()) {
-            System.out.println("\nFinished Reservations:");
-            for (Reservation reservation : finishedReservations) {
-                printReservationDetails(reservation);
-            }
-        }
-
-        // Print canceled reservations
-        if (!cancelReservations.isEmpty()) {
-            System.out.println("\nCanceled Reservations:");
-            for (Reservation reservation : cancelReservations) {
-                printReservationDetails(reservation);
-            }
-        }
-
-        // Print refunding reservations
-        if (!refundingReservations.isEmpty()) {
-            System.out.println("\nRefunding Reservations:");
-            for (Reservation reservation : refundingReservations) {
-                printReservationDetails(reservation);
-            }
-        }
-
-        System.out.println("Count: " + getAllReservationsMonthly().size());
-        // Print sizes of lists
-        System.out.println("All VietQR reservations: " + reservationList.size());
-        System.out.println("\nFiltered Reservations Size: " + filteredReservations.size());
-        System.out.println("Finished Reservations Size: " + finishedReservations.size());
-        System.out.println("Canceled Reservations Size: " + cancelReservations.size());
-        System.out.println("Refunding Reservations Size: " + refundingReservations.size());
+       
     }
 
     private static void printReservationDetails(Reservation reservation) {

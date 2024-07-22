@@ -595,7 +595,7 @@ public class BillDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) throws SQLException {
-        List<Bill> list = BillDB.getBillProcessByCustomerID(6);
+        List<Bill> list = BillDB.getBillNotYetStayByCustomerID(2);
         for (Bill b : list) {
             System.out.println(b.toString());
         }

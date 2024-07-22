@@ -484,8 +484,8 @@
         <servlet-class>com.travelink.Servlet.HotelHost_AddWardServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>NotificationServlet</servlet-name>
-        <servlet-class>com.travelink.Servlet.NotificationServlet</servlet-class>
+        <servlet-name>AdminRefundingReservationServlet</servlet-name>
+        <servlet-class>com.travelink.Servlet.AdminRefundingReservationServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadImageAvatar</servlet-name>
@@ -788,8 +788,8 @@
         <url-pattern>/HotelHost_AddWardServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>NotificationServlet</servlet-name>
-        <url-pattern>/NotificationServlet</url-pattern>
+        <servlet-name>AdminRefundingReservationServlet</servlet-name>
+        <url-pattern>/AdminRefundingReservationServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

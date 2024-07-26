@@ -116,7 +116,7 @@ public class PaymentServlet extends HttpServlet {
         LocalDateTime now = LocalDateTime.now();
 
         // Parse the total price (assuming totalPriceStr is a valid string)
-        int totalPrice = calculateTotalPrice(bookingMap) *calculateDaysBetween(checkInDate, checkOutDate);
+        int totalPrice = calculateTotalPrice(bookingMap) * calculateDaysBetween(checkInDate, checkOutDate);
 
         // Example values (replace with actual data)
 //        int number_Of_Guests = (int) session.getAttribute("people");
@@ -125,6 +125,7 @@ public class PaymentServlet extends HttpServlet {
             number_Of_Guests = Integer.parseInt(request.getParameter("number_of_guests"));
         } catch (Exception e) {
             e.printStackTrace();
+            response.sendRedirect("Error.jsp");
         }
         String paymentMethod = "VIETQR";
         String status = "NOT PAID";
@@ -184,8 +185,8 @@ public class PaymentServlet extends HttpServlet {
         String[] result = null;
         try {
             result = sendJsonToCreatePayment(orderCode, String.valueOf(totalPrice), description, account, bookingMap, cancelUrl, returnUrl, signature);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
             ReservationDB.deleteReservationByReservationID(pendingReservationID);
             session.removeAttribute("pendingReservationID");
             response.sendRedirect("Error.jsp");
@@ -267,7 +268,7 @@ public class PaymentServlet extends HttpServlet {
         jsonBody.add("items", items);
         jsonBody.addProperty("cancelUrl", cancelUrl);
         jsonBody.addProperty("returnUrl", returnUrl);
-        jsonBody.addProperty(   "expiredAt", getUnixTimestampPlusMinutes(5));
+        jsonBody.addProperty("expiredAt", getUnixTimestampPlusMinutes(5));
         jsonBody.addProperty("signature", signature);
 
         return jsonBody.toString();

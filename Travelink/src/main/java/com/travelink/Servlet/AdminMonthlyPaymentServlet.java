@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -207,9 +208,14 @@ public class AdminMonthlyPaymentServlet extends HttpServlet {
             return;
         }
 
+        LocalDateTime paymentTime = LocalDateTime.now();
+        
         // Update the payment status
         boolean isUpdated = MonthlyPaymentDB.updatePaymentStatus(paymentID);
+        boolean isSetDate = MonthlyPaymentDB.updatePaymentTimeToNow(paymentID, paymentTime);
 
+        monthlypay = MonthlyPaymentDB.getMonthlyPaymentByHotelIDYearMonth(hotelid, year, month);
+        
         // Check if monthlypay is null before using it
         if (monthlypay != null) {
             SendEmail sendemail = new SendEmail();
@@ -219,16 +225,18 @@ public class AdminMonthlyPaymentServlet extends HttpServlet {
             response.sendRedirect("Error.jsp");
             return;
         }
+        
+        
 
         // Check if the update was successful
-        if (isUpdated) {
+        if (isUpdated && isSetDate) {
             // Redirect to a success page or reload the list of payments
-            response.sendRedirect("AdminMonthlyPaymentServlet?hotel_ID=" + request.getParameter("hotelID"));
-        } else {
+            response.sendRedirect("AdminMonthlyPaymentServlet?hotel_ID=" + request.getParameter("hotelID") + "&status=success&message=Pay%20And%20SendEmail%20Successfully");
+        } else 
             // Redirect to an error page
-            response.sendRedirect("Error.jsp");
+            response.sendRedirect("AdminMonthlyPaymentServlet?hotel_ID=" + request.getParameter("hotelID") + "&status=failure&message=Pay%20And%20SendEmail%20Failed");
         }
-    }
+    
 
     /**
      * Returns a short description of the servlet.

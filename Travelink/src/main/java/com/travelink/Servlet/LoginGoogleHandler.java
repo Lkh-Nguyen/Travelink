@@ -66,6 +66,7 @@ public class LoginGoogleHandler extends HttpServlet {
             mail.sendForgotPassword(Account.getEmail(), text.toString());
             System.out.println(Account);
             AccountDB.insertAccount(Account);
+            Account = AccountDB.getAccount(Account.getEmail());
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(60 * 30);
             session.setAttribute("account", Account);
@@ -83,10 +84,7 @@ public class LoginGoogleHandler extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("account", Account);
             session.setMaxInactiveInterval(60 * 30);
-            request.setAttribute("succesLogin", "Login successfully.");
-            List<Province> locationList = ProvinceDB.getAllProvince();
-            request.setAttribute("locationList", locationList);
-            request.getRequestDispatcher("Home_Customer.jsp").forward(request, response);
+            response.sendRedirect("homeCustomerServlet");
         } //If not the right role
         else if (Account.getRole() != 1) {
             request.setAttribute("errorLogin", "You are logging in with the wrong permission role!");

@@ -69,7 +69,7 @@ public class CancelBookingServlet extends HttpServlet {
             } 
             //If cancel day >= 3 && < 5, refund 70% money
             else {
-                refundingReservation.setAmount(reservation_ID * 70 / 100);
+                refundingReservation.setAmount(reservation.getTotalPrice() * 70 / 100);
             }
             RefundingReservationDB.insertRefundingReservation(refundingReservation);
         }

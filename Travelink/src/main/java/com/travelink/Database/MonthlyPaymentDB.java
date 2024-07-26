@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -178,6 +180,43 @@ public class MonthlyPaymentDB {
         return totalAmount;
     }
 
+    public static boolean updatePaymentTimeToNow(int paymentID, LocalDateTime paymentTime) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean isUpdated = false;
+
+        try {
+            // Establish database connection
+            connection = DatabaseInfo.getConnect();
+
+            // SQL update statement
+            String sql = "UPDATE MonthlyPayment SET PaymentTime = ? WHERE Monthly_Payment_ID = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setObject(1, Timestamp.valueOf(paymentTime));
+            preparedStatement.setInt(2, paymentID);
+
+            // Execute update
+            int rowsAffected = preparedStatement.executeUpdate();
+            isUpdated = rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return isUpdated;
+    }
+
+
     public static boolean updatePaymentStatus(int monthlyPaymentId) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -224,42 +263,50 @@ public class MonthlyPaymentDB {
 //        } else {
 //            System.out.println("Failed to update payment status.");
 //        }
-
         // Test case 1: Get all payments for hotel ID 1 (no year or month specified)
-        System.out.println("** Test 1: Get all payments for Hotel ID 1 **");
-        List<MonthlyPayment> payments1 = MonthlyPaymentDB.getAllMonthlyPaymentsByHotelID(1);
-        if (!payments1.isEmpty()) {
-            for (MonthlyPayment payment : payments1) {
-                System.out.println(payment); // Assuming MonthlyPayment has a meaningful toString() method
-            }
-        } else {
-            System.out.println("No payments found for Hotel ID 1.");
-        }
+//        System.out.println("** Test 1: Get all payments for Hotel ID 1 **");
+//        List<MonthlyPayment> payments1 = MonthlyPaymentDB.getAllMonthlyPaymentsByHotelID(1);
+//        if (!payments1.isEmpty()) {
+//            for (MonthlyPayment payment : payments1) {
+//                System.out.println(payment); // Assuming MonthlyPayment has a meaningful toString() method
+//            }
+//        } else {
+//            System.out.println("No payments found for Hotel ID 1.");
+//        }
+//
+//        // Test case 2: Get all payments for hotel ID 2 in year 2023 (no month specified)
+//        System.out.println("\n** Test 2: Get all payments for Hotel ID 2 in year 2023 **");
+//        List<MonthlyPayment> payments2 = MonthlyPaymentDB.getAllMonthlyPaymentsByHotelID(2, 2023);
+//        if (!payments2.isEmpty()) {
+//            for (MonthlyPayment payment : payments2) {
+//                System.out.println(payment);
+//            }
+//        } else {
+//            System.out.println("No payments found for Hotel ID 2 in year 2023.");
+//        }
+//
+//        // Test case 3: Get all payments for hotel ID 3 in year 2024, month 6 (current month)
+//        System.out.println("\n** Test 3: Get all payments for Hotel ID 3 in year 2024, month 6 (current month) **");
+//        MonthlyPayment payment3 = MonthlyPaymentDB.getMonthlyPaymentByHotelIDYearMonth(1, 2024, 9); // Assuming June is the current month
+//        if (payment3 != null) {
+//            System.out.println(payment3);
+//        } else {
+//            System.out.println("No payments found for Hotel ID 3 in June 2024.");
+//        }
+//
+//        // Test case 4: Get total payments for all hotels in year 2024, month 6 (current month)
+//        System.out.println("\n** Test 4: Get total payments for all hotels in year 2024, month 6 (current month) **");
+//        int totalPayments = MonthlyPaymentDB.getTotalMonthlyPaymentsByMonthAndYear(6, 2024); // Assuming June is the current month
+//        System.out.println("Total payments for June 2024: " + totalPayments);
+        int testPaymentID = 59; // Replace with the actual payment ID you want to test
+        LocalDateTime now = LocalDateTime.now(); // Get the current date and time
 
-        // Test case 2: Get all payments for hotel ID 2 in year 2023 (no month specified)
-        System.out.println("\n** Test 2: Get all payments for Hotel ID 2 in year 2023 **");
-        List<MonthlyPayment> payments2 = MonthlyPaymentDB.getAllMonthlyPaymentsByHotelID(2, 2023);
-        if (!payments2.isEmpty()) {
-            for (MonthlyPayment payment : payments2) {
-                System.out.println(payment);
-            }
-        } else {
-            System.out.println("No payments found for Hotel ID 2 in year 2023.");
-        }
+        boolean result = updatePaymentTimeToNow(testPaymentID, now);
 
-        // Test case 3: Get all payments for hotel ID 3 in year 2024, month 6 (current month)
-        System.out.println("\n** Test 3: Get all payments for Hotel ID 3 in year 2024, month 6 (current month) **");
-        MonthlyPayment payment3 = MonthlyPaymentDB.getMonthlyPaymentByHotelIDYearMonth(1, 2024, 9); // Assuming June is the current month
-        if (payment3 != null) {
-            System.out.println(payment3);
+        if (result) {
+            System.out.println("Payment time updated successfully for payment ID " + testPaymentID);
         } else {
-            System.out.println("No payments found for Hotel ID 3 in June 2024.");
+            System.out.println("Failed to update payment time for payment ID " + testPaymentID);
         }
-
-        // Test case 4: Get total payments for all hotels in year 2024, month 6 (current month)
-        System.out.println("\n** Test 4: Get total payments for all hotels in year 2024, month 6 (current month) **");
-        int totalPayments = MonthlyPaymentDB.getTotalMonthlyPaymentsByMonthAndYear(6, 2024); // Assuming June is the current month
-        System.out.println("Total payments for June 2024: " + totalPayments);
-        
     }
 }
